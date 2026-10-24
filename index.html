@@ -470,10 +470,26 @@ p { margin: 0; }
 .plan .price { display: flex; align-items: baseline; gap: 4px; }
 .plan .price b { font-family: var(--f-display); font-size: 30px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; }
 .plan .price span { color: var(--muted); font-size: 13px; }
-.plan ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13.5px; }
+.plan ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13.5px; align-content: start; }
 .plan li { display: flex; gap: 7px; align-items: flex-start; }
 .plan li .ic { color: var(--leaf); margin-top: 3px; }
 .plan .cur { position: absolute; top: -11px; left: 14px; }
+.plan .price s { color: var(--muted); font-size: 15px; font-weight: 600; margin-right: 2px; }
+.bill-line { margin: -4px 0 0; font-size: 12.5px; color: var(--muted); min-height: 2.6em; }
+.bill-line b { color: var(--ok); }
+.billsw { display: grid; gap: 6px; justify-items: start; }
+.billsw .seg button { padding: 8px 14px; }
+.billsw .save { font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 6px; background: var(--ok-soft); color: var(--ok); }
+.billsw .seg button[aria-pressed="true"] .save { background: var(--sun); color: var(--on-sun); }
+.billsw p { margin: 0; }
+.paypick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.paypick button { border: 1.5px solid var(--line); background: var(--app); border-radius: 12px; padding: 10px; text-align: left; display: grid; gap: 2px; min-width: 0; }
+.paypick button[aria-checked="true"] { border-color: var(--leaf); background: var(--leaf-soft); }
+.paypick b { font-size: 14px; } .paypick span { font-weight: 800; font-size: 15px; font-variant-numeric: tabular-nums; } .paypick small { color: var(--muted); font-size: 11.5px; font-weight: 600; }
+.sub-now { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.sub-now .grow { display: grid; gap: 2px; min-width: 220px; }
+.sub-now b { font-family: var(--f-display); font-size: 19px; }
+@media (max-width: 520px) { .billsw { justify-items: stretch; } .billsw .seg { display: flex; } .billsw .seg button { flex: 1; justify-content: center; flex-wrap: wrap; padding: 7px 6px; row-gap: 2px; } .paypick { gap: 6px; } .paypick button { padding: 8px; } .paypick b { font-size: 13px; } .paypick span { font-size: 14px; } }
 
 /* Admin */
 .mix { display: flex; height: 14px; border-radius: 8px; overflow: hidden; gap: 2px; }
@@ -510,7 +526,7 @@ p { margin: 0; }
 .plan.on { border: 2px solid var(--leaf); background: var(--leaf-soft); }
 .plan.rec:not(.on) { border-color: var(--sun); }
 .plan .btn { margin-top: auto; }
-.plan { grid-template-rows: auto auto auto 1fr auto; }
+.plan { grid-template-rows: auto auto auto auto 1fr auto; }
 .cmp { min-width: 720px; }
 .cmp th { text-align: center; vertical-align: bottom; }
 .cmp th:first-child, .cmp td:first-child { text-align: left; }
@@ -738,6 +754,17 @@ const PLAN_KEYS = ['freemium', 'basic', 'advanced', 'premium'];
 const RANK = { freemium: 0, basic: 1, advanced: 2, premium: 3 };
 const can = (plan, need) => RANK[plan] >= RANK[need];
 
+/* Billing periods: pay ahead for 6 months or a year and the monthly price drops */
+const BILLING = {
+  m: { months: 1, off: 0, label: 'Monthly', every: 'every month', per: 'billed monthly' },
+  h: { months: 6, off: 10, label: '6 months', every: 'every 6 months', per: 'billed every 6 months' },
+  y: { months: 12, off: 20, label: 'Yearly', every: 'every year', per: 'billed yearly' },
+};
+const BILL_KEYS = ['m', 'h', 'y'];
+const planCost = (k, b) => {
+  const B = BILLING[b] || BILLING.m, full = PLANS[k].price, per = Math.round(full * (1 - B.off / 100));
+  return { full, per, total: per * B.months, save: (full - per) * B.months, months: B.months, off: B.off };
+};
 const dish = (id, cat, name, price, veg, desc, c1, c2, x) => ({ id, cat, name, price, veg, desc, c: [c1, c2], tags: [], variants: [], addons: [], stock: true, ...(x || {}) });
 const RESTAURANTS = [
   { id: 'spice', name: 'Spice Garden', short: 'SG', cuisine: 'North Indian · Gujarati', area: 'Navrangpura', city: 'Ahmedabad', rating: 4.4, reviews: 1820, two: 650, pureVeg: false, plan: 'advanced', tables: 12, eta: '20–25 min', open: true, gst: 5, upi: 'spicegarden@upi', b: ['#1d5a39', '#3f8f5f'], c: ['#e0782f', '#f7e4c3'],
@@ -815,13 +842,13 @@ const RMAP = Object.fromEntries(RESTAURANTS.map((r) => [r.id, r]));
 const OWNER_RID = 'spice';
 const EXTRA_RESTAURANTS = [
   { name: 'Kadak Chai Adda', area: 'Vastrapur, Ahmedabad', plan: 'freemium', tables: 1, ordersToday: 0, joined: 'Oct 2026' },
-  { name: 'Locho Corner', area: 'Adajan, Surat', plan: 'basic', tables: 6, ordersToday: 27, joined: 'Oct 2026' },
-  { name: 'Riverside Brew Co.', area: 'Alkapuri, Vadodara', plan: 'premium', tables: 20, ordersToday: 73, joined: 'Jul 2026' },
-  { name: 'Udupi Corner', area: 'Kothrud, Pune', plan: 'basic', tables: 10, ordersToday: 39, joined: 'Sep 2026' },
+  { name: 'Locho Corner', area: 'Adajan, Surat', plan: 'basic', billing: 'm', tables: 6, ordersToday: 27, joined: 'Oct 2026' },
+  { name: 'Riverside Brew Co.', area: 'Alkapuri, Vadodara', plan: 'premium', billing: 'y', tables: 20, ordersToday: 73, joined: 'Jul 2026' },
+  { name: 'Udupi Corner', area: 'Kothrud, Pune', plan: 'basic', billing: 'h', tables: 10, ordersToday: 39, joined: 'Sep 2026' },
 ];
 const SIGNUPS = [
-  { id: 'su1', name: 'Kesar Kitchen', area: 'Satellite, Ahmedabad', plan: 'basic', tables: 10, owner: 'Hetal Patel' },
-  { id: 'su2', name: 'Momo Station', area: 'Bopal, Ahmedabad', plan: 'advanced', tables: 14, owner: 'Tenzin Dorjee' },
+  { id: 'su1', name: 'Kesar Kitchen', area: 'Satellite, Ahmedabad', plan: 'basic', billing: 'm', tables: 10, owner: 'Hetal Patel' },
+  { id: 'su2', name: 'Momo Station', area: 'Bopal, Ahmedabad', plan: 'advanced', billing: 'y', tables: 14, owner: 'Tenzin Dorjee' },
 ];
 const BASE = { sales: 18420, orders: 46, top: { 'Butter Naan': 412, 'Paneer Butter Masala': 186, 'Masala Chaas': 171, 'Paneer Tikka': 148, 'Chicken Dum Biryani': 121, 'Dal Makhani': 109 }, hours: [3, 8, 11, 7, 3, 2, 3, 5, 9, 12, 10, 6, 2] };
 
@@ -898,8 +925,8 @@ function freshState() {
   return {
     role: 'diner', screen: 'home', rid: 'spice', table: null, query: '', homeFilter: 'all', vegOnly: false, cat: null,
     cart: [], note: '', me: { name: 'Riya', phone: '98250 12345' }, pay: 'upi', rating: 0, lastPaid: null,
-    sheet: null, ownerTab: 'orders', ownerCol: 'new', qrTable: 5, sound: true,
-    rest: Object.fromEntries(RESTAURANTS.map((r) => [r.id, { plan: r.plan, open: r.open, upi: r.upi, tables: r.tables, name: r.name, area: r.area, gst: r.gst }])),
+    sheet: null, ownerTab: 'orders', ownerCol: 'new', qrTable: 5, sound: true, billing: 'y',
+    rest: Object.fromEntries(RESTAURANTS.map((r) => [r.id, { plan: r.plan, billing: { rasoi: 'y', nawab: 'h' }[r.id] || 'm', open: r.open, upi: r.upi, tables: r.tables, name: r.name, area: r.area, gst: r.gst }])),
     menus: Object.fromEntries(RESTAURANTS.map((r) => [r.id, r.menu.map((m) => ({ ...m }))])),
     orders: [
       { id: 'o115', rid: 'spice', no: 115, table: 2, name: 'Mehta family', items: [{ n: 'Dal Makhani', q: 1, p: 240, veg: true }, { n: 'Butter Naan', opt: 'Garlic', q: 4, p: 75, veg: true }, { n: 'Jeera Rice', q: 1, p: 170, veg: true }], status: 'ready', pay: 'unpaid', t: now - 23 * MIN },
@@ -925,7 +952,7 @@ function loadState() {
   } catch (e) { return base; }
 }
 function saveState(s) {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable })); } catch (e) { /* storage blocked: the demo still works */ }
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable, billing: s.billing })); } catch (e) { /* storage blocked: the demo still works */ }
 }
 const R = (s, rid) => ({ ...RMAP[rid], ...s.rest[rid] });
 const canOrder = (s) => { const r = R(s, s.rid); return !!s.table && r.open && can(r.plan, 'basic') && s.table <= (r.plan === 'basic' ? Math.min(10, r.tables) : r.tables); };
@@ -1026,7 +1053,7 @@ const TOUR = [
   { t: 'One QR per table', d: 'Download a print-ready standee for each table. Scan one with your own phone: it opens this demo at that table.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'tables', qrTable: 5, sheet: null }), hl: '#standee' },
   { t: 'See what sells', d: 'Sales, top dishes and busy hours update with every order.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'reports', sheet: null }), hl: '#reports-main' },
   { t: 'Add dishes with photos', d: 'Name, price, a photo from the phone, Half/Full portions and add-ons. It shows on every table the moment it is saved.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'menu', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: 'Main Course', name: 'Paneer Lababdar', price: '290', veg: true, desc: 'Paneer in a rich onion-tomato gravy with cream.', tags: ['New'], variants: [], addons: [['Extra butter', 30]], stock: true, img: null, c: ['#d9722e', '#f7e4c3'] } } }), hl: '#dish-editor' },
-  { t: 'Free to start, ₹199 to take orders', d: 'Freemium is a view-only menu. Basic adds ordering, Advanced adds UPI and full reports, Premium adds your branding and loyalty.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
+  { t: 'Free to start, ₹199 to take orders', d: 'Freemium is a view-only menu. Basic adds ordering, Advanced adds UPI and full reports, Premium adds branding and loyalty. Pay for 6 months to save 10%, or a year to save 20%.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
   { t: 'New restaurants sign up themselves', d: 'Any restaurant can compare plans and register from the For restaurants page.', apply: (s) => ({ ...s, role: 'diner', screen: 'business', sheet: null }), hl: '#biz-main .plans' },
   { t: 'Our team runs the platform', d: 'Every restaurant, its plan and orders in one place, plus new sign-ups to approve.', apply: (s) => ({ ...s, role: 'admin', sheet: null }), hl: '#admin-main' },
 ];
@@ -1339,18 +1366,29 @@ const FEATURES = [
   ['Support', ['Help articles', 'WhatsApp chat', 'WhatsApp + call', 'Priority, setup done for you']],
 ];
 const FOR = { freemium: 'Tea stalls, juice shops, trying it out', basic: 'Small cafes, dhabas, quick service', advanced: 'Family restaurants, busy cafes', premium: 'Fine dine, restobars, small chains' };
-function PlanCompare({ current }) {
-  return html`<div className="twrap"><table className="tbl cmp"><thead><tr><th>What you get</th>${PLAN_KEYS.map((k) => html`<th key=${k} className=${k === current ? 'cur' : ''}>${PLANS[k].name}<small>${PLANS[k].price ? inr(PLANS[k].price) + '/mo' : 'Free'}</small></th>`)}</tr></thead>
+function BillingSwitch({ s, d }) {
+  const b = s.billing || 'm';
+  return html`<div className="billsw" id="billing">
+    <div className="seg" role="group" aria-label="Billing period">${BILL_KEYS.map((k) => html`<button key=${k} aria-pressed=${b === k} onClick=${() => d({ type: 'set', k: 'billing', v: k })}>${BILLING[k].label}${BILLING[k].off ? html`<span className="save">Save ${BILLING[k].off}%</span>` : null}</button>`)}</div>
+    <p className="small muted">${b === 'm' ? 'Pay month to month, cancel any time. Pay for 6 months to save 10%, or a year to save 20%.' : 'Paid ' + BILLING[b].every + ' in advance. Prices below are per month.'}</p>
+  </div>`;
+}
+function PlanCompare({ current, billing }) {
+  return html`<div className="twrap"><table className="tbl cmp"><thead><tr><th>What you get</th>${PLAN_KEYS.map((k) => html`<th key=${k} className=${k === current ? 'cur' : ''}>${PLANS[k].name}<small>${PLANS[k].price ? inr(planCost(k, billing).per) + '/mo' : 'Free'}</small></th>`)}</tr></thead>
     <tbody>${FEATURES.map(([f, v]) => html`<tr key=${f}><td>${f}</td>${v.map((x, i) => html`<td key=${i} className=${(PLAN_KEYS[i] === current ? 'cur ' : '') + (x === 'y' ? 'yes' : x === 'n' ? 'no' : '')}>${x === 'y' ? I('check', 18) : x === 'n' ? '–' : x}</td>`)}</tr>`)}</tbody></table></div>`;
 }
-function PlanCards({ current, onPick, label }) {
-  return html`<div className="plans">${PLAN_KEYS.map((k) => html`<div key=${k} className=${'plan' + (k === current ? ' on' : '') + (k === 'advanced' ? ' rec' : '')}>
+function PlanCards({ current, currentBilling, billing, onPick, label }) {
+  return html`<div className="plans">${PLAN_KEYS.map((k) => {
+    const c = planCost(k, billing), free = !c.full;
+    const same = k === current && (free || (currentBilling || 'm') === billing);
+    return html`<div key=${k} className=${'plan' + (k === current ? ' on' : '') + (k === 'advanced' ? ' rec' : '')}>
     ${k === current ? html`<span className="pill leaf cur">Current plan</span>` : k === 'advanced' ? html`<span className="pill sun cur">Most picked</span>` : null}
     <h3>${PLANS[k].name}</h3><p className="small muted">${FOR[k]}</p>
-    <div className="price"><b>${PLANS[k].price ? inr(PLANS[k].price) : '₹0'}</b><span>${PLANS[k].price ? '/ month' : 'forever'}</span></div>
+    <div className="price">${c.off && !free ? html`<s>${inr(c.full)}</s>` : null}<b>${free ? '₹0' : inr(c.per)}</b><span>${free ? 'forever' : '/ month'}</span></div>
+    <p className="bill-line">${free ? 'No card needed' : c.months === 1 ? 'Billed monthly · cancel any time' : html`${inr(c.total)} ${BILLING[billing].per} · <b>save ${inr(c.save)}</b>`}</p>
     <ul>${PLANS[k].perks.map((p) => html`<li key=${p}>${I('check', 15)}${p}</li>`)}</ul>
-    <button className=${'btn block ' + (k === current ? '' : 'primary')} disabled=${k === current} onClick=${() => onPick(k)}>${k === current ? 'Your plan' : label(k)}</button>
-  </div>`)}</div>`;
+    <button className=${'btn block ' + (same ? '' : 'primary')} disabled=${same} onClick=${() => onPick(k)}>${same ? 'Your plan' : k === current ? 'Switch to ' + BILLING[billing].label.toLowerCase() + ' billing' : label(k)}</button>
+  </div>`; })}</div>`;
 }
 
 function ForRestaurants({ s, d }) {
@@ -1363,28 +1401,29 @@ function ForRestaurants({ s, d }) {
       <ol className="biz-steps">${steps.map(([t, x], i) => html`<li key=${t}><span>${i + 1}</span><div><b>${t}</b><p>${x}</p></div></li>`)}</ol>
     </div></section>
     <div className="container" style=${{ display: 'grid', gap: 18, paddingBottom: 110 }}>
-      <div className="sect-h"><div><h2>Plans</h2><p className="muted">Prices exclude 18% GST. Unlimited orders and no commission on every plan. Yearly billing gives 2 months free.</p></div></div>
-      <${PlanCards} current=${null} onPick=${(k) => d({ type: 'sheet', sheet: { type: 'signup', plan: k } })} label=${(k) => (k === 'freemium' ? 'Start free' : 'Choose ' + PLANS[k].name)} />
+      <div className="sect-h"><div><h2>Plans</h2><p className="muted">Prices exclude 18% GST. Unlimited orders and no commission on every plan.</p></div></div>
+      <${BillingSwitch} s=${s} d=${d} />
+      <${PlanCards} current=${null} billing=${s.billing || 'm'} onPick=${(k) => d({ type: 'sheet', sheet: { type: 'signup', plan: k, billing: s.billing || 'm' } })} label=${(k) => (k === 'freemium' ? 'Start free' : 'Choose ' + PLANS[k].name)} />
       <h2 className="sub-h">Compare every feature</h2>
-      <${PlanCompare} current=${null} />
+      <${PlanCompare} current=${null} billing=${s.billing || 'm'} />
     </div>
   </main>`;
 }
 
 function SignupSheet({ s, d }) {
-  const [f, setF] = useState({ name: '', area: '', owner: '', phone: '', tables: 10, plan: s.sheet.plan || 'basic' });
+  const [f, setF] = useState({ name: '', area: '', owner: '', phone: '', tables: 10, plan: s.sheet.plan || 'basic', billing: s.sheet.billing || s.billing || 'm' });
   const [done, setDone] = useState(false);
   const [err, setErr] = useState('');
   const set = (k, v) => setF((o) => ({ ...o, [k]: v }));
   const submit = () => {
     if (!f.name.trim() || !f.area.trim() || !f.owner.trim()) { setErr('Fill in the restaurant name, area and your name.'); return; }
-    d({ type: 'signup', data: { name: f.name.trim(), area: f.area.trim(), owner: f.owner.trim(), plan: f.plan, tables: Math.max(1, Math.min(60, Number(f.tables) || 1)) } });
+    d({ type: 'signup', data: { name: f.name.trim(), area: f.area.trim(), owner: f.owner.trim(), plan: f.plan, billing: f.plan === 'freemium' ? 'm' : f.billing, tables: Math.max(1, Math.min(60, Number(f.tables) || 1)) } });
     setDone(true);
   };
   if (done) return html`<${Modal} onClose=${() => d({ type: 'sheet', sheet: null })}>
     <div className="done-mark">${I('check', 34)}</div>
     <h2 style=${{ textAlign: 'center', fontSize: 22 }}>Thanks, ${f.owner.split(' ')[0]}!</h2>
-    <p className="muted" style=${{ textAlign: 'center' }}>${f.name} is waiting for approval on the ${PLANS[f.plan].name} plan. Our team checks new restaurants within a day.</p>
+    <p className="muted" style=${{ textAlign: 'center' }}>${f.name} is waiting for approval on the ${PLANS[f.plan].name} plan${f.plan !== 'freemium' ? ', ' + BILLING[f.billing].per : ''}. Our team checks new restaurants within a day.</p>
     <button className="btn primary lg block" onClick=${() => d({ type: 'role', role: 'admin' })}>${I('shield', 18)}Approve it in the Our team view</button>
     <button className="btn block" onClick=${() => d({ type: 'sheet', sheet: null })}>Close</button>
   <//>`;
@@ -1395,6 +1434,7 @@ function SignupSheet({ s, d }) {
     <div className="fields2"><label className="field">Your name<input id="su-owner" value=${f.owner} onChange=${(e) => set('owner', e.target.value)} /></label><label className="field">Mobile<input id="su-phone" inputMode="tel" placeholder="98xxx xxxxx" value=${f.phone} onChange=${(e) => set('phone', e.target.value)} /></label></div>
     <div className="fields2"><label className="field">Number of tables<div className="stepper" style=${{ justifySelf: 'start' }}><button onClick=${() => set('tables', Math.max(1, f.tables - 1))} aria-label="One table less">−</button><span>${f.tables}</span><button onClick=${() => set('tables', Math.min(60, f.tables + 1))} aria-label="One table more">+</button></div></label>
       <label className="field">Plan<select value=${f.plan} onChange=${(e) => set('plan', e.target.value)}>${PLAN_KEYS.map((k) => html`<option key=${k} value=${k}>${PLANS[k].name} · ${PLANS[k].price ? inr(PLANS[k].price) + '/mo' : 'Free'}</option>`)}</select></label></div>
+    ${f.plan !== 'freemium' ? html`<div className="field"><span>Pay</span><div className="paypick" role="radiogroup" aria-label="Billing period">${BILL_KEYS.map((k) => { const c = planCost(f.plan, k); return html`<button key=${k} role="radio" aria-checked=${f.billing === k} onClick=${() => set('billing', k)}><b>${BILLING[k].label}</b><span>${inr(c.per)}/mo</span><small>${c.months === 1 ? 'Cancel any time' : inr(c.total) + ' · save ' + inr(c.save)}</small></button>`; })}</div></div>` : null}
     ${err ? html`<p className="notice" style=${{ background: 'var(--bad-soft)', color: 'var(--bad)', fontWeight: 700 }}>${err}</p>` : null}
     <button className="btn primary lg block" onClick=${submit}>Send for approval</button>
     <p className="small muted" style=${{ textAlign: 'center' }}>Demo only: nothing is sent anywhere.</p>
@@ -1667,10 +1707,14 @@ function OwnerSettings({ s, d }) {
   const r = R(s, OWNER_RID);
   return html`
     <div className="ph"><div><h1>Plan & settings</h1><p className="muted">Change the plan and watch what changes for diners and for you. Prices exclude 18% GST; no commission on orders.</p></div></div>
-    <div id="plans"><${PlanCards} current=${r.plan} onPick=${(k) => { d({ type: 'rest', rid: OWNER_RID, patch: { plan: k } }); toast(r.name + ' is on ' + PLANS[k].name + ' now'); }} label=${(k) => (RANK[k] > RANK[r.plan] ? 'Upgrade to ' : 'Switch to ') + PLANS[k].name} /></div>
+    <section className="card sub-now"><div className="grow"><span className="small muted">Your subscription</span><b>${PLANS[r.plan].name}${r.plan !== 'freemium' ? ' · ' + BILLING[r.billing || 'm'].label : ''}</b>
+      <span className="small muted">${r.plan === 'freemium' ? 'Free, no card on file' : (() => { const c = planCost(r.plan, r.billing); return c.months === 1 ? inr(c.per) + ' every month' : inr(c.total) + ' ' + BILLING[r.billing].every + ' (' + inr(c.per) + '/mo) · you save ' + inr(c.save); })()}</span></div>
+      ${r.plan !== 'freemium' && (r.billing || 'm') !== 'y' ? html`<button className="btn sun" onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { billing: 'y' } }); d({ type: 'set', k: 'billing', v: 'y' }); toast('Switched to yearly billing · save ' + inr(planCost(r.plan, 'y').save) + ' a year'); }}>Pay yearly, save ${inr(planCost(r.plan, 'y').save)}</button>` : null}</section>
+    <${BillingSwitch} s=${s} d=${d} />
+    <div id="plans"><${PlanCards} current=${r.plan} currentBilling=${r.billing} billing=${s.billing || 'm'} onPick=${(k) => { const b = s.billing || 'm'; d({ type: 'rest', rid: OWNER_RID, patch: { plan: k, billing: k === 'freemium' ? 'm' : b } }); toast(r.name + ' is on ' + PLANS[k].name + (k === 'freemium' ? '' : ', ' + BILLING[b].per)); }} label=${(k) => (RANK[k] > RANK[r.plan] ? 'Upgrade to ' : 'Switch to ') + PLANS[k].name} /></div>
     <div className="notice leaf"><b>On ${PLANS[r.plan].name} diners can:</b> ${r.plan === 'freemium' ? 'see your menu only, and order through a waiter.' : r.plan === 'basic' ? 'order from the table and pay at the counter.' : r.plan === 'advanced' ? 'order from the table and pay by UPI or card from their phone.' : 'order, pay from the phone, earn loyalty points and rate their meal. Your menu has no MenuMitra branding.'}</div>
     <h2 className="sub-h">Compare every feature</h2>
-    <${PlanCompare} current=${r.plan} />
+    <${PlanCompare} current=${r.plan} billing=${s.billing || 'm'} />
     <section className="card"><h3>Restaurant</h3>
       <div className="fields2"><label className="field">Name<input value=${r.name} onChange=${(e) => d({ type: 'rest', rid: OWNER_RID, patch: { name: e.target.value } })} /></label>
       <label className="field">Area<input value=${r.area} onChange=${(e) => d({ type: 'rest', rid: OWNER_RID, patch: { area: e.target.value } })} /></label></div>
@@ -1732,12 +1776,13 @@ function Owner({ s, d }) {
 /* ---------- Our team (admin) ---------- */
 function Admin({ s, d }) {
   const rows = [
-    ...RESTAURANTS.map((r) => { const x = R(s, r.id); return { id: r.id, name: x.name, area: x.area + ', ' + x.city, plan: x.plan, tables: x.tables, ordersToday: r.id === OWNER_RID ? BASE.orders + s.orders.filter((o) => o.rid === r.id && o.mine).length : Math.round(r.reviews / 40) + s.orders.filter((o) => o.rid === r.id && o.mine).length, joined: { spice: 'Aug 2026', rasoi: 'Jul 2026', leaf: 'Sep 2026', pav: 'Sep 2026', nawab: 'Aug 2026', bowl: 'Oct 2026' }[r.id], live: true }; }),
+    ...RESTAURANTS.map((r) => { const x = R(s, r.id); return { id: r.id, name: x.name, area: x.area + ', ' + x.city, plan: x.plan, billing: x.billing || 'm', tables: x.tables, ordersToday: r.id === OWNER_RID ? BASE.orders + s.orders.filter((o) => o.rid === r.id && o.mine).length : Math.round(r.reviews / 40) + s.orders.filter((o) => o.rid === r.id && o.mine).length, joined: { spice: 'Aug 2026', rasoi: 'Jul 2026', leaf: 'Sep 2026', pav: 'Sep 2026', nawab: 'Aug 2026', bowl: 'Oct 2026' }[r.id], live: true }; }),
     ...EXTRA_RESTAURANTS,
     ...s.approved.map((a) => ({ ...a, ordersToday: 0, isNew: true })),
   ];
   const paying = rows.filter((r) => r.plan !== 'freemium');
-  const mrr = paying.reduce((t, r) => t + PLANS[r.plan].price, 0);
+  const mrr = paying.reduce((t, r) => t + planCost(r.plan, r.billing).per, 0);
+  const prepaid = paying.filter((r) => (r.billing || 'm') !== 'm').length;
   const orders = rows.reduce((t, r) => t + r.ordersToday, 0);
   const mix = PLAN_KEYS.map((k) => [k, rows.filter((r) => r.plan === k).length]);
   return html`<div>
@@ -1746,18 +1791,18 @@ function Admin({ s, d }) {
       <div className="ph"><div><h1>All restaurants</h1><p className="muted">Sign-ups, plans and usage across MenuMitra. In the live product this is private, behind staff accounts.</p></div></div>
       <div className="tiles">
         <div className="tile"><span>Restaurants</span><b>${rows.length}</b><small>${s.approved.length ? s.approved.length + ' approved today' : '3 joined this month'}</small></div>
-        <div className="tile"><span>On a paid plan</span><b>${paying.length}</b><small className="m">${Math.round(paying.length / rows.length * 100)}% of restaurants</small></div>
-        <div className="tile"><span>Monthly recurring revenue</span><b>${inr(mrr)}</b><small className="m">before GST</small></div>
+        <div className="tile"><span>On a paid plan</span><b>${paying.length}</b><small className="m">${prepaid} paid 6 months or a year ahead</small></div>
+        <div className="tile"><span>Monthly recurring revenue</span><b>${inr(mrr)}</b><small className="m">per month after discounts, before GST</small></div>
         <div className="tile"><span>Orders today</span><b>${orders}</b><small className="m">all restaurants</small></div>
       </div>
-      ${s.signups.length ? html`<section className="card"><h3>New sign-ups to review <span className="badge">${s.signups.length}</span></h3>${s.signups.map((su) => html`<div key=${su.id} className="signup"><div className="grow"><b>${su.name}</b><div className="small muted">${su.area} · ${su.tables} tables · owner ${su.owner}</div></div><span className=${'pill ' + (su.plan === 'advanced' ? 'leaf' : 'info')}>${PLANS[su.plan].name}</span><button className="btn sm" onClick=${() => d({ type: 'approve', id: su.id, ok: false })}>Decline</button><button className="btn sm primary" onClick=${() => { d({ type: 'approve', id: su.id, ok: true }); toast(su.name + ' is live on MenuMitra'); }}>Approve</button></div>`)}</section>` : null}
+      ${s.signups.length ? html`<section className="card"><h3>New sign-ups to review <span className="badge">${s.signups.length}</span></h3>${s.signups.map((su) => html`<div key=${su.id} className="signup"><div className="grow"><b>${su.name}</b><div className="small muted">${su.area} · ${su.tables} tables · owner ${su.owner}</div></div><span className=${'pill ' + (su.plan === 'advanced' ? 'leaf' : 'info')}>${PLANS[su.plan].name}${su.plan !== 'freemium' ? ' · ' + BILLING[su.billing || 'm'].label : ''}</span><button className="btn sm" onClick=${() => d({ type: 'approve', id: su.id, ok: false })}>Decline</button><button className="btn sm primary" onClick=${() => { d({ type: 'approve', id: su.id, ok: true }); toast(su.name + ' is live on MenuMitra'); }}>Approve</button></div>`)}</section>` : null}
       <section className="card"><h3>Restaurants by plan</h3><div className="mix" role="img" aria-label=${mix.map(([k, c]) => c + ' ' + PLANS[k].name).join(', ')}>${mix.filter(([, c]) => c).map(([k, c]) => html`<i key=${k} className=${'m-' + k} style=${{ flex: c }}></i>`)}</div><div className="mixkey">${mix.map(([k, c]) => html`<span key=${k}><i className=${'m-' + k}></i>${PLANS[k].name} · ${c}</span>`)}</div></section>
-      <div className="twrap"><table className="tbl"><thead><tr><th>Restaurant</th><th>Area</th><th>Plan</th><th className="r">Tables</th><th className="r">Orders today</th><th className="r">Pays / month</th><th>Joined</th></tr></thead>
+      <div className="twrap"><table className="tbl"><thead><tr><th>Restaurant</th><th>Area</th><th>Plan</th><th className="r">Tables</th><th className="r">Orders today</th><th className="r">Pays / month</th><th>Billing</th><th>Joined</th></tr></thead>
         <tbody>${rows.map((r, i) => html`<tr key=${r.name + i} className=${r.isNew ? 'new' : ''}>
           <td>${r.live ? html`<button className="link" onClick=${() => d({ type: 'open', rid: r.id, table: null })}>${r.name}</button>` : html`<b>${r.name}</b>`}${r.isNew ? html` <span className="pill sun">New</span>` : null}</td>
           <td className="small">${r.area}</td>
           <td>${r.live ? html`<select aria-label=${'Plan for ' + r.name} value=${r.plan} onChange=${(e) => { d({ type: 'rest', rid: r.id, patch: { plan: e.target.value } }); toast(r.name + ' moved to ' + PLANS[e.target.value].name); }}>${PLAN_KEYS.map((k) => html`<option key=${k} value=${k}>${PLANS[k].name}</option>`)}</select>` : html`<span className=${'pill ' + ({ freemium: '', basic: 'info', advanced: 'leaf', premium: 'sun' })[r.plan]}>${PLANS[r.plan].name}</span>`}</td>
-          <td className="r">${r.tables}</td><td className="r">${r.ordersToday}</td><td className="r">${PLANS[r.plan].price ? inr(PLANS[r.plan].price) : '–'}</td><td className="small">${r.joined}</td></tr>`)}</tbody></table></div>
+          <td className="r">${r.tables}</td><td className="r">${r.ordersToday}</td><td className="r">${PLANS[r.plan].price ? inr(planCost(r.plan, r.billing).per) : '–'}</td><td className="small">${PLANS[r.plan].price ? BILLING[r.billing || 'm'].label : '–'}</td><td className="small">${r.joined}</td></tr>`)}</tbody></table></div>
       <p className="small muted">All restaurants and figures here are sample data.</p>
     </main>
   </div>`;
