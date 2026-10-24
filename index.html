@@ -733,6 +733,75 @@ p { margin: 0; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .fx-badge { background: rgba(255, 255, 255, 0.04); } :root:not([data-theme="light"]) .fx-tab:not([aria-selected="true"]) { background: rgba(255, 255, 255, 0.55); } }
 :root[data-theme="dark"] .fx-badge { background: rgba(255, 255, 255, 0.04); }
 
+
+/* Analytics */
+.ana { display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr); }
+.ana .card, .ana .gate, #admin-main .card { grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.ana .two > *, #admin-main .two > * { min-width: 0; }
+#admin-main { grid-template-columns: minmax(0, 1fr); }
+#admin-main .ph > div:first-child { min-width: 0; flex: 1 1 320px; }
+.card-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.tile small.bad { color: var(--bad); }
+.tile .tname { font-size: 19px; line-height: 1.25; }
+.tiles.two-t { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.chip.static { cursor: default; font-size: 13px; padding: 5px 12px; }
+.slow { display: grid; gap: 6px; padding-top: 6px; border-top: 1px solid var(--line); }
+.ttable { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+.tcell { border: 1px solid var(--line); border-radius: 16px; padding: 10px 12px; display: grid; gap: 2px; justify-items: start; position: relative; }
+.tcell b { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.tcell .pill { position: absolute; top: 8px; right: 8px; }
+.viz { position: relative; min-width: 0; width: 100%; overflow: hidden; --v-main: #16a37f; --v-prev: #98a2b3; --v-grid: var(--line); }
+.viz svg { display: block; overflow: visible; }
+.vgrid { stroke: var(--v-grid); stroke-width: 1; }
+.vaxis { font-size: 11px; fill: var(--muted); font-family: var(--f-body); }
+.vlbl { font-size: 11.5px; fill: var(--ink); font-weight: 600; }
+.vbar { fill: var(--v-main); transition: opacity 0.12s; }
+.vbar.on { fill: #0b7d60; }
+.vhit { fill: transparent; cursor: default; outline: none; }
+.vhit:focus-visible { stroke: var(--ink); stroke-width: 1.5; }
+.vprev { fill: none; stroke: var(--v-prev); stroke-width: 2; stroke-dasharray: 5 4; stroke-linejoin: round; pointer-events: none; }
+.vtip { position: absolute; top: 4px; transform: translateX(-50%); background: var(--app); border: 1px solid var(--line); border-radius: 12px; padding: 7px 11px; box-shadow: var(--shadow-1); display: grid; gap: 1px; font-size: 12.5px; pointer-events: none; white-space: nowrap; z-index: 2; }
+.vtip b { font-size: 14px; font-variant-numeric: tabular-nums; }
+.vlegend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--ink); margin-bottom: 6px; }
+.vlegend > span { display: inline-flex; align-items: center; gap: 6px; }
+.vlegend .muted { font-size: 12.5px; }
+.sw { width: 12px; height: 12px; border-radius: 4px; display: inline-block; flex: none; }
+.sw.s-main { background: var(--v-main, #16a37f); }
+.sw.s-prev { height: 0; border-top: 2px dashed #98a2b3; border-radius: 0; width: 16px; }
+.vstack { display: grid; gap: 10px; }
+.vstack-bar { display: flex; gap: 2px; height: 16px; border-radius: 6px; overflow: hidden; }
+.vstack-bar i { display: block; height: 100%; min-width: 3px; }
+.c1 { background: #2a78d6; } .c2 { background: #eb6834; } .c3 { background: #1baf7a; } .c4 { background: #eda100; }
+.bar-track i.gold { background: #eda100; }
+.vheat-wrap { display: grid; gap: 10px; overflow-x: auto; }
+.vheat { display: grid; grid-template-columns: 34px repeat(13, minmax(18px, 1fr)); gap: 2px; min-width: 330px; }
+.vheat .hh, .vheat .hd { font-size: 10.5px; color: var(--muted); align-self: center; }
+.vheat .hh { text-align: left; white-space: nowrap; }
+.vheat i { display: block; aspect-ratio: 1.25; border-radius: 4px; outline: none; }
+.vheat i.on, .vheat i:focus-visible { box-shadow: 0 0 0 2px var(--app), 0 0 0 4px var(--ink); }
+.q0 { background: #e3f6ef; } .q1 { background: #b4e6d2; } .q2 { background: #6fcfad; } .q3 { background: #2aa982; } .q4 { background: #0c7a5c; }
+.vheat-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.vramp { display: inline-flex; align-items: center; gap: 3px; }
+.vramp i { width: 14px; height: 10px; border-radius: 3px; display: inline-block; }
+.vramp .small { margin: 0 4px; }
+.gate { position: relative; border-radius: var(--r-card); }
+.gate-blur { filter: blur(5px) saturate(0.7); opacity: 0.55; pointer-events: none; user-select: none; }
+.gate-card { position: absolute; inset: 0; display: grid; place-content: start center; padding-top: clamp(40px, 8vw, 90px) !important; justify-items: center; gap: 8px; text-align: center; padding: 16px; }
+.gate-card > b { font-size: 17px; font-weight: 600; }
+.gate-card .lock-ic { background: var(--app); box-shadow: var(--shadow-1); }
+.gate-card { max-width: 100%; }
+.gate-card > * { max-width: 420px; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .viz { --v-main: #3fcf9c; --v-prev: #7d8a86; }
+  :root:not([data-theme="light"]) .vbar.on { fill: #8ce3c3; }
+  :root:not([data-theme="light"]) .c1 { background: #3987e5; } :root:not([data-theme="light"]) .c2 { background: #d95926; } :root:not([data-theme="light"]) .c3 { background: #199e70; } :root:not([data-theme="light"]) .c4, :root:not([data-theme="light"]) .bar-track i.gold { background: #c98500; }
+  :root:not([data-theme="light"]) .q0 { background: #16312a; } :root:not([data-theme="light"]) .q1 { background: #1d5a47; } :root:not([data-theme="light"]) .q2 { background: #23825f; } :root:not([data-theme="light"]) .q3 { background: #3cb184; } :root:not([data-theme="light"]) .q4 { background: #7fdcb6; }
+}
+:root[data-theme="dark"] .viz { --v-main: #3fcf9c; --v-prev: #7d8a86; }
+:root[data-theme="dark"] .c1 { background: #3987e5; } :root[data-theme="dark"] .c2 { background: #d95926; } :root[data-theme="dark"] .c3 { background: #199e70; } :root[data-theme="dark"] .c4 { background: #c98500; }
+:root[data-theme="dark"] .q0 { background: #16312a; } :root[data-theme="dark"] .q1 { background: #1d5a47; } :root[data-theme="dark"] .q2 { background: #23825f; } :root[data-theme="dark"] .q3 { background: #3cb184; } :root[data-theme="dark"] .q4 { background: #7fdcb6; }
+@media (max-width: 520px) { .gate-card > b { font-size: 15px; } .tiles.two-t { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+
 /* Phone layout */
 @media (max-width: 1180px) {
   .nav-inner .search { display: none; }
@@ -894,10 +963,10 @@ const I = (name, size) => html`<svg className="ic" width=${size || 18} height=${
 
 /* ---------- Sample data ---------- */
 const PLANS = {
-  freemium: { name: 'Freemium', price: 0, perks: ['Digital menu with photos', 'Veg / non-veg marks, search', 'Sold-out in one tap', 'One menu QR code'] },
-  basic: { name: 'Basic', price: 199, perks: ['Diners order from the table', 'Up to 10 table QR codes', 'Live orders with sound alert', 'Kitchen ticket printing', 'Daily sales summary'] },
-  advanced: { name: 'Advanced', price: 449, perks: ['Everything in Basic', 'Unlimited tables', 'UPI payment from the table', 'Full reports: top dishes, busy hours'] },
-  premium: { name: 'Premium', price: 899, perks: ['Everything in Advanced', 'Your branding, no MenuMitra footer', 'Loyalty points and Google reviews', 'Priority support, setup done for you'] },
+  freemium: { name: 'Freemium', price: 0, perks: ['Digital menu with photos', 'Veg / non-veg marks, search', 'Sold-out in one tap', 'One menu QR code', 'Menu views and QR scan insights'] },
+  basic: { name: 'Basic', price: 199, perks: ['Diners order from the table', 'Up to 10 table QR codes', 'Live orders with sound alert', 'Kitchen ticket printing', "Today's sales, top dishes, payments"] },
+  advanced: { name: 'Advanced', price: 449, perks: ['Everything in Basic', 'Unlimited tables', 'UPI payment from the table', 'Analytics: trends, busy hours, slow dishes, CSV'] },
+  premium: { name: 'Premium', price: 899, perks: ['Everything in Advanced', 'Your branding, no MenuMitra footer', 'Loyalty points and Google reviews', 'Diner analytics: repeat visits, ratings', 'Priority support, setup done for you'] },
 };
 const PLAN_KEYS = ['freemium', 'basic', 'advanced', 'premium'];
 const RANK = { freemium: 0, basic: 1, advanced: 2, premium: 3 };
@@ -1074,7 +1143,7 @@ function freshState() {
   return {
     role: 'diner', screen: 'home', rid: 'spice', table: null, query: '', homeFilter: 'all', vegOnly: false, cat: null,
     cart: [], note: '', me: { name: 'Riya', phone: '98250 12345' }, pay: 'upi', rating: 0, lastPaid: null,
-    sheet: null, ownerTab: 'orders', ownerCol: 'new', qrTable: 5, sound: true, billing: 'y',
+    sheet: null, ownerTab: 'orders', ownerCol: 'new', qrTable: 5, sound: true, billing: 'y', anaRange: 1, adminTab: 'overview', adminRid: 'spice',
     rest: Object.fromEntries(RESTAURANTS.map((r) => [r.id, { plan: r.plan, billing: { rasoi: 'y', nawab: 'h' }[r.id] || 'm', open: r.open, upi: r.upi, tables: r.tables, name: r.name, area: r.area, gst: r.gst }])),
     menus: Object.fromEntries(RESTAURANTS.map((r) => [r.id, r.menu.map((m) => ({ ...m }))])),
     orders: [
@@ -1101,7 +1170,7 @@ function loadState() {
   } catch (e) { return base; }
 }
 function saveState(s) {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable, billing: s.billing })); } catch (e) { /* storage blocked: the demo still works */ }
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable, billing: s.billing, anaRange: s.anaRange, adminTab: s.adminTab, adminRid: s.adminRid })); } catch (e) { /* storage blocked: the demo still works */ }
 }
 const R = (s, rid) => ({ ...RMAP[rid], ...s.rest[rid] });
 const canOrder = (s) => { const r = R(s, s.rid); return !!s.table && r.open && can(r.plan, 'basic') && s.table <= (r.plan === 'basic' ? Math.min(10, r.tables) : r.tables); };
@@ -1200,11 +1269,11 @@ const TOUR = [
   { t: 'Pay from the table', d: 'Once served, the diner pays by UPI from the phone or chooses the counter. The restaurant sees it at once.', apply: (s) => ({ ...s, role: 'diner', screen: 'pay', rid: 'spice', table: s.table || 5, pay: 'upi', sheet: null, orders: s.orders.map((o) => (o.mine && o.rid === 'spice' && o.pay !== 'paid' && o.status !== 'cancelled' ? { ...o, status: 'served' } : o)) }), hl: '#pay-main' },
   { t: 'Menu changes are instant', d: 'Mark a dish sold out or change a price and every table sees it right away. No reprinting.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'menu', sheet: null }), hl: '#menu-mgr' },
   { t: 'One QR per table', d: 'Download a print-ready standee for each table. Scan one with your own phone: it opens this demo at that table.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'tables', qrTable: 5, sheet: null }), hl: '#standee' },
-  { t: 'See what sells', d: 'Sales, top dishes and busy hours update with every order.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'reports', sheet: null }), hl: '#reports-main' },
+  { t: 'Analytics that grow with the plan', d: 'Every plan sees menu views and QR scans. Basic adds today’s sales, Advanced adds trends, busy hours and slow dishes, Premium adds repeat diners and ratings.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'reports', sheet: null }), hl: '#reports-main' },
   { t: 'Add dishes with photos', d: 'Name, price, a photo from the phone, Half/Full portions and add-ons. It shows on every table the moment it is saved.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'menu', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: 'Main Course', name: 'Paneer Lababdar', price: '290', veg: true, desc: 'Paneer in a rich onion-tomato gravy with cream.', tags: ['New'], variants: [], addons: [['Extra butter', 30]], stock: true, img: null, c: ['#d9722e', '#f7e4c3'] } } }), hl: '#dish-editor' },
   { t: 'Free to start, ₹199 to take orders', d: 'Freemium is a view-only menu. Basic adds ordering, Advanced adds UPI and full reports, Premium adds branding and loyalty. Pay for 6 months to save 10%, or a year to save 20%.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
   { t: 'New restaurants sign up themselves', d: 'Any restaurant can compare plans and register from the For restaurants page.', apply: (s) => ({ ...s, role: 'diner', screen: 'business', sheet: null }), hl: '#biz-main .plans' },
-  { t: 'Our team runs the platform', d: 'Every restaurant, its plan and orders in one place, plus new sign-ups to approve.', apply: (s) => ({ ...s, role: 'admin', sheet: null }), hl: '#admin-main' },
+  { t: 'Our team sees the whole platform', d: 'Staff-only analytics: revenue, orders across all restaurants, plan mix, upgrade candidates and a watch list. Staff can also open any restaurant’s board.', apply: (s) => ({ ...s, role: 'admin', adminTab: 'overview', sheet: null }), hl: '#admin-main' },
 ];
 
 /* ---------- Shared bits ---------- */
@@ -1557,8 +1626,10 @@ const FEATURES = [
   ['Kitchen tickets (KOT)', ['n', 'y', 'y', 'y']],
   ['Pay at the counter', ['n', 'y', 'y', 'y']],
   ['UPI and card payment from the table', ['n', 'n', 'y', 'y']],
-  ['Sales reports', ['n', "Today's summary", 'Full', 'Full']],
-  ['Top dishes and busy hours', ['n', 'n', 'y', 'y']],
+  ['Analytics: menu views and QR scans', ['y', 'y', 'y', 'y']],
+  ["Analytics: today's sales, orders, top dishes, payments", ['n', 'y', 'y', 'y']],
+  ['Analytics: 7 and 30-day trends, busy hours, slow dishes, tables, CSV export', ['n', 'n', 'y', 'y']],
+  ['Analytics: repeat diners, loyalty and ratings', ['n', 'n', 'n', 'y']],
   ['Bill sent to the diner on WhatsApp', ['n', 'n', 'y', 'y']],
   ['Loyalty points and Google review prompts', ['n', 'n', 'n', 'y']],
   ['Your branding, no MenuMitra footer', ['n', 'n', 'n', 'y']],
@@ -1636,7 +1707,7 @@ function ForRestaurants({ s, d }) {
       vis: html`<div className="mk-rows">${s.menus.spice.slice(0, 4).map((it, i) => html`<div key=${it.id} className="mrow"><span className="mmain"><${Plate} c=${it.c} img=${it.img} size="sm" /><span className="mtxt"><span className="mname"><${VegMark} veg=${it.veg} />${it.name}</span><small>${inr(it.price)}</small></span></span><span className="switch" role="img" aria-label=${i === 2 ? 'Sold out' : 'In stock'} aria-checked=${i !== 2}><i></i><span>${i === 2 ? 'Sold out' : 'In stock'}</span></span></div>`)}</div>` },
     { id: 'qr', icon: 'qr', label: 'Table QR', title: 'One QR per table, ready to print', text: 'Download a standee for every table. The table number travels with every order, so food reaches the right table.', points: ['Print at any shop', 'Works with any phone camera'], cta: html`<button className="btn primary" onClick=${() => owner('tables')}>See the table QR codes<${Arr} /></button>`,
       vis: html`<div className="standee" style=${{ position: 'static', width: 230 }}><span className="small">Scan to order</span><b>Spice Garden</b><span className="qr-wrap"><${QR} text=${tableLink('spice', 7)} size=${124} /></span><span className="tbig">TABLE 7</span><small>No app needed · pay by UPI</small></div>` },
-    { id: 'reports', icon: 'chart', label: 'Reports', title: 'Know what sells and when', text: 'Sales, orders and the average bill update with every order. See your top dishes and your busiest hours.', points: ['Daily summary on Basic', 'Full reports on Advanced and Premium'], cta: html`<button className="btn primary" onClick=${() => owner('reports')}>Open reports<${Arr} /></button>`,
+    { id: 'reports', icon: 'chart', label: 'Analytics', title: 'Know what sells and when', text: 'Sales, orders and the average bill update with every order. See top and slow dishes, busy hours, tables and how diners pay.', points: ['Menu views and QR scans on every plan', 'Today’s sales on Basic, trends on Advanced, diners on Premium'], cta: html`<button className="btn primary" onClick=${() => owner('reports')}>Open analytics<${Arr} /></button>`,
       vis: html`<div className="mk-tiles"><div className="tile"><span>Sales today</span><b>₹18,420</b><small>+12% vs last week</small></div><div className="tile"><span>Orders</span><b>46</b><small className="m">since 11 am</small></div><div className="tile"><span>Average bill</span><b>₹400</b><small className="m">per table</small></div><div className="tile"><span>Top dish</span><b style=${{ fontSize: 19 }}>Butter Naan</b><small className="m">412 this month</small></div></div>` },
   ];
   const u = USES.find((x) => x.id === uc), uCost = planCost(u.plan, b);
@@ -1711,7 +1782,7 @@ function SignupSheet({ s, d }) {
     <div className="done-mark">${I('check', 34)}</div>
     <h2 style=${{ textAlign: 'center', fontSize: 22 }}>Thanks, ${f.owner.split(' ')[0]}!</h2>
     <p className="muted" style=${{ textAlign: 'center' }}>${f.name} is waiting for approval on the ${PLANS[f.plan].name} plan${f.plan !== 'freemium' ? ', ' + BILLING[f.billing].per : ''}. Our team checks new restaurants within a day.</p>
-    <button className="btn primary lg block" onClick=${() => d({ type: 'role', role: 'admin' })}>${I('shield', 18)}Approve it in the Our team view</button>
+    <button className="btn primary lg block" onClick=${() => { d({ type: 'role', role: 'admin' }); d({ type: 'set', k: 'adminTab', v: 'restaurants' }); }}>${I('shield', 18)}Approve it in the Our team view</button>
     <button className="btn block" onClick=${() => d({ type: 'sheet', sheet: null })}>Close</button>
   <//>`;
   return html`<${Modal} id="signup-sheet" onClose=${() => d({ type: 'sheet', sheet: null })}>
@@ -1955,39 +2026,237 @@ function OwnerTables({ s, d }) {
     </div>`;
 }
 
-function OwnerReports({ s, d }) {
-  const r = R(s, OWNER_RID);
-  if (r.plan === 'freemium') return html`<div className="ph"><div><h1>Reports</h1></div></div><${Lock} title="Sales reports start on Basic" text="Reports come from orders placed at the table, which starts on Basic." plan="basic" d=${d} />`;
-  const live = s.orders.filter((o) => o.rid === OWNER_RID && o.status !== 'cancelled');
-  const extra = live.filter((o) => !['o112', 'o113', 'o114', 'o115', 'o116', 'o117'].includes(o.id));
-  const sales = BASE.sales + extra.reduce((t, o) => t + withGst(orderTotal(o), r.gst), 0);
-  const orders = BASE.orders + extra.length;
-  const top = { ...BASE.top };
-  extra.forEach((o) => o.items.forEach((i) => { top[i.n] = (top[i.n] || 0) + i.q; }));
-  const topList = Object.entries(top).sort((a, b) => b[1] - a[1]).slice(0, 6);
-  const unpaid = live.filter((o) => o.pay !== 'paid').reduce((t, o) => t + withGst(orderTotal(o), r.gst), 0);
-  return html`<div id="reports-main" style=${{ display: 'grid', gap: 18 }}>
-    <div className="ph"><div><h1>Reports</h1><p className="muted">Today · sample history plus orders from the diner view</p></div></div>
-    <div className="tiles">
-      <div className="tile"><span>Sales today</span><b>${inr(sales)}</b><small>+12% vs last Saturday</small></div>
-      <div className="tile"><span>Orders</span><b>${orders}</b><small className="m">${orders - 8} by QR · 8 by staff</small></div>
-      <div className="tile"><span>Average bill</span><b>${inr(sales / orders)}</b><small>+₹26 since photos</small></div>
-      <div className="tile"><span>Still unpaid</span><b>${inr(unpaid)}</b><small className="m">at tables now</small></div>
-    </div>
-    ${!can(r.plan, 'advanced') ? html`<${Lock} title="Top dishes and busy hours are on Advanced" text="See which dishes sell, which to drop and when to add staff." plan="advanced" d=${d} />` : html`<div className="two">
-      <section className="card"><h3>Busy hours</h3><p className="hint">Average orders per hour, last 7 days</p><${HoursChart} /></section>
-      <section className="card"><h3>Top dishes this week</h3><div className="bars">${topList.map(([n, v]) => html`<div key=${n} className="bar-row"><span title=${n}>${n}</span><div className="bar-track"><i style=${{ width: (v / topList[0][1] * 100).toFixed(1) + '%' }}></i></div><span className="num">${v}</span></div>`)}</div></section>
-    </div>`}
+/* ---------- Analytics: sample history, generated the same way on every visit ---------- */
+const seeded = (seed) => { let a = 0; for (const ch of seed) a = (Math.imul(a, 31) + ch.charCodeAt(0)) >>> 0; return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; };
+const HRS = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+const WDAY = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const hrLabel = (h) => (h % 12 || 12) + (h < 12 ? ' am' : ' pm');
+const ANA = {};
+function analytics(rid) {
+  if (ANA[rid]) return ANA[rid];
+  const r = RMAP[rid], rnd = seeded('mm-' + rid), base = rid === OWNER_RID ? 44 : Math.max(8, Math.round(r.reviews / 42));
+  const today = new Date(); today.setHours(12, 0, 0, 0);
+  const days = [];
+  for (let i = 59; i >= 0; i--) {
+    const dt = new Date(today.getTime() - i * 864e5), wd = dt.getDay();
+    const lift = wd === 0 || wd === 6 ? 1.34 : wd === 5 ? 1.14 : 1;
+    const orders = Math.max(3, Math.round(base * lift * (1 + (59 - i) * 0.003) * (0.84 + rnd() * 0.32)));
+    const sales = Math.round(orders * (r.two / 2) * 1.12 * (0.9 + rnd() * 0.2));
+    const upi = Math.round(orders * (0.5 + rnd() * 0.1)), card = Math.round(orders * (0.12 + rnd() * 0.06));
+    const ret = Math.round(orders * (0.34 + (59 - i) * 0.0015 + rnd() * 0.06));
+    days.push({ dt, orders, sales, upi, card, cash: orders - upi - card, views: Math.round(orders * (5.4 + rnd() * 1.6)), scans: Math.round(orders * (1.55 + rnd() * 0.3)), ret, fresh: orders - ret, prep: 13 + rnd() * 6 });
+  }
+  const dishes = r.menu.map((m) => ({ n: m.name, cat: m.cat, veg: m.veg, price: m.variants.length ? m.variants[m.variants.length - 1][1] : m.price, wt: (m.tags.includes('Bestseller') ? 3.2 : 1) * (0.35 + rnd()) * (m.price < 100 ? 1.8 : 1) }));
+  const heat = WDAY.map((_, dw) => HRS.map((h, i) => Math.max(0, (BASE.hours[i] * (dw >= 5 ? 1.35 : dw === 4 ? 1.12 : 1) * (0.7 + rnd() * 0.6) * base) / 46)));
+  const tables = Array.from({ length: r.tables }, (_, i) => ({ t: i + 1, wt: 0.45 + rnd() }));
+  return (ANA[rid] = { r, days, dishes, heat, tables, base });
+}
+function summarize(rid, n, extra) {
+  const A = analytics(rid), all = A.days.slice();
+  if (extra && extra.orders) { const t = { ...all[all.length - 1] }; t.orders += extra.orders; t.sales += extra.sales; t.upi += extra.orders; t.fresh += extra.orders; all[all.length - 1] = t; }
+  const cur = all.slice(-n), prev = n === 1 ? all.slice(-8, -7) : all.slice(-2 * n, -n);
+  const agg = (arr) => { const o = { orders: 0, sales: 0, upi: 0, card: 0, cash: 0, views: 0, scans: 0, ret: 0, fresh: 0, prep: 0 }; arr.forEach((x) => { for (const k in o) o[k] += x[k]; }); o.prep /= arr.length; o.avg = o.sales / Math.max(1, o.orders); return o; };
+  const c = agg(cur), p = agg(prev);
+  const items = c.orders * 2.6, wsum = A.dishes.reduce((t, x) => t + x.wt, 0);
+  const dishes = A.dishes.map((x) => ({ ...x, q: Math.max(0, Math.round((items * x.wt) / wsum)), views: Math.round((c.views * 1.7 * x.wt) / wsum) })).sort((a, b) => b.q - a.q);
+  const cats = Object.entries(dishes.reduce((m, x) => ({ ...m, [x.cat]: (m[x.cat] || 0) + x.q * x.price }), {})).sort((a, b) => b[1] - a[1]);
+  const tsum = A.tables.reduce((t, x) => t + x.wt, 0);
+  const tables = A.tables.map((x) => ({ t: x.t, orders: Math.round((c.orders * x.wt) / tsum), sales: Math.round((c.sales * x.wt) / tsum) })).sort((a, b) => b.sales - a.sales);
+  const wd = (new Date().getDay() + 6) % 7, hsum = A.heat[wd].reduce((t, v) => t + v, 0);
+  const hourly = HRS.map((h, i) => ({ h, orders: Math.round((c.orders * A.heat[wd][i]) / hsum), sales: Math.round((c.sales * A.heat[wd][i]) / hsum) }));
+  return { n, c, p, cur, prev, dishes, cats, tables, hourly, heat: A.heat, r: A.r };
+}
+const pct = (a, b) => (b ? ((a - b) / b) * 100 : 0);
+const Delta = ({ a, b, label, invert }) => { const v = pct(a, b), up = v >= 0, good = invert ? !up : up; return html`<small className=${good ? '' : 'bad'}>${up ? '↑' : '↓'} ${Math.abs(v).toFixed(0)}% ${label}</small>`; };
+function useWidth() {
+  const ref = useRef(null); const [w, setW] = useState(0);
+  useEffect(() => { const el = ref.current; if (!el) return; setW(Math.max(240, Math.round(el.clientWidth || 560))); if (typeof ResizeObserver === 'undefined') return; const ro = new ResizeObserver(([e]) => setW(Math.max(240, Math.round(e.contentRect.width)))); ro.observe(el); return () => ro.disconnect(); }, []);
+  return [ref, w];
+}
+const niceMax = (v) => { const p = Math.pow(10, Math.floor(Math.log10(Math.max(1, v)))); return Math.ceil(v / p / 2) * p * 2; };
+const short = (v) => (v >= 100000 ? '₹' + (v / 100000).toFixed(1) + 'L' : v >= 1000 ? '₹' + (v / 1000).toFixed(v >= 10000 ? 0 : 1) + 'k' : '₹' + Math.round(v));
+/* Vertical bars for one measure, with an optional dashed line for the previous period on the same axis */
+function BarsChart({ rows, fmt, axisFmt, label, prevLabel, height }) {
+  const [ref, w] = useWidth(); const [tip, setTip] = useState(null);
+  const H = height || 210, l = 44, rt = 8, t = 14, b = 26, iw = w - l - rt, ih = H - t - b;
+  const max = niceMax(Math.max(...rows.map((x) => Math.max(x.v, x.prev || 0)), 1));
+  const bw = iw / rows.length, y = (v) => t + ih * (1 - v / max);
+  const every = Math.ceil(rows.length / Math.max(2, Math.floor(iw / 54)));
+  const peak = rows.reduce((m, x, i) => (x.v > rows[m].v ? i : m), 0);
+  const hasPrev = rows.some((x) => x.prev != null);
+  const pts = hasPrev ? rows.map((x, i) => (l + i * bw + bw / 2).toFixed(1) + ',' + y(x.prev || 0).toFixed(1)).join(' ') : '';
+  if (!w) return html`<div className="viz" ref=${ref} style=${{ height: H }}></div>`;
+  return html`<div className="viz" ref=${ref}>
+    ${hasPrev ? html`<div className="vlegend"><span><i className="sw s-main"></i>${label}</span><span><i className="sw s-prev"></i>${prevLabel}</span></div>` : null}
+    <svg width=${w} height=${H} role="img" aria-label=${label + ': ' + rows.map((x) => x.k + ' ' + fmt(x.v)).join(', ')} onPointerLeave=${() => setTip(null)}>
+      ${[0, 0.5, 1].map((f) => html`<g key=${f}><line className="vgrid" x1=${l} x2=${w - rt} y1=${y(max * f)} y2=${y(max * f)} /><text className="vaxis" x=${l - 6} y=${y(max * f) + 4} textAnchor="end">${(axisFmt || fmt)(max * f)}</text></g>`)}
+      ${rows.map((x, i) => { const bx = l + i * bw + Math.min(3, bw * 0.12), bwid = Math.max(2, bw - Math.min(6, bw * 0.24)), top = y(x.v), r = Math.min(4, bwid / 2); return html`<g key=${i}>
+        <path className=${'vbar' + (tip && tip.i === i ? ' on' : '')} d=${'M' + bx + ',' + y(0) + 'V' + (top + r) + 'Q' + bx + ',' + top + ' ' + (bx + r) + ',' + top + 'H' + (bx + bwid - r) + 'Q' + (bx + bwid) + ',' + top + ' ' + (bx + bwid) + ',' + (top + r) + 'V' + y(0) + 'Z'} />
+        ${i % every === 0 || (i === rows.length - 1 && (rows.length - 1) % every >= every * 0.75) ? html`<text className="vaxis" x=${bx + bwid / 2} y=${H - 8} textAnchor="middle">${x.k}</text>` : null}
+        <rect className="vhit" x=${l + i * bw} y=${t} width=${bw} height=${ih} tabIndex="0" aria-label=${x.k + ': ' + fmt(x.v)} onPointerEnter=${() => setTip({ i, x: l + i * bw + bw / 2 })} onFocus=${() => setTip({ i, x: l + i * bw + bw / 2 })} onBlur=${() => setTip(null)} />
+      </g>`; })}
+      ${hasPrev ? html`<polyline className="vprev" points=${pts} />` : null}
+      ${!tip && rows.length <= 31 ? html`<text className="vlbl" x=${Math.min(l + peak * bw + bw / 2, w - rt - 2)} y=${y(rows[peak].v) - 5} textAnchor=${l + peak * bw + bw / 2 > w - rt - 40 ? 'end' : 'middle'}>${fmt(rows[peak].v)}</text>` : null}
+    </svg>
+    ${tip ? html`<div className="vtip" style=${{ left: Math.min(Math.max(tip.x, 70), w - 70) }}><b>${fmt(rows[tip.i].v)}</b><span>${rows[tip.i].full || rows[tip.i].k}</span>${rows[tip.i].prev != null ? html`<span className="muted">${prevLabel}: ${fmt(rows[tip.i].prev)}</span>` : null}</div>` : null}
   </div>`;
 }
-function HoursChart() {
-  const W = 560, H = 200, l = 30, b = 28, t = 18, hs = BASE.hours, max = 14, bw = (W - l - 8) / hs.length;
-  const y = (v) => t + (H - t - b) * (1 - v / max), peak = hs.indexOf(Math.max(...hs));
-  return html`<div className="chart"><svg viewBox=${'0 0 ' + W + ' ' + H} role="img" aria-label="Orders per hour, busiest at 8 pm">
-    ${[0, 7, 14].map((v) => html`<g key=${v}><line className="grid" x1=${l} x2=${W - 4} y1=${y(v)} y2=${y(v)} /><text className="axis" x=${l - 6} y=${y(v) + 4} textAnchor="end">${v}</text></g>`)}
-    ${hs.map((v, i) => { const x = l + i * bw + bw * 0.18, w = bw * 0.64, hr = 11 + i; return html`<g key=${i}><rect className=${'bar' + (i === peak ? ' peak' : '')} x=${x} y=${y(v)} width=${w} height=${y(0) - y(v)} rx="4"><title>${(hr % 12 || 12) + (hr < 12 ? ' am' : ' pm')}: ${v} orders</title></rect>${i % 2 === 0 ? html`<text className="axis" x=${x + w / 2} y=${H - 9} textAnchor="middle">${(hr % 12 || 12) + (hr < 12 ? 'a' : 'p')}</text>` : null}</g>`; })}
-    <text className="lbl" x=${l + peak * bw + bw / 2} y=${y(hs[peak]) - 5} textAnchor="middle">${hs[peak]} at 8 pm</text>
-  </svg></div>`;
+/* Parts of a whole: one stacked bar, 2px gaps, legend with values (labels carry identity, not colour alone) */
+function Stack({ parts, fmt }) {
+  const tot = parts.reduce((t, x) => t + x.v, 0) || 1;
+  return html`<div className="vstack"><div className="vstack-bar" role="img" aria-label=${parts.map((x) => x.label + ' ' + Math.round((x.v / tot) * 100) + '%').join(', ')}>${parts.filter((x) => x.v > 0).map((x, i) => html`<i key=${x.label} className=${'c' + (x.slot || i + 1)} style=${{ flex: x.v }} title=${x.label + ': ' + fmt(x.v) + ' (' + Math.round((x.v / tot) * 100) + '%)'}></i>`)}</div>
+    <div className="vlegend">${parts.map((x, i) => html`<span key=${x.label}><i className=${'sw c' + (x.slot || i + 1)}></i>${x.label} <b>${Math.round((x.v / tot) * 100)}%</b><span className="muted">${fmt(x.v)}</span></span>`)}</div></div>`;
+}
+/* Ranked list as thin horizontal bars; values are printed, so no tooltip is needed */
+const HBars = ({ rows, fmt, mark }) => { const max = Math.max(...rows.map((x) => x.v), 1); return html`<div className="bars">${rows.map((x) => html`<div key=${x.label} className="bar-row"><span title=${x.label}>${x.veg != null ? html`<${VegMark} veg=${x.veg} /> ` : null}${x.label}</span><div className="bar-track"><i className=${mark || ''} style=${{ width: ((x.v / max) * 100).toFixed(1) + '%' }}></i></div><span className="num">${fmt(x.v)}</span></div>`)}</div>`; };
+/* Day x hour grid on a single-hue ramp */
+function Heat({ heat }) {
+  const [tip, setTip] = useState(null); const max = Math.max(...heat.flat());
+  const step = (v) => Math.min(4, Math.floor((v / max) * 5 - 0.0001));
+  let best = [0, 0]; heat.forEach((row, d) => row.forEach((v, h) => { if (v > heat[best[0]][best[1]]) best = [d, h]; }));
+  return html`<div className="vheat-wrap"><div className="vheat" role="img" aria-label=${'Busiest: ' + WDAY[best[0]] + ' ' + hrLabel(HRS[best[1]])} onPointerLeave=${() => setTip(null)}>
+    <span></span>${HRS.map((h, i) => html`<span key=${h} className="hh">${i % 2 === 0 ? hrLabel(h).replace(' ', '') : ''}</span>`)}
+    ${heat.map((row, d) => html`<${React.Fragment} key=${d}><span className="hd">${WDAY[d]}</span>${row.map((v, i) => html`<i key=${i} className=${'q' + step(v) + (tip && tip[0] === d && tip[1] === i ? ' on' : '')} tabIndex="0" aria-label=${WDAY[d] + ' ' + hrLabel(HRS[i]) + ': ' + v.toFixed(1) + ' orders'} onPointerEnter=${() => setTip([d, i])} onFocus=${() => setTip([d, i])}></i>`)}<//>`)}
+  </div>
+  <div className="vheat-foot"><span className="muted small">${tip ? html`<b style=${{ color: 'var(--ink)' }}>${heat[tip[0]][tip[1]].toFixed(1)} orders</b> on average, ${WDAY[tip[0]]} ${hrLabel(HRS[tip[1]])}` : html`Busiest: <b style=${{ color: 'var(--ink)' }}>${WDAY[best[0]]} ${hrLabel(HRS[best[1]])}</b>, about ${heat[best[0]][best[1]].toFixed(0)} orders an hour`}</span><span className="vramp"><span className="small muted">Fewer</span>${[0, 1, 2, 3, 4].map((q) => html`<i key=${q} className=${'q' + q}></i>`)}<span className="small muted">More</span></span></div></div>`;
+}
+/* A locked section shows a blurred, unfocusable preview and what unlocks it */
+function Blur({ children }) { const ref = useRef(null); useEffect(() => { if (ref.current) ref.current.inert = true; }, []); return html`<div className="gate-blur" aria-hidden="true" ref=${ref}>${children}</div>`; }
+function Gate({ need, plan, d, team, children, title }) {
+  if (team || can(plan, need)) return children;
+  const c = planCost(need, 'y');
+  return html`<div className="gate"><${Blur}>${children}<//>
+    <div className="gate-card"><span className="lock-ic">${I('lock', 20)}</span><b>${title}</b><span className="small muted">Included in ${PLANS[need].name} · from ${inr(c.per)}/month billed yearly</span>
+      <button className="btn primary sm" onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { plan: need } }); toast('Switched to ' + PLANS[need].name + ' (demo)'); }}>Unlock with ${PLANS[need].name}<${Arr} /></button></div></div>`;
+}
+const fmtDay = (dt, n) => (n > 7 ? dt.getDate() + ' ' + dt.toLocaleString('en-IN', { month: 'short' }) : WDAY[(dt.getDay() + 6) % 7]);
+function downloadCsv(S) {
+  const head = 'Date,Orders,Sales (Rs),UPI orders,Card orders,Cash orders,Menu views,QR scans,Returning diners';
+  const lines = S.cur.map((x) => [x.dt.toISOString().slice(0, 10), x.orders, x.sales, x.upi, x.card, x.cash, x.views, x.scans, x.ret].join(','));
+  const url = URL.createObjectURL(new Blob([[head, ...lines].join('\n')], { type: 'text/csv' }));
+  const a = document.createElement('a'); a.href = url; a.download = S.r.id + '-analytics-' + S.n + 'd.csv'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+function Analytics({ s, d, rid, team }) {
+  const r = R(s, rid), plan = r.plan;
+  const want = s.anaRange || 1;
+  const range = team || can(plan, 'advanced') ? want : can(plan, 'basic') ? 1 : 7;
+  const mine = rid === OWNER_RID ? s.orders.filter((o) => o.rid === rid && o.mine && o.status !== 'cancelled') : [];
+  const S = summarize(rid, range, { orders: mine.length, sales: mine.reduce((t, o) => t + withGst(orderTotal(o), r.gst), 0) });
+  const vs = range === 1 ? 'vs last ' + WDAY[(new Date().getDay() + 6) % 7] : 'vs previous ' + range + ' days';
+  const ranges = [[1, 'Today'], [7, '7 days'], [30, '30 days']];
+  const rangeOk = (n) => team || can(plan, 'advanced') || (n === 1 && plan === 'basic') || (n === 7 && plan === 'freemium');
+  const tier = team ? 'All sections · team view' : { freemium: 'Menu insights', basic: "Today's sales", advanced: 'Full analytics', premium: 'Full analytics + diners' }[plan];
+  const salesRows = range === 1 ? S.hourly.map((x) => ({ k: hrLabel(x.h).replace(' ', ''), full: hrLabel(x.h), v: x.sales })) : S.cur.map((x, i) => ({ k: fmtDay(x.dt, range), full: x.dt.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }), v: x.sales, prev: S.prev[i] ? S.prev[i].sales : null }));
+  const slow = S.dishes.slice(-4).reverse();
+  const reviews = Math.round(S.c.orders * 0.16), rating = r.rating;
+  const dist = [5, 4, 3, 2, 1].map((st) => ({ label: st + ' ★', v: Math.round(reviews * { 5: 0.58 + (rating - 4.3) * 0.4, 4: 0.26, 3: 0.09, 2: 0.04, 1: 0.03 - (rating - 4.3) * 0.02 }[st]) }));
+  return html`<div id="reports-main" className="ana">
+    <div className="ph"><div><h1>Analytics</h1><p className="muted">${r.name} · <span className="pill leaf">${tier}</span> · sample history plus orders placed in this demo</p></div>
+      <div className="row">
+        <div className="seg" role="group" aria-label="Date range">${ranges.map(([n, l]) => html`<button key=${n} aria-pressed=${range === n} disabled=${!rangeOk(n)} title=${rangeOk(n) ? '' : n === 1 ? 'Starts on Basic' : 'Starts on Advanced'} onClick=${() => d({ type: 'set', k: 'anaRange', v: n })}>${!rangeOk(n) ? I('lock', 13) : null}${l}</button>`)}</div>
+        ${team || can(plan, 'advanced') ? html`<button className="btn sm" onClick=${() => { downloadCsv(S); toast('Downloaded ' + S.cur.length + ' days as CSV'); }}>${I('download', 15)}Export CSV</button>` : null}
+      </div></div>
+
+    <section className="card"><div className="card-h"><h3>Menu insights</h3><span className="small muted">${range === 1 ? 'Today' : 'Last ' + range + ' days'} · every plan</span></div>
+      <div className="tiles">
+        <div className="tile"><span>Menu views</span><b>${S.c.views.toLocaleString('en-IN')}</b><${Delta} a=${S.c.views} b=${S.p.views} label=${vs} /></div>
+        <div className="tile"><span>QR scans</span><b>${S.c.scans.toLocaleString('en-IN')}</b><${Delta} a=${S.c.scans} b=${S.p.scans} label=${vs} /></div>
+        <div className="tile"><span>Views per scan</span><b>${(S.c.views / S.c.scans).toFixed(1)}</b><small className="m">dishes opened per visit</small></div>
+        <div className="tile"><span>Most viewed dish</span><b className="tname">${S.dishes.slice().sort((a, b) => b.views - a.views)[0].n}</b><small className="m">${S.dishes.slice().sort((a, b) => b.views - a.views)[0].views} views</small></div>
+      </div></section>
+
+    <h2 className="sub-h">Sales and orders ${!team && !can(plan, 'basic') ? html`<span className="pill">Basic</span>` : null}</h2>
+    <${Gate} need="basic" plan=${plan} d=${d} team=${team} title="Sales, orders, top dishes and payments start on Basic"><div className="ana">
+      <div className="tiles">
+        <div className="tile"><span>Sales</span><b>${inr(S.c.sales)}</b><${Delta} a=${S.c.sales} b=${S.p.sales} label=${vs} /></div>
+        <div className="tile"><span>Orders</span><b>${S.c.orders}</b><${Delta} a=${S.c.orders} b=${S.p.orders} label=${vs} /></div>
+        <div className="tile"><span>Average bill</span><b>${inr(S.c.avg)}</b><${Delta} a=${S.c.avg} b=${S.p.avg} label=${vs} /></div>
+        <div className="tile"><span>Kitchen time</span><b>${S.c.prep.toFixed(0)} min</b><${Delta} a=${S.c.prep} b=${S.p.prep} label=${vs} invert=${true} /></div>
+      </div>
+    <div className="two">
+        <section className="card"><div className="card-h"><h3>${range === 1 ? 'Sales by hour' : 'Sales by day'}</h3><span className="small muted">${range === 1 ? 'Today, estimated from your usual pattern' : 'Last ' + range + ' days'}</span></div>
+          <${BarsChart} rows=${salesRows} fmt=${inr} axisFmt=${short} label="This period" prevLabel="Previous period" /></section>
+        <section className="card"><div className="card-h"><h3>Top dishes</h3><span className="small muted">Plates sold</span></div>
+          <${HBars} rows=${S.dishes.slice(0, range === 1 ? 5 : 7).map((x) => ({ label: x.n, v: x.q, veg: x.veg }))} fmt=${(v) => v} /></section>
+    </div>
+      <section className="card"><div className="card-h"><h3>How diners paid</h3><span className="small muted">Share of orders</span></div>
+        <${Stack} parts=${[{ label: 'UPI', v: S.c.upi }, { label: 'Cash', v: S.c.cash }, { label: 'Card', v: S.c.card }]} fmt=${(v) => v + ' orders'} /></section>
+    </div><//>
+
+    <h2 className="sub-h">Trends and patterns ${!team && !can(plan, 'advanced') ? html`<span className="pill">Advanced</span>` : null}</h2>
+    <${Gate} need="advanced" plan=${plan} d=${d} team=${team} title="Trends, busy hours, slow dishes and tables are on Advanced"><div className="ana">
+    <div className="two">
+        <section className="card"><div className="card-h"><h3>Busy hours</h3><span className="small muted">Average orders per hour, by day</span></div><${Heat} heat=${S.heat} /></section>
+        <section className="card"><div className="card-h"><h3>Sales by category</h3><span className="small muted">${range === 1 ? 'Today' : 'Last ' + range + ' days'}</span></div>
+          <${HBars} rows=${S.cats.slice(0, 6).map(([k, v]) => ({ label: k, v }))} fmt=${short} />
+          <div className="slow"><b className="small">Slow movers</b><span className="small muted">Fewest plates sold. Try a photo, a better spot, or drop them.</span>
+            <div className="chips">${slow.map((x) => html`<span key=${x.n} className="chip static">${x.n} · ${x.q}</span>`)}</div></div></section>
+    </div>
+      <section className="card"><div className="card-h"><h3>Tables</h3><span className="small muted">Sales per table, highest first</span></div>
+        <div className="ttable">${S.tables.slice(0, 12).map((x, i) => html`<div key=${x.t} className="tcell"><span className="tno">T${x.t}</span><b>${short(x.sales)}</b><small className="muted">${x.orders} orders</small>${i === 0 ? html`<span className="pill ok">Top</span>` : null}</div>`)}</div></section>
+    </div><//>
+
+    <h2 className="sub-h">Diners ${!team && !can(plan, 'premium') ? html`<span className="pill">Premium</span>` : null}</h2>
+    <${Gate} need="premium" plan=${plan} d=${d} team=${team} title="Repeat diners, loyalty and ratings are on Premium">
+      <div className="two">
+        <section className="card"><div className="card-h"><h3>New and returning diners</h3><span className="small muted">${range === 1 ? 'Today' : 'Last ' + range + ' days'}</span></div>
+          <div className="tiles two-t"><div className="tile"><span>Came back</span><b>${Math.round((S.c.ret / S.c.orders) * 100)}%</b><${Delta} a=${S.c.ret / S.c.orders} b=${S.p.ret / S.p.orders} label=${vs} /></div><div className="tile"><span>Loyalty members</span><b>${Math.round(analytics(rid).base * 23)}</b><small className="m">earn points on every bill</small></div></div>
+          <${Stack} parts=${[{ label: 'Returning', v: S.c.ret, slot: 1 }, { label: 'New', v: S.c.fresh, slot: 2 }]} fmt=${(v) => v + ' diners'} /></section>
+        <section className="card"><div className="card-h"><h3>Ratings</h3><span className="small muted">${reviews} ratings · ${rating} average</span></div>
+          <${HBars} rows=${dist} fmt=${(v) => v} mark="gold" />
+          <p className="small muted">${Math.round(reviews * 0.45)} happy diners were asked for a Google review; ${Math.round(reviews * 0.17)} posted one.</p></section>
+      </div>
+    <//>
+  </div>`;
+}
+function OwnerReports({ s, d }) { return html`<${Analytics} s=${s} d=${d} rid=${OWNER_RID} />`; }
+
+/* ---------- Our team: platform analytics (private to MenuMitra staff) ---------- */
+function TeamOverview({ s, d, rows }) {
+  const paying = rows.filter((r) => r.plan !== 'freemium');
+  const mrr = paying.reduce((t, r) => t + planCost(r.plan, r.billing).per, 0);
+  const live = RESTAURANTS.map((r) => ({ id: r.id, name: R(s, r.id).name, plan: R(s, r.id).plan, S: summarize(r.id, 30), W: summarize(r.id, 7) }));
+  const extraOrders = EXTRA_RESTAURANTS.reduce((t, r) => t + r.ordersToday * 30, 0);
+  const orders30 = live.reduce((t, x) => t + x.S.c.orders, 0) + extraOrders;
+  const gmv = live.reduce((t, x) => t + x.S.c.sales, 0) + EXTRA_RESTAURANTS.reduce((t, r) => t + r.ordersToday * 30 * 420, 0);
+  const growth = [0.52, 0.61, 0.7, 0.79, 0.9, 1];
+  const months = growth.map((g, i) => { const dt = new Date(); dt.setDate(1); dt.setMonth(dt.getMonth() - (5 - i)); return { k: dt.toLocaleString('en-IN', { month: 'short' }), full: dt.toLocaleString('en-IN', { month: 'long', year: 'numeric' }), v: Math.round(mrr * g) }; });
+  const daily = Array.from({ length: 30 }, (_, i) => { const dt = live[0].S.cur[i].dt; return { k: dt.getDate() + ' ' + dt.toLocaleString('en-IN', { month: 'short' }), full: dt.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }), v: live.reduce((t, x) => t + x.S.cur[i].orders, 0) + EXTRA_RESTAURANTS.reduce((t, r) => t + r.ordersToday, 0) }; });
+  const mix = PLAN_KEYS.map((k, i) => ({ label: PLANS[k].name, v: rows.filter((r) => r.plan === k).length, slot: i + 1 }));
+  const bmix = BILL_KEYS.map((k, i) => ({ label: BILLING[k].label, v: paying.filter((r) => (r.billing || 'm') === k).length, slot: i + 1 }));
+  const upgrades = [
+    ...live.filter((x) => x.plan === 'basic' && x.S.c.orders / 30 > 25).map((x) => ({ name: x.name, why: Math.round(x.S.c.orders / 30) + ' orders a day on Basic: UPI at the table would speed up their tables', to: 'advanced' })),
+    ...live.filter((x) => x.plan === 'freemium').map((x) => ({ name: x.name, why: x.S.c.views.toLocaleString('en-IN') + ' menu views in 30 days but no ordering yet', to: 'basic' })),
+    ...EXTRA_RESTAURANTS.filter((r) => r.plan === 'basic' && r.tables >= 10).map((r) => ({ name: r.name, why: 'Using all 10 tables allowed on Basic', to: 'advanced' })),
+  ];
+  const risk = live.map((x) => ({ name: x.name, ch: pct(x.W.c.orders, x.W.p.orders) })).sort((a, b) => a.ch - b.ch).slice(0, 3);
+  const top = live.slice().sort((a, b) => b.S.c.orders - a.S.c.orders);
+  return html`<div style=${{ display: 'grid', gap: 18 }}>
+    <div className="tiles">
+      <div className="tile"><span>Monthly recurring revenue</span><b>${inr(mrr)}</b><small>↑ ${Math.round((1 / growth[4] - 1) * 100)}% vs last month</small></div>
+      <div className="tile"><span>Yearly run rate</span><b>${inr(mrr * 12)}</b><small className="m">before GST</small></div>
+      <div className="tile"><span>Orders, last 30 days</span><b>${orders30.toLocaleString('en-IN')}</b><small className="m">all restaurants</small></div>
+      <div className="tile"><span>Order value through MenuMitra</span><b>${short(gmv)}</b><small className="m">30 days · we take no commission</small></div>
+    </div>
+    <div className="two">
+      <section className="card"><div className="card-h"><h3>Monthly recurring revenue</h3><span className="small muted">Last 6 months</span></div><${BarsChart} rows=${months} fmt=${inr} axisFmt=${short} label="MRR" /></section>
+      <section className="card"><div className="card-h"><h3>Orders per day</h3><span className="small muted">All restaurants, last 30 days</span></div><${BarsChart} rows=${daily} fmt=${(v) => v + ' orders'} axisFmt=${(v) => Math.round(v)} label="Orders" /></section>
+    </div>
+    <div className="two">
+      <section className="card"><div className="card-h"><h3>Restaurants by plan</h3><span className="small muted">${rows.length} restaurants</span></div><${Stack} parts=${mix} fmt=${(v) => v + ' restaurants'} /></section>
+      <section className="card"><div className="card-h"><h3>How paying restaurants are billed</h3><span className="small muted">${paying.length} on a paid plan</span></div><${Stack} parts=${bmix} fmt=${(v) => v + ' restaurants'} /></section>
+    </div>
+    <div className="two">
+      <section className="card"><div className="card-h"><h3>Upgrade candidates</h3><span className="small muted">Worth a call this week</span></div>
+        ${upgrades.map((u) => html`<div key=${u.name} className="signup"><div className="grow"><b>${u.name}</b><div className="small muted">${u.why}</div></div><span className="pill leaf">→ ${PLANS[u.to].name}</span></div>`)}</section>
+      <section className="card"><div className="card-h"><h3>Watch list</h3><span className="small muted">Biggest change in orders, this week vs last</span></div>
+        ${risk.map((x) => html`<div key=${x.name} className="signup"><div className="grow"><b>${x.name}</b><div className="small muted">${x.ch <= -5 ? 'Orders down ' + Math.abs(x.ch).toFixed(0) + '%. Check in: menu up to date? QR codes still on the tables?' : 'Within the usual ups and downs. Nothing to do.'}</div></div><span className=${'pill ' + (x.ch <= -5 ? 'bad' : '')}>${x.ch < 0 ? '↓' : '↑'} ${Math.abs(x.ch).toFixed(0)}%</span></div>`)}</section>
+    </div>
+    <section className="card"><div className="card-h"><h3>Top restaurants by orders</h3><span className="small muted">Last 30 days · open any board</span></div>
+      <${HBars} rows=${top.map((x) => ({ label: x.name, v: x.S.c.orders }))} fmt=${(v) => v.toLocaleString('en-IN')} />
+      <div className="row">${top.map((x) => html`<button key=${x.id} className="btn sm" onClick=${() => { d({ type: 'set', k: 'adminRid', v: x.id }); d({ type: 'set', k: 'adminTab', v: 'board' }); }}>${I('chart', 15)}${x.name}</button>`)}</div></section>
+  </div>`;
 }
 
 function OwnerSettings({ s, d }) {
@@ -2035,7 +2304,7 @@ function RejectSheet({ s, d }) {
 function Owner({ s, d }) {
   const r = R(s, OWNER_RID);
   const newN = can(r.plan, 'basic') ? s.orders.filter((o) => o.rid === OWNER_RID && o.status === 'new').length : 0;
-  const tabs = [['orders', 'Orders', 'orders', newN], ['menu', 'Menu', 'menu'], ['tables', 'Tables & QR', 'qr'], ['reports', 'Reports', 'chart'], ['settings', 'Plan & settings', 'gear']];
+  const tabs = [['orders', 'Orders', 'orders', newN], ['menu', 'Menu', 'menu'], ['tables', 'Tables & QR', 'qr'], ['reports', 'Analytics', 'chart'], ['settings', 'Plan & settings', 'gear']];
   const Body = { orders: OwnerOrders, menu: OwnerMenu, tables: OwnerTables, reports: OwnerReports, settings: OwnerSettings }[s.ownerTab] || OwnerOrders;
   return html`<div className="oshell">
     <aside className="oside">
@@ -2072,10 +2341,18 @@ function Admin({ s, d }) {
   const prepaid = paying.filter((r) => (r.billing || 'm') !== 'm').length;
   const orders = rows.reduce((t, r) => t + r.ordersToday, 0);
   const mix = PLAN_KEYS.map((k) => [k, rows.filter((r) => r.plan === k).length]);
+  const tab = s.adminTab || 'overview', brid = s.adminRid || OWNER_RID;
+  const tabs = [['overview', 'Overview', 'chart'], ['restaurants', 'Restaurants', 'store'], ['board', 'Restaurant boards', 'orders']];
   return html`<div>
-    <header className="topnav"><div className="container nav-inner"><${Logo} d=${d} sub="team" /><div className="nav-actions"><button className="btn outline sm" onClick=${() => d({ type: 'role', role: 'diner' })}>${I('compass', 16)}Diner view</button></div></div></header>
+    <header className="topnav"><div className="container nav-inner"><${Logo} d=${d} sub="team" /><div className="nav-actions"><span className="pill info hide-xs">${I('shield', 13)}Staff only</span><button className="btn outline sm" onClick=${() => d({ type: 'role', role: 'diner' })}>${I('compass', 16)}Diner view</button></div></div></header>
     <main className="container" id="admin-main" style=${{ display: 'grid', gap: 18, paddingTop: 24, paddingBottom: 60 }}>
-      <div className="ph"><div><h1>All restaurants</h1><p className="muted">Sign-ups, plans and usage across MenuMitra. In the live product this is private, behind staff accounts.</p></div></div>
+      <div className="ph"><div><h1>${tab === 'overview' ? 'MenuMitra at a glance' : tab === 'board' ? 'Restaurant boards' : 'All restaurants'}</h1><p className="muted">${tab === 'board' ? 'The same analytics a restaurant sees, with every section open. Only MenuMitra staff can open other restaurants’ boards.' : 'Revenue, plans and usage across every restaurant. In the live product this is private, behind staff accounts.'}</p></div>
+        <div className="seg chips-seg" role="group" aria-label="Team view">${tabs.map(([k, l, ic]) => html`<button key=${k} aria-pressed=${tab === k} onClick=${() => d({ type: 'set', k: 'adminTab', v: k })}>${I(ic, 15)}${l}</button>`)}</div></div>
+      ${tab !== 'restaurants' && s.signups.length ? html`<div className="notice"><b>${s.signups.length} new sign-up${s.signups.length > 1 ? 's' : ''} waiting for approval.</b> <button className="link" onClick=${() => d({ type: 'set', k: 'adminTab', v: 'restaurants' })}>Review now →</button></div>` : null}
+      ${tab === 'overview' ? html`<${TeamOverview} s=${s} d=${d} rows=${rows} />` : null}
+      ${tab === 'board' ? html`<div className="row"><label className="field" style=${{ minWidth: 260 }}>Restaurant<select value=${brid} onChange=${(e) => d({ type: 'set', k: 'adminRid', v: e.target.value })}>${RESTAURANTS.map((r) => html`<option key=${r.id} value=${r.id}>${R(s, r.id).name} · ${PLANS[R(s, r.id).plan].name}</option>`)}</select></label><span className="small muted" style=${{ alignSelf: 'flex-end', paddingBottom: 10 }}>On ${PLANS[R(s, brid).plan].name}, the restaurant itself sees: ${{ freemium: 'menu insights only', basic: 'menu insights and today’s sales', advanced: 'everything except diner insights', premium: 'everything' }[R(s, brid).plan]}.</span></div>
+        <${Analytics} key=${brid} s=${s} d=${d} rid=${brid} team=${true} />` : null}
+      ${tab === 'restaurants' ? html`<${React.Fragment}>
       <div className="tiles">
         <div className="tile"><span>Restaurants</span><b>${rows.length}</b><small>${s.approved.length ? s.approved.length + ' approved today' : '3 joined this month'}</small></div>
         <div className="tile"><span>On a paid plan</span><b>${paying.length}</b><small className="m">${prepaid} paid 6 months or a year ahead</small></div>
@@ -2084,12 +2361,14 @@ function Admin({ s, d }) {
       </div>
       ${s.signups.length ? html`<section className="card"><h3>New sign-ups to review <span className="badge">${s.signups.length}</span></h3>${s.signups.map((su) => html`<div key=${su.id} className="signup"><div className="grow"><b>${su.name}</b><div className="small muted">${su.area} · ${su.tables} tables · owner ${su.owner}</div></div><span className=${'pill ' + (su.plan === 'advanced' ? 'leaf' : 'info')}>${PLANS[su.plan].name}${su.plan !== 'freemium' ? ' · ' + BILLING[su.billing || 'm'].label : ''}</span><button className="btn sm" onClick=${() => d({ type: 'approve', id: su.id, ok: false })}>Decline</button><button className="btn sm primary" onClick=${() => { d({ type: 'approve', id: su.id, ok: true }); toast(su.name + ' is live on MenuMitra'); }}>Approve</button></div>`)}</section>` : null}
       <section className="card"><h3>Restaurants by plan</h3><div className="mix" role="img" aria-label=${mix.map(([k, c]) => c + ' ' + PLANS[k].name).join(', ')}>${mix.filter(([, c]) => c).map(([k, c]) => html`<i key=${k} className=${'m-' + k} style=${{ flex: c }}></i>`)}</div><div className="mixkey">${mix.map(([k, c]) => html`<span key=${k}><i className=${'m-' + k}></i>${PLANS[k].name} · ${c}</span>`)}</div></section>
-      <div className="twrap"><table className="tbl"><thead><tr><th>Restaurant</th><th>Area</th><th>Plan</th><th className="r">Tables</th><th className="r">Orders today</th><th className="r">Pays / month</th><th>Billing</th><th>Joined</th></tr></thead>
+      <div className="twrap"><table className="tbl"><thead><tr><th>Restaurant</th><th>Area</th><th>Plan</th><th className="r">Tables</th><th className="r">Orders today</th><th className="r">Pays / month</th><th>Billing</th><th>Joined</th><th></th></tr></thead>
         <tbody>${rows.map((r, i) => html`<tr key=${r.name + i} className=${r.isNew ? 'new' : ''}>
           <td>${r.live ? html`<button className="link" onClick=${() => d({ type: 'open', rid: r.id, table: null })}>${r.name}</button>` : html`<b>${r.name}</b>`}${r.isNew ? html` <span className="pill sun">New</span>` : null}</td>
           <td className="small">${r.area}</td>
           <td>${r.live ? html`<select aria-label=${'Plan for ' + r.name} value=${r.plan} onChange=${(e) => { d({ type: 'rest', rid: r.id, patch: { plan: e.target.value } }); toast(r.name + ' moved to ' + PLANS[e.target.value].name); }}>${PLAN_KEYS.map((k) => html`<option key=${k} value=${k}>${PLANS[k].name}</option>`)}</select>` : html`<span className=${'pill ' + ({ freemium: '', basic: 'info', advanced: 'leaf', premium: 'sun' })[r.plan]}>${PLANS[r.plan].name}</span>`}</td>
-          <td className="r">${r.tables}</td><td className="r">${r.ordersToday}</td><td className="r">${PLANS[r.plan].price ? inr(planCost(r.plan, r.billing).per) : '–'}</td><td className="small">${PLANS[r.plan].price ? BILLING[r.billing || 'm'].label : '–'}</td><td className="small">${r.joined}</td></tr>`)}</tbody></table></div>
+          <td className="r">${r.tables}</td><td className="r">${r.ordersToday}</td><td className="r">${PLANS[r.plan].price ? inr(planCost(r.plan, r.billing).per) : '–'}</td><td className="small">${PLANS[r.plan].price ? BILLING[r.billing || 'm'].label : '–'}</td><td className="small">${r.joined}</td>
+          <td>${r.live ? html`<button className="btn sm" onClick=${() => { d({ type: 'set', k: 'adminRid', v: r.id }); d({ type: 'set', k: 'adminTab', v: 'board' }); }}>${I('chart', 14)}Board</button>` : null}</td></tr>`)}</tbody></table></div>
+      <//>` : null}
       <p className="small muted">All restaurants and figures here are sample data.</p>
     </main>
   </div>`;
