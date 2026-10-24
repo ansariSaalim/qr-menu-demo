@@ -729,6 +729,29 @@ p { margin: 0; }
   .fx-ctas .btn { width: 100%; }
   .site-foot { padding-bottom: 120px; }
 }
+
+.who-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.who { background: var(--app); border: 1px solid var(--line); border-radius: 28px; padding: clamp(20px, 2.6vw, 30px); display: grid; gap: 14px; align-content: start; grid-template-rows: auto auto auto 1fr auto auto; }
+.who-top { display: flex; justify-content: space-between; align-items: center; }
+.who-ic { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; color: var(--leaf); border: 1.5px solid transparent; background: linear-gradient(119.6deg, var(--leaf-soft), var(--app)) padding-box, var(--grad) border-box; }
+.who-n { font-family: var(--f-mono); font-size: 13px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; }
+.who h2 { font-size: clamp(22px, 2.2vw, 28px); font-weight: 500; letter-spacing: -0.03em; }
+.who-gets { background: var(--app-2); border-radius: 16px; padding: 12px 14px; display: grid; gap: 2px; font-size: 14.5px; }
+.who-gets b { font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.who ul, .who-plan ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; align-content: start; }
+.who li, .who-plan li { display: flex; gap: 8px; align-items: flex-start; }
+.who li .ic, .who-plan li .ic { color: var(--leaf); margin-top: 3px; }
+.who-not { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; color: var(--muted); }
+.who-not .ic { margin-top: 2px; }
+.who .btn { justify-self: start; }
+.who-tbl td:first-child { font-weight: 600; }
+.who-tbl th:not(:first-child), .who-tbl td:not(:first-child) { width: 19%; }
+.who-plans { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.who-plan { background: var(--app); border: 1px solid var(--line); border-radius: 22px; padding: 20px 18px; display: grid; gap: 8px; align-content: start; font-size: 14.5px; }
+.who-plan > .row b { font-size: 19px; font-weight: 600; }
+.who-plan.on { border: 2px solid transparent; background: linear-gradient(var(--app), var(--app)) padding-box, var(--grad) border-box; }
+@media (max-width: 1000px) { .who-plans { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .who-grid, .who-plans { grid-template-columns: minmax(0, 1fr); } .who { grid-template-rows: none; } }
 @media (prefers-reduced-motion: reduce) { .marq-track { animation: none; } }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .fx-badge { background: rgba(255, 255, 255, 0.04); } :root:not([data-theme="light"]) .fx-tab:not([aria-selected="true"]) { background: rgba(255, 255, 255, 0.55); } }
 :root[data-theme="dark"] .fx-badge { background: rgba(255, 255, 255, 0.04); }
@@ -1287,6 +1310,7 @@ function DemoBar({ s, d }) {
     <div className="dm-r">
       <span className="dm-note">View as</span>
       <div className="dseg" role="group" aria-label="View as (demo only)">${roles.map(([id, full, short]) => html`<button key=${id} aria-pressed=${s.role === id} aria-label=${full} onClick=${() => d({ type: 'role', role: id })}><span className="full">${full}</span><span className="short">${short}</span></button>`)}</div>
+      <button className="dbtn" onClick=${() => d({ type: 'go', role: 'diner', screen: 'views' })} aria-label="Who sees what">${I('people', 15)}<span className="l">Who sees what</span></button>
       <button className="dbtn hi" onClick=${() => d({ type: 'tourGo', i: 0 })}>${I('sparkle', 15)}<span className="l">Guided tour</span><span className="s">Tour</span></button>
       <button className="dbtn" onClick=${() => { d({ type: 'reset' }); toast('Demo reset to sample data'); }} aria-label="Reset demo">${I('reset', 15)}<span className="l">Reset</span></button>
     </div>
@@ -1799,11 +1823,85 @@ function SignupSheet({ s, d }) {
   <//>`;
 }
 
+/* ---------- Who sees what: the four views of MenuMitra ---------- */
+const WHO = [
+  { id: 'visitor', icon: 'compass', title: 'Visitor', who: 'Anyone browsing, not at a table yet', gets: 'Opens the MenuMitra website or a shared link. No sign-in.',
+    sees: ['Restaurants nearby, with ratings and price for two', 'Full menus with photos, prices and veg marks', 'The For restaurants page with plans and pricing'],
+    not: 'Cannot place an order: that needs the QR on a table.', cta: 'Open as a visitor' },
+  { id: 'diner', icon: 'qr', title: 'Diner at the table', who: 'Eaters who scanned the table QR', gets: 'Scans the QR on the table. The menu opens at that table. No app, no sign-in.',
+    sees: ['That restaurant’s menu, already set to their table', 'Their cart, live order status and the bill', 'Pay by UPI from the table, and My orders on that phone'],
+    not: 'Never sees other diners’ orders or the restaurant’s sales.', cta: 'Scan Table 5' },
+  { id: 'owner', icon: 'store', title: 'Restaurant owner & staff', who: 'The people running one restaurant', gets: 'Signs in with a mobile number and a one-time code, on any phone, tablet or laptop.',
+    sees: ['Live orders for their own restaurant', 'Menu, prices, sold-out and table QR codes', 'Analytics for their restaurant, based on their plan'],
+    not: 'Only ever sees their own restaurant.', cta: 'Open the dashboard' },
+  { id: 'team', icon: 'shield', title: 'MenuMitra team', who: 'Us. Staff only', gets: 'Staff accounts with two-step sign-in, on a separate admin address.',
+    sees: ['Every restaurant, new sign-ups and approvals', 'Plans, billing and MenuMitra revenue', 'Any restaurant’s analytics board, with every section open'],
+    not: 'Restaurants and diners can never open this view.', cta: 'Open the team view' },
+];
+const WHO_ROWS = [
+  ['Restaurants and menus', ['y', 'y', 'Own menu', 'All']],
+  ['Place an order', ['n', 'At their table', 'n', 'n']],
+  ['Track and pay for an order', ['n', 'Their own', 'n', 'n']],
+  ['Live orders', ['n', 'n', 'Own restaurant', 'n']],
+  ['Edit menu, prices, sold out', ['n', 'n', 'y', 'n']],
+  ['Table QR codes', ['n', 'n', 'y', 'n']],
+  ['Analytics', ['n', 'n', 'Own, by plan', 'Every restaurant']],
+  ['Plan and billing', ['n', 'n', 'Own', 'All restaurants']],
+  ['Approve new restaurants', ['n', 'n', 'n', 'y']],
+  ['MenuMitra revenue', ['n', 'n', 'n', 'y']],
+];
+const ANALYTICS_BY_PLAN = {
+  freemium: ['Menu views and QR scans', 'Most viewed dishes', 'Views per scan'],
+  basic: ['Everything in Freemium', 'Today’s sales, orders and average bill', 'Top dishes and how diners paid'],
+  advanced: ['Everything in Basic', '7 and 30-day trends vs the last period', 'Busy hours, category sales, slow movers', 'Table use and CSV export'],
+  premium: ['Everything in Advanced', 'Repeat diners and loyalty points', 'Ratings and feedback from diners'],
+};
+function WhoSees({ s, d }) {
+  const open = {
+    visitor: () => { d({ type: 'go', role: 'diner', screen: 'home' }); d({ type: 'set', k: 'table', v: null }); },
+    diner: () => d({ type: 'open', rid: 'spice', table: 5 }),
+    owner: () => { d({ type: 'role', role: 'owner' }); d({ type: 'set', k: 'ownerTab', v: 'orders' }); },
+    team: () => { d({ type: 'role', role: 'admin' }); d({ type: 'set', k: 'adminTab', v: 'overview' }); },
+  };
+  const cell = (x) => (x === 'y' ? I('check', 18) : x === 'n' ? '–' : x);
+  return html`<main id="who-main">
+    <section className="fx"><div className="container"><div className="fx-panel">
+      <span className="fx-badge"><i>${I('people', 14)}</i>One app, four views</span>
+      <h1 className="fx-h1">Who sees what <em>on MenuMitra</em></h1>
+      <p className="fx-sub">Everyone uses the same MenuMitra, but each person only sees what they need. Here is each view, how people get to it and what they can do.</p>
+    </div></div></section>
+    <section className="sx" style=${{ paddingTop: 28 }}><div className="container">
+      <div className="who-grid">${WHO.map((w, i) => html`<article key=${w.id} className="who">
+        <div className="who-top"><span className="who-ic">${I(w.icon, 22)}</span><span className="who-n">${i + 1}</span></div>
+        <div><h2>${w.title}</h2><p className="muted">${w.who}</p></div>
+        <div className="who-gets"><b>How they get in</b><span>${w.gets}</span></div>
+        <ul>${w.sees.map((x) => html`<li key=${x}>${I('check', 16)}${x}</li>`)}</ul>
+        <p className="who-not">${I('lock', 15)}${w.not}</p>
+        <button className="btn primary" onClick=${open[w.id]}>${w.cta}<${Arr} /></button>
+      </article>`)}</div>
+    </div></section>
+    <section className="sx"><div className="container">
+      <div className="sx-h"><h2>What each person can see</h2><p>The restaurant owner and the MenuMitra team both get analytics boards. Owners see their own restaurant; only our team sees across all of them.</p></div>
+      <div className="twrap"><table className="tbl cmp who-tbl"><thead><tr><th>What</th>${WHO.map((w) => html`<th key=${w.id}>${w.title}</th>`)}</tr></thead>
+        <tbody>${WHO_ROWS.map(([f, v]) => html`<tr key=${f}><td>${f}</td>${v.map((x, i) => html`<td key=${i} className=${x === 'y' ? 'yes' : x === 'n' ? 'no' : ''}>${cell(x)}</td>`)}</tr>`)}</tbody></table></div>
+    </div></section>
+    <section className="sx"><div className="container"><div className="sx-glow">
+      <div className="sx-h"><h2>Restaurant analytics, by plan</h2><p>Every plan shows how diners use the menu. Higher plans add sales, trends and diner insights. Locked sections show a blurred preview with the plan that unlocks them.</p></div>
+      <div className="who-plans">${PLAN_KEYS.map((k) => html`<div key=${k} className=${'who-plan' + (k === R(s, OWNER_RID).plan ? ' on' : '')}>
+        <div className="row" style=${{ justifyContent: 'space-between' }}><b>${PLANS[k].name}</b>${k === R(s, OWNER_RID).plan ? html`<span className="pill leaf">Spice Garden</span>` : null}</div>
+        <span className="small muted">${PLANS[k].price ? inr(planCost(k, s.billing || 'm').per) + '/month' : 'Free'}</span>
+        <ul>${ANALYTICS_BY_PLAN[k].map((x) => html`<li key=${x}>${I('chart', 15)}${x}</li>`)}</ul></div>`)}</div>
+      <div className="fx-ctas" style=${{ marginTop: 26 }}><button className="btn primary lg" onClick=${() => { d({ type: 'role', role: 'owner' }); d({ type: 'set', k: 'ownerTab', v: 'reports' }); }}>See a restaurant’s analytics<${Arr} /></button><button className="btn lg" onClick=${() => { d({ type: 'role', role: 'admin' }); d({ type: 'set', k: 'adminTab', v: 'overview' }); }}>${I('shield')}See our team’s board</button></div>
+    </div></div></section>
+    <div className="container"><footer className="site-foot"><${Logo} d=${d} /><span>Demo with sample data · © 2026 MenuMitra</span></footer></div>
+  </main>`;
+}
+
 function Diner({ s, d }) {
-  const screens = { home: Home, menu: MenuPage, cart: CartScreen, track: Track, pay: Pay, paid: Paid, orders: MyOrders, business: ForRestaurants };
+  const screens = { home: Home, menu: MenuPage, cart: CartScreen, track: Track, pay: Pay, paid: Paid, orders: MyOrders, business: ForRestaurants, views: WhoSees };
   const Screen = screens[s.screen] || Home;
   const open = s.orders.filter((o) => o.mine && o.status !== 'cancelled' && o.pay !== 'paid').length;
-  const cur = s.screen === 'menu' || s.screen === 'cart' || s.screen === 'home' ? 'home' : s.screen === 'business' ? 'business' : 'orders';
+  const cur = s.screen === 'menu' || s.screen === 'cart' || s.screen === 'home' ? 'home' : s.screen === 'business' ? 'business' : s.screen === 'views' ? null : 'orders';
   return html`<div>
     <${DinerNav} s=${s} d=${d} />
     <${Screen} s=${s} d=${d} />
