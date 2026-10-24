@@ -752,6 +752,34 @@ p { margin: 0; }
 .who-plan.on { border: 2px solid transparent; background: linear-gradient(var(--app), var(--app)) padding-box, var(--grad) border-box; }
 @media (max-width: 1000px) { .who-plans { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 760px) { .who-grid, .who-plans { grid-template-columns: minmax(0, 1fr); } .who { grid-template-rows: none; } }
+
+.cmp-card { background: var(--app); border: 1px solid var(--line); border-radius: 28px; padding: clamp(18px, 2.6vw, 30px); display: grid; gap: 14px; margin-bottom: 16px; }
+.cmpbars { display: grid; gap: 10px; }
+.cmpbar { display: grid; grid-template-columns: minmax(0, 270px) minmax(0, 1fr) 92px; gap: 14px; align-items: center; }
+.cb-n { display: grid; gap: 1px; min-width: 0; }
+.cb-n b { font-weight: 600; } .cb-n a { color: inherit; } .cb-n small { color: var(--muted); font-size: 12.5px; }
+.cb-t { height: 14px; border-radius: 8px; background: var(--app-2); overflow: hidden; }
+.cb-t i { display: block; height: 100%; border-radius: 8px; background: color-mix(in srgb, var(--muted) 45%, var(--line)); }
+.cmpbar.us .cb-t i { background: var(--grad); }
+.cmpbar.us .cb-n b, .cmpbar.us .cb-v { color: var(--leaf); }
+.cb-v { text-align: right; font-weight: 650; }
+.sv-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.sv { background: var(--app); border: 1px solid var(--line); border-radius: 24px; padding: 22px; display: grid; gap: 8px; align-content: start; }
+.sv b { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; }
+.sv-was { color: var(--muted); font-size: 14px; text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--bad) 55%, transparent); }
+.sv-fix { display: flex; gap: 8px; align-items: flex-start; font-size: 15px; font-weight: 500; }
+.sv-fix .ic { color: var(--leaf); margin-top: 3px; }
+.so-list { display: grid; gap: 12px; max-height: 44dvh; overflow-y: auto; border: 1px solid var(--line); border-radius: 18px; padding: 10px 14px; }
+.so-cat { display: grid; gap: 2px; }
+.so-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px dashed var(--line); min-height: 44px; }
+.so-cat .so-row:last-child { border-bottom: 0; }
+.cost-fields { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.pt td.neg, .tile .neg, .tile small.neg { color: var(--bad); }
+.pt td.pos { color: var(--ok); font-weight: 600; }
+.pt tr.gapline td { border-top: 2px dashed var(--line); }
+.help-card { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+@media (max-width: 1000px) { .sv-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cost-fields { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .sv-grid { grid-template-columns: minmax(0, 1fr); } .cmpbar { grid-template-columns: minmax(0, 1fr) 84px; } .cb-t { grid-column: 1 / -1; grid-row: 2; } .cost-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (prefers-reduced-motion: reduce) { .marq-track { animation: none; } }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .fx-badge { background: rgba(255, 255, 255, 0.04); } :root:not([data-theme="light"]) .fx-tab:not([aria-selected="true"]) { background: rgba(255, 255, 255, 0.55); } }
 :root[data-theme="dark"] .fx-badge { background: rgba(255, 255, 255, 0.04); }
@@ -987,9 +1015,9 @@ const I = (name, size) => html`<svg className="ic" width=${size || 18} height=${
 /* ---------- Sample data ---------- */
 const PLANS = {
   freemium: { name: 'Freemium', price: 0, perks: ['Digital menu with photos', 'Veg / non-veg marks, search', 'Sold-out in one tap', 'One menu QR code', 'Menu views and QR scan insights'] },
-  basic: { name: 'Basic', price: 199, perks: ['Diners order from the table', 'Up to 10 table QR codes', 'Live orders with sound alert', 'Kitchen ticket printing', "Today's sales, top dishes, payments"] },
-  advanced: { name: 'Advanced', price: 449, perks: ['Everything in Basic', 'Unlimited tables', 'UPI payment from the table', 'Analytics: trends, busy hours, slow dishes, CSV'] },
-  premium: { name: 'Premium', price: 899, perks: ['Everything in Advanced', 'Your branding, no MenuMitra footer', 'Loyalty points and Google reviews', 'Diner analytics: repeat visits, ratings', 'Priority support, setup done for you'] },
+  basic: { name: 'Basic', price: 149, perks: ['Diners order from the table', 'Up to 10 table QR codes', 'Live orders with sound alert', 'Waiter mode for guests without a phone', 'Kitchen ticket printing', "Today's sales, top dishes, payments"] },
+  advanced: { name: 'Advanced', price: 299, perks: ['Everything in Basic', 'Unlimited tables', 'UPI from the table, straight to your UPI ID', 'Loyalty points and bills on WhatsApp', 'Analytics: trends, busy hours, repeat diners, CSV'] },
+  premium: { name: 'Premium', price: 499, perks: ['Everything in Advanced', 'Dish profit after food cost and overheads', 'Your branding, no MenuMitra footer', 'Google review prompts', 'Priority support, setup done for you'] },
 };
 const PLAN_KEYS = ['freemium', 'basic', 'advanced', 'premium'];
 const RANK = { freemium: 0, basic: 1, advanced: 2, premium: 3 };
@@ -1193,7 +1221,7 @@ function loadState() {
   } catch (e) { return base; }
 }
 function saveState(s) {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable, billing: s.billing, anaRange: s.anaRange, adminTab: s.adminTab, adminRid: s.adminRid })); } catch (e) { /* storage blocked: the demo still works */ }
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable, billing: s.billing, anaRange: s.anaRange, adminTab: s.adminTab, adminRid: s.adminRid, costs: s.costs })); } catch (e) { /* storage blocked: the demo still works */ }
 }
 const R = (s, rid) => ({ ...RMAP[rid], ...s.rest[rid] });
 const canOrder = (s) => { const r = R(s, s.rid); return !!s.table && r.open && can(r.plan, 'basic') && s.table <= (r.plan === 'basic' ? Math.min(10, r.tables) : r.tables); };
@@ -1235,6 +1263,7 @@ function reducer(s, a) {
     case 'add': return { ...addLineTo(s, a.rid, a.it, a.variant, a.addons, a.q), sheet: null };
     case 'qty': return { ...s, cart: s.cart.map((l) => (l.key === a.key ? { ...l, q: l.q + a.d } : l)).filter((l) => l.q > 0) };
     case 'place': return placeOrderIn(s);
+    case 'staffOrder': { const no = s.nextNo[OWNER_RID] || 101; const o = { id: 'o' + OWNER_RID + no + '-' + Date.now(), rid: OWNER_RID, no, table: a.table, name: 'Taken by the waiter', items: a.items, note: (a.note || '').trim(), status: 'preparing', pay: 'unpaid', t: Date.now(), staff: true }; return { ...s, orders: [...s.orders, o], nextNo: { ...s.nextNo, [OWNER_RID]: no + 1 }, fresh: o.id, ownerCol: 'preparing', sheet: null }; }
     case 'advance': return { ...s, orders: s.orders.map((o) => (o.id === a.id ? { ...o, status: { new: 'preparing', preparing: 'ready', ready: 'served' }[o.status] } : o)), fresh: s.fresh === a.id ? null : s.fresh };
     case 'reject': return { ...s, orders: s.orders.map((o) => (o.id === a.id ? { ...o, status: 'cancelled' } : o)), sheet: null };
     case 'markPaid': return { ...s, orders: s.orders.map((o) => (o.id === a.id ? { ...o, pay: 'paid', method: a.method } : o)), alerts: s.alerts.filter((al) => !(al.table === (s.orders.find((o) => o.id === a.id) || {}).table && al.kind !== 'waiter')) };
@@ -1294,7 +1323,7 @@ const TOUR = [
   { t: 'One QR per table', d: 'Download a print-ready standee for each table. Scan one with your own phone: it opens this demo at that table.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'tables', qrTable: 5, sheet: null }), hl: '#standee' },
   { t: 'Analytics that grow with the plan', d: 'Every plan sees menu views and QR scans. Basic adds today’s sales, Advanced adds trends, busy hours and slow dishes, Premium adds repeat diners and ratings.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'reports', sheet: null }), hl: '#reports-main' },
   { t: 'Add dishes with photos', d: 'Name, price, a photo from the phone, Half/Full portions and add-ons. It shows on every table the moment it is saved.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'menu', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: 'Main Course', name: 'Paneer Lababdar', price: '290', veg: true, desc: 'Paneer in a rich onion-tomato gravy with cream.', tags: ['New'], variants: [], addons: [['Extra butter', 30]], stock: true, img: null, c: ['#d9722e', '#f7e4c3'] } } }), hl: '#dish-editor' },
-  { t: 'Free to start, ₹199 to take orders', d: 'Freemium is a view-only menu. Basic adds ordering, Advanced adds UPI and full reports, Premium adds branding and loyalty. Pay for 6 months to save 10%, or a year to save 20%.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
+  { t: 'Free to start, ₹149 to take orders', d: 'Freemium is a view-only menu. Basic adds ordering and waiter mode, Advanced adds UPI, loyalty and full reports, Premium adds dish profit and your branding. Pay for 6 months to save 10%, or a year to save 20%.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
   { t: 'New restaurants sign up themselves', d: 'Any restaurant can compare plans and register from the For restaurants page.', apply: (s) => ({ ...s, role: 'diner', screen: 'business', sheet: null }), hl: '#biz-main .plans' },
   { t: 'Our team sees the whole platform', d: 'Staff-only analytics: revenue, orders across all restaurants, plan mix, upgrade candidates and a watch list. Staff can also open any restaurant’s board.', apply: (s) => ({ ...s, role: 'admin', adminTab: 'overview', sheet: null }), hl: '#admin-main' },
 ];
@@ -1647,17 +1676,21 @@ const FEATURES = [
   ['Diners order from the table', ['View only', 'y', 'y', 'y']],
   ['Table QR codes', ['1 menu QR', 'Up to 10', 'Unlimited', 'Unlimited']],
   ['Live orders with sound alert', ['n', 'y', 'y', 'y']],
+  ['Waiter mode: take orders for guests without a phone', ['n', 'y', 'y', 'y']],
   ['Kitchen tickets (KOT)', ['n', 'y', 'y', 'y']],
   ['Pay at the counter', ['n', 'y', 'y', 'y']],
-  ['UPI and card payment from the table', ['n', 'n', 'y', 'y']],
+  ['UPI from the table, straight to your UPI ID', ['n', 'n', 'y', 'y']],
   ['Analytics: menu views and QR scans', ['y', 'y', 'y', 'y']],
   ["Analytics: today's sales, orders, top dishes, payments", ['n', 'y', 'y', 'y']],
-  ['Analytics: 7 and 30-day trends, busy hours, slow dishes, tables, CSV export', ['n', 'n', 'y', 'y']],
-  ['Analytics: repeat diners, loyalty and ratings', ['n', 'n', 'n', 'y']],
-  ['Bill sent to the diner on WhatsApp', ['n', 'n', 'y', 'y']],
-  ['Loyalty points and Google review prompts', ['n', 'n', 'n', 'y']],
+  ['Analytics: trends, busy hours, slow dishes, tables, CSV export', ['n', 'n', 'y', 'y']],
+  ['Analytics: repeat diners, loyalty and ratings', ['n', 'n', 'y', 'y']],
+  ['Loyalty points and bills on WhatsApp', ['n', 'n', 'y', 'y']],
+  ['Dish profit after food cost and overheads', ['n', 'n', 'n', 'y']],
+  ['Google review prompts', ['n', 'n', 'n', 'y']],
   ['Your branding, no MenuMitra footer', ['n', 'n', 'n', 'y']],
-  ['Support', ['Help articles', 'WhatsApp chat', 'WhatsApp + call', 'Priority, setup done for you']],
+  ['Setup fee', ['₹0', '₹0', '₹0', '₹0, we set it up']],
+  ['Cancel any time, export all your data', ['y', 'y', 'y', 'y']],
+  ['WhatsApp support in Hindi, Gujarati, English', ['y', 'y', 'y + calls', 'Priority, 15-min reply']],
 ];
 const FOR = { freemium: 'Tea stalls, juice shops, trying it out', basic: 'Small cafes, dhabas, quick service', advanced: 'Family restaurants, busy cafes', premium: 'Fine dine, restobars, small chains' };
 function BillingSwitch({ s, d }) {
@@ -1687,13 +1720,13 @@ function PlanCards({ current, currentBilling, billing, onPick, label }) {
 
 const USES = [
   { id: 'stall', label: 'Tea stalls', title: 'A digital menu that costs nothing', points: ['Menu with photos and prices on any phone', 'Change a price in seconds, no reprinting', 'One QR code at the counter'], plan: 'freemium' },
-  { id: 'cafe', label: 'Cafes', title: 'Orders from the table, straight to the counter', points: ['Diners order from the table and you see it live', 'Kitchen tickets print on their own', 'Diners pay at the counter as usual'], plan: 'basic' },
-  { id: 'family', label: 'Family restaurants', title: 'Turn tables faster at peak hours', points: ['Unlimited tables and QR codes', 'Diners pay by UPI from the table', 'Top dishes and busy hours in your reports'], plan: 'advanced' },
-  { id: 'fine', label: 'Fine dine & chains', title: 'Your brand on every table', points: ['Your logo, no MenuMitra footer', 'Loyalty points and Google review prompts', 'Priority support, we set it all up for you'], plan: 'premium' },
+  { id: 'cafe', label: 'Cafes', title: 'Orders from the table, straight to the counter', points: ['Diners order from the table and you see it live', 'Waiters can still take orders for guests without a phone', 'Diners pay at the counter as usual'], plan: 'basic' },
+  { id: 'family', label: 'Family restaurants', title: 'Turn tables faster at peak hours', points: ['Unlimited tables and QR codes', 'Diners pay by UPI from the table and earn loyalty points', 'Top dishes, busy hours and repeat diners in your reports'], plan: 'advanced' },
+  { id: 'fine', label: 'Fine dine & chains', title: 'Your brand on every table', points: ['Your logo, no MenuMitra footer', 'Profit per dish after food cost and overheads', 'Priority support, we set it all up for you'], plan: 'premium' },
 ];
 const FEATS = [
   ['bell', 'Live orders with a sound', 'Every order pops up with the table number and a chime. Accept it in one tap.'],
-  ['print', 'Kitchen tickets', 'Accepted orders print a KOT for the kitchen, with portions, add-ons and notes.'],
+  ['people', 'Waiter mode included', 'Guests without a phone tell the waiter, who orders on their own phone. The kitchen ticket prints the same way.'],
   ['menu', 'Sold out in one tap', 'Mark a dish sold out or change a price and every table sees it at once.'],
   ['rupee', 'UPI at the table', 'Diners pay straight to your UPI ID. No middleman and no commission.'],
   ['chart', 'Know what sells', 'Top dishes and busy hours tell you what to promote and when to add staff.'],
@@ -1741,7 +1774,7 @@ function ForRestaurants({ s, d }) {
       <div className="fx-panel">
         <span className="fx-badge"><i>${I('store', 14)}</i>For restaurants · no commission on orders</span>
         <h1 className="fx-h1">Your menu on every table. <em>Orders straight to your kitchen.</em></h1>
-        <p className="fx-sub">Diners scan, order and pay from their phone. You see every order live, with the table number. Free to start and ready in 30 minutes.</p>
+        <p className="fx-sub">Diners scan, order and pay from their phone. You see every order live, with the table number. Free to start, no commission, and cheaper than every alternative.</p>
         <div className="fx-ctas"><button className="btn primary lg" onClick=${() => signup('basic')}>Register your restaurant<${Arr} /></button><button className="btn lg" onClick=${() => owner('orders')}>See the restaurant dashboard</button></div>
         <span className="fx-proof"><${Avatars} list=${RESTAURANTS.slice(1, 5)} /><span>Freemium is free forever<small>Paid plans from ${inr(planCost('basic', 'y').per)}/month, billed yearly</small></span></span>
       </div>
@@ -1764,6 +1797,8 @@ function ForRestaurants({ s, d }) {
         <div className="uc-r"><div className="mk-pay"><span className="pill leaf">Best fit</span><b style=${{ fontSize: 22 }}>${PLANS[u.plan].name}</b><span className="amt">${uCost.full ? inr(uCost.per) : '₹0'}<small className="small muted" style=${{ fontSize: 14, letterSpacing: 0 }}> ${uCost.full ? '/ month' : 'forever'}</small></span><span className="small muted">${uCost.full ? (uCost.months === 1 ? 'Billed monthly' : inr(uCost.total) + ' ' + BILLING[b].per) : 'No card needed'}</span><span className="small">${FOR[u.plan]}</span></div></div>
       </div>
     </div></div></section>
+
+    <${WhySwitch} s=${s} />
 
     <section className="sx" id="pricing"><div className="container"><div className="sx-glow">
       <div className="sx-h"><h2>Simple plans. No commission.</h2><p>Unlimited orders on every plan. Pay monthly, or save up to 20% by paying ahead. Prices exclude 18% GST.</p></div>
@@ -1853,8 +1888,8 @@ const WHO_ROWS = [
 const ANALYTICS_BY_PLAN = {
   freemium: ['Menu views and QR scans', 'Most viewed dishes', 'Views per scan'],
   basic: ['Everything in Freemium', 'Today’s sales, orders and average bill', 'Top dishes and how diners paid'],
-  advanced: ['Everything in Basic', '7 and 30-day trends vs the last period', 'Busy hours, category sales, slow movers', 'Table use and CSV export'],
-  premium: ['Everything in Advanced', 'Repeat diners and loyalty points', 'Ratings and feedback from diners'],
+  advanced: ['Everything in Basic', '7 and 30-day trends vs the last period', 'Busy hours, category sales, slow movers', 'Repeat diners, loyalty and ratings', 'Table use and CSV export'],
+  premium: ['Everything in Advanced', 'Dish profit after food cost and overheads'],
 };
 function WhoSees({ s, d }) {
   const open = {
@@ -1938,7 +1973,7 @@ function OwnerOrders({ s, d }) {
   </article>`;
   return html`
     <div className="ph"><div><h1>Live orders</h1><p className="muted">New orders from your tables appear here on their own.</p></div>
-      <button className=${'btn' + (s.sound ? ' on' : '')} onClick=${() => { d({ type: 'set', k: 'sound', v: !s.sound }); if (!s.sound) chime(); }} aria-pressed=${s.sound}>${I(s.sound ? 'sound' : 'mute')}${s.sound ? 'Sound on' : 'Sound off'}</button></div>
+      <div className="row"><button className="btn primary" id="take-order" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder' } })}>${I('plus', 17)}Take an order</button><button className=${'btn' + (s.sound ? ' on' : '')} onClick=${() => { d({ type: 'set', k: 'sound', v: !s.sound }); if (!s.sound) chime(); }} aria-pressed=${s.sound}>${I(s.sound ? 'sound' : 'mute')}${s.sound ? 'Sound on' : 'Sound off'}</button></div></div>
     ${alerts.length ? html`<div className="reqs">${alerts.map((a) => html`<div key=${a.id} className=${'req' + (a.kind === 'paid' ? ' pay' : '')}>${I(a.kind === 'paid' ? 'check' : 'bell')}<span><b>Table ${a.table}</b> ${REQ_TEXT[a.kind]}${a.amount ? ' · ' + inr(a.amount) : ''}</span><small>${ago(a.t)}</small><button className="btn sm" onClick=${() => d({ type: 'alertDone', id: a.id })}>Done</button></div>`)}</div>` : null}
     <div className="seg full colswitch" role="group" aria-label="Order stage">${cols.map(([k, l]) => html`<button key=${k} aria-pressed=${s.ownerCol === k} onClick=${() => d({ type: 'set', k: 'ownerCol', v: k })}>${l.split(' ')[0]}${col(k).length ? html`<span className="badge">${col(k).length}</span>` : null}</button>`)}</div>
     <div className="kanban" id="board" data-col=${s.ownerCol}>${cols.map(([k, l, tone]) => html`<section key=${k} className="col" data-stage=${k}><div className="col-h"><i className=${'dot ' + tone}></i>${l}<span>${col(k).length}</span></div>
@@ -2235,6 +2270,100 @@ function downloadCsv(S) {
   const a = document.createElement('a'); a.href = url; a.download = S.r.id + '-analytics-' + S.n + 'd.csv'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 
+/* ---------- Waiter mode: staff take an order for a table (diners without a phone) ---------- */
+function StaffOrderSheet({ s, d }) {
+  const r = R(s, OWNER_RID), max = r.plan === 'basic' ? Math.min(10, r.tables) : r.tables;
+  const [t, setT] = useState(3);
+  const [q, setQ] = useState({});
+  const [note, setNote] = useState('');
+  const menu = s.menus[OWNER_RID].filter((m) => m.stock);
+  const cats = [...new Set(menu.map((m) => m.cat))];
+  const unit = (m) => (m.variants.length ? m.variants[m.variants.length - 1] : [null, m.price]);
+  const lines = menu.filter((m) => q[m.id]).map((m) => ({ n: m.name, opt: unit(m)[0] || '', q: q[m.id], p: unit(m)[1], veg: m.veg }));
+  const total = lines.reduce((x, l) => x + l.q * l.p, 0), count = lines.reduce((x, l) => x + l.q, 0);
+  const bump = (id, k) => setQ((o) => ({ ...o, [id]: Math.max(0, (o[id] || 0) + k) }));
+  const close = () => d({ type: 'sheet', sheet: null });
+  return html`<${Modal} id="staff-order" wide=${true} onClose=${close}>
+    <div className="modal-h"><h2>${I('user', 22)}Take an order</h2><button className="btn sm icon" onClick=${close} aria-label="Close">${I('x')}</button></div>
+    <p className="small muted">For guests without a phone, or who would rather tell the waiter. It goes to the kitchen like a scanned order. Included in every ordering plan.</p>
+    <div className="field"><span>Table</span><div className="table-grid" role="group" aria-label="Table">${Array.from({ length: max }, (_, i) => i + 1).map((n) => html`<button key=${n} aria-pressed=${t === n} onClick=${() => setT(n)}>${n}</button>`)}</div></div>
+    <div className="so-list">${cats.map((c) => html`<div key=${c} className="so-cat"><b className="small muted">${c}</b>${menu.filter((m) => m.cat === c).map((m) => html`<div key=${m.id} className="so-row"><${VegMark} veg=${m.veg} /><span className="grow">${m.name}${unit(m)[0] ? html` <small className="muted">${unit(m)[0]}</small>` : null}</span><span className="num small">${inr(unit(m)[1])}</span>
+      ${q[m.id] ? html`<div className="stepper sm"><button onClick=${() => bump(m.id, -1)} aria-label=${'One less ' + m.name}>−</button><span>${q[m.id]}</span><button onClick=${() => bump(m.id, 1)} aria-label=${'One more ' + m.name}>+</button></div>` : html`<button className="btn sm" onClick=${() => bump(m.id, 1)} aria-label=${'Add ' + m.name}>Add</button>`}</div>`)}</div>`)}</div>
+    <label className="field">Note for the kitchen<input id="so-note" value=${note} placeholder="e.g. less spicy" onChange=${(e) => setNote(e.target.value)} /></label>
+    <button className="btn primary lg block" id="so-send" disabled=${!count} onClick=${() => { d({ type: 'staffOrder', table: t, items: lines, note }); toast('Order for Table ' + t + ' sent to the kitchen', 'ok'); }}>Send to kitchen${count ? ' · ' + count + ' item' + (count > 1 ? 's' : '') + ' · ' + inr(total) : ''}</button>
+  <//>`;
+}
+function downloadMenuCsv(s) {
+  const q = (v) => '"' + String(v).replace(/"/g, '""') + '"';
+  const rows = s.menus[OWNER_RID].map((m) => [m.cat, m.name, m.price, m.veg ? 'Veg' : 'Non-veg', m.stock ? 'Yes' : 'No', m.variants.map((v) => v[0] + ' ' + v[1]).join('; '), m.addons.map((v) => v[0] + ' ' + v[1]).join('; ')].map(q).join(','));
+  const url = URL.createObjectURL(new Blob([['Category,Dish,Price (Rs),Type,In stock,Portions,Add-ons', ...rows].join('\n')], { type: 'text/csv' }));
+  const a = document.createElement('a'); a.href = url; a.download = 'menu-' + OWNER_RID + '.csv'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+/* ---------- Dish profit (Premium): after food cost and monthly overheads ---------- */
+const COSTS0 = { fc: 32, rent: 60000, staff: 180000, power: 30000, other: 15000 };
+const sinr = (v) => (v < 0 ? '−' : '') + inr(Math.abs(v));
+function DishProfit({ s, d, rid }) {
+  const k = { ...COSTS0, ...(s.costs || {}) };
+  const set = (f, v) => d({ type: 'set', k: 'costs', v: { ...k, [f]: Math.max(0, Math.min(f === 'fc' ? 95 : 1e8, Number(v) || 0)) } });
+  const S = summarize(rid, 30);
+  const plates = S.dishes.reduce((t, x) => t + x.q, 0) || 1;
+  const sales = S.dishes.reduce((t, x) => t + x.q * x.price, 0);
+  const over = k.rent + k.staff + k.power + k.other, per = over / plates;
+  const food = (sales * k.fc) / 100, profit = sales - food - over;
+  const rows = S.dishes.map((x) => { const fp = (x.price * k.fc) / 100, pp = x.price - fp - per; return { ...x, fp, pp, total: pp * x.q }; }).sort((a, b) => b.total - a.total);
+  const show = rows.length > 8 ? [...rows.slice(0, 5), ...rows.slice(-3)] : rows;
+  const fields = [['fc', 'Food cost, % of price', '%'], ['rent', 'Rent', '₹'], ['staff', 'Salaries', '₹'], ['power', 'Electricity and gas', '₹'], ['other', 'Other', '₹']];
+  return html`<section className="card" id="dish-profit"><div className="card-h"><h3>Dish profit</h3><span className="small muted">Last 30 days · after food cost and your monthly overheads</span></div>
+    <div className="cost-fields">${fields.map(([f, l, u]) => html`<label key=${f} className="field">${l}<div className="money"><span>${u}</span><input type="number" min="0" inputMode="numeric" aria-label=${l} value=${k[f]} onChange=${(e) => set(f, e.target.value)} /></div></label>`)}</div>
+    <div className="tiles">
+      <div className="tile"><span>Menu sales</span><b>${short(sales)}</b><small className="m">${plates.toLocaleString('en-IN')} plates</small></div>
+      <div className="tile"><span>Food cost</span><b>${short(food)}</b><small className="m">${k.fc}% of price</small></div>
+      <div className="tile"><span>Overheads</span><b>${short(over)}</b><small className="m">${inr(per)} per plate</small></div>
+      <div className="tile"><span>Profit</span><b className=${profit < 0 ? 'neg' : ''}>${profit < 0 ? '−' : ''}${short(Math.abs(profit))}</b><small className=${profit < 0 ? 'neg' : ''}>${Math.round((profit / sales) * 100)}% of sales</small></div>
+    </div>
+    <div className="twrap"><table className="tbl pt"><thead><tr><th>Dish</th><th className="r">Price</th><th className="r">Plates</th><th className="r">Food cost</th><th className="r">Overhead / plate</th><th className="r">Profit / plate</th><th className="r">Profit, 30 days</th></tr></thead>
+      <tbody>${show.map((x, i) => html`<tr key=${x.n} className=${i === 5 && rows.length > 8 ? 'gapline' : ''}><td><${VegMark} veg=${x.veg} /> ${x.n}</td><td className="r">${inr(x.price)}</td><td className="r">${x.q}</td><td className="r">${inr(x.fp)}</td><td className="r">${inr(per)}</td><td className=${'r ' + (x.pp < 0 ? 'neg' : 'pos')}>${sinr(x.pp)}</td><td className=${'r ' + (x.total < 0 ? 'neg' : '')}>${sinr(x.total)}</td></tr>`)}</tbody></table></div>
+    <p className="small muted">Your 5 most profitable dishes and the 3 least. Overheads are shared equally across every plate sold; change the numbers above to match your restaurant.</p></section>`;
+}
+
+/* ---------- Why owners switch: yearly cost and the struggles we solve ---------- */
+const RIVALS = [
+  { name: 'Petpooja POS', note: '₹10,000 per outlet in year one, then ₹7,500 a year', yr: 10000, url: 'https://www.techjockey.com/reviews/petpooja-pos' },
+  { name: 'eResto digiMenu', note: '₹999 a month; yearly gives 2 months free', yr: 9990, url: 'https://eresto.in/pricing' },
+  { name: 'AhaarScan', note: '₹2,999 a year, or ₹399 a month', yr: 2999, url: 'https://www.getapp.com.au/software/2111582/ahaar-scan' },
+  { name: 'DineOpen Starter', note: 'US$20 a month, about ₹21,000 a year', yr: 21000, url: 'https://www.dineopen.com/pricing' },
+];
+const STRUGGLES = [
+  ['rupee', 'Big yearly fees up front', '₹10,000 per outlet before the first order.', 'Start free. Take orders from ₹149 a month, or less on yearly billing.'],
+  ['orders', 'Waiter app and kitchen screen cost extra', 'Captain app and KDS sit in higher-priced plans.', 'Waiter mode and kitchen tickets come with every ordering plan.'],
+  ['gear', 'Hard to set up', 'Owners say it is not easy to configure.', 'Live in 30 minutes. We type your menu and print your QR codes.'],
+  ['bell', 'Support that does not pick up', 'Calls that do not connect, long holds.', 'WhatsApp support in Hindi, Gujarati and English, on every plan.'],
+  ['store', '15–25% commission on every order', 'Delivery apps take a cut of each bill; 30–40% all-in.', '0% commission. One flat price; every rupee is yours.'],
+  ['people', 'Guests without a smartphone', 'Not everyone scans, especially in smaller towns.', 'Waiters take the order on their own phone; it lands on the same board.'],
+  ['shield', 'Fake or prank orders', 'Anyone with a link could send an order.', 'Orders come only from the table QR, and you accept each one before the kitchen sees it.'],
+  ['chart', 'No idea which dish really earns', 'Reports show sales, not profit.', 'Dish profit after food cost and overheads, plus analytics on every plan.'],
+  ['lock', 'Locked into yearly contracts', 'Annual billing only, hard to leave.', 'Monthly, 6-month or yearly. Cancel any time and export all your data.'],
+];
+function WhySwitch({ s }) {
+  const b = planCost('basic', 'y'), a = planCost('advanced', 'y');
+  const ours = [
+    { name: 'MenuMitra Basic', note: inr(b.full) + ' a month, or ' + inr(b.per) + ' on yearly billing', yr: b.total, us: true },
+    { name: 'MenuMitra Advanced', note: 'Adds UPI, loyalty and full analytics', yr: a.total, us: true },
+  ];
+  const all = [...ours, ...RIVALS].sort((x, y) => x.yr - y.yr), max = Math.max(...all.map((x) => x.yr));
+  return html`<section className="sx" id="why-switch"><div className="container">
+    <div className="sx-h"><h2>Cheaper than every alternative. Better where they fall short.</h2><p>What a year costs, and the problems restaurant owners tell us about, solved.</p></div>
+    <div className="cmp-card">
+      <div className="card-h"><h3>What one outlet pays in a year</h3><span className="small muted">Published prices, before GST</span></div>
+      <div className="cmpbars">${all.map((x) => html`<div key=${x.name} className=${'cmpbar' + (x.us ? ' us' : '')}><span className="cb-n"><b>${x.url ? html`<a href=${x.url} target="_blank" rel="noopener">${x.name}</a>` : x.name}</b><small>${x.note}</small></span><span className="cb-t"><i style=${{ width: Math.max(3, (x.yr / max) * 100) + '%' }}></i></span><b className="num cb-v">${x.name.startsWith('DineOpen') ? '~' : ''}${inr(x.yr)}</b></div>`)}</div>
+      <p className="small muted">Delivery apps (Swiggy, Zomato) charge 15–25% of every order instead: on ₹2 lakh of orders a month that is ₹30,000–50,000 a month. MenuMitra charges 0%. Prices checked October 2026.</p>
+    </div>
+    <div className="sv-grid">${STRUGGLES.map(([ic, t, was, fix]) => html`<div key=${t} className="sv"><span className="feat-ic">${I(ic, 22)}</span><b>${t}</b><p className="sv-was">${was}</p><p className="sv-fix">${I('check', 16)}<span>${fix}</span></p></div>`)}</div>
+    <p className="small muted" style=${{ marginTop: 14 }}>Sources: <a href="https://www.techjockey.com/reviews/petpooja-pos" target="_blank" rel="noopener">Petpooja price and support reviews</a>, <a href="https://www.capterra.com/p/172163/Petpooja-Restaurant-Management-Platform/reviews/?page=2" target="_blank" rel="noopener">Petpooja setup reviews</a>, <a href="https://www.dineopen.com/blog/petpooja-review-2026" target="_blank" rel="noopener">Petpooja plans</a>, <a href="https://www.dineopen.com/blog/swiggy-zomato-commission-calculator-guide.html" target="_blank" rel="noopener">delivery app commissions</a>, <a href="https://blog.petpooja.com/industry-business-guides/what-is-scan-and-order-qr-ordering-indian-restaurants/" target="_blank" rel="noopener">QR ordering challenges</a>.</p>
+  </div></section>`;
+}
+
 function Analytics({ s, d, rid, team }) {
   const r = R(s, rid), plan = r.plan;
   const want = s.anaRange || 1;
@@ -2244,7 +2373,7 @@ function Analytics({ s, d, rid, team }) {
   const vs = range === 1 ? 'vs last ' + WDAY[(new Date().getDay() + 6) % 7] : 'vs previous ' + range + ' days';
   const ranges = [[1, 'Today'], [7, '7 days'], [30, '30 days']];
   const rangeOk = (n) => team || can(plan, 'advanced') || (n === 1 && plan === 'basic') || (n === 7 && plan === 'freemium');
-  const tier = team ? 'All sections · team view' : { freemium: 'Menu insights', basic: "Today's sales", advanced: 'Full analytics', premium: 'Full analytics + diners' }[plan];
+  const tier = team ? 'All sections · team view' : { freemium: 'Menu insights', basic: "Today's sales", advanced: 'Full analytics + diners', premium: 'Everything + dish profit' }[plan];
   const salesRows = range === 1 ? S.hourly.map((x) => ({ k: hrLabel(x.h).replace(' ', ''), full: hrLabel(x.h), v: x.sales })) : S.cur.map((x, i) => ({ k: fmtDay(x.dt, range), full: x.dt.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }), v: x.sales, prev: S.prev[i] ? S.prev[i].sales : null }));
   const slow = S.dishes.slice(-4).reverse();
   const reviews = Math.round(S.c.orders * 0.16), rating = r.rating;
@@ -2295,8 +2424,8 @@ function Analytics({ s, d, rid, team }) {
         <div className="ttable">${S.tables.slice(0, 12).map((x, i) => html`<div key=${x.t} className="tcell"><span className="tno">T${x.t}</span><b>${short(x.sales)}</b><small className="muted">${x.orders} orders</small>${i === 0 ? html`<span className="pill ok">Top</span>` : null}</div>`)}</div></section>
     </div><//>
 
-    <h2 className="sub-h">Diners ${!team && !can(plan, 'premium') ? html`<span className="pill">Premium</span>` : null}</h2>
-    <${Gate} need="premium" plan=${plan} d=${d} team=${team} title="Repeat diners, loyalty and ratings are on Premium">
+    <h2 className="sub-h">Diners ${!team && !can(plan, 'advanced') ? html`<span className="pill">Advanced</span>` : null}</h2>
+    <${Gate} need="advanced" plan=${plan} d=${d} team=${team} title="Repeat diners, loyalty and ratings are on Advanced">
       <div className="two">
         <section className="card"><div className="card-h"><h3>New and returning diners</h3><span className="small muted">${range === 1 ? 'Today' : 'Last ' + range + ' days'}</span></div>
           <div className="tiles two-t"><div className="tile"><span>Came back</span><b>${Math.round((S.c.ret / S.c.orders) * 100)}%</b><${Delta} a=${S.c.ret / S.c.orders} b=${S.p.ret / S.p.orders} label=${vs} /></div><div className="tile"><span>Loyalty members</span><b>${Math.round(analytics(rid).base * 23)}</b><small className="m">earn points on every bill</small></div></div>
@@ -2306,6 +2435,9 @@ function Analytics({ s, d, rid, team }) {
           <p className="small muted">${Math.round(reviews * 0.45)} happy diners were asked for a Google review; ${Math.round(reviews * 0.17)} posted one.</p></section>
       </div>
     <//>
+
+    <h2 className="sub-h">Dish profit ${!team && !can(plan, 'premium') ? html`<span className="pill">Premium</span>` : null}</h2>
+    <${Gate} need="premium" plan=${plan} d=${d} team=${team} title="Dish profit after costs and overheads is on Premium"><${DishProfit} s=${s} d=${d} rid=${rid} /><//>
   </div>`;
 }
 function OwnerReports({ s, d }) { return html`<${Analytics} s=${s} d=${d} rid=${OWNER_RID} />`; }
@@ -2366,7 +2498,9 @@ function OwnerSettings({ s, d }) {
       ${r.plan !== 'freemium' && (r.billing || 'm') !== 'y' ? html`<button className="btn sun" onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { billing: 'y' } }); d({ type: 'set', k: 'billing', v: 'y' }); toast('Switched to yearly billing · save ' + inr(planCost(r.plan, 'y').save) + ' a year'); }}>Pay yearly, save ${inr(planCost(r.plan, 'y').save)}</button>` : null}</section>
     <${BillingSwitch} s=${s} d=${d} />
     <div id="plans"><${PlanCards} current=${r.plan} currentBilling=${r.billing} billing=${s.billing || 'm'} onPick=${(k) => { const b = s.billing || 'm'; d({ type: 'rest', rid: OWNER_RID, patch: { plan: k, billing: k === 'freemium' ? 'm' : b } }); toast(r.name + ' is on ' + PLANS[k].name + (k === 'freemium' ? '' : ', ' + BILLING[b].per)); }} label=${(k) => (RANK[k] > RANK[r.plan] ? 'Upgrade to ' : 'Switch to ') + PLANS[k].name} /></div>
-    <div className="notice leaf"><b>On ${PLANS[r.plan].name} diners can:</b> ${r.plan === 'freemium' ? 'see your menu only, and order through a waiter.' : r.plan === 'basic' ? 'order from the table and pay at the counter.' : r.plan === 'advanced' ? 'order from the table and pay by UPI or card from their phone.' : 'order, pay from the phone, earn loyalty points and rate their meal. Your menu has no MenuMitra branding.'}</div>
+    <div className="notice leaf"><b>On ${PLANS[r.plan].name} diners can:</b> ${r.plan === 'freemium' ? 'see your menu only, and order through a waiter.' : r.plan === 'basic' ? 'order from the table and pay at the counter.' : r.plan === 'advanced' ? 'order from the table, pay by UPI from their phone and earn loyalty points.' : 'order, pay from the phone, earn loyalty points and rate their meal. Your menu has no MenuMitra branding.'}</div>
+    <section className="card help-card"><div className="grow"><h3>Help when you need it</h3><p className="small muted">WhatsApp support in Hindi, Gujarati and English on every plan${r.plan === 'premium' ? ', with a reply within 15 minutes from 9 am to 11 pm' : ''}. No contract: cancel any time and take all your data with you.</p></div>
+      <div className="row"><button className="btn" onClick=${() => { downloadMenuCsv(s); toast('Menu downloaded as CSV'); }}>${I('download', 16)}Export menu</button><button className="btn" onClick=${() => toast('In the live product this opens WhatsApp support')}>${I('user', 16)}Chat with support</button></div></section>
     <h2 className="sub-h">Compare every feature</h2>
     <${PlanCompare} current=${r.plan} billing=${s.billing || 'm'} />
     <section className="card"><h3>Restaurant</h3>
@@ -2421,6 +2555,7 @@ function Owner({ s, d }) {
     </div>
     <${Tabbar} cur=${s.ownerTab} tabs=${tabs.map(([id, label, icon, badge]) => [id, label.split(' ')[0], icon, badge])} onGo=${(id) => d({ type: 'set', k: 'ownerTab', v: id })} />
     ${s.sheet && s.sheet.type === 'kot' ? html`<${KotSheet} s=${s} d=${d} />` : null}
+    ${s.sheet && s.sheet.type === 'staffOrder' ? html`<${StaffOrderSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'reject' ? html`<${RejectSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'edit' ? html`<${DishEditor} key=${s.sheet.dish.id} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'cats' ? html`<${CategoryManager} s=${s} d=${d} />` : null}
