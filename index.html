@@ -493,6 +493,48 @@ p { margin: 0; }
 .signup { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
 .signup:last-child { border-bottom: 0; }
 
+
+/* Photos, menu tools, categories */
+.plate.photo { object-fit: cover; display: block; background: var(--wood); }
+.plate.lg { width: 112px; height: 112px; }
+.mtools { display: grid; gap: 10px; }
+.photo-row { display: flex; gap: 16px; align-items: center; }
+.photo-btns { display: grid; gap: 6px; justify-items: start; }
+.cat-list { display: grid; gap: 8px; }
+.cat-line { display: grid; grid-template-columns: minmax(0, 1fr) 26px auto auto auto; gap: 6px; align-items: center; }
+.cat-line .num { text-align: center; }
+.rows-line.two-col { grid-template-columns: minmax(0, 1fr) auto; }
+.sub-h { font-size: 20px; font-weight: 800; margin-top: 6px; }
+
+/* Plan cards and comparison */
+.plan.on { border: 2px solid var(--leaf); background: var(--leaf-soft); }
+.plan.rec:not(.on) { border-color: var(--sun); }
+.plan .btn { margin-top: auto; }
+.plan { grid-template-rows: auto auto auto 1fr auto; }
+.cmp { min-width: 720px; }
+.cmp th { text-align: center; vertical-align: bottom; }
+.cmp th:first-child, .cmp td:first-child { text-align: left; }
+.cmp th small { display: block; font-family: var(--f-body); font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; margin-top: 2px; }
+.cmp td { text-align: center; font-size: 14px; }
+.cmp td.yes { color: var(--ok); }
+.cmp td.yes .ic { margin: 0 auto; }
+.cmp td.no { color: var(--muted); }
+.cmp .cur { background: var(--leaf-soft); }
+.cmp thead th.cur { color: var(--leaf); }
+
+/* For restaurants */
+.biz-hero { background: var(--leaf-soft); border-bottom: 1px solid var(--line); padding-block: 40px; margin-bottom: 8px; }
+.biz-in { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+.biz-in h1 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; letter-spacing: -0.02em; margin: 6px 0 10px; }
+.biz-in p { color: var(--muted); font-size: 17px; max-width: 52ch; }
+.biz-in .row { margin-top: 20px; }
+.biz-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.biz-steps li { display: flex; gap: 14px; align-items: flex-start; background: var(--app); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px; }
+.biz-steps li > span { width: 34px; height: 34px; flex: none; border-radius: 11px; background: var(--sun); color: var(--on-sun); display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; }
+.biz-steps b { font-size: 16px; }
+.biz-steps p { font-size: 14px; color: var(--muted); }
+.home-search { display: none; }
+
 /* Bottom tab bar (phone layout) */
 .tabbar { display: none; }
 
@@ -528,10 +570,29 @@ p { margin: 0; }
 .print-sheet { display: none; }
 
 /* Phone layout */
+@media (max-width: 1180px) {
+  .nav-inner .search { display: none; }
+  .home-search { display: flex; flex-basis: 100%; }
+}
 @media (max-width: 1100px) {
-  .menu-layout { grid-template-columns: 180px minmax(0, 1fr) 300px; gap: 18px; }
+  .menu-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 20px; }
+  .cat-rail { display: none; }
+  .mcats { display: flex; position: sticky; top: 66px; z-index: 12; background: var(--page); padding: 8px 0; }
+  .mcats button { border: 1px solid var(--line); background: var(--app); border-radius: 999px; padding: 7px 13px; font-size: 13.5px; font-weight: 700; white-space: nowrap; color: var(--muted); }
+  .mcats button[aria-current="true"] { background: var(--leaf); border-color: var(--leaf); color: var(--on-leaf); }
   .rgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .oshell { grid-template-columns: 210px minmax(0, 1fr); }
+  .seg.colswitch { display: flex; }
+  .kanban { grid-template-columns: minmax(0, 1fr); }
+  .kanban .col { display: none; background: transparent; padding: 0; min-height: 0; }
+  .kanban .col-h { display: none; }
+  .kanban[data-col="new"] .col[data-stage="new"], .kanban[data-col="preparing"] .col[data-stage="preparing"], .kanban[data-col="ready"] .col[data-stage="ready"] { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .tables-wrap { grid-template-columns: minmax(0, 1fr); }
+  .standee { position: static; max-width: 360px; }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .two { grid-template-columns: minmax(0, 1fr); }
+  .biz-in { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 860px) {
   body { font-size: 15px; }
@@ -540,7 +601,7 @@ p { margin: 0; }
   .hero { padding-block: 16px 4px; }
   .hero-card { grid-template-columns: 1fr; border-radius: 22px; }
   .hero-qr { display: none; }
-  .rgrid { grid-template-columns: minmax(0, 1fr); gap: 14px; padding-bottom: 110px; }
+  .rgrid { gap: 14px; padding-bottom: 110px; }
   .rban { height: 130px; }
   .menu-layout { grid-template-columns: minmax(0, 1fr); padding-bottom: 150px; }
   .cat-rail, .cart-panel { display: none; }
@@ -571,8 +632,16 @@ p { margin: 0; }
   .two { grid-template-columns: minmax(0, 1fr); }
   .tables-wrap { grid-template-columns: minmax(0, 1fr); }
   .standee { position: static; }
-  .plans { grid-template-columns: minmax(0, 1fr); }
   .narrow { padding-bottom: 130px; }
+  .demobar .container { flex-wrap: nowrap; gap: 8px; min-height: 48px; }
+  .dm-r { flex-wrap: nowrap; gap: 6px; }
+  .dseg button { padding: 5px 9px; }
+  .dbtn { padding: 5px 9px; }
+  .mcats { top: 58px; margin: 0 calc(-1 * var(--gutter)); padding-left: var(--gutter); padding-right: var(--gutter); }
+  .biz-hero { padding-block: 24px; }
+  .ph h1 { font-size: 24px; }
+  .photo-row { align-items: flex-start; }
+  .cat-line { grid-template-columns: minmax(0, 1fr) 22px auto auto auto; }
   .tabbar { display: grid; grid-template-columns: repeat(var(--tabs, 4), 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--app); border-top: 1px solid var(--line); padding: 6px max(6px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(6px, env(safe-area-inset-left, 0px)); }
   .tabbar button { border: 0; background: none; display: grid; justify-items: center; gap: 2px; padding: 6px 2px; font-size: 11.5px; font-weight: 800; color: var(--muted); border-radius: 10px; }
   .tabbar button[aria-current="page"] { color: var(--leaf); }
@@ -583,7 +652,13 @@ p { margin: 0; }
   .tour p { font-size: 13px; }
   .toasts { bottom: calc(150px + env(safe-area-inset-bottom, 0px)); }
 }
+@media (max-width: 600px) {
+  .plans { grid-template-columns: minmax(0, 1fr); }
+  .rgrid { grid-template-columns: minmax(0, 1fr); }
+}
 @media (max-width: 520px) {
+  .hide-xs { display: none; }
+  .demo-pill { display: none; }
   .switch span { display: none; }
   .bar-row { grid-template-columns: minmax(0, 110px) minmax(0, 1fr) 34px; }
 }
@@ -611,7 +686,7 @@ p { margin: 0; }
 const { useState, useEffect, useReducer, useRef, useMemo } = React;
 const html = htm.bind(React.createElement);
 const EMBED = location.hash === '#embed';
-const STORE_KEY = 'menumitra-demo-v1';
+const STORE_KEY = 'menumitra-demo-v2';
 
 /* ---------- Icons ---------- */
 const P = {
@@ -641,6 +716,8 @@ const P = {
   pin: 'M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21zM12 7a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z',
   clock: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2',
   lock: 'M5 11h14v9H5zM8 11V8a4 4 0 0 1 8 0v3',
+  camera: 'M4 8h3l2-3h6l2 3h3v11H4zM12 10.5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
+  rupee: 'M7 4h10M7 8.5h10M9 4c4 0 5 2 5 4.5S12 13 9 13h-1l7 7',
   edit: 'M4 20h4L19 9l-4-4L4 16zM14 6l4 4',
   user: 'M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM4 21c1-4 4.2-6 8-6s7 2 8 6',
   up: 'M6 15l6-6 6 6',
@@ -753,13 +830,14 @@ const inr = (n) => '₹' + Math.round(Number(n) || 0).toLocaleString('en-IN');
 const clock = (t) => new Date(t).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit' });
 const ago = (t) => { const m = Math.max(0, Math.round((Date.now() - t) / 60000)); return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : Math.floor(m / 60) + ' h ago'; };
 const VegMark = ({ veg }) => html`<span className=${'vm ' + (veg ? 'veg' : 'nv')} role="img" aria-label=${veg ? 'Veg' : 'Non-veg'}></span>`;
-const Plate = ({ c, size }) => html`<div className=${'plate ' + (size || '')} style=${{ '--c1': c[0], '--c2': c[1] }} aria-hidden="true"></div>`;
+const Plate = ({ c, size, img }) => img ? html`<img className=${'plate photo ' + (size || '')} src=${img} alt="" loading="lazy" />` : html`<div className=${'plate ' + (size || '')} style=${{ '--c1': c[0], '--c2': c[1] }} aria-hidden="true"></div>`;
 const tagCls = (t) => (t === 'Spicy' ? 'tag spicy' : /Jain/.test(t) ? 'tag jain' : 'tag');
 const unitPrice = (it, variant, addons) => (variant ? (it.variants.find((v) => v[0] === variant) || [0, it.price])[1] : it.price) + it.addons.filter((a) => addons.includes(a[0])).reduce((s, a) => s + a[1], 0);
 const orderTotal = (o) => o.items.reduce((s, i) => s + i.q * i.p, 0);
 const withGst = (sub, gst) => sub + Math.round(sub * gst) / 100;
 const STATUS = { new: 'Sent to the kitchen', preparing: 'Being prepared', ready: 'Ready, coming to your table', served: 'Served', cancelled: 'Not accepted' };
 const CATS_OF = (menu) => [...new Set(menu.map((m) => m.cat))];
+const catsOf = (s, rid) => { const base = (s.cats && s.cats[rid]) || []; return [...base, ...CATS_OF(s.menus[rid]).filter((c) => !base.includes(c))]; };
 function qrMatrix(text) {
   if (typeof window.qrcode !== 'function') return null;
   try { const q = window.qrcode(0, 'M'); q.addData(text); q.make(); const n = q.getModuleCount(); return Array.from({ length: n }, (_, r) => Array.from({ length: n }, (_, c) => q.isDark(r, c))); } catch (e) { return null; }
@@ -832,6 +910,7 @@ function freshState() {
       { id: 'o114', rid: 'spice', no: 114, table: 11, name: 'Kabir', items: [{ n: 'Butter Chicken', opt: 'Full', q: 1, p: 340, veg: false }, { n: 'Lachha Paratha', q: 3, p: 70, veg: true }], status: 'served', pay: 'unpaid', t: now - 40 * MIN },
     ],
     alerts: [], nextNo: { spice: 118 }, fresh: null,
+    cats: Object.fromEntries(RESTAURANTS.map((r) => [r.id, CATS_OF(r.menu)])),
     signups: SIGNUPS.map((s) => ({ ...s })), approved: [],
     tour: null,
   };
@@ -846,7 +925,7 @@ function loadState() {
   } catch (e) { return base; }
 }
 function saveState(s) {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, rest: s.rest, menus: s.menus, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable })); } catch (e) { /* storage blocked: the demo still works */ }
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable })); } catch (e) { /* storage blocked: the demo still works */ }
 }
 const R = (s, rid) => ({ ...RMAP[rid], ...s.rest[rid] });
 const canOrder = (s) => { const r = R(s, s.rid); return !!s.table && r.open && can(r.plan, 'basic') && s.table <= (r.plan === 'basic' ? Math.min(10, r.tables) : r.tables); };
@@ -910,6 +989,18 @@ function reducer(s, a) {
       const exists = list.some((m) => m.id === a.dish.id);
       return { ...s, sheet: null, menus: { ...s.menus, [a.rid]: exists ? list.map((m) => (m.id === a.dish.id ? a.dish : m)) : [...list, a.dish] } };
     }
+    case 'catsSet': return { ...s, cats: { ...s.cats, [a.rid]: a.list } };
+    case 'catRename': {
+      const to = a.to.trim(); if (!to || to === a.from) return s;
+      return { ...s, cats: { ...s.cats, [a.rid]: catsOf(s, a.rid).map((c) => (c === a.from ? to : c)) }, menus: { ...s.menus, [a.rid]: s.menus[a.rid].map((m) => (m.cat === a.from ? { ...m, cat: to } : m)) } };
+    }
+    case 'catDelete': {
+      const has = s.menus[a.rid].some((m) => m.cat === a.name);
+      let list = catsOf(s, a.rid).filter((c) => c !== a.name);
+      if (has && !list.includes('Other')) list = [...list, 'Other'];
+      return { ...s, cats: { ...s.cats, [a.rid]: list }, menus: { ...s.menus, [a.rid]: s.menus[a.rid].map((m) => (m.cat === a.name ? { ...m, cat: 'Other' } : m)) } };
+    }
+    case 'signup': return { ...s, signups: [...s.signups, { ...a.data, id: 'su' + Date.now() }] };
     case 'deleteDish': return { ...s, sheet: null, menus: { ...s.menus, [a.rid]: s.menus[a.rid].filter((m) => m.id !== a.id) } };
     case 'rest': return { ...s, rest: { ...s.rest, [a.rid]: { ...s.rest[a.rid], ...a.patch } } };
     case 'approve': { const su = s.signups.find((x) => x.id === a.id); return { ...s, signups: s.signups.filter((x) => x.id !== a.id), approved: a.ok ? [...s.approved, { ...su, joined: 'Today' }] : s.approved }; }
@@ -934,7 +1025,9 @@ const TOUR = [
   { t: 'Menu changes are instant', d: 'Mark a dish sold out or change a price and every table sees it right away. No reprinting.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'menu', sheet: null }), hl: '#menu-mgr' },
   { t: 'One QR per table', d: 'Download a print-ready standee for each table. Scan one with your own phone: it opens this demo at that table.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'tables', qrTable: 5, sheet: null }), hl: '#standee' },
   { t: 'See what sells', d: 'Sales, top dishes and busy hours update with every order.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'reports', sheet: null }), hl: '#reports-main' },
-  { t: 'Free to start, ₹199 to take orders', d: 'Switch the plan to see what each one unlocks for diners and for the restaurant.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
+  { t: 'Add dishes with photos', d: 'Name, price, a photo from the phone, Half/Full portions and add-ons. It shows on every table the moment it is saved.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'menu', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: 'Main Course', name: 'Paneer Lababdar', price: '290', veg: true, desc: 'Paneer in a rich onion-tomato gravy with cream.', tags: ['New'], variants: [], addons: [['Extra butter', 30]], stock: true, img: null, c: ['#d9722e', '#f7e4c3'] } } }), hl: '#dish-editor' },
+  { t: 'Free to start, ₹199 to take orders', d: 'Freemium is a view-only menu. Basic adds ordering, Advanced adds UPI and full reports, Premium adds your branding and loyalty.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
+  { t: 'New restaurants sign up themselves', d: 'Any restaurant can compare plans and register from the For restaurants page.', apply: (s) => ({ ...s, role: 'diner', screen: 'business', sheet: null }), hl: '#biz-main .plans' },
   { t: 'Our team runs the platform', d: 'Every restaurant, its plan and orders in one place, plus new sign-ups to approve.', apply: (s) => ({ ...s, role: 'admin', sheet: null }), hl: '#admin-main' },
 ];
 
@@ -986,6 +1079,7 @@ function DinerNav({ s, d }) {
     <div className="nav-actions">
       <button className="nav-link" aria-current=${cur === 'home' ? 'page' : undefined} onClick=${() => d({ type: 'go', screen: 'home' })}>${I('compass')}Restaurants</button>
       <button className="nav-link" aria-current=${cur === 'track' || cur === 'pay' || cur === 'paid' || cur === 'orders' ? 'page' : undefined} onClick=${() => d({ type: 'go', screen: 'orders' })}>${I('receipt')}My orders${open ? html`<span className="badge">${open}</span>` : null}</button>
+      <button className="nav-link" aria-current=${cur === 'business' ? 'page' : undefined} onClick=${() => d({ type: 'go', screen: 'business' })}>${I('store')}For restaurants</button>
       <button className="btn primary sm" onClick=${() => d({ type: 'sheet', sheet: { type: 'scan', rid: s.rid || 'spice', table: s.table || 5 } })}>${I('qr', 16)}Scan table QR</button>
     </div>
   </div></header>`;
@@ -1013,6 +1107,7 @@ function Home({ s, d }) {
       <div className="hero-qr" aria-hidden="true"><b>Spice Garden</b><span className="small">Scan to order</span><${QR} text=${tableLink('spice', 5)} size=${132} /><span className="hq-tbl">TABLE 5</span></div>
     </div></div></section>
     <div className="container">
+      <label className="search home-search" htmlFor="q2" style=${{ marginTop: 18 }}>${I('search', 17)}<input id="q2" type="search" placeholder="Search restaurants or dishes" value=${s.query} onChange=${(e) => d({ type: 'set', k: 'query', v: e.target.value })} /></label>
       <div className="sect-h"><div><h2>Restaurants on MenuMitra</h2><p className="muted">${list.length} near Ahmedabad · sample data</p></div>
         <div className="chips scroll" role="group" aria-label="Filter">${filters.map(([k, l]) => html`<button key=${k} className="chip" aria-pressed=${s.homeFilter === k} onClick=${() => d({ type: 'set', k: 'homeFilter', v: k })}>${l}</button>`)}</div></div>
       <div className="rgrid" id="rgrid">${list.map((r) => html`<button key=${r.id} className="rcard" onClick=${() => d({ type: 'open', rid: r.id })} aria-label=${'Open ' + r.name + ' menu'}>
@@ -1066,7 +1161,7 @@ function MenuPage({ s, d }) {
   const r = R(s, s.rid), menu = s.menus[s.rid];
   const q = s.query.trim().toLowerCase();
   const list = menu.filter((m) => (!s.vegOnly || m.veg) && (!q || (m.name + ' ' + m.desc + ' ' + m.tags.join(' ')).toLowerCase().includes(q)));
-  const cats = CATS_OF(menu).filter((c) => list.some((m) => m.cat === c));
+  const cats = catsOf(s, s.rid).filter((c) => list.some((m) => m.cat === c));
   const active = s.cat && cats.includes(s.cat) ? s.cat : cats[0];
   const jump = (c) => { d({ type: 'set', k: 'cat', v: c }); const el = document.getElementById('sec-' + c.replace(/\W+/g, '-')); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
   const count = s.cart.reduce((t, l) => t + l.q, 0), sub = s.cart.reduce((t, l) => t + l.q * l.p, 0);
@@ -1094,7 +1189,7 @@ function MenuPage({ s, d }) {
             <div className="dtxt"><div className="dtop"><${VegMark} veg=${it.veg} />${it.tags.map((t) => html`<span key=${t} className=${tagCls(t)}>${t}</span>`)}</div>
               <b className="dname">${it.name}</b><span className="dprice">${it.variants.length ? inr(Math.min(...it.variants.map((v) => v[1]))) + (it.variants.length > 1 && it.variants[0][1] !== it.variants[1][1] ? ' onwards' : '') : inr(it.price)}</span>
               <p className="ddesc">${it.desc}</p></div>
-            <div className="dmedia"><${Plate} c=${it.c} /><${DishControl} s=${s} d=${d} it=${it} r=${r} /></div>
+            <div className="dmedia"><${Plate} c=${it.c} img=${it.img} /><${DishControl} s=${s} d=${d} it=${it} r=${r} /></div>
           </div>`)}
         </section>`)}
         ${!cats.length ? html`<div className="empty"><p>No dishes match your search.</p></div>` : null}
@@ -1191,7 +1286,7 @@ function DishSheet({ s, d }) {
   if (!it) return null;
   const unit = unitPrice(it, sh.variant, sh.addons);
   return html`<${Modal} id="dish-sheet" onClose=${() => d({ type: 'sheet', sheet: null })}>
-    <div className="row" style=${{ alignItems: 'flex-start', flexWrap: 'nowrap' }}><${Plate} c=${it.c} size="md" /><div className="grow"><div className="modal-h"><h2><${VegMark} veg=${it.veg} />${it.name}</h2><button className="btn sm icon" onClick=${() => d({ type: 'sheet', sheet: null })} aria-label="Close">${I('x')}</button></div><p className="small muted">${it.desc}</p></div></div>
+    <div className="row" style=${{ alignItems: 'flex-start', flexWrap: 'nowrap' }}><${Plate} c=${it.c} img=${it.img} size="md" /><div className="grow"><div className="modal-h"><h2><${VegMark} veg=${it.veg} />${it.name}</h2><button className="btn sm icon" onClick=${() => d({ type: 'sheet', sheet: null })} aria-label="Close">${I('x')}</button></div><p className="small muted">${it.desc}</p></div></div>
     ${it.variants.length ? html`<div className="opt-group"><b>Portion</b>${it.variants.map(([n, p]) => html`<button key=${n} className="opt" aria-pressed=${sh.variant === n} onClick=${() => d({ type: 'patchSheet', patch: { variant: n } })}><span className="box round">${sh.variant === n ? I('check', 12) : null}</span><span>${n}</span><span className="num">${inr(p)}</span></button>`)}</div>` : null}
     ${it.addons.length ? html`<div className="opt-group"><b>Add-ons <span className="muted">(optional)</span></b>${it.addons.map(([n, p]) => { const on = sh.addons.includes(n); return html`<button key=${n} className="opt" aria-pressed=${on} onClick=${() => d({ type: 'patchSheet', patch: { addons: on ? sh.addons.filter((x) => x !== n) : [...sh.addons, n] } })}><span className="box">${on ? I('check', 12) : null}</span><span>${n}</span><span className="num">+${inr(p)}</span></button>`; })}</div>` : null}
     <div className="row" style=${{ flexWrap: 'nowrap' }}><div className="stepper"><button onClick=${() => d({ type: 'patchSheet', patch: { q: Math.max(1, sh.q - 1) } })} aria-label="One less">−</button><span>${sh.q}</span><button onClick=${() => d({ type: 'patchSheet', patch: { q: sh.q + 1 } })} aria-label="One more">+</button></div>
@@ -1227,17 +1322,97 @@ function ScanSheet({ s, d }) {
   <//>`;
 }
 
+const FEATURES = [
+  ['Digital menu with photos, veg marks and search', ['y', 'y', 'y', 'y']],
+  ['Dishes on the menu', ['Up to 30', 'Unlimited', 'Unlimited', 'Unlimited']],
+  ['Diners order from the table', ['View only', 'y', 'y', 'y']],
+  ['Table QR codes', ['1 menu QR', 'Up to 10', 'Unlimited', 'Unlimited']],
+  ['Live orders with sound alert', ['n', 'y', 'y', 'y']],
+  ['Kitchen tickets (KOT)', ['n', 'y', 'y', 'y']],
+  ['Pay at the counter', ['n', 'y', 'y', 'y']],
+  ['UPI and card payment from the table', ['n', 'n', 'y', 'y']],
+  ['Sales reports', ['n', "Today's summary", 'Full', 'Full']],
+  ['Top dishes and busy hours', ['n', 'n', 'y', 'y']],
+  ['Bill sent to the diner on WhatsApp', ['n', 'n', 'y', 'y']],
+  ['Loyalty points and Google review prompts', ['n', 'n', 'n', 'y']],
+  ['Your branding, no MenuMitra footer', ['n', 'n', 'n', 'y']],
+  ['Support', ['Help articles', 'WhatsApp chat', 'WhatsApp + call', 'Priority, setup done for you']],
+];
+const FOR = { freemium: 'Tea stalls, juice shops, trying it out', basic: 'Small cafes, dhabas, quick service', advanced: 'Family restaurants, busy cafes', premium: 'Fine dine, restobars, small chains' };
+function PlanCompare({ current }) {
+  return html`<div className="twrap"><table className="tbl cmp"><thead><tr><th>What you get</th>${PLAN_KEYS.map((k) => html`<th key=${k} className=${k === current ? 'cur' : ''}>${PLANS[k].name}<small>${PLANS[k].price ? inr(PLANS[k].price) + '/mo' : 'Free'}</small></th>`)}</tr></thead>
+    <tbody>${FEATURES.map(([f, v]) => html`<tr key=${f}><td>${f}</td>${v.map((x, i) => html`<td key=${i} className=${(PLAN_KEYS[i] === current ? 'cur ' : '') + (x === 'y' ? 'yes' : x === 'n' ? 'no' : '')}>${x === 'y' ? I('check', 18) : x === 'n' ? '–' : x}</td>`)}</tr>`)}</tbody></table></div>`;
+}
+function PlanCards({ current, onPick, label }) {
+  return html`<div className="plans">${PLAN_KEYS.map((k) => html`<div key=${k} className=${'plan' + (k === current ? ' on' : '') + (k === 'advanced' ? ' rec' : '')}>
+    ${k === current ? html`<span className="pill leaf cur">Current plan</span>` : k === 'advanced' ? html`<span className="pill sun cur">Most picked</span>` : null}
+    <h3>${PLANS[k].name}</h3><p className="small muted">${FOR[k]}</p>
+    <div className="price"><b>${PLANS[k].price ? inr(PLANS[k].price) : '₹0'}</b><span>${PLANS[k].price ? '/ month' : 'forever'}</span></div>
+    <ul>${PLANS[k].perks.map((p) => html`<li key=${p}>${I('check', 15)}${p}</li>`)}</ul>
+    <button className=${'btn block ' + (k === current ? '' : 'primary')} disabled=${k === current} onClick=${() => onPick(k)}>${k === current ? 'Your plan' : label(k)}</button>
+  </div>`)}</div>`;
+}
+
+function ForRestaurants({ s, d }) {
+  const steps = [['Register', 'Tell us your restaurant name, area and number of tables. Approval within a day.'], ['Add your menu', 'Dishes, prices, photos, Half/Full portions and add-ons. Or start from our sample menu.'], ['Print table QR codes', 'Download a standee for every table. Diners scan and order; you see it live.']];
+  return html`<main id="biz-main">
+    <section className="biz-hero"><div className="container biz-in">
+      <div><span className="eyebrow">For restaurants</span><h1>Put your menu on every table. Take orders without the wait.</h1>
+        <p>No commission on orders, no hardware to buy. Start free and upgrade when you want table ordering.</p>
+        <div className="row"><button className="btn primary lg" onClick=${() => d({ type: 'sheet', sheet: { type: 'signup', plan: 'basic' } })}>${I('store', 18)}Register your restaurant</button><button className="btn lg" onClick=${() => d({ type: 'role', role: 'owner' })}>See the restaurant dashboard</button></div></div>
+      <ol className="biz-steps">${steps.map(([t, x], i) => html`<li key=${t}><span>${i + 1}</span><div><b>${t}</b><p>${x}</p></div></li>`)}</ol>
+    </div></section>
+    <div className="container" style=${{ display: 'grid', gap: 18, paddingBottom: 110 }}>
+      <div className="sect-h"><div><h2>Plans</h2><p className="muted">Prices exclude 18% GST. Unlimited orders and no commission on every plan. Yearly billing gives 2 months free.</p></div></div>
+      <${PlanCards} current=${null} onPick=${(k) => d({ type: 'sheet', sheet: { type: 'signup', plan: k } })} label=${(k) => (k === 'freemium' ? 'Start free' : 'Choose ' + PLANS[k].name)} />
+      <h2 className="sub-h">Compare every feature</h2>
+      <${PlanCompare} current=${null} />
+    </div>
+  </main>`;
+}
+
+function SignupSheet({ s, d }) {
+  const [f, setF] = useState({ name: '', area: '', owner: '', phone: '', tables: 10, plan: s.sheet.plan || 'basic' });
+  const [done, setDone] = useState(false);
+  const [err, setErr] = useState('');
+  const set = (k, v) => setF((o) => ({ ...o, [k]: v }));
+  const submit = () => {
+    if (!f.name.trim() || !f.area.trim() || !f.owner.trim()) { setErr('Fill in the restaurant name, area and your name.'); return; }
+    d({ type: 'signup', data: { name: f.name.trim(), area: f.area.trim(), owner: f.owner.trim(), plan: f.plan, tables: Math.max(1, Math.min(60, Number(f.tables) || 1)) } });
+    setDone(true);
+  };
+  if (done) return html`<${Modal} onClose=${() => d({ type: 'sheet', sheet: null })}>
+    <div className="done-mark">${I('check', 34)}</div>
+    <h2 style=${{ textAlign: 'center', fontSize: 22 }}>Thanks, ${f.owner.split(' ')[0]}!</h2>
+    <p className="muted" style=${{ textAlign: 'center' }}>${f.name} is waiting for approval on the ${PLANS[f.plan].name} plan. Our team checks new restaurants within a day.</p>
+    <button className="btn primary lg block" onClick=${() => d({ type: 'role', role: 'admin' })}>${I('shield', 18)}Approve it in the Our team view</button>
+    <button className="btn block" onClick=${() => d({ type: 'sheet', sheet: null })}>Close</button>
+  <//>`;
+  return html`<${Modal} id="signup-sheet" onClose=${() => d({ type: 'sheet', sheet: null })}>
+    <div className="modal-h"><h2>${I('store', 22)}Register your restaurant</h2><button className="btn sm icon" onClick=${() => d({ type: 'sheet', sheet: null })} aria-label="Close">${I('x')}</button></div>
+    <label className="field">Restaurant name<input id="su-name" placeholder="e.g. Kesar Kitchen" value=${f.name} onChange=${(e) => set('name', e.target.value)} /></label>
+    <label className="field">Area and city<input id="su-area" placeholder="e.g. Satellite, Ahmedabad" value=${f.area} onChange=${(e) => set('area', e.target.value)} /></label>
+    <div className="fields2"><label className="field">Your name<input id="su-owner" value=${f.owner} onChange=${(e) => set('owner', e.target.value)} /></label><label className="field">Mobile<input id="su-phone" inputMode="tel" placeholder="98xxx xxxxx" value=${f.phone} onChange=${(e) => set('phone', e.target.value)} /></label></div>
+    <div className="fields2"><label className="field">Number of tables<div className="stepper" style=${{ justifySelf: 'start' }}><button onClick=${() => set('tables', Math.max(1, f.tables - 1))} aria-label="One table less">−</button><span>${f.tables}</span><button onClick=${() => set('tables', Math.min(60, f.tables + 1))} aria-label="One table more">+</button></div></label>
+      <label className="field">Plan<select value=${f.plan} onChange=${(e) => set('plan', e.target.value)}>${PLAN_KEYS.map((k) => html`<option key=${k} value=${k}>${PLANS[k].name} · ${PLANS[k].price ? inr(PLANS[k].price) + '/mo' : 'Free'}</option>`)}</select></label></div>
+    ${err ? html`<p className="notice" style=${{ background: 'var(--bad-soft)', color: 'var(--bad)', fontWeight: 700 }}>${err}</p>` : null}
+    <button className="btn primary lg block" onClick=${submit}>Send for approval</button>
+    <p className="small muted" style=${{ textAlign: 'center' }}>Demo only: nothing is sent anywhere.</p>
+  <//>`;
+}
+
 function Diner({ s, d }) {
-  const screens = { home: Home, menu: MenuPage, cart: CartScreen, track: Track, pay: Pay, paid: Paid, orders: MyOrders };
+  const screens = { home: Home, menu: MenuPage, cart: CartScreen, track: Track, pay: Pay, paid: Paid, orders: MyOrders, business: ForRestaurants };
   const Screen = screens[s.screen] || Home;
   const open = s.orders.filter((o) => o.mine && o.status !== 'cancelled' && o.pay !== 'paid').length;
-  const cur = s.screen === 'menu' || s.screen === 'cart' || s.screen === 'home' ? 'home' : 'orders';
+  const cur = s.screen === 'menu' || s.screen === 'cart' || s.screen === 'home' ? 'home' : s.screen === 'business' ? 'business' : 'orders';
   return html`<div>
     <${DinerNav} s=${s} d=${d} />
     <${Screen} s=${s} d=${d} />
-    <${Tabbar} cur=${cur} tabs=${[['home', 'Restaurants', 'compass'], ['scan', 'Scan QR', 'qr'], ['orders', 'My orders', 'receipt', open]]} onGo=${(id) => (id === 'scan' ? d({ type: 'sheet', sheet: { type: 'scan', rid: s.rid || 'spice', table: s.table || 5 } }) : d({ type: 'go', screen: id }))} />
+    <${Tabbar} cur=${cur} tabs=${[['home', 'Restaurants', 'compass'], ['scan', 'Scan QR', 'qr'], ['orders', 'My orders', 'receipt', open], ['business', 'For business', 'store']]} onGo=${(id) => (id === 'scan' ? d({ type: 'sheet', sheet: { type: 'scan', rid: s.rid || 'spice', table: s.table || 5 } }) : d({ type: 'go', screen: id }))} />
     ${s.sheet && s.sheet.type === 'dish' ? html`<${DishSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'table' ? html`<${TableSheet} s=${s} d=${d} />` : null}
+    ${s.sheet && s.sheet.type === 'signup' ? html`<${SignupSheet} key=${s.sheet.plan} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'scan' ? html`<${ScanSheet} key=${(s.sheet.rid || '') + s.sheet.table} s=${s} d=${d} />` : null}
   </div>`;
 }
@@ -1282,59 +1457,139 @@ function Lock({ title, text, plan, d }) {
   return html`<div className="lock"><span className="lock-ic">${I('lock', 22)}</span><h3>${title}</h3><p>${text}</p><button className="btn primary" onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { plan } }); toast('Switched to ' + PLANS[plan].name); }}>Switch to ${PLANS[plan].name}</button></div>`;
 }
 
+function resizePhoto(file) {
+  return new Promise((resolve, reject) => {
+    if (!/^image\//.test(file.type)) { reject(new Error('Choose a photo (JPG, PNG or WebP)')); return; }
+    const fr = new FileReader();
+    fr.onerror = () => reject(new Error('Could not read that photo'));
+    fr.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('Could not open that photo'));
+      img.onload = () => {
+        const side = Math.min(img.width, img.height), size = Math.min(480, side);
+        const c = document.createElement('canvas'); c.width = c.height = size;
+        c.getContext('2d').drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, size, size);
+        resolve(c.toDataURL('image/jpeg', 0.8));
+      };
+      img.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+
 function OwnerMenu({ s, d }) {
   const [q, setQ] = useState('');
+  const [cat, setCat] = useState('all');
   const menu = s.menus[OWNER_RID], r = R(s, OWNER_RID);
-  const list = menu.filter((m) => !q.trim() || m.name.toLowerCase().includes(q.trim().toLowerCase()));
-  const cats = CATS_OF(menu);
+  const cats = catsOf(s, OWNER_RID);
+  const needle = q.trim().toLowerCase();
+  const list = menu.filter((m) => (cat === 'all' || m.cat === cat) && (!needle || (m.name + ' ' + m.desc).toLowerCase().includes(needle)));
   const out = menu.filter((m) => !m.stock).length;
-  return html`
-    <div className="ph"><div><h1>Menu</h1><p className="muted">${menu.length} dishes${r.plan === 'freemium' ? ' of 30 on Freemium' : ''}${out ? ' · ' + out + ' sold out' : ''}. Changes show on every table instantly.</p></div>
-      <button className="btn primary" onClick=${() => d({ type: 'sheet', sheet: { type: 'edit', dish: { id: 'n' + Date.now(), cat: cats[0], name: '', price: '', veg: true, desc: '', tags: [], variants: [], addons: [], stock: true, c: ['#d98a3a', '#f1d7a6'] }, isNew: true } })}>${I('plus')}Add dish</button></div>
-    <label className="search" htmlFor="mm-q">${I('search', 16)}<input id="mm-q" type="search" placeholder="Search your dishes" value=${q} onChange=${(e) => setQ(e.target.value)} /></label>
-    <div id="menu-mgr" style=${{ display: 'grid', gap: 18 }}>${cats.map((c) => { const items = list.filter((m) => m.cat === c); if (!items.length) return null; return html`<section key=${c}><h2 className="gh">${c}<span>${items.filter((m) => m.stock).length} of ${items.length} available</span></h2>
+  const limit = r.plan === 'freemium' ? 30 : null;
+  const full = limit && menu.length >= limit;
+  const newDish = () => d({ type: 'sheet', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: cat !== 'all' ? cat : cats[0] || 'Specials', name: '', price: '', veg: true, desc: '', tags: [], variants: [], addons: [], stock: true, img: null, c: ['#d98a3a', '#f1d7a6'] } } });
+  return html`<div id="menu-mgr-wrap" style=${{ display: 'grid', gap: 16 }}>
+    <div className="ph"><div><h1>Menu</h1><p className="muted">${menu.length} dishes${limit ? ' of ' + limit + ' on Freemium' : ''} · ${cats.length} categories${out ? ' · ' + out + ' sold out' : ''}. Every change shows on the tables instantly.</p></div>
+      <div className="row"><button className="btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'cats' } })}>${I('menu', 16)}Categories</button>
+      <button className="btn primary" id="add-dish-btn" disabled=${full} onClick=${newDish}>${I('plus')}Add dish</button></div></div>
+    ${full ? html`<div className="notice">Freemium allows ${limit} dishes. <button className="link" onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { plan: 'basic' } }); toast('Switched to Basic: unlimited dishes'); }}>Switch to Basic</button> for an unlimited menu.</div>` : null}
+    <div className="mtools">
+      <label className="search" htmlFor="mm-q">${I('search', 16)}<input id="mm-q" type="search" placeholder="Search your dishes" value=${q} onChange=${(e) => setQ(e.target.value)} /></label>
+      <div className="chips scroll" role="group" aria-label="Filter by category"><button className="chip" aria-pressed=${cat === 'all'} onClick=${() => setCat('all')}>All</button>${cats.map((c) => html`<button key=${c} className="chip" aria-pressed=${cat === c} onClick=${() => setCat(c)}>${c}</button>`)}</div>
+    </div>
+    <div id="menu-mgr" style=${{ display: 'grid', gap: 18 }}>${cats.map((c) => { const items = list.filter((m) => m.cat === c); if (!items.length) return cat === c ? html`<div key=${c} className="empty card"><p>No dishes in ${c} yet.</p><button className="btn primary sm" onClick=${newDish}>${I('plus', 16)}Add a dish to ${c}</button></div>` : null; return html`<section key=${c}><h2 className="gh">${c}<span>${items.filter((m) => m.stock).length} of ${items.length} available</span></h2>
       <div className="card flush">${items.map((it) => html`<div key=${it.id} className=${'mrow' + (it.stock ? '' : ' out')}>
-        <button className="mmain" onClick=${() => d({ type: 'sheet', sheet: { type: 'edit', dish: { ...it, price: String(it.price) } } })} aria-label=${'Edit ' + it.name}><${Plate} c=${it.c} size="sm" /><span className="mtxt"><span className="mname"><${VegMark} veg=${it.veg} />${it.name}</span><small>${it.variants.length ? it.variants.map((v) => v[0] + ' ' + inr(v[1])).join(' · ') : inr(it.price)}${it.addons.length ? ' · ' + it.addons.length + ' add-on' + (it.addons.length > 1 ? 's' : '') : ''}</small></span></button>
+        <button className="mmain" onClick=${() => d({ type: 'sheet', sheet: { type: 'edit', dish: { ...it, price: String(it.price) } } })} aria-label=${'Edit ' + it.name}><${Plate} c=${it.c} img=${it.img} size="sm" /><span className="mtxt"><span className="mname"><${VegMark} veg=${it.veg} />${it.name}${it.tags.slice(0, 1).map((t) => html`<span key=${t} className=${tagCls(t)}>${t}</span>`)}</span><small>${it.variants.length ? it.variants.map((v) => v[0] + ' ' + inr(v[1])).join(' · ') : inr(it.price)}${it.addons.length ? ' · ' + it.addons.length + ' add-on' + (it.addons.length > 1 ? 's' : '') : ''}</small></span></button>
+        <button className="btn sm icon ghost hide-xs" onClick=${() => d({ type: 'sheet', sheet: { type: 'edit', dish: { ...it, price: String(it.price) } } })} aria-label=${'Edit ' + it.name} title="Edit">${I('edit', 16)}</button>
         <button className="switch" role="switch" aria-checked=${it.stock} onClick=${() => { d({ type: 'stock', rid: OWNER_RID, id: it.id }); toast(it.name + (it.stock ? ' marked sold out on every table' : ' is back on the menu')); }} aria-label=${it.name + ' available'}><i></i><span>${it.stock ? 'Available' : 'Sold out'}</span></button>
-      </div>`)}</div></section>`; })}</div>
-  `;
+      </div>`)}</div></section>`; })}
+      ${!list.length && cat === 'all' ? html`<div className="empty card"><p>No dishes match "${q}".</p></div>` : null}
+    </div>
+  </div>`;
 }
 
 function DishEditor({ s, d }) {
   const sh = s.sheet;
-  const [x, setX] = useState({ ...sh.dish, variants: sh.dish.variants.map((v) => [v[0], String(v[1])]), addons: sh.dish.addons.map((v) => [v[0], String(v[1])]) });
+  const [x, setX] = useState({ img: null, ...sh.dish, variants: sh.dish.variants.map((v) => [v[0], String(v[1])]), addons: sh.dish.addons.map((v) => [v[0], String(v[1])]) });
   const [err, setErr] = useState('');
   const [del, setDel] = useState(false);
-  const cats = CATS_OF(s.menus[OWNER_RID]);
+  const [busy, setBusy] = useState(false);
+  const [newCat, setNewCat] = useState('');
+  const cats = catsOf(s, OWNER_RID);
   const set = (k, v) => setX((o) => ({ ...o, [k]: v }));
-  const rows = (k, label, ph) => html`<fieldset className="field"><legend>${label}</legend>
-    ${x[k].map((row, i) => html`<div key=${i} className="rows-line"><input className="inp" aria-label=${label + ' name'} placeholder=${ph} value=${row[0]} onChange=${(e) => set(k, x[k].map((rr, j) => (j === i ? [e.target.value, rr[1]] : rr)))} /><div className="money"><span>₹</span><input className="inp" type="number" min="0" aria-label=${label + ' price'} value=${row[1]} onChange=${(e) => set(k, x[k].map((rr, j) => (j === i ? [rr[0], e.target.value] : rr)))} /></div><button className="btn sm icon" onClick=${() => set(k, x[k].filter((_, j) => j !== i))} aria-label="Remove">${I('x', 16)}</button></div>`)}
-    <button className="link" onClick=${() => set(k, [...x[k], ['', '']])} style=${{ justifySelf: 'start' }}>+ Add ${label.toLowerCase().replace(/s \(optional\)$/, '').replace(/s$/, '')}</button></fieldset>`;
-  const save = () => {
+  const onPhoto = async (e) => {
+    const f = e.target.files && e.target.files[0]; e.target.value = '';
+    if (!f) return;
+    setBusy(true);
+    try { set('img', await resizePhoto(f)); } catch (ex) { toast(ex.message); }
+    setBusy(false);
+  };
+  const rows = (k, label, ph, hint) => html`<fieldset className="field"><legend>${label}</legend>${hint ? html`<small>${hint}</small>` : null}
+    ${x[k].map((row, i) => html`<div key=${i} className="rows-line"><input className="inp" aria-label=${label + ' name'} placeholder=${ph} value=${row[0]} onChange=${(e) => set(k, x[k].map((rr, j) => (j === i ? [e.target.value, rr[1]] : rr)))} /><div className="money"><span>₹</span><input className="inp" type="number" min="0" inputMode="numeric" aria-label=${label + ' price'} value=${row[1]} onChange=${(e) => set(k, x[k].map((rr, j) => (j === i ? [rr[0], e.target.value] : rr)))} /></div><button className="btn sm icon" onClick=${() => set(k, x[k].filter((_, j) => j !== i))} aria-label="Remove">${I('x', 16)}</button></div>`)}
+    <button className="link" onClick=${() => set(k, [...x[k], ['', '']])} style=${{ justifySelf: 'start' }}>${I('plus', 15)}Add ${k === 'variants' ? 'a portion' : 'an add-on'}</button></fieldset>`;
+  const build = () => {
     const variants = x.variants.filter((v) => v[0].trim()).map((v) => [v[0].trim(), Math.max(0, Number(v[1]) || 0)]);
     const addons = x.addons.filter((v) => v[0].trim()).map((v) => [v[0].trim(), Math.max(0, Number(v[1]) || 0)]);
-    if (!x.name.trim()) { setErr('Give the dish a name.'); return; }
+    if (!x.name.trim()) { setErr('Give the dish a name.'); return null; }
+    if (new Set(variants.map((v) => v[0].toLowerCase())).size !== variants.length) { setErr('Two portions have the same name.'); return null; }
     const price = variants.length ? Math.min(...variants.map((v) => v[1])) : Number(x.price);
-    if (!variants.length && !(x.price !== '' && price >= 0)) { setErr('Add a price.'); return; }
-    d({ type: 'saveDish', rid: OWNER_RID, dish: { ...x, name: x.name.trim(), desc: x.desc.trim(), price, variants, addons } });
-    toast(sh.isNew ? x.name.trim() + ' is live on the menu' : 'Saved ' + x.name.trim());
+    if (!variants.length && !(x.price !== '' && price >= 0)) { setErr('Add a price.'); return null; }
+    return { ...x, name: x.name.trim(), desc: x.desc.trim(), price, variants, addons };
   };
-  return html`<${Modal} wide=${true} onClose=${() => d({ type: 'sheet', sheet: null })}>
+  const save = () => {
+    const dish = build(); if (!dish) return;
+    if (!cats.includes(dish.cat)) d({ type: 'catsSet', rid: OWNER_RID, list: [...cats, dish.cat] });
+    d({ type: 'saveDish', rid: OWNER_RID, dish });
+    toast(sh.isNew ? dish.name + ' is live on the menu' : 'Saved ' + dish.name);
+  };
+  const duplicate = () => {
+    const dish = build(); if (!dish) return;
+    d({ type: 'saveDish', rid: OWNER_RID, dish: { ...dish, id: 'n' + Date.now(), name: dish.name + ' (copy)' } });
+    toast('Copied. Edit the copy to change it.');
+  };
+  return html`<${Modal} id="dish-editor" wide=${true} onClose=${() => d({ type: 'sheet', sheet: null })}>
     <div className="modal-h"><h2>${sh.isNew ? 'Add a dish' : 'Edit dish'}</h2><button className="btn sm icon" onClick=${() => d({ type: 'sheet', sheet: null })} aria-label="Close">${I('x')}</button></div>
-    <div className="row" style=${{ flexWrap: 'nowrap' }}><${Plate} c=${x.c} size="md" /><p className="small muted">Photos come from the restaurant in the live app. The demo shows each dish as a coloured plate.</p></div>
+    <div className="photo-row"><${Plate} c=${x.c} img=${x.img} size="lg" />
+      <div className="photo-btns"><label className="btn sm">${I('camera', 16)}${busy ? 'Adding…' : x.img ? 'Change photo' : 'Add photo'}<input type="file" accept="image/*" hidden onChange=${onPhoto} /></label>
+      ${x.img ? html`<button className="link danger small" onClick=${() => set('img', null)}>Remove photo</button>` : html`<small className="hint">A good photo sells more. Square works best; we crop and shrink it for you.</small>`}</div></div>
     <label className="field">Dish name<input id="de-name" value=${x.name} placeholder="e.g. Paneer Lababdar" onChange=${(e) => set('name', e.target.value)} /></label>
-    <div className="fields2"><label className="field">Category<select value=${x.cat} onChange=${(e) => set('cat', e.target.value)}>${cats.map((c) => html`<option key=${c}>${c}</option>`)}</select></label>
-      <div className="field"><span>Type</span><div className="seg full" role="group" aria-label="Veg or non-veg"><button aria-pressed=${x.veg} onClick=${() => set('veg', true)}><${VegMark} veg=${true} /> Veg</button><button aria-pressed=${!x.veg} onClick=${() => set('veg', false)}><${VegMark} veg=${false} /> Non-veg</button></div></div></div>
-    ${!x.variants.length ? html`<label className="field">Price<div className="money"><span>₹</span><input id="de-price" type="number" min="0" value=${x.price} onChange=${(e) => set('price', e.target.value)} /></div></label>` : null}
-    ${rows('variants', 'Portions (optional)', 'e.g. Half')}
-    <label className="field">Description<textarea id="de-desc" rows="2" value=${x.desc} onChange=${(e) => set('desc', e.target.value)}></textarea></label>
+    <div className="fields2">
+      <label className="field">Category<select value=${cats.includes(x.cat) ? x.cat : '__new'} onChange=${(e) => set('cat', e.target.value === '__new' ? (newCat || 'New category') : e.target.value)}>${cats.map((c) => html`<option key=${c} value=${c}>${c}</option>`)}<option value="__new">+ New category…</option></select>
+        ${!cats.includes(x.cat) ? html`<input className="inp" placeholder="New category name" value=${x.cat === 'New category' ? newCat : x.cat} onChange=${(e) => { setNewCat(e.target.value); set('cat', e.target.value || 'New category'); }} />` : null}</label>
+      <div className="field"><span>Type</span><div className="seg full" role="group" aria-label="Veg or non-veg"><button aria-pressed=${x.veg} onClick=${() => set('veg', true)}><${VegMark} veg=${true} /> Veg</button><button aria-pressed=${!x.veg} onClick=${() => set('veg', false)}><${VegMark} veg=${false} /> Non-veg</button></div></div>
+    </div>
+    ${!x.variants.length ? html`<label className="field">Price<div className="money"><span>₹</span><input id="de-price" type="number" min="0" inputMode="numeric" value=${x.price} onChange=${(e) => set('price', e.target.value)} /></div></label>` : null}
+    ${rows('variants', 'Portions (optional)', 'e.g. Half', 'Half / Full or Small / Large, each with its own price.')}
+    <label className="field">Description<textarea id="de-desc" rows="2" value=${x.desc} placeholder="What is in it, how it is cooked" onChange=${(e) => set('desc', e.target.value)}></textarea></label>
     <fieldset className="field"><legend>Labels</legend><div className="chips">${['Bestseller', "Chef's special", 'Spicy', 'Jain on request', 'New'].map((t) => html`<button key=${t} className="chip" aria-pressed=${x.tags.includes(t)} onClick=${() => set('tags', x.tags.includes(t) ? x.tags.filter((y) => y !== t) : [...x.tags, t])}>${t}</button>`)}</div></fieldset>
-    ${rows('addons', 'Add-ons (optional)', 'e.g. Extra cheese')}
+    ${rows('addons', 'Add-ons (optional)', 'e.g. Extra cheese', 'Extras diners can tick, like extra butter.')}
+    <label className="row" style=${{ gap: 10, fontWeight: 700 }}><button className="switch" role="switch" aria-checked=${x.stock} onClick=${() => set('stock', !x.stock)} aria-label="Available to order now"><i></i></button>Available to order now</label>
     ${err ? html`<p className="notice" style=${{ background: 'var(--bad-soft)', color: 'var(--bad)', fontWeight: 700 }}>${err}</p>` : null}
     <div className="modal-f">
-      ${sh.isNew ? html`<span></span>` : del ? html`<span className="row"><span className="small">Delete for good?</span><button className="btn sm danger" onClick=${() => { d({ type: 'deleteDish', rid: OWNER_RID, id: x.id }); toast(x.name + ' deleted'); }}>Delete</button><button className="btn sm" onClick=${() => setDel(false)}>Keep</button></span>` : html`<button className="link danger" onClick=${() => setDel(true)}>${I('trash', 16)}Delete dish</button>`}
-      <button className="btn primary" onClick=${save}>${sh.isNew ? 'Add dish' : 'Save changes'}</button>
+      ${sh.isNew ? html`<span></span>` : del ? html`<span className="row"><span className="small">Delete for good?</span><button className="btn sm danger" onClick=${() => { d({ type: 'deleteDish', rid: OWNER_RID, id: x.id }); toast(x.name + ' deleted'); }}>Delete</button><button className="btn sm" onClick=${() => setDel(false)}>Keep</button></span>` : html`<span className="row"><button className="link danger" onClick=${() => setDel(true)}>${I('trash', 16)}Delete</button><button className="link" onClick=${duplicate}>${I('plus', 16)}Duplicate</button></span>`}
+      <button className="btn primary" disabled=${busy} onClick=${save}>${sh.isNew ? 'Add to menu' : 'Save changes'}</button>
     </div>
+  <//>`;
+}
+
+function CategoryManager({ s, d }) {
+  const cats = catsOf(s, OWNER_RID), menu = s.menus[OWNER_RID];
+  const [name, setName] = useState('');
+  const [confirm, setConfirm] = useState(null);
+  const move = (i, k) => { const j = i + k; if (j < 0 || j >= cats.length) return; const l = cats.slice(); [l[i], l[j]] = [l[j], l[i]]; d({ type: 'catsSet', rid: OWNER_RID, list: l }); };
+  const add = () => { const n = name.trim(); if (!n) return; if (cats.some((c) => c.toLowerCase() === n.toLowerCase())) { toast(n + ' already exists'); return; } d({ type: 'catsSet', rid: OWNER_RID, list: [...cats, n] }); setName(''); toast(n + ' added. Diners see it once it has a dish.'); };
+  return html`<${Modal} id="cat-manager" onClose=${() => d({ type: 'sheet', sheet: null })}>
+    <div className="modal-h"><h2>Categories</h2><button className="btn sm icon" onClick=${() => d({ type: 'sheet', sheet: null })} aria-label="Close">${I('x')}</button></div>
+    <p className="small muted">Diners see categories in this order. Edit a name to rename it everywhere.</p>
+    <div className="cat-list">${cats.map((c, i) => { const n = menu.filter((m) => m.cat === c).length; return html`<div key=${c} className="cat-line">
+      <input className="inp" aria-label=${'Rename ' + c} defaultValue=${c} onBlur=${(e) => { if (e.target.value.trim() && e.target.value.trim() !== c) { d({ type: 'catRename', rid: OWNER_RID, from: c, to: e.target.value }); toast('Renamed to ' + e.target.value.trim()); } }} onKeyDown=${(e) => { if (e.key === 'Enter') e.target.blur(); }} />
+      <span className="small muted num" title="Dishes">${n}</span>
+      <button className="btn sm icon" disabled=${i === 0} onClick=${() => move(i, -1)} aria-label=${'Move ' + c + ' up'}>${I('up', 16)}</button>
+      <button className="btn sm icon" disabled=${i === cats.length - 1} onClick=${() => move(i, 1)} aria-label=${'Move ' + c + ' down'}>${I('down', 16)}</button>
+      ${confirm === c ? html`<button className="btn sm danger" onClick=${() => { d({ type: 'catDelete', rid: OWNER_RID, name: c }); setConfirm(null); toast(c + ' removed' + (n ? '. Its dishes moved to Other.' : '')); }}>Delete</button>` : html`<button className="btn sm icon" onClick=${() => setConfirm(c)} aria-label=${'Delete ' + c}>${I('trash', 16)}</button>`}
+    </div>`; })}</div>
+    <div className="rows-line two-col"><input className="inp" id="new-cat" placeholder="New category, e.g. Chinese" value=${name} onChange=${(e) => setName(e.target.value)} onKeyDown=${(e) => { if (e.key === 'Enter') add(); }} /><button className="btn primary" disabled=${!name.trim()} onClick=${add}>${I('plus', 16)}Add</button></div>
+    <div className="modal-f"><span></span><button className="btn" onClick=${() => d({ type: 'sheet', sheet: null })}>Done</button></div>
   <//>`;
 }
 
@@ -1411,12 +1666,11 @@ function HoursChart() {
 function OwnerSettings({ s, d }) {
   const r = R(s, OWNER_RID);
   return html`
-    <div className="ph"><div><h1>Plan & settings</h1><p className="muted">Change the plan to see what it unlocks for diners and for you.</p></div></div>
-    <div className="plans" id="plans" role="group" aria-label="Plan">${PLAN_KEYS.map((k) => html`<button key=${k} className="plan" aria-pressed=${r.plan === k} onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { plan: k } }); toast('Spice Garden is on ' + PLANS[k].name + ' now'); }}>
-      ${r.plan === k ? html`<span className="pill leaf cur">Current plan</span>` : null}
-      <h3>${PLANS[k].name}</h3><div className="price"><b>${PLANS[k].price ? inr(PLANS[k].price) : '₹0'}</b><span>${PLANS[k].price ? '/ month' : 'forever'}</span></div>
-      <ul>${PLANS[k].perks.map((p) => html`<li key=${p}>${I('check', 15)}${p}</li>`)}</ul></button>`)}</div>
-    <p className="small muted">Prices exclude 18% GST. No commission on orders. Yearly billing gives 2 months free.</p>
+    <div className="ph"><div><h1>Plan & settings</h1><p className="muted">Change the plan and watch what changes for diners and for you. Prices exclude 18% GST; no commission on orders.</p></div></div>
+    <div id="plans"><${PlanCards} current=${r.plan} onPick=${(k) => { d({ type: 'rest', rid: OWNER_RID, patch: { plan: k } }); toast(r.name + ' is on ' + PLANS[k].name + ' now'); }} label=${(k) => (RANK[k] > RANK[r.plan] ? 'Upgrade to ' : 'Switch to ') + PLANS[k].name} /></div>
+    <div className="notice leaf"><b>On ${PLANS[r.plan].name} diners can:</b> ${r.plan === 'freemium' ? 'see your menu only, and order through a waiter.' : r.plan === 'basic' ? 'order from the table and pay at the counter.' : r.plan === 'advanced' ? 'order from the table and pay by UPI or card from their phone.' : 'order, pay from the phone, earn loyalty points and rate their meal. Your menu has no MenuMitra branding.'}</div>
+    <h2 className="sub-h">Compare every feature</h2>
+    <${PlanCompare} current=${r.plan} />
     <section className="card"><h3>Restaurant</h3>
       <div className="fields2"><label className="field">Name<input value=${r.name} onChange=${(e) => d({ type: 'rest', rid: OWNER_RID, patch: { name: e.target.value } })} /></label>
       <label className="field">Area<input value=${r.area} onChange=${(e) => d({ type: 'rest', rid: OWNER_RID, patch: { area: e.target.value } })} /></label></div>
@@ -1471,6 +1725,7 @@ function Owner({ s, d }) {
     ${s.sheet && s.sheet.type === 'kot' ? html`<${KotSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'reject' ? html`<${RejectSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'edit' ? html`<${DishEditor} key=${s.sheet.dish.id} s=${s} d=${d} />` : null}
+    ${s.sheet && s.sheet.type === 'cats' ? html`<${CategoryManager} s=${s} d=${d} />` : null}
   </div>`;
 }
 
