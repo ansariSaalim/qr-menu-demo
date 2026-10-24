@@ -28,7 +28,7 @@ export function Landing() {
     <header class="site-top"><div class="wrap site-top-in">
       <${Link} href="/" class="brand-link"><${Brand} /><//>
       <nav class="site-nav" aria-label="Main">
-        <a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="/demo.html">Demo</a>
+        <a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="/r/demo/t/1">Try as a diner</a>
       </nav>
       <div class="site-cta">
         ${signedIn ? html`<${Link} class="btn btn-primary" href="/dashboard">Open dashboard<//>` : html`<${Link} class="btn btn-ghost" href="/login">Log in<//><${Link} class="btn btn-primary" href="/signup">Get started<//>`}
@@ -42,7 +42,7 @@ export function Landing() {
         <p class="lead">Diners scan, order and pay from their phone. You see every order live, with the table number. Set up in 30 minutes, free to start.</p>
         <div class="hero-btns">
           <${Link} class="btn btn-primary btn-lg" href=${signedIn ? '/dashboard' : '/signup'}>${signedIn ? 'Open your dashboard' : 'Register your restaurant'}<//>
-          <a class="btn btn-lg" href="/demo.html">See the demo</a>
+          <a class="btn btn-lg" href="/r/demo/t/1">Try it as a diner</a>
         </div>
         <p class="fine">No commission on orders · No app for diners · Works on any phone</p>
       </div>
