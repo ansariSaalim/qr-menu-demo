@@ -780,6 +780,10 @@ p { margin: 0; }
 .help-card { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
 @media (max-width: 1000px) { .sv-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cost-fields { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 760px) { .sv-grid { grid-template-columns: minmax(0, 1fr); } .cmpbar { grid-template-columns: minmax(0, 1fr) 84px; } .cb-t { grid-column: 1 / -1; grid-row: 2; } .cost-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.mcats .cnt { font-size: 11.5px; font-weight: 600; opacity: 0.6; margin-left: 5px; }
+.mcats { scroll-behavior: smooth; }
+.tmpl { display: grid; gap: 6px; padding: 12px 14px; border-radius: 16px; background: var(--app-2); }
+.tmpl .chip { padding: 6px 12px; font-size: 13px; }
 @media (prefers-reduced-motion: reduce) { .marq-track { animation: none; } }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .fx-badge { background: rgba(255, 255, 255, 0.04); } :root:not([data-theme="light"]) .fx-tab:not([aria-selected="true"]) { background: rgba(255, 255, 255, 0.55); } }
 :root[data-theme="dark"] .fx-badge { background: rgba(255, 255, 255, 0.04); }
@@ -970,7 +974,7 @@ p { margin: 0; }
 const { useState, useEffect, useReducer, useRef, useMemo } = React;
 const html = htm.bind(React.createElement);
 const EMBED = location.hash === '#embed';
-const STORE_KEY = 'menumitra-demo-v2';
+const STORE_KEY = 'menumitra-demo-v3';
 
 /* ---------- Icons ---------- */
 const P = {
@@ -1071,14 +1075,30 @@ const RESTAURANTS = [
     ] },
   { id: 'leaf', name: 'Little Leaf Café', short: 'LL', cuisine: 'Café · Bakes · Coffee', area: 'SG Highway', city: 'Ahmedabad', rating: 4.3, reviews: 960, two: 700, pureVeg: true, plan: 'basic', tables: 10, eta: '10–15 min', open: true, gst: 5, upi: '', b: ['#4b5d3a', '#8a9a5b'], c: ['#8a5a3a', '#d9b48f'],
     menu: [
-      dish('cap', 'Coffee', 'Cappuccino', 160, true, 'Double shot, steamed milk.', '#8a5a3a', '#e7cfb0', { variants: [['Regular', 160], ['Large', 200]], addons: [['Oat milk', 40], ['Extra shot', 50]] }),
-      dish('cbr', 'Coffee', 'Cold Brew', 190, true, '18-hour steeped, served over ice.', '#3f2a1e', '#a37b5c', { tags: ['Bestseller'] }),
-      dish('chai', 'Coffee', 'Masala Chai', 80, true, 'Ginger, cardamom and clove.', '#b07b4f', '#ead5b8'),
-      dish('avo', 'Food', 'Avocado Toast', 290, true, 'Sourdough, smashed avocado, chilli flakes, lime.', '#6b8e23', '#c5d86d'),
-      dish('bmt', 'Food', 'Bombay Masala Toastie', 180, true, 'Potato masala, chutney and cheese, grilled.', '#e2a43a', '#f5e3b0', { tags: ['Spicy'] }),
-      dish('pp', 'Food', 'Pesto Pasta', 320, true, 'Basil pesto, cherry tomatoes, parmesan.', '#4d7c0f', '#bef264'),
-      dish('bcc', 'Bakes', 'Blueberry Cheesecake', 240, true, 'Baked New York style.', '#7c3aed', '#ddd6fe', { tags: ["Chef's special"] }),
-      dish('bwc', 'Bakes', 'Banana Walnut Cake', 150, true, 'Warm slice, brown butter.', '#a16207', '#fde68a'),
+      dish('cap', 'Hot Coffee', 'Cappuccino', 160, true, 'Double shot, steamed milk.', '#8a5a3a', '#e7cfb0', { variants: [['Regular', 160], ['Large', 200]], addons: [['Oat milk', 40], ['Extra shot', 50]] }),
+      dish('lat', 'Hot Coffee', 'Café Latte', 170, true, 'Smooth espresso with lots of milk.', '#a47551', '#f0dcc2', { variants: [['Regular', 170], ['Large', 210]], addons: [['Hazelnut syrup', 30]] }),
+      dish('moc', 'Hot Coffee', 'Hazelnut Mocha', 210, true, 'Espresso, dark chocolate and hazelnut.', '#5b3a29', '#c49a7a'),
+      dish('fil', 'Hot Coffee', 'Filter Coffee', 90, true, 'South Indian style, with chicory.', '#6f4a2f', '#d8b48c', { tags: ['Bestseller'] }),
+      dish('cbr', 'Cold Coffee', 'Cold Brew', 190, true, '18-hour steeped, served over ice.', '#3f2a1e', '#a37b5c', { tags: ['Bestseller'] }),
+      dish('ccf', 'Cold Coffee', 'Classic Cold Coffee', 160, true, 'Thick, blended cold coffee.', '#8a5a3a', '#d9b48f', { addons: [['Scoop of ice cream', 40]] }),
+      dish('icl', 'Cold Coffee', 'Iced Caramel Latte', 220, true, 'Espresso, milk, caramel and ice.', '#b7793e', '#f3d9a8'),
+      dish('chai', 'Tea & More', 'Masala Chai', 80, true, 'Ginger, cardamom and clove.', '#b07b4f', '#ead5b8'),
+      dish('lit', 'Tea & More', 'Lemon Iced Tea', 140, true, 'Brewed black tea, lemon and mint.', '#c98a1e', '#f7dc8a'),
+      dish('hch', 'Tea & More', 'Hot Chocolate', 180, true, 'Belgian chocolate, topped with cream.', '#4a2c1d', '#a9714f'),
+      dish('oreo', 'Shakes & Coolers', 'Oreo Shake', 210, true, 'Oreo, vanilla ice cream and milk.', '#2f2f2f', '#d8d8d8', { tags: ['Bestseller'] }),
+      dish('mgs', 'Shakes & Coolers', 'Mango Smoothie', 190, true, 'Alphonso mango and yoghurt.', '#f59e0b', '#fde68a'),
+      dish('lmc', 'Shakes & Coolers', 'Lime Mint Cooler', 120, true, 'Fresh lime, mint and soda.', '#84cc16', '#d9f99d'),
+      dish('bmt', 'Sandwiches & Toasts', 'Bombay Masala Toastie', 180, true, 'Potato masala, chutney and cheese, grilled.', '#e2a43a', '#f5e3b0', { tags: ['Spicy'] }),
+      dish('avo', 'Sandwiches & Toasts', 'Avocado Toast', 290, true, 'Sourdough, smashed avocado, chilli flakes, lime.', '#6b8e23', '#c5d86d'),
+      dish('pts', 'Sandwiches & Toasts', 'Paneer Tikka Sandwich', 220, true, 'Tandoori paneer, onions and mint mayo.', '#d9722e', '#f4c98d'),
+      dish('cgb', 'Sandwiches & Toasts', 'Cheese Garlic Bread', 160, true, 'Baguette, garlic butter, mozzarella.', '#e9c46a', '#f8e7b5'),
+      dish('pp', 'Pasta & Bowls', 'Pesto Pasta', 320, true, 'Basil pesto, cherry tomatoes, parmesan.', '#4d7c0f', '#bef264'),
+      dish('arr', 'Pasta & Bowls', 'Penne Arrabbiata', 290, true, 'Spicy tomato and garlic sauce.', '#c2410c', '#fdba74', { tags: ['Spicy'] }),
+      dish('mrb', 'Pasta & Bowls', 'Mexican Rice Bowl', 270, true, 'Rice, beans, corn, salsa and sour cream.', '#ca8a04', '#fde047'),
+      dish('bcc', 'Bakes & Desserts', 'Blueberry Cheesecake', 240, true, 'Baked New York style.', '#7c3aed', '#ddd6fe', { tags: ["Chef's special"] }),
+      dish('bwc', 'Bakes & Desserts', 'Banana Walnut Cake', 150, true, 'Warm slice, brown butter.', '#a16207', '#fde68a'),
+      dish('brw', 'Bakes & Desserts', 'Chocolate Brownie', 140, true, 'Fudgy, with walnuts.', '#3b2416', '#8b5a3c', { addons: [['Scoop of ice cream', 50]] }),
+      dish('crs', 'Bakes & Desserts', 'Butter Croissant', 120, true, 'Flaky, baked every morning.', '#d4a24c', '#f6e1a8'),
     ] },
   { id: 'pav', name: 'Old City Pav Bhaji', short: 'OC', cuisine: 'Street food', area: 'Khadia', city: 'Ahmedabad', rating: 4.5, reviews: 2210, two: 300, pureVeg: true, plan: 'basic', tables: 8, eta: '10 min', open: true, gst: 5, upi: '', b: ['#b91c1c', '#ea580c'], c: ['#c2410c', '#fb923c'],
     menu: [
@@ -1511,7 +1531,21 @@ function MenuPage({ s, d }) {
   const list = menu.filter((m) => (!s.vegOnly || m.veg) && (!q || (m.name + ' ' + m.desc + ' ' + m.tags.join(' ')).toLowerCase().includes(q)));
   const cats = catsOf(s, s.rid).filter((c) => list.some((m) => m.cat === c));
   const active = s.cat && cats.includes(s.cat) ? s.cat : cats[0];
-  const jump = (c) => { d({ type: 'set', k: 'cat', v: c }); const el = document.getElementById('sec-' + c.replace(/\W+/g, '-')); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  const lock = useRef(0), bar = useRef(null);
+  const jump = (c) => { lock.current = Date.now() + 900; d({ type: 'set', k: 'cat', v: c }); const el = document.getElementById('sec-' + c.replace(/\W+/g, '-')); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  // Highlight the section being read, and keep its chip in view in the sliding bar
+  useEffect(() => {
+    const onScroll = () => {
+      if (Date.now() < lock.current) return;
+      let cur = cats[0];
+      for (const c of cats) { const el = document.getElementById('sec-' + c.replace(/\W+/g, '-')); if (el && el.getBoundingClientRect().top <= 170) cur = c; }
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = cats[cats.length - 1];
+      if (cur && cur !== active) d({ type: 'set', k: 'cat', v: cur });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [cats.join('|'), active]);
+  useEffect(() => { const nav = bar.current; if (!nav) return; const b = nav.querySelector('[aria-current="true"]'); if (b) nav.scrollTo({ left: b.offsetLeft - nav.clientWidth / 2 + b.offsetWidth / 2, behavior: 'smooth' }); }, [active]);
   const count = s.cart.reduce((t, l) => t + l.q, 0), sub = s.cart.reduce((t, l) => t + l.q * l.p, 0);
   const open = myOpen(s), lastO = open[open.length - 1];
   const why = !s.table ? 'Browsing the menu. Scan the QR on your table, or pick your table, to order.' : !r.open ? 'The kitchen is not taking orders from the phone right now. Please ask a waiter.' : !can(r.plan, 'basic') ? 'This restaurant shows its menu here. Please tell your waiter what you would like.' : null;
@@ -1531,7 +1565,7 @@ function MenuPage({ s, d }) {
           <label className="search" htmlFor="mq">${I('search', 16)}<input id="mq" type="search" placeholder=${'Search ' + r.name} value=${s.query} onChange=${(e) => d({ type: 'set', k: 'query', v: e.target.value })} /></label>
           <label className="vegtoggle"><input type="checkbox" checked=${s.vegOnly} onChange=${(e) => d({ type: 'set', k: 'vegOnly', v: e.target.checked })} /> Veg only</label>
         </div>
-        <nav className="mcats chips scroll" aria-label="Menu sections">${cats.map((c) => html`<button key=${c} aria-current=${active === c ? 'true' : undefined} onClick=${() => jump(c)}>${c}</button>`)}</nav>
+        <nav className="mcats chips scroll" ref=${bar} aria-label="Menu sections">${cats.map((c) => html`<button key=${c} aria-current=${active === c ? 'true' : undefined} onClick=${() => jump(c)}>${c}<span className="cnt">${list.filter((m) => m.cat === c).length}</span></button>`)}</nav>
         ${cats.map((c) => html`<section className="msec" key=${c} id=${'sec-' + c.replace(/\W+/g, '-')}><h2>${c}</h2>
           ${list.filter((m) => m.cat === c).map((it) => html`<div className=${'dish' + (it.stock ? '' : ' out')} key=${it.id}>
             <div className="dtxt"><div className="dtop"><${VegMark} veg=${it.veg} />${it.tags.map((t) => html`<span key=${t} className=${tagCls(t)}>${t}</span>`)}</div>
@@ -2104,6 +2138,16 @@ function DishEditor({ s, d }) {
   <//>`;
 }
 
+const CAT_TEMPLATES = [
+  ['Restaurant', ['Starters', 'Soups', 'Main Course', 'Breads', 'Rice & Biryani', 'Beverages', 'Desserts']],
+  ['Café', ['Hot Coffee', 'Cold Coffee', 'Tea & More', 'Shakes & Coolers', 'Sandwiches & Toasts', 'Pasta & Bowls', 'Bakes & Desserts']],
+  ['Tea stall & juice', ['Chai', 'Juices', 'Snacks', 'Biscuits & Bakes']],
+  ['Street food', ['Chaat', 'Pav & Vada', 'Rolls & Frankies', 'Drinks']],
+  ['South Indian', ['Idli & Vada', 'Dosa', 'Uttapam', 'Rice', 'Filter Coffee & Drinks']],
+  ['Fast food', ['Burgers', 'Pizza', 'Fries & Sides', 'Wraps', 'Shakes', 'Combos']],
+  ['Bakery & sweets', ['Cakes', 'Pastries', 'Breads', 'Cookies', 'Sweets', 'Namkeen']],
+  ['Bar & lounge', ['Mocktails', 'Cocktails', 'Beer', 'Small Plates', 'Mains', 'Desserts']],
+];
 function CategoryManager({ s, d }) {
   const cats = catsOf(s, OWNER_RID), menu = s.menus[OWNER_RID];
   const [name, setName] = useState('');
@@ -2120,6 +2164,8 @@ function CategoryManager({ s, d }) {
       <button className="btn sm icon" disabled=${i === cats.length - 1} onClick=${() => move(i, 1)} aria-label=${'Move ' + c + ' down'}>${I('down', 16)}</button>
       ${confirm === c ? html`<button className="btn sm danger" onClick=${() => { d({ type: 'catDelete', rid: OWNER_RID, name: c }); setConfirm(null); toast(c + ' removed' + (n ? '. Its dishes moved to Other.' : '')); }}>Delete</button>` : html`<button className="btn sm icon" onClick=${() => setConfirm(c)} aria-label=${'Delete ' + c}>${I('trash', 16)}</button>`}
     </div>`; })}</div>
+    <div className="tmpl"><b className="small">Start from a template</b><span className="small muted">Pick your type of place. Its categories are added after yours; empty ones stay hidden from diners until they have a dish.</span>
+      <div className="chips">${CAT_TEMPLATES.map(([t, list]) => html`<button key=${t} className="chip" onClick=${() => { const add = list.filter((c) => !cats.some((x) => x.toLowerCase() === c.toLowerCase())); if (!add.length) { toast('You already have every ' + t + ' category'); return; } d({ type: 'catsSet', rid: OWNER_RID, list: [...cats, ...add] }); toast('Added ' + add.length + ' ' + t + ' categor' + (add.length > 1 ? 'ies' : 'y') + ': ' + add.join(', ')); }}>${t}</button>`)}</div></div>
     <div className="rows-line two-col"><input className="inp" id="new-cat" placeholder="New category, e.g. Chinese" value=${name} onChange=${(e) => setName(e.target.value)} onKeyDown=${(e) => { if (e.key === 'Enter') add(); }} /><button className="btn primary" disabled=${!name.trim()} onClick=${add}>${I('plus', 16)}Add</button></div>
     <div className="modal-f"><span></span><button className="btn" onClick=${() => d({ type: 'sheet', sheet: null })}>Done</button></div>
   <//>`;
