@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Clickable phone preview of the MenuMitra app. Sample data only.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="MenuMitra: phone app preview">
+<meta name="theme-color" content="#1d5a39">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MenuMitra Phone Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600&display=swap">
+<style>
+/* Layout: the MenuMitra web app at phone size inside a device frame, with a guide panel beside it on wide screens; on a real phone the app fills the screen */
+:root {
+  --page: #e9eee5; --panel: #ffffff; --panel-2: #f1f4ec; --ink: #15201a; --muted: #5b6a5f; --line: #dde4d6;
+  --leaf: #1d5a39; --leaf-soft: #e1eee4; --on-leaf: #ffffff; --sun: #e3a114; --on-sun: #3a2800;
+  --screen: #ffffff; --bezel: #0b0f0c; --shadow: 0 30px 80px rgba(21, 32, 26, 0.25);
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif; --f-body: "Figtree", "Segoe UI", system-ui, sans-serif; --f-mono: "JetBrains Mono", ui-monospace, monospace;
+  --k: 1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --page: #070b08; --panel: #141c17; --panel-2: #0f1612; --ink: #e7eee8; --muted: #9aa99f; --line: #26312a; --leaf: #62c08a; --leaf-soft: #17301f; --on-leaf: #06140b; --screen: #141c17; --bezel: #000000; --shadow: 0 30px 80px rgba(0, 0, 0, 0.6); color-scheme: dark; }
+}
+:root[data-theme="dark"] { --page: #070b08; --panel: #141c17; --panel-2: #0f1612; --ink: #e7eee8; --muted: #9aa99f; --line: #26312a; --leaf: #62c08a; --leaf-soft: #17301f; --on-leaf: #06140b; --screen: #141c17; --bezel: #000000; --shadow: 0 30px 80px rgba(0, 0, 0, 0.6); color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 var(--f-body); }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--leaf); outline-offset: 2px; }
+.stage { min-height: 100dvh; display: flex; align-items: center; justify-content: center; gap: 56px; padding: 20px 24px; }
+.phone-wrap { flex: none; width: calc(414px * var(--k)); height: calc(868px * var(--k)); }
+.phone { width: 414px; height: 868px; transform: scale(var(--k)); transform-origin: top left; border-radius: 62px; background: var(--bezel); padding: 12px; box-shadow: var(--shadow), inset 0 0 0 2px #2a302c; }
+.screen { position: relative; width: 390px; height: 844px; border-radius: 50px; overflow: hidden; background: var(--screen); }
+.status { position: relative; height: 44px; display: flex; align-items: center; justify-content: space-between; padding: 4px 30px 0 36px; font-weight: 700; font-size: 15px; background: var(--screen); color: var(--ink); }
+.island { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 118px; height: 32px; border-radius: 20px; background: #000000; }
+iframe { display: block; width: 390px; height: 800px; border: 0; background: var(--screen); }
+.side { width: min(440px, 100%); max-height: calc(100dvh - 40px); overflow-y: auto; display: grid; gap: 16px; align-content: start; padding: 4px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.mark { width: 44px; height: 44px; border-radius: 14px; background: var(--leaf); color: var(--on-leaf); display: grid; place-items: center; }
+.brand b { display: block; font-family: var(--f-display); font-size: 25px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+.brand b span { color: var(--sun); }
+.brand small { color: var(--muted); font-weight: 700; font-size: 13px; }
+.lead { margin: 0; color: var(--muted); }
+.lead a { color: var(--leaf); font-weight: 700; }
+.box { background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 16px; display: grid; gap: 10px; }
+.box h2 { margin: 0; font-family: var(--f-display); font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.tag { font-family: var(--f-mono); font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--sun); color: var(--on-sun); }
+.seg { display: flex; background: var(--panel-2); border: 1px solid var(--line); border-radius: 14px; padding: 3px; }
+.seg button { flex: 1; border: 0; background: transparent; padding: 8px 6px; border-radius: 11px; font-weight: 700; font-size: 13.5px; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--panel); }
+.go { border: 0; border-radius: 14px; padding: 12px 16px; font-weight: 800; font-size: 15px; background: var(--leaf); color: var(--on-leaf); }
+.row { display: flex; gap: 8px; }
+.row .go { flex: 1; }
+.plain { border: 1.5px solid var(--line); background: var(--panel); border-radius: 14px; padding: 10px 14px; font-weight: 700; font-size: 14px; }
+.small { margin: 0; font-size: 12.5px; color: var(--muted); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.step { width: 100%; border: 0; background: transparent; text-align: left; display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; align-items: center; padding: 7px; border-radius: 12px; font-weight: 700; font-size: 14px; }
+.step:hover { background: var(--panel-2); }
+.step .n { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: var(--panel-2); color: var(--muted); font-size: 12px; font-weight: 800; }
+.step[aria-current="step"] { background: var(--leaf-soft); }
+.step[aria-current="step"] .n { background: var(--leaf); color: var(--on-leaf); }
+@media (max-width: 980px) { .stage { flex-direction: column; gap: 24px; padding-block: 24px 40px; } .side { max-height: none; overflow: visible; } }
+@media (max-width: 560px) {
+  .stage { display: block; padding: 0; min-height: 0; }
+  .phone-wrap { width: 100%; height: 100dvh; }
+  .phone { width: 100%; height: 100%; transform: none; border-radius: 0; padding: 0; box-shadow: none; background: var(--screen); }
+  .screen { width: 100%; height: 100%; border-radius: 0; }
+  .status { display: none; }
+  iframe { width: 100%; height: 100%; }
+  .side { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="phone-wrap"><div class="phone"><div class="screen">
+    <div class="status" aria-hidden="true"><span>9:41</span><span class="island"></span><span>5G ▮▮▮</span></div>
+    <iframe id="app" title="MenuMitra app, phone size" src="../index.html#embed"></iframe>
+  </div></div></div>
+  <aside class="side" id="side" aria-label="Demo guide"></aside>
+</div>
+<script>
+// The app inside the frame owns the guided tour; this panel starts it, lists its steps and switches the view.
+const ROLES = [['diner', 'Diner'], ['owner', 'Restaurant'], ['admin', 'Our team']];
+const frame = document.getElementById('app');
+const side = document.getElementById('side');
+let state = { role: 'diner', tour: null, steps: [] };
+const esc = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const send = (action) => { try { frame.contentWindow.postMessage({ mm: 'menumitra', action }, '*'); } catch (e) { /* frame not ready */ } };
+const acts = [];
+function render() {
+  acts.length = 0;
+  const a = (x) => acts.push(x) - 1;
+  const t = state.tour;
+  const tour = t === null
+    ? '<button class="go" data-a="' + a({ type: 'tourGo', i: 0 }) + '">Start the guided tour</button>'
+    : '<div class="row"><button class="go" data-a="' + a(t >= state.steps.length - 1 ? { type: 'tourEnd' } : { type: 'tourGo', i: t + 1 }) + '">' + (t >= state.steps.length - 1 ? 'Finish' : 'Next step') + '</button><button class="plain" data-a="' + a({ type: 'tourEnd' }) + '">End tour</button></div>';
+  side.innerHTML =
+    '<div class="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 3h7v7H3zM15.5 10a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zM15.5 13.3a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4zM3 14v7M6.5 14v3.5M14 3h7M14 6.5h3.5"/></svg></span><div><b>Menu<span>Mitra</span></b><small>Phone app preview · sample data</small></div></div>' +
+    '<p class="lead">QR menu and table ordering at phone size: the same app as the <a href="../" target="_blank" rel="noopener">web version</a>. Diners scan, order and pay from the table; the restaurant sees every order live.</p>' +
+    '<section class="box"><h2>Guided tour' + (t === null ? '' : ' <span class="tag">Step ' + (t + 1) + ' of ' + state.steps.length + '</span>') + '</h2>' + tour + '</section>' +
+    '<section class="box"><h2>View as</h2><div class="seg" role="group" aria-label="View as (demo only)">' + ROLES.map(([id, l]) => '<button data-a="' + a({ type: 'role', role: id }) + '" aria-pressed="' + (state.role === id) + '">' + esc(l) + '</button>').join('') + '</div>' +
+    '<p class="small">Only in this demo. In the live product a diner just scans; the restaurant signs in to its own dashboard.</p><button class="plain" data-a="' + a({ type: 'reset' }) + '">Reset demo</button></section>' +
+    (state.steps.length ? '<section class="box"><h2>Every step</h2><ol class="steps">' + state.steps.map((s, i) => '<li><button class="step" data-a="' + a({ type: 'tourGo', i }) + '"' + (t === i ? ' aria-current="step"' : '') + '><span class="n">' + (i + 1) + '</span><span>' + esc(s) + '</span></button></li>').join('') + '</ol></section>' : '');
+}
+side.addEventListener('click', (e) => { const b = e.target.closest('[data-a]'); if (b) send(acts[Number(b.getAttribute('data-a'))]); });
+window.addEventListener('message', (e) => {
+  const m = e.data;
+  if (e.source !== frame.contentWindow || !m || m.mm !== 'menumitra-state') return;
+  state = { role: m.role, tour: typeof m.tour === 'number' ? m.tour : null, steps: Array.isArray(m.steps) ? m.steps : state.steps };
+  render();
+});
+function fit() { const k = Math.min(1, (window.innerHeight - 40) / 868, (window.innerWidth - 32) / 414); document.documentElement.style.setProperty('--k', String(Math.max(0.5, k))); }
+window.addEventListener('resize', fit);
+fit(); render();
+</script>
+</body>
+</html>
