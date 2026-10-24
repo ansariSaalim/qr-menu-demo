@@ -1439,7 +1439,7 @@ function Home({ s, d }) {
     { id: 'order', icon: 'receipt', label: 'Order', title: 'Straight to the kitchen', text: 'Your order lands on the restaurant screen with your table number. Watch it go from accepted to ready.', points: ['No waiting for a waiter', 'Add a note for the kitchen'], cta: html`<button className="btn primary" onClick=${() => d({ type: 'tourGo', i: 0 })}>Take the guided tour<${Arr} /></button>`,
       vis: html`<div className="mk-stack"><${MockOrder} no=${118} t=${5} who="You · Table 5" lines=${[[1, 'Paneer Tikka', true], [2, 'Butter Naan', true]]} total=${380} stage="new" /><div className="mk-track"><b className="small">Your order</b><div className="track"><div className="done"><i></i>Sent</div><div className="done"><i></i>Accepted</div><div className="now"><i></i>Cooking</div><div><i></i>Ready</div></div></div></div>` },
     { id: 'pay', icon: 'rupee', label: 'Pay', title: 'Pay from the table', text: 'Pay by UPI straight to the restaurant, or at the counter as usual. The bill comes to your phone.', points: ['No waiting for the bill', 'Money goes straight to the restaurant'], cta: html`<button className="btn primary" onClick=${() => d({ type: 'open', rid: 'spice', table: 5 })}>Order and pay<${Arr} /></button>`,
-      vis: html`<div className="mk-pay"><span className="small muted">Pay Spice Garden · Table 5</span><span className="amt">₹724</span><${QR} text=${'upi://pay?pa=spicegarden@upi&am=724'} size=${120} /><span className="mono small">spicegarden@upi</span><span className="pill ok">${I('check', 13)}Paid · confirmed by the restaurant</span></div>` },
+      vis: html`<div className="mk-pay"><span className="small muted">Pay Spice Garden · Table 5</span><span className="amt">₹724</span><${QR} text=${'MenuMitra demo: sample payment code, not a real UPI ID. Nothing can be paid.'} size=${120} /><span className="mono small">spicegarden@upi</span><span className="pill ok">${I('check', 13)}Paid · confirmed by the restaurant</span></div>` },
   ];
   return html`<main>
     <section className="fx"><div className="container">
@@ -1608,6 +1608,7 @@ function Paid({ s, d }) {
     <h1 style=${{ fontSize: 26 }}>${counter ? 'Staff will bring your bill' : 'Paid ' + inr(lp.amount)}</h1>
     <p className="muted">${r.name} · Table ${s.table}${counter ? ' · ' + inr(lp.amount) + ' due at the counter' : ' · by ' + (lp.method === 'upi' ? 'UPI' : 'card')}</p>
     ${!counter && can(r.plan, 'advanced') ? html`<div className="notice leaf">Bill sent to WhatsApp on ${s.me.phone} (demo)</div>` : null}
+    ${can(r.plan, 'advanced') && lp.amount ? html`<div className="notice" id="loyalty-note"><b>+${Math.floor(lp.amount / 10)} loyalty points</b> at ${r.name}. You have ${Math.floor(lp.amount / 10) + 120} points; 500 points take ₹50 off a future bill.</div>` : null}
     ${can(r.plan, 'premium') ? html`<div className="card"><b>How was your meal?</b><div className="stars">${[1, 2, 3, 4, 5].map((n) => html`<button key=${n} className=${n <= s.rating ? 'on' : ''} onClick=${() => d({ type: 'set', k: 'rating', v: n })} aria-label=${n + ' stars'}>${I('star', 30)}</button>`)}</div>${s.rating ? html`<p className="small muted">Thanks! ${s.rating >= 4 ? 'You earned ' + Math.floor(lp.amount / 20) + ' loyalty points.' : 'The owner will see your feedback.'}</p>` : null}</div>` : null}
     <button className="btn block" onClick=${() => d({ type: 'go', screen: 'orders' })}>See my orders</button>
     <button className="link" style=${{ justifySelf: 'center' }} onClick=${() => d({ type: 'go', screen: 'home' })}>Back to restaurants</button>
@@ -2612,7 +2613,14 @@ function App() {
   const [s, raw] = useReducer(reducer, null, () => {
     const st = loadState();
     const m = location.hash.match(/^#t=([a-z]+)-(\d{1,2})$/);
-    if (m && RMAP[m[1]]) return { ...st, role: 'diner', screen: 'menu', rid: m[1], table: Number(m[2]), cart: st.rid === m[1] ? st.cart : [], sheet: null };
+    if (m && RMAP[m[1]]) return { ...st, role: 'diner', screen: 'menu', rid: m[1], table: Number(m[2]), cart: st.rid === m[1] ? st.cart : [], sheet: null, tour: null };
+    // Shareable entry points for testers: #owner, #team, #tour, #business, #who
+    const h = location.hash.slice(1);
+    if (h === 'owner') return { ...st, role: 'owner', ownerTab: 'orders', sheet: null, tour: null };
+    if (h === 'team') return { ...st, role: 'admin', adminTab: 'overview', sheet: null, tour: null };
+    if (h === 'business') return { ...st, role: 'diner', screen: 'business', sheet: null, tour: null };
+    if (h === 'who') return { ...st, role: 'diner', screen: 'views', sheet: null, tour: null };
+    if (h === 'tour') return { ...TOUR[0].apply(st), tour: 0 };
     return st;
   });
   const sRef = useRef(s); sRef.current = s;
@@ -2628,6 +2636,8 @@ function App() {
   };
   const prevNew = useRef(null);
   useEffect(() => saveState(s), [s]);
+  // A new test link (another QR) opened in the same tab: start fresh from that link
+  useEffect(() => { const f = () => { if (location.hash !== '#embed') location.reload(); }; window.addEventListener('hashchange', f); return () => window.removeEventListener('hashchange', f); }, []);
   useEffect(() => { window.scrollTo(0, 0); }, [s.role, s.screen, s.ownerTab]);
   // Chime on the restaurant screen when a new order arrives
   useEffect(() => {
