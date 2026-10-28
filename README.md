@@ -9,7 +9,7 @@ Use "View as" at the top to switch between a diner, the restaurant and our team.
 
 - **Website:** what MenuMitra does, plans and pricing, sign-up and restaurant log in.
 - **Diner at a table:** scan a table QR, order with portions and add-ons, track the order, pay by UPI or at the counter.
-- **For restaurants:** two plans (Basic ₹4,499 and Pro ₹6,999 for 12 months, or 6 months for ₹2,499 / ₹3,799), a 15-day free trial, build-your-own modules, outlet pricing, a feature comparison and a sign-up form.
+- **For restaurants:** two plans (Basic ₹4,999 and Pro ₹7,499 for 12 months, or 6 months for ₹2,799 / ₹4,199; Pro includes 300 WhatsApp messages a month), a 15-day free trial, build-your-own modules, outlet pricing, a feature comparison and a sign-up form.
 - **Restaurant:** billing counter (GST bill, discounts, cash/UPI split, khata, day-end report), tables with running bills, move and merge, live orders with kitchen tickets and a token board, inventory with recipes and food cost (Pro), customers and khata, menu editor, table QR standees, reports with Excel export, optional printer setup, staff PINs and an offline mode.
 - **Our team:** every restaurant, plans, 6 and 12-month billing, revenue, and new sign-ups to approve.
 

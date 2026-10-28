@@ -1076,6 +1076,8 @@ input.otp { letter-spacing: 0.5em; font-family: var(--f-mono); font-size: 20px; 
 .access .tbl td.no { color: var(--muted); }
 @media (max-width: 860px) { .staff-out { display: inline-flex; padding: 6px 10px; } }
 @media (max-width: 520px) { .otop.staff .otop-name .pill, .otop.staff .net-pill { display: none; } }
+.meter { height: 10px; border-radius: 999px; background: var(--app-2); overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--leaf); border-radius: inherit; }
 /* Phone polish */
 .ot-s { display: none; }
 .mcards { display: none; }
@@ -1177,14 +1179,15 @@ const I = (name, size) => html`<svg className="ic" width=${size || 18} height=${
 /* ---------- Sample data ---------- */
 /* Two plans, paid for 6 or 12 months ahead. Every plan starts with a 15-day free trial. */
 const PLANS = {
-  basic: { name: 'Basic', total: { h: 2499, y: 4499 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Waiter phones, each with their own PIN', 'Table QR ordering, diners pay after eating', 'Kitchen screen and a token board for a TV', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
-  pro: { name: 'Pro', total: { h: 3799, y: 6999 }, perks: ['Everything in Basic', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp', 'Google review requests after a good meal', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
+  basic: { name: 'Basic', total: { h: 2799, y: 4999 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Waiter phones, each with their own PIN', 'Table QR ordering, diners pay after eating', 'Kitchen screen and a token board for a TV', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
+  pro: { name: 'Pro', total: { h: 4199, y: 7499 }, perks: ['Everything in Basic', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review requests after a good meal', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
 };
 PLANS.basic.price = Math.round(PLANS.basic.total.y / 12); PLANS.pro.price = Math.round(PLANS.pro.total.y / 12);
 const PLAN_KEYS = ['basic', 'pro'];
 const RANK = { basic: 1, pro: 2 };
 const can = (plan, need) => (RANK[plan] || 1) >= (RANK[need] || 1);
 const SETUP = { onsite: 999, trial: 15 };
+const WA = { included: 300, extra: 0.25 };
 
 /* Billing periods: 6 or 12 months, paid in advance. No monthly plan. */
 const BILLING = {
@@ -1526,7 +1529,7 @@ const TOUR = [
   { t: 'One QR per table', d: 'Download a print-ready standee for each table. Scan one with your own phone: it opens this demo at that table.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'tables', qrTable: 5, sheet: null }), hl: '#standee' },
   { t: 'Reports for your CA and for you', d: 'Basic shows sales for any dates with an Excel export and a day-end report. Pro adds busy hours, repeat diners, stock and profit per dish.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'reports', sheet: null }), hl: '#reports-main' },
   { t: 'Add dishes with photos', d: 'Name, price, a photo from the phone, Half/Full portions and add-ons. It shows on every table the moment it is saved.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'menu', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: 'Main Course', name: 'Paneer Lababdar', price: '290', veg: true, desc: 'Paneer in a rich onion-tomato gravy with cream.', tags: ['New'], variants: [], addons: [['Extra butter', 30]], stock: true, img: null, c: ['#d9722e', '#f7e4c3'] } } }), hl: '#dish-editor' },
-  { t: 'Two plans, or pick modules', d: 'Basic is ₹4,499 for 12 months: billing, tables, table QR ordering and the kitchen screen. Pro adds inventory, loyalty, Google reviews and dish profit. Pay for 6 or 12 months, after a 15-day free trial.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
+  { t: 'Two plans, or pick modules', d: 'Basic is ₹4,999 for 12 months: billing, tables, waiters, table QR ordering and the kitchen screen. Pro adds inventory, loyalty, Google reviews and dish profit. Pay for 6 or 12 months, after a 15-day free trial.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
   { t: 'New restaurants sign up themselves', d: 'Any restaurant can compare plans and register from the For restaurants page.', apply: (s) => ({ ...s, role: 'diner', screen: 'business', sheet: null }), hl: '#biz-main .plans' },
   { t: 'Our team sees the whole platform', d: 'Staff-only analytics: revenue, orders across all restaurants, plan mix, upgrade candidates and a watch list. Staff can also open any restaurant’s board.', apply: (s) => ({ ...s, role: 'admin', adminTab: 'overview', sheet: null }), hl: '#admin-main' },
 ];
@@ -1907,6 +1910,7 @@ const FEATURES = [
   ['Food cost and profit per dish', ['n', 'y']],
   ['Waiter phones, each waiter with their own PIN', ['y', 'y']],
   ['Loyalty points and bills on WhatsApp', ['n', 'y']],
+  ['WhatsApp messages included', ['–', WA.included + ' a month, then ₹' + WA.extra.toFixed(2) + ' each']],
   ['Google review requests after a good meal', ['n', 'y']],
   ['Busy hours, repeat diners and ratings', ['n', 'y']],
   ['Owner view across outlets, your own branding', ['n', 'y']],
@@ -1944,11 +1948,11 @@ function PlanCards({ current, currentBilling, billing, onPick, label }) {
 
 /* Build your own: buy only the modules you need. Bundles cost less than the same modules bought one by one. */
 const MODULES = [
-  { id: 'bill', name: 'Billing counter', y: 2499, text: 'GST bills, discounts, cash/UPI split, khata, offline billing, day-end report, Excel. Printer optional.' },
+  { id: 'bill', name: 'Billing counter', y: 2999, text: 'GST bills, discounts, cash/UPI split, khata, offline billing, day-end report, Excel. Printer optional.' },
   { id: 'qr', name: 'Table QR ordering + kitchen screen', y: 1499, text: 'Diners order from the table, kitchen screen with sound, token board.' },
   { id: 'tables', name: 'Tables and waiters', y: 999, text: 'Running bills per table, move and merge, waiter phones with their own PIN.' },
-  { id: 'inv', name: 'Inventory and food cost', y: 1499, text: 'Recipes, stock used by every bill, purchases, wastage, profit per dish.' },
-  { id: 'grow', name: 'Loyalty and reviews', y: 999, text: 'Loyalty points, bills on WhatsApp, Google review requests, repeat-diner reports.' },
+  { id: 'inv', name: 'Inventory and food cost', y: 1999, text: 'Recipes, stock used by every bill, purchases, wastage, profit per dish.' },
+  { id: 'grow', name: 'Loyalty and reviews', y: 999, text: 'Loyalty points, bills on WhatsApp (' + WA.included + ' messages a month included), Google review requests, repeat-diner reports.' },
 ];
 const modPrice = (y, b) => (b === 'h' ? Math.round((y * 0.56) / 10) * 10 - 1 : y);
 const OUTLET_OFF = 10;
@@ -2007,6 +2011,7 @@ const FAQS = [
     ['Do you take a commission on orders?', 'No. You pay the plan price only. Diners pay straight to your UPI ID, and every rupee is yours.'],
   ]],
   ['diners', 'Diners & payments', [
+    ['How many WhatsApp messages are included?', 'Pro includes ' + WA.included + ' WhatsApp messages a month for bills, offers and your daily summary. Extra messages cost ₹' + WA.extra.toFixed(2) + ' each, added to your next payment. You can see the count in Plan & settings.'],
     ['How do diners pay?', 'By UPI straight to your UPI ID, by cash or card at the counter, or on khata for regulars.'],
     ['What happens when a dish runs out?', 'Tap Sold out. Diners see it greyed out at once and cannot order it.'],
     ['Can someone order without being at a table?', 'Anyone can browse the menu, but ordering needs the QR on the table, and you accept each order before the kitchen sees it.'],
@@ -2834,6 +2839,7 @@ function OwnerSettings({ s, d }) {
     <div className="notice leaf"><b>On ${PLANS[r.plan].name} you get:</b> ${r.plan === 'pro' ? 'billing, tables, table QR ordering, kitchen screen, khata and reports, plus inventory, loyalty, WhatsApp bills, Google reviews and dish profit.' : 'billing with GST, tables and takeaway, table QR ordering, kitchen screen, khata and sales reports with Excel export.'}</div>
     <${PrinterSettings} s=${s} d=${d} />
     <${StaffSettings} s=${s} d=${d} />
+    ${(() => { const used = 182 + s.orders.filter((o) => o.rid === OWNER_RID && o.pay === 'paid' && (o.mine || o.counter || o.staff)).length; const pct = Math.min(100, Math.round((used / WA.included) * 100)); return can(r.plan, 'pro') ? html`<section className="card" id="wa-usage"><div className="card-h"><h3>WhatsApp this month</h3><span className="small muted">${used} of ${WA.included} included messages used</span></div><div className="meter" role="img" aria-label=${used + ' of ' + WA.included + ' WhatsApp messages used'}><i style=${{ width: pct + '%' }}></i></div><p className="small muted">Bills, offers and your daily summary. After ${WA.included}, each message costs ₹${WA.extra.toFixed(2)}, added to your next payment. Resets on the 1st.</p></section>` : html`<section className="card" id="wa-usage"><div className="card-h"><h3>WhatsApp bills</h3><span className="pill">Pro</span></div><p className="small muted">On Pro, diners get bills on WhatsApp and you get a daily summary: ${WA.included} messages a month included.</p></section>`; })()}
     <section className="card help-card"><div className="grow"><h3>Help when you need it</h3><p className="small muted">WhatsApp support in Hindi, Gujarati and English on every plan${r.plan === 'pro' ? ', with priority replies from 9 am to 11 pm' : ''}. Export your menu and every bill whenever you like.</p></div>
       <div className="row"><button className="btn" onClick=${() => { downloadMenuCsv(s); toast('Menu downloaded as CSV'); }}>${I('download', 16)}Export menu</button><button className="btn" onClick=${() => toast('In the live product this opens WhatsApp support')}>${I('user', 16)}Chat with support</button></div></section>
     <h2 className="sub-h">Compare every feature</h2>
