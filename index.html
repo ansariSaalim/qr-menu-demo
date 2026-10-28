@@ -530,6 +530,10 @@ p { margin: 0; }
 /* Photos, menu tools, categories */
 .plate.photo { object-fit: cover; display: block; background: var(--wood); }
 .plate.lg { width: 112px; height: 112px; }
+.demo-vid { margin: 18px auto 0; border-radius: 22px; overflow: hidden; background: #0b0f0d; box-shadow: var(--shadow-2); }
+.demo-vid.desktop { max-width: 1040px; aspect-ratio: 16 / 9; }
+.demo-vid.mobile { max-width: 360px; aspect-ratio: 9 / 16; }
+.demo-vid video { width: 100%; height: 100%; display: block; object-fit: contain; background: #0b0f0d; }
 .plate.hero { width: 100%; height: clamp(190px, 42vw, 250px); border-radius: 18px; background-size: auto, auto; }
 .dish-hero { position: relative; margin: -6px -6px 0; }
 .dish-x { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.92); color: #1c1917; border: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
@@ -1187,6 +1191,7 @@ const STORE_KEY = 'menumitra-demo-v5';
 
 /* ---------- Icons ---------- */
 const P = {
+  play: 'M7 4.5v15l12.5-7.5z',
   compass: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM15.5 8.5l-2 5-5 2 2-5z',
   qr: 'M3.5 3.5h7v7h-7zM13.5 3.5h7v7h-7zM3.5 13.5h7v7h-7zM14 14h3v3h-3zM18 18h2.5v2.5H18zM18 14h2.5M14 18v2.5',
   receipt: 'M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6M9 16h3',
@@ -2234,6 +2239,22 @@ const FAQS = [
     ['Can someone order without being at a table?', 'Anyone can browse the menu, but ordering needs the QR on the table, and you accept each order before the kitchen sees it.'],
   ]],
 ];
+/* ---------- Full demo videos: desktop and mobile versions ---------- */
+const DEMO_VIDS = {
+  desktop: { src: 'videos/demo-desktop.mp4', poster: 'videos/demo-desktop.jpg', label: 'Desktop', note: 'The restaurant screens as they look on a laptop, plus the diner’s phone.' },
+  mobile: { src: 'videos/demo-mobile.mp4', poster: 'videos/demo-mobile.jpg', label: 'Mobile', note: 'Everything on a phone, the way owners, staff and diners use it.' },
+};
+function DemoVideo() {
+  const [kind, setKind] = useState(() => { try { return window.matchMedia('(max-width: 700px)').matches ? 'mobile' : 'desktop'; } catch (e) { return 'desktop'; } });
+  const v = DEMO_VIDS[kind];
+  return html`<section className="sx" id="watch"><div className="container">
+    <div className="sx-h"><h2>Watch the full demo</h2><p>2 minutes 24 seconds, step by step: what the diner sees, then what you and your staff see.</p></div>
+    <div className="center-tabs"><div className="seg" role="group" aria-label="Video version">${Object.keys(DEMO_VIDS).map((k) => html`<button key=${k} aria-pressed=${kind === k} onClick=${() => setKind(k)}>${DEMO_VIDS[k].label}</button>`)}</div></div>
+    <div className=${'demo-vid ' + kind}><video key=${kind} id="demo-video" controls playsInline preload="none" poster=${v.poster} src=${v.src}></video></div>
+    <p className="small muted" style=${{ textAlign: 'center', marginTop: 12 }}>${v.note}</p>
+  </div></section>`;
+}
+
 function ForRestaurants({ s, d }) {
   const [uc, setUc] = useState('family');
   const [fq, setFq] = useState('start');
@@ -2259,13 +2280,15 @@ function ForRestaurants({ s, d }) {
         <span className="fx-badge"><i>${I('store', 14)}</i>Zero hardware · runs on your phone or tablet</span>
         <h1 className="fx-h1">Billing, tables and QR ordering. <em>All on the phone you already have.</em></h1>
         <p className="fx-sub">GST bills, kitchen tickets, running tables and orders from the table QR, in one app. No computer, no printer required, no commission. Built for small and local restaurants.</p>
-        <div className="fx-ctas"><button className="btn primary lg" onClick=${() => signup('basic')}>Register your restaurant<${Arr} /></button><button className="btn lg" onClick=${() => d({ type: 'sheet', sheet: { type: 'login' } })}>Restaurant log in</button></div>
+        <div className="fx-ctas"><button className="btn primary lg" onClick=${() => signup('basic')}>Register your restaurant<${Arr} /></button><button className="btn lg" onClick=${() => d({ type: 'sheet', sheet: { type: 'login' } })}>Restaurant log in</button><button className="btn lg ghost" id="watch-btn" onClick=${() => { const el = document.getElementById('watch'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>${I('play', 18)}Watch the demo</button></div>
         <span className="fx-proof"><${Avatars} list=${RESTAURANTS.slice(1, 5)} /><span>${SETUP.trial}-day free trial<small>From ${inr(planCost('basic', 'y').total)} for 12 months, about ${inr(planCost('basic', 'y').per)} a month</small></span></span>
       </div>
       <${Showcase} tabs=${tabs} label="What you get" />
       <p className="strip-h">Sample restaurants in this demo</p>
       <${Marquee} items=${STRIP} />
     </div></section>
+
+    <${DemoVideo} />
 
     <section className="sx"><div className="container">
       <div className="sx-h"><h2>Live in three steps</h2><p>No hardware to buy and nothing for diners to install. Your phone is the billing counter.</p></div>
