@@ -1078,6 +1078,18 @@ input.otp { letter-spacing: 0.5em; font-family: var(--f-mono); font-size: 20px; 
 @media (max-width: 520px) { .otop.staff .otop-name .pill, .otop.staff .net-pill { display: none; } }
 .meter { height: 10px; border-radius: 999px; background: var(--app-2); overflow: hidden; }
 .meter i { display: block; height: 100%; background: var(--leaf); border-radius: inherit; }
+
+.wa { text-align: left; background: #efeae2; border-radius: 18px; padding: 12px; display: grid; gap: 8px; }
+.wa-h { display: flex; align-items: center; gap: 10px; color: #111b21; }
+.wa-h b { display: block; font-size: 15px; }
+.wa-h small { color: #54656f; font-size: 12px; }
+.wa-av { width: 34px; height: 34px; border-radius: 50%; background: #1d5a39; color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 13px; flex: none; }
+.wa-msg { background: #ffffff; color: #111b21; border-radius: 4px 14px 14px 14px; padding: 10px 12px 18px; display: grid; gap: 8px; font-size: 14.5px; position: relative; box-shadow: 0 1px 1px rgba(0,0,0,0.08); }
+.wa-link { color: #027eb5; text-decoration: underline; word-break: break-all; }
+.wa-t { position: absolute; right: 10px; bottom: 4px; color: #667781; font-size: 11px; }
+.wa-btns { display: grid; gap: 4px; }
+.wa-btns button { background: #ffffff; border: 0; border-radius: 10px; padding: 10px; color: #027eb5; font-weight: 600; font: inherit; font-weight: 600; box-shadow: 0 1px 1px rgba(0,0,0,0.08); }
+.wa-note { text-align: center; }
 /* Phone polish */
 .ot-s { display: none; }
 .mcards { display: none; }
@@ -1180,7 +1192,7 @@ const I = (name, size) => html`<svg className="ic" width=${size || 18} height=${
 /* Two plans, paid for 6 or 12 months ahead. Every plan starts with a 15-day free trial. */
 const PLANS = {
   basic: { name: 'Basic', total: { h: 2799, y: 4999 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Waiter phones, each with their own PIN', 'Table QR ordering, diners pay after eating', 'Kitchen screen and a token board for a TV', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
-  pro: { name: 'Pro', total: { h: 4199, y: 7499 }, perks: ['Everything in Basic', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review requests after a good meal', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
+  pro: { name: 'Pro', total: { h: 4199, y: 7499 }, perks: ['Everything in Basic', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review link on every bill', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
 };
 PLANS.basic.price = Math.round(PLANS.basic.total.y / 12); PLANS.pro.price = Math.round(PLANS.pro.total.y / 12);
 const PLAN_KEYS = ['basic', 'pro'];
@@ -1830,9 +1842,15 @@ function Paid({ s, d }) {
     <div className="done-mark">${I('check', 36)}</div>
     <h1 style=${{ fontSize: 26 }}>${counter ? 'Staff will bring your bill' : 'Paid ' + inr(lp.amount)}</h1>
     <p className="muted">${r.name} · Table ${s.table}${counter ? ' · ' + inr(lp.amount) + ' due at the counter' : ' · by ' + (lp.method === 'upi' ? 'UPI' : 'card')}</p>
-    ${!counter && can(r.plan, 'pro') ? html`<div className="notice leaf">Bill sent to WhatsApp on ${s.me.phone} (demo)</div>` : null}
+    ${!counter && can(r.plan, 'pro') ? html`<div className="wa" id="wa-bill" aria-label="WhatsApp bill preview">
+      <div className="wa-h"><span className="wa-av">${r.short}</span><span><b>${r.name}</b><small>via MenuMitra · verified business</small></span></div>
+      <div className="wa-msg"><p>Hi ${(s.me.name || 'there').split(' ')[0]}, thank you for dining at <b>${r.name}</b>!</p>
+        <p>Amount: <b>${inr(lp.amount)}</b><br />Date: ${new Date().toLocaleDateString('en-IN')} ${clock(Date.now())}<br />Invoice: <span className="wa-link">View bill #${(s.orders.filter((o) => o.mine).slice(-1)[0] || { no: 0 }).no}</span></p>
+        <p>How was your meal?</p><small className="wa-t">${clock(Date.now())}</small></div>
+      <div className="wa-btns">${['Loved it!', 'Okay', 'Needs improvement'].map((x) => html`<button key=${x} onClick=${() => toast(x === 'Needs improvement' ? 'Sent privately to the owner. They can reply on WhatsApp.' : 'Thanks! The owner sees this in Reports.')}>${x}</button>`)}<button onClick=${() => toast('In the live app this opens ' + r.name + ' on Google Maps to post a review')}>Review us on Google</button></div>
+      <p className="small muted wa-note">Demo of the WhatsApp bill sent to ${s.me.phone}.</p></div>` : null}
     ${can(r.plan, 'pro') && lp.amount ? html`<div className="notice" id="loyalty-note"><b>+${Math.floor(lp.amount / 10)} loyalty points</b> at ${r.name}. You have ${Math.floor(lp.amount / 10) + 120} points; 500 points take ₹50 off a future bill.</div>` : null}
-    ${can(r.plan, 'pro') ? html`<div className="card"><b>How was your meal?</b><div className="stars">${[1, 2, 3, 4, 5].map((n) => html`<button key=${n} className=${n <= s.rating ? 'on' : ''} onClick=${() => d({ type: 'set', k: 'rating', v: n })} aria-label=${n + ' stars'}>${I('star', 30)}</button>`)}</div>${s.rating ? html`<p className="small muted">Thanks! ${s.rating >= 4 ? '+' + Math.floor(lp.amount / 20) + ' bonus points for rating.' : 'The owner will see your feedback.'}</p>` : null}${s.rating >= 4 ? html`<button className="btn primary" id="g-review" onClick=${() => toast('In the live app this opens ' + r.name + ' on Google Maps to post a review')}>${I('star', 16)}Share it on Google</button>` : null}</div>` : null}
+    ${can(r.plan, 'pro') ? html`<div className="card"><b>How was your meal?</b><div className="stars">${[1, 2, 3, 4, 5].map((n) => html`<button key=${n} className=${n <= s.rating ? 'on' : ''} onClick=${() => d({ type: 'set', k: 'rating', v: n })} aria-label=${n + ' stars'}>${I('star', 30)}</button>`)}</div>${s.rating ? html`<p className="small muted">Thanks! ${s.rating >= 4 ? '+' + Math.floor(lp.amount / 20) + ' bonus points for rating. Share it on Google too?' : 'The owner will see your feedback. You can also post it on Google.'}</p>` : null}${s.rating ? html`<button className="btn primary" id="g-review" onClick=${() => toast('In the live app this opens ' + r.name + ' on Google Maps to post a review')}>${I('star', 16)}Share it on Google</button>` : null}</div>` : null}
     <button className="btn block" onClick=${() => d({ type: 'go', screen: 'menu' })}>Back to the menu</button>
     <button className="link" style=${{ justifySelf: 'center' }} onClick=${() => d({ type: 'go', screen: 'orders' })}>Orders from this phone</button>
   </div></main>`;
@@ -1911,7 +1929,7 @@ const FEATURES = [
   ['Waiter phones, each waiter with their own PIN', ['y', 'y']],
   ['Loyalty points and bills on WhatsApp', ['n', 'y']],
   ['WhatsApp messages included', ['–', WA.included + ' a month, then ₹' + WA.extra.toFixed(2) + ' each']],
-  ['Google review requests after a good meal', ['n', 'y']],
+  ['Google review link on every bill', ['n', 'y']],
   ['Busy hours, repeat diners and ratings', ['n', 'y']],
   ['Owner view across outlets, your own branding', ['n', 'y']],
   ['Free trial', [SETUP.trial + ' days', SETUP.trial + ' days']],
@@ -2771,7 +2789,7 @@ function Analytics({ s, d, rid, team }) {
           <${Stack} parts=${[{ label: 'Returning', v: S.c.ret, slot: 1 }, { label: 'New', v: S.c.fresh, slot: 2 }]} fmt=${(v) => v + ' diners'} /></section>
         <section className="card"><div className="card-h"><h3>Ratings</h3><span className="small muted">${reviews} ratings · ${rating} average</span></div>
           <${HBars} rows=${dist} fmt=${(v) => v} mark="gold" />
-          <p className="small muted">${Math.round(reviews * 0.45)} happy diners were asked for a Google review; ${Math.round(reviews * 0.17)} posted one.</p></section>
+          <p className="small muted">Every bill carries your Google review link; ${Math.round(reviews * 0.17)} diners posted a review.</p></section>
       </div>
     <//>
 
