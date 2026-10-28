@@ -3345,9 +3345,12 @@ function App() {
     const st = loadState();
     const m = location.hash.match(/^#t=([a-z]+)-(\d{1,2})$/);
     if (m && RMAP[m[1]]) return { ...st, role: 'diner', screen: 'menu', rid: m[1], table: Number(m[2]), cart: st.rid === m[1] ? st.cart : [], sheet: null, tour: null };
-    // Shareable entry points for testers: #owner, #team, #tour, #business, #who
+    // Shareable entry points for testers: #owner, #cashier, #waiter, #kitchen, #login, #team, #tour, #business, #who
     const h = location.hash.slice(1);
-    if (h === 'owner') return { ...st, role: 'owner', ownerTab: 'orders', sheet: null, tour: null };
+    if (h === 'owner') return { ...st, role: 'owner', ownerTab: 'orders', me2: null, sheet: null, tour: null };
+    const STAFF_LINK = { cashier: ['Ramesh', 'Cashier'], waiter: ['Suresh', 'Waiter'], kitchen: ['Anil', 'Kitchen'] };
+    if (STAFF_LINK[h]) return { ...st, role: 'owner', ownerTab: STAFF_HOME[STAFF_LINK[h][1]], me2: { name: STAFF_LINK[h][0], role: STAFF_LINK[h][1] }, sheet: null, tour: null };
+    if (h === 'login') return { ...st, role: 'diner', screen: 'home', me2: null, sheet: { type: 'login' }, tour: null };
     if (h === 'team') return { ...st, role: 'admin', adminTab: 'overview', sheet: null, tour: null };
     if (h === 'business') return { ...st, role: 'diner', screen: 'business', sheet: null, tour: null };
     if (h === 'who') return { ...st, role: 'diner', screen: 'views', sheet: null, tour: null };

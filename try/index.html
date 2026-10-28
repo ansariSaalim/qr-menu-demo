@@ -79,19 +79,22 @@ ul li::before { content: ""; flex: none; width: 7px; height: 7px; border-radius:
   body { font-size: 12px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .noprint { display: none !important; }
   .wrap { padding: 0; max-width: none; }
-  .hero { padding: 16px 16px 10px; margin-top: 0; border-radius: 20px; gap: 6px; }
-  h1 { font-size: 30px; } .sub { font-size: 13px; }
+  .hero { padding: 10px 14px 8px; margin-top: 0; border-radius: 18px; gap: 4px; }
+  h1 { font-size: 24px; } .sub { font-size: 11.5px; }
   .main { margin-top: 10px; border-radius: 22px; padding: 7px; }
-  .main-in { border-radius: 16px; padding: 14px; grid-template-columns: auto 1fr; }
-  .main .qr { width: 200px; }
-  ol { gap: 4px; } ol li { font-size: 12px; } .main p { margin-bottom: 6px; }
-  .card .url { font-size: 9.5px; margin-top: 4px; }
-  .main h2 { font-size: 24px; }
-  .grid { grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; }
-  .card { border-radius: 16px; padding: 12px; gap: 6px; break-inside: avoid; }
-  .card .qr { width: 118px; padding: 6px; }
-  .card h3 { font-size: 15px; } .card p, ul li { font-size: 11px; } ul { gap: 3px; }
-  .note { margin-top: 8px; font-size: 11px; }
+  .main-in { border-radius: 16px; padding: 10px 14px; grid-template-columns: auto 1fr; }
+  .main .qr { width: 128px; }
+  ol { gap: 1px; } ol li { font-size: 10.5px; } .main p { margin-bottom: 4px; }
+  .card .url { display: none; }
+  .main h2 { font-size: 20px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .grid .card { width: calc(25% - 4.5px); }
+  .card .tbl { font-size: 9px; padding: 3px 8px; white-space: nowrap; }
+  .card { border-radius: 14px; padding: 8px 10px; gap: 4px; break-inside: avoid; }
+  .card .qr { width: 88px; padding: 4px; }
+  .card h3 { font-size: 13.5px; } .card p, ul li { font-size: 10px; } ul { gap: 1px; }
+  .note { margin-top: 4px; font-size: 10px; }
+  .top { margin-bottom: 4px; }
   .logo b, h1 em { background: none; -webkit-text-fill-color: #0a7f62; color: #0a7f62; }
 }
 </style>
@@ -133,40 +136,68 @@ ul li::before { content: ""; flex: none; width: 7px; height: 7px; border-radius:
       <div class="qr"><div id="qr-premium"></div><span class="tbl">TABLE 3</span></div>
       <span class="lbl">2 · A Pro restaurant</span>
       <h3>Rasoi Ghar Thali</h3>
-      <ul><li>The restaurant's own branding, no MenuMitra footer</li><li>Order, pay and earn loyalty points</li><li>Rate the meal and share it on Google</li></ul>
+      <ul><li>Its own branding, no MenuMitra footer</li><li>Pay, then get the bill on WhatsApp</li><li>Rate the meal, review on Google</li></ul>
       <div class="url" id="url-premium"></div>
     </article>
     <article class="card">
       <div class="qr"><div id="qr-cafe"></div><span class="tbl">TABLE 2</span></div>
       <span class="lbl">3 · A café</span>
       <h3>Little Leaf Café</h3>
-      <ul><li>Café categories: hot and cold coffee, shakes, sandwiches, bakes</li><li>Regular or Large, oat milk and extra shot</li><li>Order from the table, pay at the counter</li></ul>
+      <ul><li>Coffee, shakes, sandwiches, bakes</li><li>Regular or Large, oat milk, extra shot</li><li>Order at the table, pay at the counter</li></ul>
       <div class="url" id="url-cafe"></div>
     </article>
     <article class="card">
       <div class="qr"><div id="qr-owner"></div><span class="tbl">OWNER</span></div>
-      <span class="lbl">4 · Run the restaurant</span>
-      <h3>Restaurant dashboard</h3>
-      <ul><li>Live orders with a chime; accept and print the kitchen ticket</li><li>Take an order for a guest without a phone</li><li>Mark a dish sold out, print table QR codes</li><li>Analytics for the day</li></ul>
+      <span class="lbl">4 · The owner</span>
+      <h3>Full restaurant app</h3>
+      <ul><li>Orders, billing, tables, menu</li><li>Inventory, khata, reports</li><li>Printer, staff and plan settings</li></ul>
       <div class="url" id="url-owner"></div>
     </article>
     <article class="card">
+      <div class="qr"><div id="qr-cashier"></div><span class="tbl">CASHIER</span></div>
+      <span class="lbl">5 · Ramesh, cashier</span>
+      <h3>Billing counter</h3>
+      <ul><li>GST bill, discount, cash + UPI split</li><li>Settle tables, khata</li><li>Day-end report</li></ul>
+      <div class="url" id="url-cashier"></div>
+    </article>
+    <article class="card">
+      <div class="qr"><div id="qr-waiter"></div><span class="tbl">WAITER</span></div>
+      <span class="lbl">6 · Suresh, waiter</span>
+      <h3>Tables and orders</h3>
+      <ul><li>Running bill per table</li><li>Take an order, move or merge tables</li><li>No payments, menu is view only</li></ul>
+      <div class="url" id="url-waiter"></div>
+    </article>
+    <article class="card">
+      <div class="qr"><div id="qr-kitchen"></div><span class="tbl">KITCHEN</span></div>
+      <span class="lbl">7 · Anil, kitchen</span>
+      <h3>Kitchen screen</h3>
+      <ul><li>New, preparing, ready</li><li>Token board for a TV</li><li>Sold-out switch</li></ul>
+      <div class="url" id="url-kitchen"></div>
+    </article>
+    <article class="card">
       <div class="qr"><div id="qr-tour"></div><span class="tbl">TOUR</span></div>
-      <span class="lbl">5 · See it all in order</span>
-      <h3>Guided tour, 16 steps</h3>
-      <ul><li>From scanning the table to the kitchen ticket</li><li>Payment, reports and plans</li><li>Tap Next to move through each step</li></ul>
+      <span class="lbl">8 · Guided tour</span>
+      <h3>See it all, 17 steps</h3>
+      <ul><li>Table scan to kitchen ticket</li><li>Billing, tables, payment</li><li>Reports and plans</li></ul>
       <div class="url" id="url-tour"></div>
+    </article>
+    <article class="card">
+      <div class="qr"><div id="qr-pricing"></div><span class="tbl">PRICING</span></div>
+      <span class="lbl">9 · For restaurant owners</span>
+      <h3>Plans and pricing</h3>
+      <ul><li>Basic ₹4,999, Pro ₹7,499 a year</li><li>Or 6 months, or pick modules</li><li>15-day free trial</li></ul>
+      <div class="url" id="url-pricing"></div>
     </article>
   </section>
 
-  <p class="note">Tip: each phone keeps its own sample data. To watch an order reach the kitchen, place it with code 1, then scan code 4 on the same phone and accept it.</p>
+  <p class="note">Tip: each phone keeps its own sample data. To watch an order reach the kitchen, place it with code 1, then scan code 7 (kitchen) on the same phone and accept it.</p>
   <div class="links noprint"><a class="btn" href="../#business">Plans and pricing</a><a class="btn" href="../#who">Who sees what</a><a class="btn" href="../#team">Our team's board</a><a class="btn" href="../phone/">Phone preview on a laptop</a></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script>
 // Codes always point at the published demo, so a printed sheet works from anywhere
 var BASE = 'https://ansarisaalim.github.io/qr-menu-demo/';
-var CODES = { main: '#t=spice-5', premium: '#t=rasoi-3', cafe: '#t=leaf-2', owner: '#owner', tour: '#tour' };
+var CODES = { main: '#t=spice-5', premium: '#t=rasoi-3', cafe: '#t=leaf-2', owner: '#owner', cashier: '#cashier', waiter: '#waiter', kitchen: '#kitchen', tour: '#tour', pricing: '#business' };
 Object.keys(CODES).forEach(function (k) {
   var url = BASE + CODES[k];
   var box = document.getElementById('qr-' + k), lab = document.getElementById('url-' + k);
