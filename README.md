@@ -6,7 +6,7 @@ A clickable prototype of MenuMitra: billing, tables and QR ordering for small an
 - Phone app preview: https://ansarisaalim.github.io/qr-menu-demo/phone/
 - QR codes to scan (table, owner, cashier, waiter, kitchen, tour, pricing): https://ansarisaalim.github.io/qr-menu-demo/try/
 
-Use "View as" at the top to switch between a diner, the restaurant and our team. Use "Guided tour" to walk through the whole flow in 17 steps.
+Use "View as" at the top to switch between a diner, the restaurant and our team. Use "Guided tour" to walk through the whole flow in 18 steps.
 
 - **Website:** what MenuMitra does, plans and pricing, sign-up and restaurant log in.
 - **Diner at a table:** scan a table QR, order with portions and add-ons, track the order, pay by UPI or at the counter.

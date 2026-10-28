@@ -558,6 +558,8 @@ button.dname:hover { text-decoration: underline; text-underline-offset: 3px; }
 .rcover .rlogo { position: absolute; left: 18px; bottom: 16px; z-index: 1; width: 60px; height: 60px; border-radius: 16px; font-size: 21px; box-shadow: 0 0 0 3px #fff, 0 8px 18px rgba(0,0,0,0.25); }
 .rhead.has-cover > .rlogo { display: none; }
 img.rlogo { object-fit: cover; background: #fff; display: block; }
+.vbadge { font-size: 10.5px; padding: 1px 7px; margin-left: 4px; vertical-align: 1px; display: inline-flex; gap: 3px; align-items: center; }
+.qs-list { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 6px; }
 .brand-photos { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; margin: 4px 0 14px; }
 .brand-photos > div { display: grid; gap: 8px; align-content: start; }
 .bp-h { font-size: 13px; font-weight: 650; }
@@ -1523,8 +1525,8 @@ function freshState() {
     menus: Object.fromEntries(RESTAURANTS.map((r) => [r.id, r.menu.map((m) => ({ ...m }))])),
     orders: [
       { id: 'o115', rid: 'spice', no: 115, table: 2, name: 'Mehta family', items: [{ n: 'Dal Makhani', q: 1, p: 240, veg: true }, { n: 'Butter Naan', opt: 'Garlic', q: 4, p: 75, veg: true }, { n: 'Jeera Rice', q: 1, p: 170, veg: true }], status: 'ready', pay: 'unpaid', t: now - 23 * MIN },
-      { id: 'o116', rid: 'spice', no: 116, table: 9, name: 'Arjun', items: [{ n: 'Chicken 65', q: 1, p: 290, veg: false }, { n: 'Fresh Lime Soda', opt: 'Salted', q: 2, p: 90, veg: true }], note: 'Less spicy please', status: 'preparing', pay: 'unpaid', t: now - 11 * MIN },
-      { id: 'o117', rid: 'spice', no: 117, table: 7, name: 'Priya', items: [{ n: 'Paneer Tikka', q: 1, p: 260, veg: true }, { n: 'Masala Chaas', q: 2, p: 70, veg: true }], status: 'new', pay: 'unpaid', t: now - 2 * MIN },
+      { id: 'o116', qr: true, ver: true, phone: '9898011223', rid: 'spice', no: 116, table: 9, name: 'Arjun', items: [{ n: 'Chicken 65', q: 1, p: 290, veg: false }, { n: 'Fresh Lime Soda', opt: 'Salted', q: 2, p: 90, veg: true }], note: 'Less spicy please', status: 'preparing', pay: 'unpaid', t: now - 11 * MIN },
+      { id: 'o117', qr: true, ver: true, phone: '9824544210', rid: 'spice', no: 117, table: 7, name: 'Priya', items: [{ n: 'Paneer Tikka', q: 1, p: 260, veg: true }, { n: 'Masala Chaas', q: 2, p: 70, veg: true }], status: 'new', pay: 'unpaid', t: now - 2 * MIN },
       { id: 'o112', rid: 'spice', no: 112, table: 4, name: 'Shah', items: [{ n: 'Veg Dum Biryani', opt: 'Full', q: 2, p: 260, veg: true }, { n: 'Masala Chaas', q: 3, p: 70, veg: true }], status: 'served', pay: 'paid', method: 'upi', t: now - 95 * MIN },
       { id: 'o113', rid: 'spice', no: 113, table: 1, name: 'Neha', items: [{ n: 'Paneer Butter Masala', opt: 'Full', q: 1, p: 280, veg: true }, { n: 'Butter Naan', q: 3, p: 60, veg: true }], status: 'served', pay: 'paid', method: 'cash', t: now - 70 * MIN },
       { id: 'o114', rid: 'spice', no: 114, table: 11, name: 'Kabir', items: [{ n: 'Butter Chicken', opt: 'Full', q: 1, p: 340, veg: false }, { n: 'Lachha Paratha', q: 3, p: 70, veg: true }], status: 'served', pay: 'unpaid', t: now - 40 * MIN },
@@ -1546,7 +1548,7 @@ function loadState() {
   } catch (e) { return base; }
 }
 function saveState(s) {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable, billing: s.billing, anaRange: s.anaRange, adminTab: s.adminTab, adminRid: s.adminRid, costs: s.costs, me2: s.me2, printer: s.printer, staff: s.staff, customers: s.customers, inv: s.inv, offline: s.offline, pending: s.pending })); } catch (e) { /* storage blocked: the demo still works */ }
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, ver: s.ver, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable, billing: s.billing, anaRange: s.anaRange, adminTab: s.adminTab, adminRid: s.adminRid, costs: s.costs, me2: s.me2, printer: s.printer, staff: s.staff, customers: s.customers, inv: s.inv, offline: s.offline, pending: s.pending })); } catch (e) { /* storage blocked: the demo still works */ }
 }
 const R = (s, rid) => ({ ...RMAP[rid], ...s.rest[rid] });
 const canOrder = (s) => { const r = R(s, s.rid); return !!s.table && r.open && s.table <= r.tables; };
@@ -1559,10 +1561,15 @@ function addLineTo(s, rid, it, variant, addons, q) {
   const next = ex ? cart.map((l) => (l.key === key ? { ...l, q: l.q + q } : l)) : [...cart, { key, id: it.id, n: it.name, opt: [variant, ...addons].filter(Boolean).join(', '), q, p: unitPrice(it, variant, addons), veg: it.veg }];
   return { ...s, rid, cart: next };
 }
+/* Table QR safety: a diner verifies their mobile with a one-time code before the first order of a visit */
+const VERIFY_HOURS = 3;
+const isVerified = (s) => !!(s.ver && s.ver.rid === s.rid && s.ver.table === s.table && Date.now() - s.ver.at < VERIFY_HOURS * 3600000);
+const needsOtp = (s) => R(s, s.rid).qrOtp !== false && !isVerified(s);
+const maskPhone = (p) => { const x = String(p || '').replace(/\D/g, '').slice(-10); return x.length === 10 ? '+91 ' + x.slice(0, 2) + 'xxx x' + x.slice(6) : ''; };
 function placeOrderIn(s) {
   if (!s.cart.length || !s.table) return s;
   const no = (s.nextNo[s.rid] || 101);
-  const o = { id: 'o' + s.rid + no + '-' + Date.now(), rid: s.rid, no, table: s.table, name: (s.me.name || '').trim() || 'Guest', phone: s.me.phone, items: s.cart.map((l) => ({ n: l.n, opt: l.opt, q: l.q, p: l.p, veg: l.veg })), note: s.note.trim(), status: 'new', pay: 'unpaid', t: Date.now(), mine: true };
+  const o = { id: 'o' + s.rid + no + '-' + Date.now(), rid: s.rid, no, table: s.table, name: (s.me.name || '').trim() || 'Guest', phone: s.me.phone, items: s.cart.map((l) => ({ n: l.n, opt: l.opt, q: l.q, p: l.p, veg: l.veg })), note: s.note.trim(), status: 'new', pay: 'unpaid', t: Date.now(), mine: true, ver: isVerified(s) };
   return { ...s, orders: [...s.orders, o], cart: [], note: '', nextNo: { ...s.nextNo, [s.rid]: no + 1 }, fresh: o.id, screen: 'track', sheet: null };
 }
 function ensureCartIn(s) {
@@ -1588,6 +1595,7 @@ function reducer(s, a) {
     case 'add': return { ...addLineTo(s, a.rid, a.it, a.variant, a.addons, a.q), sheet: null };
     case 'qty': return { ...s, cart: s.cart.map((l) => (l.key === a.key ? { ...l, q: l.q + a.d } : l)).filter((l) => l.q > 0) };
     case 'place': return placeOrderIn(s);
+    case 'verified': return { ...s, me: { ...s.me, name: a.name, phone: a.phone }, ver: { rid: s.rid, table: s.table, phone: a.phone, at: Date.now() }, sheet: null };
     case 'staffOrder': { const no = s.nextNo[OWNER_RID] || 101; const o = { id: 'o' + OWNER_RID + no + '-' + Date.now(), rid: OWNER_RID, no, table: a.table, type: 'dine', name: 'Taken by the waiter', items: a.items, note: (a.note || '').trim(), status: 'preparing', pay: 'unpaid', t: Date.now(), staff: true }; return { ...s, orders: [...s.orders, o], nextNo: { ...s.nextNo, [OWNER_RID]: no + 1 }, fresh: o.id, ownerCol: 'preparing', sheet: null }; }
     case 'counterBill': {
       const no = s.nextNo[OWNER_RID] || 101, r = R(s, OWNER_RID), now = Date.now();
@@ -1656,12 +1664,14 @@ function reducer(s, a) {
 }
 
 /* ---------- Guided tour ---------- */
+const tourVer = (n) => ({ ...n, me: { ...n.me, name: n.me.name || 'Priya', phone: n.me.phone || '9824012345' }, ver: { rid: 'spice', table: n.table, phone: (n.me.phone || '9824012345').replace(/\D/g, ''), at: Date.now() } });
 const TOUR = [
   { t: 'Scan the QR on the table', d: 'The phone camera opens the menu for that exact table. No app to install, no sign-up.', apply: (s) => ({ ...s, role: 'diner', screen: 'home', sheet: { type: 'scan', rid: 'spice', table: 5 } }), hl: '#scan-sheet' },
   { t: 'The menu, at Table 5', d: 'Categories, veg-only filter, search, dish photos and sold-out dishes greyed out. The table number is already set.', apply: (s) => ({ ...s, role: 'diner', screen: 'menu', rid: 'spice', table: 5, cart: s.rid === 'spice' ? s.cart : [], sheet: null }), hl: '#menu-main' },
   { t: 'Pick a portion and add-ons', d: 'Half or full, extra butter. The price updates before anything goes into the cart.', apply: (s) => ({ ...s, role: 'diner', screen: 'menu', rid: 'spice', table: 5, sheet: { type: 'dish', id: 'pbm', variant: 'Full', addons: ['Extra butter'], q: 1 } }), hl: '#dish-sheet' },
   { t: 'Review and place the order', d: 'GST is shown before confirming. Name, an optional note for the kitchen, then one tap.', apply: (s) => ({ ...ensureCartIn({ ...s, table: 5 }), role: 'diner', screen: 'cart', table: 5, sheet: null }), hl: '#place-btn' },
-  { t: 'It lands on the restaurant screen', d: 'A chime and a new card with the table number, every dish and the note. No waiter in between.', apply: (s) => { let n = s.cart.length && s.rid === 'spice' ? placeOrderIn({ ...s, table: s.table || 5 }) : s; if (!lastMine(n)) n = placeOrderIn(ensureCartIn({ ...n, table: 5 })); return { ...n, role: 'owner', ownerTab: 'orders', ownerCol: 'new', sheet: null }; }, hl: () => { const o = window.__mmLast; return o ? '#oc-' + o : '#board'; } },
+  { t: 'One code on the first order', d: 'The diner confirms their mobile with a 4-digit code on WhatsApp or SMS, once per visit. A photo of the QR is no use without a real number.', apply: (s) => ({ ...ensureCartIn({ ...s, table: 5 }), role: 'diner', screen: 'cart', table: 5, ver: null, me: { ...s.me, name: s.me.name || 'Priya', phone: s.me.phone || '98240 12345' }, sheet: { type: 'otp' } }), hl: '#otp-sheet' },
+  { t: 'It lands on the restaurant screen', d: 'A chime and a new card with the table number, every dish and the note. No waiter in between.', apply: (s) => { let n = s.cart.length && s.rid === 'spice' ? placeOrderIn(tourVer({ ...s, table: s.table || 5 })) : s; if (!lastMine(n)) n = placeOrderIn(tourVer(ensureCartIn({ ...n, table: 5 }))); return { ...n, role: 'owner', ownerTab: 'orders', ownerCol: 'new', sheet: null }; }, hl: () => { const o = window.__mmLast; return o ? '#oc-' + o : '#board'; } },
   { t: 'Accept it and the kitchen ticket prints', d: 'Accepting moves the order to Preparing and sends a ticket (KOT) to the kitchen printer.', apply: (s) => { const o = lastMine(s); if (!o) return s; return { ...s, role: 'owner', ownerTab: 'orders', ownerCol: 'preparing', orders: s.orders.map((x) => (x.id === o.id && x.status === 'new' ? { ...x, status: 'preparing' } : x)), sheet: { type: 'kot', id: o.id } }; }, hl: '#kot' },
   { t: 'The diner follows it live', d: 'Received, preparing, ready, served. They can order more onto the same bill or call a waiter.', apply: (s) => ({ ...s, role: 'diner', screen: 'track', rid: 'spice', table: s.table || 5, sheet: null }), hl: '#track-main' },
   { t: 'Pay from the table', d: 'Once served, the diner pays by UPI from the phone or chooses the counter. The restaurant sees it at once.', apply: (s) => ({ ...s, role: 'diner', screen: 'pay', rid: 'spice', table: s.table || 5, pay: 'upi', sheet: null, orders: s.orders.map((o) => (o.mine && o.rid === 'spice' && o.pay !== 'paid' && o.status !== 'cancelled' ? { ...o, status: 'served' } : o)) }), hl: '#pay-main' },
@@ -1852,8 +1862,8 @@ function CartBody({ s, d, r, compact }) {
     ${compact ? null : html`<label className="field">Note for the kitchen <textarea id="note" rows="2" value=${s.note} placeholder="Less spicy, no onion…" onChange=${(e) => d({ type: 'set', k: 'note', v: e.target.value })}></textarea></label>
       <div className="fields2"><label className="field">Your name<input id="me-name" value=${s.me.name} onChange=${(e) => d({ type: 'me', patch: { name: e.target.value } })} /></label><label className="field">Mobile <input id="me-phone" inputMode="tel" value=${s.me.phone} onChange=${(e) => d({ type: 'me', patch: { phone: e.target.value } })} /></label></div>`}
     <div className="bill"><div><span>Item total</span><span>${inr(sub)}</span></div><div><span>GST ${r.gst}%</span><span>₹${tax.toFixed(2)}</span></div><div className="tot"><span>To pay</span><span>${inr(sub + tax)}</span></div></div>
-    <button className="btn primary lg block" id="place-btn" onClick=${() => { d({ type: 'place' }); chime(); toast('Order sent to the kitchen', 'ok'); }} disabled=${!canOrder(s)}>Place order · ${inr(sub + tax)}</button>
-    <p className="small muted" style=${{ textAlign: 'center' }}>You pay after your meal.</p>
+    <button className="btn primary lg block" id="place-btn" style=${{ whiteSpace: 'normal' }} onClick=${() => { if (needsOtp(s)) { d({ type: 'sheet', sheet: { type: 'otp' } }); return; } d({ type: 'place' }); chime(); toast('Order sent to the kitchen', 'ok'); }} disabled=${!canOrder(s)}>${needsOtp(s) ? 'Verify & place order' : 'Place order'} · ${inr(sub + tax)}</button>
+    <p className="small muted" style=${{ textAlign: 'center' }}>${isVerified(s) ? html`${I('check', 13)} ${maskPhone(s.ver.phone)} verified for Table ${s.table}. ` : needsOtp(s) ? 'One quick code on your first order, so the kitchen knows it is really you at the table. ' : ''}You pay after your meal.</p>
   </div>`;
 }
 
@@ -2030,6 +2040,46 @@ function DishSheet({ s, d }) {
     ${it.addons.length ? html`<div className="opt-group"><b>Add-ons <span className="muted">(optional)</span></b>${it.addons.map(([n, p]) => { const on = sh.addons.includes(n); return html`<button key=${n} className="opt" aria-pressed=${on} onClick=${() => d({ type: 'patchSheet', patch: { addons: on ? sh.addons.filter((x) => x !== n) : [...sh.addons, n] } })}><span className="box">${on ? I('check', 12) : null}</span><span>${n}</span><span className="num">+${inr(p)}</span></button>`; })}</div>` : null}
     <div className="row" style=${{ flexWrap: 'nowrap' }}><div className="stepper"><button onClick=${() => d({ type: 'patchSheet', patch: { q: Math.max(1, sh.q - 1) } })} aria-label="One less">−</button><span>${sh.q}</span><button onClick=${() => d({ type: 'patchSheet', patch: { q: sh.q + 1 } })} aria-label="One more">+</button></div>
       <button className="btn primary lg grow" onClick=${add}>${s.table ? 'Add · ' + inr(unit * sh.q) : 'Pick your table to add'}</button></div>`}
+  <//>`;
+}
+
+function OtpSheet({ s, d }) {
+  const r = R(s, s.rid);
+  const [name, setName] = useState(s.me.name || '');
+  const [phone, setPhone] = useState(s.me.phone || '');
+  const [step, setStep] = useState(1);
+  const [code, setCode] = useState('');
+  const [sent, setSent] = useState('');
+  const [tries, setTries] = useState(0);
+  const [wait, setWait] = useState(0);
+  const [err, setErr] = useState('');
+  useEffect(() => { if (!wait) return; const t = setTimeout(() => setWait(wait - 1), 1000); return () => clearTimeout(t); }, [wait]);
+  const close = () => d({ type: 'sheet', sheet: null });
+  const digits = phone.replace(/\D/g, '').slice(-10);
+  const send = () => {
+    if (!name.trim()) { setErr('Add your name, so the staff know whose order it is.'); return; }
+    if (!/^[6-9]\d{9}$/.test(digits)) { setErr('Enter a valid 10-digit Indian mobile number.'); return; }
+    setSent(String(1000 + Math.floor(Math.random() * 9000))); setCode(''); setTries(0); setErr(''); setStep(2); setWait(30);
+  };
+  const check = () => {
+    if (code.length !== 4) { setErr('Enter the 4-digit code.'); return; }
+    if (code !== sent) { const t = tries + 1; setTries(t); setCode(''); setErr(t >= 3 ? 'Too many wrong codes. Send a new code, or ask the staff to take your order.' : 'That code does not match. ' + (3 - t) + (3 - t === 1 ? ' try' : ' tries') + ' left.'); if (t >= 3) setStep(1); return; }
+    d({ type: 'verified', name: name.trim(), phone: digits }); d({ type: 'place' }); chime(); toast('Mobile verified. Order sent to the kitchen', 'ok');
+  };
+  return html`<${Modal} id="otp-sheet" onClose=${close}>
+    <div className="modal-h"><h2>${I('shield', 22)}Confirm it’s you</h2><button className="btn sm icon" onClick=${close} aria-label="Close">${I('x')}</button></div>
+    <p className="small muted">${r.name} asks for a one-time code on the first order from Table ${s.table}. It stops orders from photos of the QR. After this, order as often as you like during your visit.</p>
+    ${step === 1 ? html`
+      <label className="field">Your name<input id="otp-name" value=${name} placeholder="e.g. Priya" onChange=${(e) => setName(e.target.value)} /></label>
+      <label className="field">Mobile number<div className="money"><span>+91</span><input id="otp-phone" inputMode="tel" value=${phone} placeholder="98xxx xxxxx" onChange=${(e) => setPhone(e.target.value)} /></div><small>We send the code on WhatsApp, or SMS if you are not on WhatsApp. No spam.</small></label>
+      ${err ? html`<p className="notice">${err}</p>` : null}
+      <button className="btn primary lg block" id="otp-send" onClick=${send}>Send code</button>`
+    : html`
+      <div className="notice leaf" id="otp-demo"><b>Demo:</b> your code is <b className="num">${sent}</b>. In the live app it arrives on WhatsApp or SMS.</div>
+      <label className="field">Code sent to ${maskPhone(digits)}<input id="otp-code" className="otp" inputMode="numeric" autoComplete="one-time-code" maxLength="4" placeholder="• • • •" value=${code} onChange=${(e) => { setCode(e.target.value.replace(/\D/g, '').slice(0, 4)); setErr(''); }} autoFocus /></label>
+      <div className="row" style=${{ justifyContent: 'space-between' }}><button className="link small" onClick=${() => { setStep(1); setErr(''); }}>Change number</button>${wait ? html`<span className="small muted">Resend in ${wait}s</span>` : html`<button className="link small" id="otp-resend" onClick=${send}>Resend code</button>`}</div>
+      ${err ? html`<p className="notice">${err}</p>` : null}
+      <button className="btn primary lg block" id="otp-verify" onClick=${check}>Verify & place order</button>`}
   <//>`;
 }
 
@@ -2454,6 +2504,7 @@ function Diner({ s, d }) {
     <${DinerNav} s=${s} d=${d} />
     <${Screen} s=${s} d=${d} />
     ${s.sheet && s.sheet.type === 'dish' ? html`<${DishSheet} s=${s} d=${d} />` : null}
+    ${s.sheet && s.sheet.type === 'otp' ? html`<${OtpSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'table' ? html`<${TableSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'signup' ? html`<${SignupSheet} key=${s.sheet.plan} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'login' ? html`<${LoginSheet} s=${s} d=${d} />` : null}
@@ -2474,7 +2525,7 @@ function OwnerOrders({ s, d }) {
   const done = mine.filter((o) => (o.status === 'served' && o.pay === 'paid') || o.status === 'cancelled').sort((a, b) => b.no - a.no);
   const card = (o) => html`<article key=${o.id} id=${'oc-' + o.id} className=${'oc' + (o.status === 'new' ? ' new' : '') + (s.fresh === o.id ? ' fresh' : '')}>
     <div className="oc-h"><span className="tno">${tlabel(o)}</span><b>#${o.no}</b><small>${ago(o.t)}</small></div>
-    <span className="oc-who">${o.name}${o.mine ? ' · from the diner view' : ''}</span>
+    <span className="oc-who">${o.name}${o.mine || o.qr ? ' · table QR' : ''}${o.ver ? html` <span className="pill ok vbadge" title=${'Verified ' + maskPhone(o.phone)}>${I('check', 11)}Verified</span>` : o.mine ? html` <span className="pill sun vbadge">Not verified</span>` : null}</span>
     <ul>${o.items.map((i, k) => html`<li key=${k}><b>${i.q}×</b><span><${VegMark} veg=${i.veg} /> ${i.n}${i.opt ? html`<small>${i.opt}</small>` : null}</span></li>`)}</ul>
     ${o.note ? html`<div className="oc-note">Note: ${o.note}</div>` : null}
     <div className="oc-f"><strong>${inr(due(o, r))}</strong><div className="oc-btns">
@@ -3029,6 +3080,15 @@ function OwnerSettings({ s, d }) {
     <${BillingSwitch} s=${s} d=${d} />
     <div id="plans"><${PlanCards} current=${r.plan} currentBilling=${r.billing} billing=${s.billing || 'y'} onPick=${(k) => { const b = BILLING[s.billing] ? s.billing : 'y'; d({ type: 'rest', rid: OWNER_RID, patch: { plan: k, billing: b } }); toast(r.name + ' is on ' + PLANS[k].name + ', ' + BILLING[b].per); }} label=${(k) => (RANK[k] > RANK[r.plan] ? 'Upgrade to ' : 'Switch to ') + PLANS[k].name} /></div>
     <div className="notice leaf"><b>On ${PLANS[r.plan].name} you get:</b> ${r.plan === 'pro' ? 'billing, tables, table QR ordering, kitchen screen, khata and reports, plus inventory, loyalty, WhatsApp bills, Google reviews and dish profit.' : 'billing with GST, tables and takeaway, table QR ordering, kitchen screen, khata and sales reports with Excel export.'}</div>
+    <section className="card" id="qr-safety"><div className="card-h"><h3>${I('shield', 18)} Table QR safety</h3></div>
+      <label className="row" style=${{ gap: 10, fontWeight: 650, flexWrap: 'nowrap' }}><button className="switch" role="switch" id="qr-otp" aria-checked=${r.qrOtp !== false} onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { qrOtp: r.qrOtp === false } }); toast(r.qrOtp === false ? 'Diners verify their mobile on the first order' : 'Mobile code turned off'); }} aria-label="Ask for a mobile code on the first order"><i></i></button>Ask for a mobile code on each table’s first order</label>
+      <ul className="small muted qs-list">
+        <li>The diner gets a 4-digit code on WhatsApp or SMS once per visit. Later orders from the same phone and table go straight through for ${VERIFY_HOURS} hours.</li>
+        <li>Every QR order still waits for your <b>Accept</b> on the kitchen screen, marked <b>Verified</b> with the mobile number.</li>
+        <li>If someone orders from a photo of the QR, they cannot get past the code without a real number, and you can see whose number it is.</li>
+      </ul>
+      ${r.qrOtp === false ? html`<p className="notice">Code is off: anyone with a photo of your table QR can send an order. Keep checking new orders before you accept them.</p>` : null}
+    </section>
     <${PrinterSettings} s=${s} d=${d} />
     <${StaffSettings} s=${s} d=${d} />
     ${(() => { const used = 182 + s.orders.filter((o) => o.rid === OWNER_RID && o.pay === 'paid' && (o.mine || o.counter || o.staff)).length; const pct = Math.min(100, Math.round((used / WA.included) * 100)); return can(r.plan, 'pro') ? html`<section className="card" id="wa-usage"><div className="card-h"><h3>WhatsApp this month</h3><span className="small muted">${used} of ${WA.included} included messages used</span></div><div className="meter" role="img" aria-label=${used + ' of ' + WA.included + ' WhatsApp messages used'}><i style=${{ width: pct + '%' }}></i></div><p className="small muted">Bills, offers and your daily summary. After ${WA.included}, each message costs ₹${WA.extra.toFixed(2)}, added to your next payment. Resets on the 1st.</p></section>` : html`<section className="card" id="wa-usage"><div className="card-h"><h3>WhatsApp bills</h3><span className="pill">Pro</span></div><p className="small muted">On Pro, diners get bills on WhatsApp and you get a daily summary: ${WA.included} messages a month included.</p></section>`; })()}
