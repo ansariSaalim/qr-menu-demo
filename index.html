@@ -547,6 +547,7 @@ p { margin: 0; }
 .dmore > b { font-size: 14px; }
 .tag.allergen { background: #fef3c7; color: #92400e; }
 :root[data-theme="dark"] .tag.allergen { background: rgba(251,191,36,0.16); color: #fcd34d; }
+.dpic:focus:not(:focus-visible), .dpic:focus:not(:focus-visible) .plate { outline: none; box-shadow: none; }
 .dpic { padding: 0; border: 0; background: none; display: block; cursor: pointer; border-radius: 16px; }
 button.dname { background: none; border: 0; padding: 0; text-align: left; color: inherit; font: inherit; font-weight: 650; font-size: 16px; cursor: pointer; }
 button.dname:hover { text-decoration: underline; text-underline-offset: 3px; }
@@ -1903,7 +1904,7 @@ function MenuPage({ s, d }) {
           ${list.filter((m) => m.cat === c).map((it) => html`<div className=${'dish' + (it.stock ? '' : ' out')} key=${it.id}>
             <div className="dtxt"><div className="dtop"><${VegMark} veg=${it.veg} />${it.tags.map((t) => html`<span key=${t} className=${tagCls(t)}>${t}</span>`)}</div>
               <button className="dname" onClick=${() => openDish(d, it)}>${it.name}</button><span className="dprice">${it.variants.length ? inr(Math.min(...it.variants.map((v) => v[1]))) + (it.variants.length > 1 && it.variants[0][1] !== it.variants[1][1] ? ' onwards' : '') : inr(it.price)}</span>
-              <p className="ddesc">${it.desc}</p>${dishFacts(it).length ? html`<p className="dmeta">${dishFacts(it).filter((f) => f[0] !== 'Spice' || it.spice).map((f) => f[0] === 'Serves' ? 'Serves ' + f[1] : f[1]).join(' · ')}</p>` : null}</div>
+              <p className="ddesc">${it.desc}</p>${dishFacts(it).length ? html`<p className="dmeta">${dishFacts(it).filter((f) => f[0] !== 'Spice' || it.spice).map((f) => f[0] === 'Serves' ? 'Serves ' + f[1] : f[0] === 'Spice' ? SPICE[it.spice] : f[1]).join(' · ')}</p>` : null}</div>
             <div className="dmedia"><button className="dpic" onClick=${() => openDish(d, it)} aria-label=${'Photo and details: ' + it.name}><${Plate} c=${it.c} img=${it.img} alt=${it.name} /></button><${DishControl} s=${s} d=${d} it=${it} r=${r} /></div>
           </div>`)}
         </section>`)}
@@ -2003,7 +2004,7 @@ function MyOrders({ s, d }) {
   </div></main>`;
 }
 
-const dishFacts = (it) => [it.serves ? ['Serves', it.serves] : null, it.spice != null && it.spice !== '' ? ['Spice', SPICE[it.spice]] : null, it.mins ? ['Ready in', it.mins + ' min'] : null].filter(Boolean);
+const dishFacts = (it) => [it.serves ? ['Serves', it.serves] : null, it.spice != null && it.spice !== '' ? ['Spice', ['None', 'Mild', 'Medium', 'Hot'][it.spice]] : null, it.mins ? ['Ready in', it.mins + ' min'] : null].filter(Boolean);
 const bigImg = (src) => (src || '').replace('w=480&h=480', 'w=960&h=600');
 const openDish = (d, it) => d({ type: 'sheet', sheet: { type: 'dish', id: it.id, variant: it.variants.length ? it.variants[0][0] : null, addons: [], q: 1 } });
 function DishSheet({ s, d }) {
