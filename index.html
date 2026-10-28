@@ -1065,6 +1065,17 @@ button.pos-it:hover:not(:disabled) { border-color: var(--ink); }
 input.otp { letter-spacing: 0.5em; font-family: var(--f-mono); font-size: 20px; text-align: center; }
 @media (max-width: 1100px) { .login-btn .lb-l { display: none; } }
 @media (max-width: 860px) { .nav-actions .login-btn { display: inline-flex; padding: 7px 10px; } }
+
+.role-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px var(--gutter); background: var(--info-soft); border-bottom: 1px solid var(--line); }
+.role-sees { background: var(--leaf-soft); border-radius: 12px; padding: 10px 12px; }
+.staff-out { display: none; }
+.access .tbl { min-width: 560px; font-size: 13.5px; }
+.access .tbl th, .access .tbl td { padding: 8px 10px; text-align: center; }
+.access .tbl th:first-child, .access .tbl td:first-child { text-align: left; }
+.access .tbl td.yes .ic { color: var(--ok); }
+.access .tbl td.no { color: var(--muted); }
+@media (max-width: 860px) { .staff-out { display: inline-flex; padding: 6px 10px; } }
+@media (max-width: 520px) { .otop.staff .otop-name .pill, .otop.staff .net-pill { display: none; } }
 /* Phone polish */
 .ot-s { display: none; }
 .mcards { display: none; }
@@ -2187,6 +2198,24 @@ function WhoSees({ s, d }) {
 
 /* ---------- Restaurant log in: owner by mobile and OTP, staff by PIN ---------- */
 const STAFF_HOME = { Owner: 'orders', Manager: 'orders', Cashier: 'billing', Kitchen: 'orders', Waiter: 'floor' };
+/* What each staff role sees. The owner sees everything. */
+const TAB_LABEL = { orders: 'Orders', billing: 'Billing', floor: 'Tables', menu: 'Menu', inventory: 'Inventory', customers: 'Customers & khata', tables: 'QR codes', reports: 'Reports', settings: 'Plan & settings' };
+const ROLE_ACCESS = {
+  Owner: null,
+  Manager: ['orders', 'billing', 'floor', 'menu', 'inventory', 'customers', 'tables', 'reports'],
+  Cashier: ['billing', 'floor', 'orders', 'customers'],
+  Waiter: ['floor', 'orders', 'menu'],
+  Kitchen: ['orders', 'menu'],
+};
+const ROLE_NOTE = {
+  Owner: 'Everything, including the plan, staff and reports.',
+  Manager: 'Everything except the plan, payments to MenuMitra and staff logins.',
+  Cashier: 'Billing, tables, orders and khata. Takes payments and closes the day.',
+  Waiter: 'Tables, orders and the menu. Takes orders, cannot take payments or change prices.',
+  Kitchen: 'The kitchen screen and the sold-out switch. No bills, no prices.',
+};
+const roleOf = (s) => (s.me2 && s.me2.role) || 'Owner';
+const canPay = (s) => !['Waiter', 'Kitchen'].includes(roleOf(s));
 function LoginSheet({ s, d }) {
   const [who, setWho] = useState('owner');
   const [phone, setPhone] = useState('98250 12345');
@@ -2218,8 +2247,9 @@ function LoginSheet({ s, d }) {
       ${err ? html`<p className="notice">${err}</p>` : null}
       <button className="btn primary lg block" id="lg-go" onClick=${ownerGo}>${step === 1 ? 'Send code' : 'Log in'}</button>`
     : html`
-      <p className="small muted">Spice Garden staff. Cashiers open on Billing, waiters on Tables, the kitchen on Orders.</p>
+      <p className="small muted">Spice Garden staff. Each person sees only their part of the app.</p>
       <div className="staff-pick" role="radiogroup" aria-label="Who are you">${staff.map((x) => html`<button key=${x.id} role="radio" aria-checked=${sid === x.id} onClick=${() => { setSid(x.id); setPin(''); setErr(''); }}><b>${x.name}</b><small>${x.role}</small></button>`)}</div>
+      ${staff.find((x) => x.id === sid) ? html`<p className="small role-sees"><b>${staff.find((x) => x.id === sid).role} sees:</b> ${(ROLE_ACCESS[staff.find((x) => x.id === sid).role] || Object.keys(TAB_LABEL)).map((k) => TAB_LABEL[k]).join(', ')}</p>` : null}
       <label className="field">4-digit PIN<input id="lg-pin" className="otp" inputMode="numeric" maxLength="4" placeholder="• • • •" value=${pin} onChange=${(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))} /></label>
       ${err ? html`<p className="notice">${err}</p>` : null}
       <button className="btn primary lg block" id="lg-staff" disabled=${pin.length !== 4} onClick=${staffGo}>Log in</button>`}
@@ -2266,13 +2296,13 @@ function OwnerOrders({ s, d }) {
   </article>`;
   return html`
     <div className="ph"><div><h1>Live orders</h1><p className="muted">QR, waiter and counter orders in one kitchen queue. This screen works as the kitchen screen on any phone or tablet.</p></div>
-      <div className="row"><button className="btn" id="token-btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'tokens' } })}>${I('grid', 16)}Token board</button><button className="btn primary" id="take-order" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder' } })}>${I('plus', 17)}Take an order</button><button className=${'btn' + (s.sound ? ' on' : '')} onClick=${() => { d({ type: 'set', k: 'sound', v: !s.sound }); if (!s.sound) chime(); }} aria-pressed=${s.sound}>${I(s.sound ? 'sound' : 'mute')}${s.sound ? 'Sound on' : 'Sound off'}</button></div></div>
+      <div className="row"><button className="btn" id="token-btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'tokens' } })}>${I('grid', 16)}Token board</button>${roleOf(s) === 'Kitchen' ? null : html`<button className="btn primary" id="take-order" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder' } })}>${I('plus', 17)}Take an order</button>`}<button className=${'btn' + (s.sound ? ' on' : '')} onClick=${() => { d({ type: 'set', k: 'sound', v: !s.sound }); if (!s.sound) chime(); }} aria-pressed=${s.sound}>${I(s.sound ? 'sound' : 'mute')}${s.sound ? 'Sound on' : 'Sound off'}</button></div></div>
     ${alerts.length ? html`<div className="reqs">${alerts.map((a) => html`<div key=${a.id} className=${'req' + (a.kind === 'paid' ? ' pay' : '')}>${I(a.kind === 'paid' ? 'check' : 'bell')}<span><b>Table ${a.table}</b> ${REQ_TEXT[a.kind]}${a.amount ? ' · ' + inr(a.amount) : ''}</span><small>${ago(a.t)}</small><button className="btn sm" onClick=${() => d({ type: 'alertDone', id: a.id })}>Done</button></div>`)}</div>` : null}
     <div className="seg full colswitch" role="group" aria-label="Order stage">${cols.map(([k, l]) => html`<button key=${k} aria-pressed=${s.ownerCol === k} onClick=${() => d({ type: 'set', k: 'ownerCol', v: k })}>${l.split(' ')[0]}${col(k).length ? html`<span className="badge">${col(k).length}</span>` : null}</button>`)}</div>
     <div className="kanban" id="board" data-col=${s.ownerCol}>${cols.map(([k, l, tone]) => html`<section key=${k} className="col" data-stage=${k}><div className="col-h"><i className=${'dot ' + tone}></i>${l}<span>${col(k).length}</span></div>
       ${col(k).length ? col(k).map(card) : html`<div className="col-empty">${k === 'new' ? 'No new orders. Place one from the diner view.' : 'Nothing here.'}</div>`}</section>`)}</div>
-    ${waiting.length ? html`<section className="card"><h3>Waiting for payment</h3><div>${waiting.map((o) => html`<div key=${o.id} className="payrow"><span className="tno">${tlabel(o)}</span><span><b>#${o.no}</b> · ${o.name}<br /><small className="muted">${o.method === 'counter' ? 'Paying at the counter' : 'Not paid yet'}</small></span><strong className="num">${inr(due(o, r))}</strong>
-      <div className="row">${['cash', 'upi', 'card'].map((m) => html`<button key=${m} className="btn sm" onClick=${() => { d({ type: 'markPaid', id: o.id, method: m }); toast('Order #' + o.no + ' marked paid'); }}>${m === 'upi' ? 'UPI' : m[0].toUpperCase() + m.slice(1)}</button>`)}</div></div>`)}</div></section>` : null}
+    ${waiting.length && roleOf(s) !== 'Kitchen' ? html`<section className="card"><h3>Waiting for payment</h3><div>${waiting.map((o) => html`<div key=${o.id} className="payrow"><span className="tno">${tlabel(o)}</span><span><b>#${o.no}</b> · ${o.name}<br /><small className="muted">${o.method === 'counter' ? 'Paying at the counter' : 'Not paid yet'}</small></span><strong className="num">${inr(due(o, r))}</strong>
+      ${canPay(s) ? html`<div className="row">${['cash', 'upi', 'card'].map((m) => html`<button key=${m} className="btn sm" onClick=${() => { d({ type: 'markPaid', id: o.id, method: m }); toast('Order #' + o.no + ' marked paid'); }}>${m === 'upi' ? 'UPI' : m[0].toUpperCase() + m.slice(1)}</button>`)}</div>` : html`<span className="small muted">Cashier settles</span>`}</div>`)}</div></section>` : null}
     ${done.length ? html`<section className="card"><h3>Done today <span className="muted small">${done.length} orders</span></h3><div className="donechips">${done.map((o) => html`<span key=${o.id} className="donechip"><b>#${o.no}</b>${tlabel(o)} · ${inr(due(o, r))} ${o.status === 'cancelled' ? html`<span className="pill bad">Rejected</span>` : html`<span className="pill ok">Paid</span>`}</span>`)}</div></section>` : null}
   `;
 }
@@ -2310,20 +2340,23 @@ function OwnerMenu({ s, d }) {
   const list = menu.filter((m) => (cat === 'all' || m.cat === cat) && (!needle || (m.name + ' ' + m.desc).toLowerCase().includes(needle)));
   const out = menu.filter((m) => !m.stock).length;
   const limit = null, full = false;
+  const role = roleOf(s), limited = role === 'Kitchen' || role === 'Waiter', viewOnly = role === 'Waiter';
+  const editDish = (it) => { if (!limited) d({ type: 'sheet', sheet: { type: 'edit', dish: { ...it, price: String(it.price) } } }); };
   const newDish = () => d({ type: 'sheet', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: cat !== 'all' ? cat : cats[0] || 'Specials', name: '', price: '', veg: true, desc: '', tags: [], variants: [], addons: [], stock: true, img: null, c: ['#d98a3a', '#f1d7a6'] } } });
   return html`<div id="menu-mgr-wrap" style=${{ display: 'grid', gap: 16 }}>
     <div className="ph"><div><h1>Menu</h1><p className="muted">${menu.length} dishes · ${cats.length} categories${out ? ' · ' + out + ' sold out' : ''}. Every change shows on the tables instantly.</p></div>
-      <div className="row"><button className="btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'cats' } })}>${I('menu', 16)}Categories</button>
-      <button className="btn primary" id="add-dish-btn" disabled=${full} onClick=${newDish}>${I('plus')}Add dish</button></div></div>
+      ${limited ? null : html`<div className="row"><button className="btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'cats' } })}>${I('menu', 16)}Categories</button>
+      <button className="btn primary" id="add-dish-btn" disabled=${full} onClick=${newDish}>${I('plus')}Add dish</button></div>`}</div>
+    ${limited ? html`<div className="notice leaf">${viewOnly ? 'View only. Check what is available before taking an order.' : 'Mark a dish sold out the moment it runs out. Every table sees it at once.'}</div>` : null}
     <div className="mtools">
       <label className="search" htmlFor="mm-q">${I('search', 16)}<input id="mm-q" type="search" placeholder="Search your dishes" value=${q} onChange=${(e) => setQ(e.target.value)} /></label>
       <div className="chips scroll" role="group" aria-label="Filter by category"><button className="chip" aria-pressed=${cat === 'all'} onClick=${() => setCat('all')}>All</button>${cats.map((c) => html`<button key=${c} className="chip" aria-pressed=${cat === c} onClick=${() => setCat(c)}>${c}</button>`)}</div>
     </div>
     <div id="menu-mgr" style=${{ display: 'grid', gap: 18 }}>${cats.map((c) => { const items = list.filter((m) => m.cat === c); if (!items.length) return cat === c ? html`<div key=${c} className="empty card"><p>No dishes in ${c} yet.</p><button className="btn primary sm" onClick=${newDish}>${I('plus', 16)}Add a dish to ${c}</button></div>` : null; return html`<section key=${c}><h2 className="gh">${c}<span>${items.filter((m) => m.stock).length} of ${items.length} available</span></h2>
       <div className="card flush">${items.map((it) => html`<div key=${it.id} className=${'mrow' + (it.stock ? '' : ' out')}>
-        <button className="mmain" onClick=${() => d({ type: 'sheet', sheet: { type: 'edit', dish: { ...it, price: String(it.price) } } })} aria-label=${'Edit ' + it.name}><${Plate} c=${it.c} img=${it.img} size="sm" /><span className="mtxt"><span className="mname"><${VegMark} veg=${it.veg} />${it.name}${it.tags.slice(0, 1).map((t) => html`<span key=${t} className=${tagCls(t)}>${t}</span>`)}</span><small>${it.variants.length ? it.variants.map((v) => v[0] + ' ' + inr(v[1])).join(' · ') : inr(it.price)}${it.addons.length ? ' · ' + it.addons.length + ' add-on' + (it.addons.length > 1 ? 's' : '') : ''}</small></span></button>
-        <button className="btn sm icon ghost hide-xs" onClick=${() => d({ type: 'sheet', sheet: { type: 'edit', dish: { ...it, price: String(it.price) } } })} aria-label=${'Edit ' + it.name} title="Edit">${I('edit', 16)}</button>
-        <button className="switch" role="switch" aria-checked=${it.stock} onClick=${() => { d({ type: 'stock', rid: OWNER_RID, id: it.id }); toast(it.name + (it.stock ? ' marked sold out on every table' : ' is back on the menu')); }} aria-label=${it.name + ' available'}><i></i><span>${it.stock ? 'Available' : 'Sold out'}</span></button>
+        <button className="mmain" onClick=${() => editDish(it)} aria-label=${limited ? it.name : 'Edit ' + it.name} disabled=${limited} style=${limited ? { cursor: 'default', opacity: 1 } : null}><${Plate} c=${it.c} img=${it.img} size="sm" /><span className="mtxt"><span className="mname"><${VegMark} veg=${it.veg} />${it.name}${it.tags.slice(0, 1).map((t) => html`<span key=${t} className=${tagCls(t)}>${t}</span>`)}</span><small>${it.variants.length ? it.variants.map((v) => v[0] + ' ' + inr(v[1])).join(' · ') : inr(it.price)}${it.addons.length ? ' · ' + it.addons.length + ' add-on' + (it.addons.length > 1 ? 's' : '') : ''}</small></span></button>
+        ${limited ? null : html`<button className="btn sm icon ghost hide-xs" onClick=${() => editDish(it)} aria-label=${'Edit ' + it.name} title="Edit">${I('edit', 16)}</button>`}
+        <button className="switch" role="switch" aria-checked=${it.stock} disabled=${viewOnly} onClick=${() => { d({ type: 'stock', rid: OWNER_RID, id: it.id }); toast(it.name + (it.stock ? ' marked sold out on every table' : ' is back on the menu')); }} aria-label=${it.name + ' available'}><i></i><span>${it.stock ? 'Available' : 'Sold out'}</span></button>
       </div>`)}</div></section>`; })}
       ${!list.length && cat === 'all' ? html`<div className="empty card"><p>No dishes match "${q}".</p></div>` : null}
     </div>
@@ -3007,7 +3040,7 @@ function OwnerFloor({ s, d }) {
   const busy = tabs.filter((x) => x.os.length).length;
   return html`<div id="floor" style=${{ display: 'grid', gap: 16 }}>
     <div className="ph"><div><h1>Tables</h1><p className="muted">${busy} of ${r.tables} tables busy. QR, waiter and counter orders add up into one running bill per table.</p></div>
-      <div className="row"><button className="btn primary" onClick=${() => d({ type: 'set', k: 'ownerTab', v: 'billing' })}>${I('plus', 16)}New bill</button></div></div>
+      <div className="row">${canPay(s) ? html`<button className="btn primary" onClick=${() => d({ type: 'set', k: 'ownerTab', v: 'billing' })}>${I('plus', 16)}New bill</button>` : html`<button className="btn primary" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder' } })}>${I('plus', 16)}Take an order</button>`}</div></div>
     <div className="floor">${tabs.map((x) => html`<button key=${x.t} className=${'ft ' + x.st[0]} onClick=${() => d({ type: 'sheet', sheet: { type: 'tbill', table: x.t } })} aria-label=${'Table ' + x.t + ', ' + x.st[1]}>
       <span className="ft-h"><b>T${x.t}</b>${x.alert ? html`<span className="ft-bell">${I('bell', 14)}</span>` : null}</span>
       <span className="ft-s">${x.st[1]}</span>
@@ -3040,8 +3073,8 @@ function TableBillSheet({ s, d }) {
       <div className="row tb-acts"><button className="btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder', table: t } })}>${I('plus', 16)}Add items</button><button className="btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'bill', ids: os.map((o) => o.id) } })}>${I('print', 16)}Print bill</button><button className="btn" aria-pressed=${mode === 'move'} onClick=${() => { setMode(mode === 'move' ? null : 'move'); setTo(''); }}>Move</button><button className="btn" aria-pressed=${mode === 'merge'} disabled=${!busy.length} onClick=${() => { setMode(mode === 'merge' ? null : 'merge'); setTo(''); }}>Merge</button></div>
       ${mode ? html`<div className="rows-line two-col"><select className="inp" id="tb-to" aria-label=${mode === 'move' ? 'Move to table' : 'Merge with table'} value=${to} onChange=${(e) => setTo(e.target.value)}><option value="">${mode === 'move' ? 'Move to a free table…' : 'Bring in the bill of table…'}</option>${(mode === 'move' ? free : busy).map((x) => html`<option key=${x} value=${x}>Table ${x}</option>`)}</select>
         <button className="btn primary" disabled=${!to} onClick=${() => { if (mode === 'move') { d({ type: 'moveTable', from: t, to: Number(to) }); toast('Table ' + t + ' moved to Table ' + to); } else { d({ type: 'moveTable', from: Number(to), to: t }); toast('Table ' + to + ' merged into Table ' + t); setMode(null); } }}>${mode === 'move' ? 'Move' : 'Merge'}</button></div>` : null}
-      <b className="small">Settle the bill</b>
-      <div className="chips paym">${['cash', 'upi', 'card', 'khata'].map((k) => html`<button key=${k} className="chip" onClick=${() => { d({ type: 'settleTable', table: t, method: k }); toast('Table ' + t + ' settled · ' + inr(B.total) + ' by ' + METHOD[k], 'ok'); }}>${METHOD[k]}</button>`)}</div>`}
+      ${canPay(s) ? html`<b className="small">Settle the bill</b>
+      <div className="chips paym">${['cash', 'upi', 'card', 'khata'].map((k) => html`<button key=${k} className="chip" onClick=${() => { d({ type: 'settleTable', table: t, method: k }); toast('Table ' + t + ' settled · ' + inr(B.total) + ' by ' + METHOD[k], 'ok'); }}>${METHOD[k]}</button>`)}</div>` : html`<p className="small muted">The cashier settles the bill. Print it and take it to the table.</p>`}`}
   <//>`;
 }
 
@@ -3175,8 +3208,10 @@ function StaffSettings({ s, d }) {
   const list = s.staff || STAFF0;
   const [f, setF] = useState({ name: '', role: 'Cashier', pin: '' });
   const ok = f.name.trim() && /^\d{4}$/.test(f.pin);
-  return html`<section className="card" id="staff"><div className="card-h"><h3>${I('people', 18)} Staff logins</h3><span className="small muted">Each person signs in with a 4-digit PIN</span></div>
+  return html`<section className="card" id="staff"><div className="card-h"><h3>${I('people', 18)} Staff logins</h3><span className="small muted">Each person signs in with a 4-digit PIN and sees only their part</span></div>
     <div className="staff-list">${list.map((x) => html`<div key=${x.id} className="staff-row"><span className="grow"><b>${x.name}</b></span><span className=${'pill ' + (x.role === 'Owner' ? 'leaf' : x.role === 'Waiter' ? 'sun' : 'info')}>${x.role}</span><span className="num small muted">${x.pin ? 'PIN ••••' : 'Mobile + OTP'}</span>${x.role !== 'Owner' ? html`<button className="btn sm icon" aria-label=${'Remove ' + x.name} onClick=${() => { d({ type: 'set', k: 'staff', v: list.filter((y) => y.id !== x.id) }); toast(x.name + ' can no longer sign in'); }}>${I('trash', 15)}</button>` : html`<span style=${{ width: 32 }}></span>`}</div>`)}</div>
+    <div className="twrap access"><table className="tbl cmp acc"><thead><tr><th>Who sees what</th>${['Owner', 'Manager', 'Cashier', 'Waiter', 'Kitchen'].map((x) => html`<th key=${x}>${x}</th>`)}</tr></thead>
+      <tbody>${Object.keys(TAB_LABEL).map((k) => html`<tr key=${k}><td>${TAB_LABEL[k]}</td>${['Owner', 'Manager', 'Cashier', 'Waiter', 'Kitchen'].map((x) => { const ok = !ROLE_ACCESS[x] || ROLE_ACCESS[x].includes(k); const part = ok && ((k === 'menu' && x === 'Waiter') ? 'View' : (k === 'menu' && x === 'Kitchen') ? 'Sold out' : (k === 'orders' && x === 'Kitchen') ? 'Kitchen' : (k === 'floor' && x === 'Waiter') ? 'No payment' : null); return html`<td key=${x} className=${ok ? (part ? '' : 'yes') : 'no'}>${ok ? (part || I('check', 16)) : '–'}</td>`; })}</tr>`)}</tbody></table></div>
     <div className="staff-add"><input className="inp" aria-label="Staff name" placeholder="Name" value=${f.name} onChange=${(e) => setF({ ...f, name: e.target.value })} />
       <select className="inp" aria-label="Role" value=${f.role} onChange=${(e) => setF({ ...f, role: e.target.value })}><option>Cashier</option><option>Kitchen</option><option>Waiter</option><option>Manager</option></select>
       <input className="inp" aria-label="4-digit PIN" placeholder="PIN" inputMode="numeric" maxLength="4" value=${f.pin} onChange=${(e) => setF({ ...f, pin: e.target.value.replace(/\D/g, '').slice(0, 4) })} />
@@ -3197,26 +3232,31 @@ function Owner({ s, d }) {
   const busyTables = new Set(s.orders.filter((o) => o.rid === OWNER_RID && o.type !== 'takeaway' && o.pay !== 'paid' && o.status !== 'cancelled').map((o) => o.table)).size;
   const dueN = (s.customers || CUSTOMERS0).filter((c) => c.due).length;
   const tabs = [['orders', 'Orders', 'orders', newN], ['billing', 'Billing', 'receipt'], ['floor', 'Tables', 'table', busyTables], ['menu', 'Menu', 'menu'], ['inventory', 'Inventory', 'box'], ['customers', 'Customers & khata', 'people', dueN], ['tables', 'QR codes', 'qr'], ['reports', 'Reports', 'chart'], ['settings', 'Plan & settings', 'gear']];
-  const Body = { orders: OwnerOrders, billing: OwnerBilling, floor: OwnerFloor, menu: OwnerMenu, inventory: OwnerInventory, customers: OwnerCustomers, tables: OwnerTables, reports: OwnerReports, settings: OwnerSettings }[s.ownerTab];
-  const mobileTabs = [tabs[0], tabs[1], tabs[2], tabs[3], ['more', 'More', 'grid']];
-  const moreIds = ['inventory', 'customers', 'tables', 'reports', 'settings', 'more'];
+  const role = roleOf(s), allow = ROLE_ACCESS[role];
+  const myTabs = allow ? tabs.filter((t) => allow.includes(t[0])) : tabs;
+  const cur = s.ownerTab === 'more' && myTabs.length > 5 ? 'more' : myTabs.some((t) => t[0] === s.ownerTab) ? s.ownerTab : myTabs[0][0];
+  const Body = { orders: OwnerOrders, billing: OwnerBilling, floor: OwnerFloor, menu: OwnerMenu, inventory: OwnerInventory, customers: OwnerCustomers, tables: OwnerTables, reports: OwnerReports, settings: OwnerSettings }[cur];
+  const mobileTabs = myTabs.length <= 5 ? myTabs : [...myTabs.slice(0, 4), ['more', 'More', 'grid']];
+  const moreIds = myTabs.length <= 5 ? [] : [...myTabs.slice(4).map((t) => t[0]), 'more'];
   return html`<div className="oshell">
     <aside className="oside">
       <${Logo} d=${d} />
       <div className="orest"><div className="row" style=${{ flexWrap: 'nowrap' }}><div className="rlogo" style=${{ '--b1': r.b[0], '--b2': r.b[1] }}>${r.short}</div><div className="grow"><b>${r.name}</b><div className="small muted">${r.area}, ${r.city}</div></div></div><span className="pill leaf">${PLANS[r.plan].name} plan</span></div>
-      <nav className="onav" aria-label="Restaurant dashboard">${tabs.map(([id, label, icon, badge]) => html`<button key=${id} aria-current=${s.ownerTab === id ? 'page' : undefined} onClick=${() => d({ type: 'set', k: 'ownerTab', v: id })}>${I(icon)}${label}${badge ? html`<span className="badge">${badge}</span>` : null}</button>`)}</nav>
+      <nav className="onav" aria-label="Restaurant dashboard">${myTabs.map(([id, label, icon, badge]) => html`<button key=${id} aria-current=${cur === id ? 'page' : undefined} onClick=${() => d({ type: 'set', k: 'ownerTab', v: id })}>${I(icon)}${label}${badge ? html`<span className="badge">${badge}</span>` : null}</button>`)}</nav>
       <div className="oside-foot"><button className="btn block" onClick=${() => d({ type: 'open', rid: OWNER_RID, table: 1 })}>${I('compass', 16)}View my menu</button><p className="small muted">Signed in as ${(s.me2 || { name: 'Kunal Shah' }).name}, ${((s.me2 || { role: 'Owner' }).role).toLowerCase()} · <button className="link small" id="logout" onClick=${() => { d({ type: 'logout' }); toast('Logged out'); }}>Log out</button></p></div>
     </aside>
     <div className="omain">
-      <header className="otop">
+      <header className=${'otop' + (role !== 'Owner' ? ' staff' : '')}>
         <div className="otop-name"><b>${r.name}</b><span className="pill leaf">${PLANS[r.plan].name}</span></div>
         <span className="spacer"></span>
+        ${role !== 'Owner' ? html`<button className="btn sm staff-out" onClick=${() => { d({ type: 'logout' }); toast('Logged out'); }}>Log out</button>` : null}
         <button className=${'net-pill' + (s.offline ? ' off' : '')} id="net-pill" onClick=${() => { if (s.offline) toast((s.pending ? s.pending + ' bill' + (s.pending > 1 ? 's' : '') + ' uploaded. ' : '') + 'Back online.', 'ok'); else toast('Offline (demo): billing keeps working and saves on this device'); d({ type: 'offline' }); }} title="Try offline billing">${s.offline ? 'Offline' + (s.pending ? ' · ' + s.pending + ' to upload' : '') : 'Online'}</button>
         <button className=${'open-toggle' + (r.open ? ' on' : '')} role="switch" aria-checked=${r.open} onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { open: !r.open } }); toast(r.open ? 'Ordering paused. Diners can still see the menu.' : 'Taking orders again'); }}><i></i><span className="ot-l">${r.open ? 'Taking orders' : 'Orders paused'}</span><span className="ot-s">${r.open ? 'Open' : 'Paused'}</span></button>
       </header>
-      <main className="obody">${s.ownerTab === 'more' ? html`<${OwnerMore} s=${s} d=${d} tabs=${tabs.slice(4)} />` : html`<${Body || OwnerOrders} s=${s} d=${d} />`}</main>
+      ${role !== 'Owner' ? html`<div className="role-bar"><span className="pill info">${(s.me2 || {}).name} · ${role}</span><span className="small muted">${ROLE_NOTE[role]}</span></div>` : null}
+      <main className="obody">${cur === 'more' ? html`<${OwnerMore} s=${s} d=${d} tabs=${myTabs.slice(4)} />` : html`<${Body || OwnerOrders} s=${s} d=${d} />`}</main>
     </div>
-    <${Tabbar} cur=${moreIds.includes(s.ownerTab) ? 'more' : s.ownerTab} tabs=${mobileTabs.map(([id, label, icon, badge]) => [id, label.split(' ')[0], icon, badge])} onGo=${(id) => d({ type: 'set', k: 'ownerTab', v: id })} />
+    <${Tabbar} cur=${moreIds.includes(cur) ? 'more' : cur} tabs=${mobileTabs.map(([id, label, icon, badge]) => [id, label.split(' ')[0], icon, badge])} onGo=${(id) => d({ type: 'set', k: 'ownerTab', v: id })} />
     ${s.sheet && s.sheet.type === 'kot' ? html`<${KotSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'staffOrder' ? html`<${StaffOrderSheet} key=${s.sheet.table || 0} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'reject' ? html`<${RejectSheet} s=${s} d=${d} />` : null}
