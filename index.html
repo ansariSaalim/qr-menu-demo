@@ -1052,6 +1052,34 @@ button.pos-it:hover:not(:disabled) { border-color: var(--ink); }
   .mod { align-items: flex-start; }
 }
 @media (max-width: 420px) { .otop .net-pill { font-size: 0; gap: 0; padding: 9px; } .otop .net-pill::before { width: 9px; height: 9px; } }
+
+/* Phone polish */
+.ot-s { display: none; }
+.mcards { display: none; }
+@media (max-width: 760px) {
+  .hide-m { display: none !important; }
+  .mcards { display: grid; gap: 8px; }
+  .mcard { background: var(--app); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: grid; gap: 6px; }
+  .mc-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .plans.two-plans { grid-template-columns: minmax(0, 1fr); }
+  .signup .grow { flex: 1 1 100%; }
+  .pos-items { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .pos-it { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 48px; padding: 8px 12px; }
+  .pos-it .pos-n { flex: 1 1 auto; min-width: 0; }
+  .pos-vs { flex: none; justify-content: flex-end; }
+  .mname { flex-wrap: wrap; row-gap: 4px; }
+}
+@media (max-width: 860px) {
+  .toasts { top: calc(100px + env(safe-area-inset-top, 0px)); bottom: auto; }
+  .toasts .toast:not(:last-child) { display: none; }
+}
+@media (max-width: 520px) {
+  .ot-l { display: none; }
+  .ot-s { display: inline; }
+  .open-toggle { padding-right: 12px; }
+  .ph > div:first-child { min-width: 0; flex: 1 1 100%; }
+}
+@media (max-width: 420px) { .dbtn.hi .s { display: none; } .dseg button { padding: 5px 8px; } }
 @media print {
   body * { visibility: hidden; }
   .print-sheet, .print-sheet * { visibility: visible; }
@@ -1124,8 +1152,8 @@ const I = (name, size) => html`<svg className="ic" width=${size || 18} height=${
 /* ---------- Sample data ---------- */
 /* Two plans, paid for 6 or 12 months ahead. Every plan starts with a 15-day free trial. */
 const PLANS = {
-  basic: { name: 'Basic', total: { h: 2499, y: 4499 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Table QR ordering, diners pay after eating', 'Kitchen screen and a token board for a TV', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
-  pro: { name: 'Pro', total: { h: 3799, y: 6999 }, perks: ['Everything in Basic', 'Inventory: recipes, stock, purchases, wastage', 'Waiter phones, each with their own PIN', 'Loyalty points and bills on WhatsApp', 'Google review requests after a good meal', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
+  basic: { name: 'Basic', total: { h: 2499, y: 4499 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Waiter phones, each with their own PIN', 'Table QR ordering, diners pay after eating', 'Kitchen screen and a token board for a TV', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
+  pro: { name: 'Pro', total: { h: 3799, y: 6999 }, perks: ['Everything in Basic', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp', 'Google review requests after a good meal', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
 };
 PLANS.basic.price = Math.round(PLANS.basic.total.y / 12); PLANS.pro.price = Math.round(PLANS.pro.total.y / 12);
 const PLAN_KEYS = ['basic', 'pro'];
@@ -1472,7 +1500,7 @@ const TOUR = [
   { t: 'One QR per table', d: 'Download a print-ready standee for each table. Scan one with your own phone: it opens this demo at that table.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'tables', qrTable: 5, sheet: null }), hl: '#standee' },
   { t: 'Reports for your CA and for you', d: 'Basic shows sales for any dates with an Excel export and a day-end report. Pro adds busy hours, repeat diners, stock and profit per dish.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'reports', sheet: null }), hl: '#reports-main' },
   { t: 'Add dishes with photos', d: 'Name, price, a photo from the phone, Half/Full portions and add-ons. It shows on every table the moment it is saved.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'menu', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: 'Main Course', name: 'Paneer Lababdar', price: '290', veg: true, desc: 'Paneer in a rich onion-tomato gravy with cream.', tags: ['New'], variants: [], addons: [['Extra butter', 30]], stock: true, img: null, c: ['#d9722e', '#f7e4c3'] } } }), hl: '#dish-editor' },
-  { t: 'Two plans, or pick modules', d: 'Basic is ₹4,499 for 12 months: billing, tables, table QR ordering and the kitchen screen. Pro adds inventory, waiter PINs, loyalty and dish profit. Pay for 6 or 12 months, after a 15-day free trial.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
+  { t: 'Two plans, or pick modules', d: 'Basic is ₹4,499 for 12 months: billing, tables, table QR ordering and the kitchen screen. Pro adds inventory, loyalty, Google reviews and dish profit. Pay for 6 or 12 months, after a 15-day free trial.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
   { t: 'New restaurants sign up themselves', d: 'Any restaurant can compare plans and register from the For restaurants page.', apply: (s) => ({ ...s, role: 'diner', screen: 'business', sheet: null }), hl: '#biz-main .plans' },
   { t: 'Our team sees the whole platform', d: 'Staff-only analytics: revenue, orders across all restaurants, plan mix, upgrade candidates and a watch list. Staff can also open any restaurant’s board.', apply: (s) => ({ ...s, role: 'admin', adminTab: 'overview', sheet: null }), hl: '#admin-main' },
 ];
@@ -1482,7 +1510,7 @@ function Logo({ d, sub }) {
   return html`<button className="logo" onClick=${() => d({ type: 'go', role: 'diner', screen: 'home' })} aria-label="MenuMitra home"><span className="logo-mark">${I('logo', 20)}</span><span>Menu<span className="mm">Mitra</span></span>${sub ? html`<small>${sub}</small>` : null}</button>`;
 }
 function DemoBar({ s, d }) {
-  const roles = [['diner', 'Diner', 'Diner'], ['owner', 'Restaurant', 'Rest.'], ['admin', 'Our team', 'Team']];
+  const roles = [['diner', 'Diner', 'Diner'], ['owner', 'Restaurant', 'Restaurant'], ['admin', 'Our team', 'Team']];
   return html`<div className="demobar"><div className="container">
     <div className="dm-l"><span className="demo-pill">Demo</span><span>Sample data · nothing here is a real restaurant or payment</span></div>
     <div className="dm-r">
@@ -1772,7 +1800,7 @@ function Paid({ s, d }) {
     <p className="muted">${r.name} · Table ${s.table}${counter ? ' · ' + inr(lp.amount) + ' due at the counter' : ' · by ' + (lp.method === 'upi' ? 'UPI' : 'card')}</p>
     ${!counter && can(r.plan, 'pro') ? html`<div className="notice leaf">Bill sent to WhatsApp on ${s.me.phone} (demo)</div>` : null}
     ${can(r.plan, 'pro') && lp.amount ? html`<div className="notice" id="loyalty-note"><b>+${Math.floor(lp.amount / 10)} loyalty points</b> at ${r.name}. You have ${Math.floor(lp.amount / 10) + 120} points; 500 points take ₹50 off a future bill.</div>` : null}
-    ${can(r.plan, 'pro') ? html`<div className="card"><b>How was your meal?</b><div className="stars">${[1, 2, 3, 4, 5].map((n) => html`<button key=${n} className=${n <= s.rating ? 'on' : ''} onClick=${() => d({ type: 'set', k: 'rating', v: n })} aria-label=${n + ' stars'}>${I('star', 30)}</button>`)}</div>${s.rating ? html`<p className="small muted">Thanks! ${s.rating >= 4 ? 'You earned ' + Math.floor(lp.amount / 20) + ' loyalty points.' : 'The owner will see your feedback.'}</p>` : null}${s.rating >= 4 ? html`<button className="btn primary" id="g-review" onClick=${() => toast('In the live app this opens ' + r.name + ' on Google Maps to post a review')}>${I('star', 16)}Share it on Google</button>` : null}</div>` : null}
+    ${can(r.plan, 'pro') ? html`<div className="card"><b>How was your meal?</b><div className="stars">${[1, 2, 3, 4, 5].map((n) => html`<button key=${n} className=${n <= s.rating ? 'on' : ''} onClick=${() => d({ type: 'set', k: 'rating', v: n })} aria-label=${n + ' stars'}>${I('star', 30)}</button>`)}</div>${s.rating ? html`<p className="small muted">Thanks! ${s.rating >= 4 ? '+' + Math.floor(lp.amount / 20) + ' bonus points for rating.' : 'The owner will see your feedback.'}</p>` : null}${s.rating >= 4 ? html`<button className="btn primary" id="g-review" onClick=${() => toast('In the live app this opens ' + r.name + ' on Google Maps to post a review')}>${I('star', 16)}Share it on Google</button>` : null}</div>` : null}
     <button className="btn block" onClick=${() => d({ type: 'go', screen: 'orders' })}>See my orders</button>
     <button className="link" style=${{ justifySelf: 'center' }} onClick=${() => d({ type: 'go', screen: 'home' })}>Back to restaurants</button>
   </div></main>`;
@@ -1848,7 +1876,7 @@ const FEATURES = [
   ['Sales reports for any dates, day-end report, Excel export', ['y', 'y']],
   ['Inventory: recipes, stock used by every bill, purchases, wastage', ['n', 'y']],
   ['Food cost and profit per dish', ['n', 'y']],
-  ['Waiter phones, each waiter with their own PIN', ['n', 'y']],
+  ['Waiter phones, each waiter with their own PIN', ['y', 'y']],
   ['Loyalty points and bills on WhatsApp', ['n', 'y']],
   ['Google review requests after a good meal', ['n', 'y']],
   ['Busy hours, repeat diners and ratings', ['n', 'y']],
@@ -1926,7 +1954,7 @@ const USES = [
   { id: 'stall', label: 'Small & local', title: 'No hardware. Just the phone in your pocket.', points: ['Bill, take payment and send orders to the kitchen from one phone', 'No printer? Send the bill on WhatsApp or show it on screen', 'Paper menu to digital menu in a day: we type it in for you'], plan: 'basic' },
   { id: 'cafe', label: 'Cafés', title: 'Counter billing and table orders in one place', points: ['Fast billing with GST, offers and cash/UPI split', 'Diners order from the table QR, you see it live', 'Kitchen screen on any old phone or tablet'], plan: 'basic' },
   { id: 'family', label: 'Family restaurants', title: 'Every table, every bill, on one screen', points: ['Running bills per table, move and merge tables', 'Diners order more rounds from the QR and pay after eating', 'Day-end report and Excel export for your CA'], plan: 'basic' },
-  { id: 'fine', label: 'Busy kitchens & chains', title: 'Stock, staff and profit under control', points: ['Inventory: every bill uses up stock from your recipes', 'Waiter phones with their own PIN', 'Loyalty, WhatsApp bills and Google reviews'], plan: 'pro' },
+  { id: 'fine', label: 'Busy kitchens & chains', title: 'Stock, staff and profit under control', points: ['Inventory: every bill uses up stock from your recipes', 'Food cost and profit for every dish', 'Loyalty, WhatsApp bills and Google reviews'], plan: 'pro' },
 ];
 const FEATS = [
   ['store', 'Zero hardware', 'Runs on the phone or tablet you already have. A printer is optional, not required.'],
@@ -2561,7 +2589,7 @@ function WhySwitch({ s }) {
   const b = planCost('basic', 'y'), a = planCost('pro', 'y');
   const ours = [
     { name: 'MenuMitra Basic', note: 'Billing, tables, QR ordering, kitchen screen. No hardware', yr: b.total, us: true },
-    { name: 'MenuMitra Pro', note: 'Adds inventory, waiter PINs, loyalty and dish profit', yr: a.total, us: true },
+    { name: 'MenuMitra Pro', note: 'Adds inventory, loyalty, Google reviews and dish profit', yr: a.total, us: true },
   ];
   const all = [...ours, ...RIVALS].sort((x, y) => x.yr - y.yr), max = Math.max(...all.map((x) => x.yr));
   return html`<section className="sx" id="why-switch"><div className="container">
@@ -2668,7 +2696,7 @@ function TeamOverview({ s, d, rows }) {
   const mix = PLAN_KEYS.map((k, i) => ({ label: PLANS[k].name, v: rows.filter((r) => r.plan === k).length, slot: i + 1 }));
   const bmix = BILL_KEYS.map((k, i) => ({ label: BILLING[k].label, v: paying.filter((r) => (r.billing || 'y') === k).length, slot: i + 1 }));
   const upgrades = [
-    ...live.filter((x) => x.plan === 'basic' && x.S.c.orders / 30 > 25).map((x) => ({ name: x.name, why: Math.round(x.S.c.orders / 30) + ' bills a day on Basic: inventory and waiter PINs would help', to: 'pro' })),
+    ...live.filter((x) => x.plan === 'basic' && x.S.c.orders / 30 > 25).map((x) => ({ name: x.name, why: Math.round(x.S.c.orders / 30) + ' bills a day on Basic: inventory and food cost would help', to: 'pro' })),
     ...rows.filter((r) => !r.live && (r.billing || 'y') === 'h').map((r) => ({ name: r.name, why: 'Pays for 6 months: offer 12 months and save them ' + inr(planCost(r.plan, 'y').save), to: r.plan })),
   ];
   const risk = live.map((x) => ({ name: x.name, ch: pct(x.W.c.orders, x.W.p.orders) })).sort((a, b) => a.ch - b.ch).slice(0, 3);
@@ -2709,7 +2737,7 @@ function OwnerSettings({ s, d }) {
       ${(r.billing || 'y') !== 'y' ? html`<button className="btn sun" onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { billing: 'y' } }); d({ type: 'set', k: 'billing', v: 'y' }); toast('Switched to 12 months · save ' + inr(planCost(r.plan, 'y').save)); }}>Pay for 12 months, save ${inr(planCost(r.plan, 'y').save)}</button>` : null}</section>
     <${BillingSwitch} s=${s} d=${d} />
     <div id="plans"><${PlanCards} current=${r.plan} currentBilling=${r.billing} billing=${s.billing || 'y'} onPick=${(k) => { const b = BILLING[s.billing] ? s.billing : 'y'; d({ type: 'rest', rid: OWNER_RID, patch: { plan: k, billing: b } }); toast(r.name + ' is on ' + PLANS[k].name + ', ' + BILLING[b].per); }} label=${(k) => (RANK[k] > RANK[r.plan] ? 'Upgrade to ' : 'Switch to ') + PLANS[k].name} /></div>
-    <div className="notice leaf"><b>On ${PLANS[r.plan].name} you get:</b> ${r.plan === 'pro' ? 'billing, tables, table QR ordering, kitchen screen, khata and reports, plus inventory, waiter PINs, loyalty, WhatsApp bills, Google reviews and dish profit.' : 'billing with GST, tables and takeaway, table QR ordering, kitchen screen, khata and sales reports with Excel export.'}</div>
+    <div className="notice leaf"><b>On ${PLANS[r.plan].name} you get:</b> ${r.plan === 'pro' ? 'billing, tables, table QR ordering, kitchen screen, khata and reports, plus inventory, loyalty, WhatsApp bills, Google reviews and dish profit.' : 'billing with GST, tables and takeaway, table QR ordering, kitchen screen, khata and sales reports with Excel export.'}</div>
     <${PrinterSettings} s=${s} d=${d} />
     <${StaffSettings} s=${s} d=${d} />
     <section className="card help-card"><div className="grow"><h3>Help when you need it</h3><p className="small muted">WhatsApp support in Hindi, Gujarati and English on every plan${r.plan === 'pro' ? ', with priority replies from 9 am to 11 pm' : ''}. Export your menu and every bill whenever you like.</p></div>
@@ -3005,7 +3033,10 @@ function OwnerInventory({ s, d }) {
       <div className="tile"><span>Used today</span><b>${inr(usedVal)}</b><small className="m">from every bill, by recipe</small></div>
       <div className="tile"><span>Wastage today</span><b>${inr(rows.reduce((t, x) => t + x.waste * x.cost, 0))}</b><small className="m">recorded by staff</small></div>
     </div>
-    <div className="twrap"><table className="tbl inv"><thead><tr><th>Ingredient</th><th className="r">In stock</th><th className="r">Used today</th><th className="r">Bought</th><th className="r">Wasted</th><th className="r">Cost / unit</th><th></th></tr></thead>
+    <div className="mcards">${rows.map((x) => html`<div key=${x.id} className="mcard"><div className="mc-top"><b>${x.n}</b>${x.low ? html`<span className="pill bad">Low</span>` : null}<span className="grow"></span><b className="num">${qfmt(x.left)} ${x.u}</b></div>
+      <span className="small muted">Used today ${qfmt(x.used)} ${x.u}${x.buy ? ' · bought ' + qfmt(x.buy) : ''}${x.waste ? ' · wasted ' + qfmt(x.waste) : ''} · ${inr(x.cost)}/${x.u}</span>
+      <div className="row"><button className="btn sm" onClick=${() => d({ type: 'sheet', sheet: { type: 'invMove', id: x.id, kind: 'buy' } })}>+ Purchase</button><button className="btn sm ghost" onClick=${() => d({ type: 'sheet', sheet: { type: 'invMove', id: x.id, kind: 'waste' } })}>Wastage</button></div></div>`)}</div>
+    <div className="twrap hide-m"><table className="tbl inv"><thead><tr><th>Ingredient</th><th className="r">In stock</th><th className="r">Used today</th><th className="r">Bought</th><th className="r">Wasted</th><th className="r">Cost / unit</th><th></th></tr></thead>
       <tbody>${rows.map((x) => html`<tr key=${x.id}><td><b>${x.n}</b> ${x.low ? html`<span className="pill bad">Low</span>` : null}</td><td className="r num">${qfmt(x.left)} ${x.u}</td><td className="r">${qfmt(x.used)} ${x.u}</td><td className="r">${x.buy ? '+' + qfmt(x.buy) : '–'}</td><td className="r">${x.waste ? qfmt(x.waste) : '–'}</td><td className="r">${inr(x.cost)}/${x.u}</td>
         <td><div className="row" style=${{ flexWrap: 'nowrap', justifyContent: 'flex-end' }}><button className="btn sm" onClick=${() => d({ type: 'sheet', sheet: { type: 'invMove', id: x.id, kind: 'buy' } })}>+ Purchase</button><button className="btn sm ghost" onClick=${() => d({ type: 'sheet', sheet: { type: 'invMove', id: x.id, kind: 'waste' } })}>Wastage</button></div></td></tr>`)}</tbody></table></div>
     <section className="card"><div className="card-h"><h3>Food cost per dish</h3><span className="small muted">From your recipes at today’s purchase prices</span></div>
@@ -3053,9 +3084,12 @@ function OwnerCustomers({ s, d }) {
     </div>
     <div className="mtools"><label className="search" htmlFor="cu-q">${I('search', 16)}<input id="cu-q" type="search" placeholder="Search name or mobile" value=${q} onChange=${(e) => setQ(e.target.value)} /></label>
       <div className="chips"><button className="chip" aria-pressed=${!onlyDue} onClick=${() => setOnlyDue(false)}>Everyone</button><button className="chip" aria-pressed=${onlyDue} onClick=${() => setOnlyDue(true)}>Khata due</button></div></div>
-    <div className="twrap"><table className="tbl"><thead><tr><th>Customer</th><th>Mobile</th><th className="r">Visits</th><th className="r">Spent</th><th>Last visit</th><th className="r">Khata due</th>${can(r.plan, 'pro') ? html`<th className="r">Points</th>` : null}<th></th></tr></thead>
+    <div className="twrap hide-m"><table className="tbl"><thead><tr><th>Customer</th><th>Mobile</th><th className="r">Visits</th><th className="r">Spent</th><th>Last visit</th><th className="r">Khata due</th>${can(r.plan, 'pro') ? html`<th className="r">Points</th>` : null}<th></th></tr></thead>
       <tbody>${list.map((c) => html`<tr key=${c.phone}><td><b>${c.name || 'Guest'}</b>${c.visits >= 5 ? html` <span className="pill leaf">Regular</span>` : null}</td><td className="small num">${c.phone}</td><td className="r">${c.visits}</td><td className="r">${inr(c.spent)}</td><td className="small">${lastTxt(c.last)}</td><td className=${'r ' + (c.due ? 'neg' : '')}>${c.due ? inr(c.due) : '–'}</td>${can(r.plan, 'pro') ? html`<td className="r">${c.pts.toLocaleString('en-IN')}</td>` : null}
         <td><div className="row" style=${{ flexWrap: 'nowrap', justifyContent: 'flex-end' }}>${c.due ? html`<button className="btn sm primary" onClick=${() => { d({ type: 'khataPay', phone: c.phone }); toast(inr(c.due) + ' collected from ' + c.name); }}>Collect ${inr(c.due)}</button>` : null}<button className="btn sm" onClick=${() => toast('In the live app this opens WhatsApp to ' + c.phone)}>WhatsApp</button></div></td></tr>`)}</tbody></table></div>
+    <div className="mcards">${list.map((c) => html`<div key=${c.phone} className="mcard"><div className="mc-top"><b>${c.name || 'Guest'}</b>${c.visits >= 5 ? html`<span className="pill leaf">Regular</span>` : null}<span className="grow"></span>${c.due ? html`<span className="pill bad">Due ${inr(c.due)}</span>` : null}</div>
+      <span className="small muted">${c.phone} · ${c.visits} visits · ${inr(c.spent)} spent · ${lastTxt(c.last)}${can(r.plan, 'pro') ? ' · ' + c.pts.toLocaleString('en-IN') + ' points' : ''}</span>
+      <div className="row">${c.due ? html`<button className="btn sm primary" onClick=${() => { d({ type: 'khataPay', phone: c.phone }); toast(inr(c.due) + ' collected from ' + c.name); }}>Collect ${inr(c.due)}</button>` : null}<button className="btn sm" onClick=${() => toast('In the live app this opens WhatsApp to ' + c.phone)}>WhatsApp</button></div></div>`)}</div>
     ${!list.length ? html`<div className="empty card"><p>No customers match.</p></div>` : null}
   </div>`;
 }
@@ -3077,14 +3111,13 @@ function PrinterSettings({ s, d }) {
 }
 const STAFF0 = [{ id: 'st1', name: 'Kunal Shah', role: 'Owner', pin: '' }, { id: 'st2', name: 'Ramesh', role: 'Cashier', pin: '4821' }, { id: 'st3', name: 'Anil', role: 'Kitchen', pin: '7730' }, { id: 'st4', name: 'Suresh', role: 'Waiter', pin: '2468' }];
 function StaffSettings({ s, d }) {
-  const r = R(s, OWNER_RID), list = s.staff || STAFF0, pro = can(r.plan, 'pro');
+  const list = s.staff || STAFF0;
   const [f, setF] = useState({ name: '', role: 'Cashier', pin: '' });
-  const ok = f.name.trim() && /^\d{4}$/.test(f.pin) && (f.role !== 'Waiter' || pro);
+  const ok = f.name.trim() && /^\d{4}$/.test(f.pin);
   return html`<section className="card" id="staff"><div className="card-h"><h3>${I('people', 18)} Staff logins</h3><span className="small muted">Each person signs in with a 4-digit PIN</span></div>
     <div className="staff-list">${list.map((x) => html`<div key=${x.id} className="staff-row"><span className="grow"><b>${x.name}</b></span><span className=${'pill ' + (x.role === 'Owner' ? 'leaf' : x.role === 'Waiter' ? 'sun' : 'info')}>${x.role}</span><span className="num small muted">${x.pin ? 'PIN ••••' : 'Mobile + OTP'}</span>${x.role !== 'Owner' ? html`<button className="btn sm icon" aria-label=${'Remove ' + x.name} onClick=${() => { d({ type: 'set', k: 'staff', v: list.filter((y) => y.id !== x.id) }); toast(x.name + ' can no longer sign in'); }}>${I('trash', 15)}</button>` : html`<span style=${{ width: 32 }}></span>`}</div>`)}</div>
-    ${!pro && list.some((x) => x.role === 'Waiter') ? html`<p className="small muted">Waiter phones with their own PIN are on Pro. On Basic, waiters can use the shared Take an order screen.</p>` : null}
     <div className="staff-add"><input className="inp" aria-label="Staff name" placeholder="Name" value=${f.name} onChange=${(e) => setF({ ...f, name: e.target.value })} />
-      <select className="inp" aria-label="Role" value=${f.role} onChange=${(e) => setF({ ...f, role: e.target.value })}><option>Cashier</option><option>Kitchen</option><option disabled=${!pro}>Waiter${pro ? '' : ' (Pro)'}</option><option>Manager</option></select>
+      <select className="inp" aria-label="Role" value=${f.role} onChange=${(e) => setF({ ...f, role: e.target.value })}><option>Cashier</option><option>Kitchen</option><option>Waiter</option><option>Manager</option></select>
       <input className="inp" aria-label="4-digit PIN" placeholder="PIN" inputMode="numeric" maxLength="4" value=${f.pin} onChange=${(e) => setF({ ...f, pin: e.target.value.replace(/\D/g, '').slice(0, 4) })} />
       <button className="btn primary" disabled=${!ok} onClick=${() => { d({ type: 'set', k: 'staff', v: [...list, { id: 'st' + Date.now(), ...f, name: f.name.trim() }] }); toast(f.name.trim() + ' added as ' + f.role); setF({ name: '', role: 'Cashier', pin: '' }); }}>${I('plus', 15)}Add</button></div>
   </section>`;
@@ -3117,7 +3150,7 @@ function Owner({ s, d }) {
         <div className="otop-name"><b>${r.name}</b><span className="pill leaf">${PLANS[r.plan].name}</span></div>
         <span className="spacer"></span>
         <button className=${'net-pill' + (s.offline ? ' off' : '')} id="net-pill" onClick=${() => { if (s.offline) toast((s.pending ? s.pending + ' bill' + (s.pending > 1 ? 's' : '') + ' uploaded. ' : '') + 'Back online.', 'ok'); else toast('Offline (demo): billing keeps working and saves on this device'); d({ type: 'offline' }); }} title="Try offline billing">${s.offline ? 'Offline' + (s.pending ? ' · ' + s.pending + ' to upload' : '') : 'Online'}</button>
-        <button className=${'open-toggle' + (r.open ? ' on' : '')} role="switch" aria-checked=${r.open} onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { open: !r.open } }); toast(r.open ? 'Ordering paused. Diners can still see the menu.' : 'Taking orders again'); }}><i></i>${r.open ? 'Taking orders' : 'Orders paused'}</button>
+        <button className=${'open-toggle' + (r.open ? ' on' : '')} role="switch" aria-checked=${r.open} onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { open: !r.open } }); toast(r.open ? 'Ordering paused. Diners can still see the menu.' : 'Taking orders again'); }}><i></i><span className="ot-l">${r.open ? 'Taking orders' : 'Orders paused'}</span><span className="ot-s">${r.open ? 'Open' : 'Paused'}</span></button>
       </header>
       <main className="obody">${s.ownerTab === 'more' ? html`<${OwnerMore} s=${s} d=${d} tabs=${tabs.slice(4)} />` : html`<${Body || OwnerOrders} s=${s} d=${d} />`}</main>
     </div>
