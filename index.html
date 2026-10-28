@@ -530,6 +530,45 @@ p { margin: 0; }
 /* Photos, menu tools, categories */
 .plate.photo { object-fit: cover; display: block; background: var(--wood); }
 .plate.lg { width: 112px; height: 112px; }
+.plate.hero { width: 100%; height: clamp(190px, 42vw, 250px); border-radius: 18px; background-size: auto, auto; }
+.dish-hero { position: relative; margin: -6px -6px 0; }
+.dish-x { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.92); color: #1c1917; border: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
+.dish-tags { position: absolute; left: 10px; bottom: 10px; display: flex; gap: 6px; flex-wrap: wrap; }
+.dish-tags .tag { background: rgba(255,255,255,0.94); color: #1c1917; }
+.dish-title { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.dish-title h2 { font-size: 21px; font-weight: 650; display: flex; gap: 8px; align-items: center; }
+.dish-title > b { font-size: 18px; white-space: nowrap; }
+.dfacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; }
+.dfacts > div { background: var(--app-2); border: 1px solid var(--line); border-radius: 12px; padding: 9px 11px; display: grid; gap: 2px; }
+.dfacts span { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.dfacts b { font-size: 14px; }
+.chilli { font-style: normal; color: #dc2626; font-size: 9px; letter-spacing: 1px; vertical-align: 2px; }
+.dmore { display: grid; gap: 6px; }
+.dmore > b { font-size: 14px; }
+.tag.allergen { background: #fef3c7; color: #92400e; }
+:root[data-theme="dark"] .tag.allergen { background: rgba(251,191,36,0.16); color: #fcd34d; }
+.dpic { padding: 0; border: 0; background: none; display: block; cursor: pointer; border-radius: 16px; }
+button.dname { background: none; border: 0; padding: 0; text-align: left; color: inherit; font: inherit; font-weight: 650; font-size: 16px; cursor: pointer; }
+button.dname:hover { text-decoration: underline; text-underline-offset: 3px; }
+.dmeta { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.rcover { position: relative; margin-top: 18px; height: clamp(140px, 22vw, 230px); border-radius: 22px; overflow: hidden; background: var(--wood); }
+.rcover > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rcover::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.42)); pointer-events: none; }
+.rcover .rlogo { position: absolute; left: 18px; bottom: 16px; z-index: 1; width: 60px; height: 60px; border-radius: 16px; font-size: 21px; box-shadow: 0 0 0 3px #fff, 0 8px 18px rgba(0,0,0,0.25); }
+.rhead.has-cover > .rlogo { display: none; }
+img.rlogo { object-fit: cover; background: #fff; display: block; }
+.brand-photos { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; margin: 4px 0 14px; }
+.brand-photos > div { display: grid; gap: 8px; align-content: start; }
+.bp-h { font-size: 13px; font-weight: 650; }
+.bp-prev .rlogo { width: 72px; height: 72px; }
+.bp-wide { height: 96px; border-radius: 14px; overflow: hidden; border: 1px dashed var(--line); background: var(--app-2); display: grid; place-items: center; padding: 0; text-align: center; }
+.bp-wide > span { padding: 0 12px; }
+.bp-wide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bp-opt { border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; }
+.bp-opt summary { cursor: pointer; font-size: 14px; font-weight: 600; }
+.bp-opt[open] summary { margin-bottom: 10px; }
+@media (max-width: 520px) { .brand-photos { grid-template-columns: minmax(0, 1fr); gap: 14px; } }
+@media (max-width: 520px) { .rcover { margin-top: 10px; border-radius: 16px; height: 132px; } .rcover .rlogo { width: 46px; height: 46px; font-size: 16px; border-radius: 13px; left: 12px; bottom: 12px; } .dish-hero { margin: -4px -4px 0; } .dish-title h2 { font-size: 19px; } }
 .mtools { display: grid; gap: 10px; }
 .photo-row { display: flex; gap: 16px; align-items: center; }
 .photo-btns { display: grid; gap: 6px; justify-items: start; }
@@ -1141,7 +1180,7 @@ input.otp { letter-spacing: 0.5em; font-family: var(--f-mono); font-size: 20px; 
 const { useState, useEffect, useReducer, useRef, useMemo } = React;
 const html = htm.bind(React.createElement);
 const EMBED = location.hash === '#embed';
-const STORE_KEY = 'menumitra-demo-v4';
+const STORE_KEY = 'menumitra-demo-v5';
 
 /* ---------- Icons ---------- */
 const P = {
@@ -1301,6 +1340,91 @@ const RESTAURANTS = [
       dish('bbs', 'Drinks', 'Berry Blast Smoothie', 210, true, 'Strawberry, blueberry, banana, yoghurt.', '#be185d', '#fbcfe8'),
     ] },
 ];
+/* ---------- Sample photos (Unsplash licence: free to use) and dish details ---------- */
+const PHOTO = {"pt":"1666001120694-3ebe8fd207be","dm":"1755090154817-58d9d36ec988","pbm":"1603894584373-5ac82b2ae398","c65":"1725210338021-aa5dfff76eae","cc":"1575919094625-6c0fcda78000","hbk":"1674622720208-2a67da6ff4e8","bn":"1559561724-4ea348cd867f","tr":"1780907084884-ded9fddbb474","vb":"1697155406055-2db32d47ca07","lp":"1580064003296-29deb3521370","bc":"1728910107534-e04e261768ae","und":"1645432524571-0e469b22e43f","fls":"1581636625402-29b2a704ef13","cb":"1631515243349-e0cb75fb8d3a","jr":"1789991184293-224a84e41900","mc":"1517448931760-9bf4414148c5","cof":"1778430397340-2ca8a57675b3","gj":"1593701461250-d7b22dfd3a77","kf":"1630823184409-1c6014968038","gt":"1680993032090-1ef7ea9b51e5","kt":"1742281257687-092746ad6021","mt":"1742281257707-0c7f7e5ca9c6","dd":"1626500155537-93690c24099e","br":"1600935926387-12d9b03066f0","ch":"1630409346699-79481a79db52","sk":"1604442247807-69dd2578ff64","ar":"1697642452436-9c40773cbcbb","cap":"1760306081298-93e10f2be897","lat":"1593443320739-77f74939d0da","moc":"1618576230663-9714aecfb99a","fil":"1758387941825-a6ecaec9c14d","cbr":"1759259639356-6eee63241869","ccf":"1517701550927-30cf4ba1dba5","icl":"1579888071069-c107a6f79d82","chai":"1761483281417-778013dc0177","lit":"1556679343-c7306c1976bc","hch":"1762411238451-b90dd1c74238","oreo":"1572490122747-3968b75cc699","mgs":"1623065422902-30a2d299bbe4","lmc":"1653542772393-71ffa417b1c4","bmt":"1528736235302-52922df5c122","avo":"1588137378633-dea1336ce1e2","pts":"1528735602780-2552fd46c7af","cgb":"1598785244280-7a428600d053","pp":"1473093295043-cdd812d0e601","arr":"1788599760197-81e54ec9c36a","mrb":"1668665771757-4d42737d295a","bcc":"1695088957420-c3b97d1f1138","bwc":"1569762404472-026308ba6b64","brw":"1636743715220-d8f8dd900b87","crs":"1691480162735-9b91238080f6","pbh":"1753357303396-704b5abe8945","cpb":"1626132647523-66f5bf380027","kpb":"1606491956391-70868b5d0f47","mp":"1792796400953-603d10a188d4","tp":"1789990653630-921eda98b866","mk":"1778447812923-88a9e3e6b567","ncb":"1691171047323-37acec85fc84","nmb":"1716550781939-beb7d7247aae","nvb":"1589302168068-964664d93dc0","sk2":"1708782341231-426344114ace","ct":"1727280376746-b89107a5b0df","ms":"1654863404432-cac67587e25d","dkm":"1626256139204-8b4c568dd71b","qb":"1759922222212-3657d43bd5b5","tb":"1791386804685-01b06b13a722","gs":"1505253716362-afaea1d3d1af","bbs":"1757597738356-11d378869593"};
+const COVER = { spice: 'pbm', rasoi: 'gt', leaf: 'cap', pav: 'pbh', nawab: 'ncb', bowl: 'qb' };
+const photoUrl = (pid, w, h) => 'https://images.unsplash.com/photo-' + pid + '?w=' + w + '&h=' + h + '&fit=crop&auto=format&q=70';
+/* serves, spice (0 none … 3 hot), ready in minutes, contains, ingredients */
+const DET = {
+  pt: ['1–2', 2, 20, 'Dairy', 'Paneer, hung curd, kashmiri chilli, ginger-garlic, capsicum, onion, mint chutney'],
+  hbk: ['1–2', 1, 15, 'Nuts', 'Spinach, green peas, potato, cashew, green chilli, coriander'],
+  c65: ['1–2', 3, 18, 'Gluten', 'Chicken, curry leaves, red chilli, ginger-garlic, rice flour, yoghurt'],
+  cc: ['2', 1, 12, 'Gluten', 'Sweet corn, cornflour, black pepper, spring onion, lime'],
+  pbm: ['1–2', 1, 18, 'Dairy, Nuts', 'Paneer, tomato, butter, cream, cashew paste, kasuri methi'],
+  dm: ['2', 1, 15, 'Dairy', 'Whole urad dal, rajma, butter, cream, tomato, garam masala'],
+  bc: ['1–2', 1, 20, 'Dairy, Nuts', 'Tandoori chicken, tomato, butter, cream, cashew, kasuri methi'],
+  und: ['2', 2, 20, '', 'Surti papdi, purple yam, baby potato, brinjal, methi muthiya, green masala'],
+  bn: ['1', 0, 8, 'Dairy, Gluten', 'Maida, curd, butter'],
+  tr: ['1', 0, 6, 'Gluten', 'Whole wheat flour'],
+  lp: ['1', 0, 10, 'Dairy, Gluten', 'Whole wheat flour, ghee'],
+  vb: ['1–2', 2, 25, 'Dairy', 'Basmati rice, seasonal vegetables, paneer, fried onion, saffron, raita'],
+  cb: ['1–2', 2, 25, 'Dairy', 'Basmati rice, chicken, yoghurt, fried onion, saffron, mint'],
+  jr: ['1–2', 0, 12, 'Dairy', 'Basmati rice, cumin, ghee'],
+  mc: ['1', 1, 3, 'Dairy', 'Curd, roasted cumin, mint, coriander, black salt'],
+  fls: ['1', 0, 3, '', 'Fresh lime, soda, sugar or black salt'],
+  cof: ['1', 0, 5, 'Dairy', 'Coffee, milk, sugar, ice'],
+  gj: ['2 pieces', 0, 3, 'Dairy, Gluten', 'Khoya, maida, cardamom syrup'],
+  kf: ['1', 0, 5, 'Dairy, Nuts', 'Malai kulfi, falooda sev, rose syrup, basil seeds, pistachio'],
+  gt: ['1', 1, 10, 'Dairy, Gluten', '4 sabzi, dal, kadhi, farsan, rotli, rice, sweet, chaas. Unlimited.'],
+  kt: ['1', 2, 12, 'Dairy, Gluten', 'Sev tameta, ringan no olo, bajra rotla, khichdi, chhaas'],
+  mt: ['1', 1, 10, 'Dairy, Gluten', '2 sabzi, dal, rice, 3 rotli, sweet'],
+  dd: ['1', 1, 15, 'Gluten, Nuts', 'Wheat dhokli, toor dal, jaggery, kokum, peanuts'],
+  br: ['1', 0, 8, '', 'Bajra (pearl millet) flour, water'],
+  ch: ['1', 0, 2, 'Dairy', 'Curd, jeera, coriander'],
+  sk: ['1', 0, 2, 'Dairy, Nuts', 'Hung curd, saffron, cardamom, sugar, pistachio'],
+  ar: ['1', 0, 3, '', 'Kesar mango pulp'],
+  cap: ['1', 0, 5, 'Dairy', 'Double espresso, steamed milk, foam'],
+  lat: ['1', 0, 5, 'Dairy', 'Espresso, steamed milk'],
+  moc: ['1', 0, 6, 'Dairy, Nuts', 'Espresso, dark chocolate, hazelnut, milk'],
+  fil: ['1', 0, 4, 'Dairy', 'Coffee and chicory decoction, hot milk, sugar'],
+  cbr: ['1', 0, 2, '', '18-hour cold brew, ice'],
+  ccf: ['1', 0, 5, 'Dairy', 'Coffee, milk, sugar, ice'],
+  icl: ['1', 0, 5, 'Dairy', 'Espresso, milk, caramel, ice'],
+  chai: ['1', 0, 5, 'Dairy', 'Assam tea, milk, ginger, cardamom, clove'],
+  lit: ['1', 0, 4, '', 'Black tea, lemon, mint, sugar, ice'],
+  hch: ['1', 0, 6, 'Dairy', 'Belgian chocolate, milk, whipped cream'],
+  oreo: ['1', 0, 5, 'Dairy, Gluten', 'Oreo, vanilla ice cream, milk'],
+  mgs: ['1', 0, 5, 'Dairy', 'Alphonso mango, yoghurt, honey'],
+  lmc: ['1', 0, 3, '', 'Fresh lime, mint, soda, sugar'],
+  bmt: ['1', 2, 10, 'Dairy, Gluten', 'Bread, potato masala, green chutney, cheese, onion, tomato'],
+  avo: ['1', 1, 10, 'Gluten', 'Sourdough, avocado, chilli flakes, lime, microgreens'],
+  pts: ['1', 1, 10, 'Dairy, Gluten', 'Bread, tandoori paneer, onion, capsicum, mint mayo'],
+  cgb: ['2', 0, 10, 'Dairy, Gluten', 'Baguette, garlic butter, mozzarella, herbs'],
+  pp: ['1', 0, 15, 'Dairy, Gluten, Nuts', 'Penne or spaghetti, basil pesto, pine nuts, cherry tomato, parmesan'],
+  arr: ['1', 2, 15, 'Gluten', 'Penne, tomato, garlic, red chilli, olive oil, basil'],
+  mrb: ['1', 1, 12, 'Dairy', 'Rice, black beans, corn, salsa, sour cream, lettuce'],
+  bcc: ['1', 0, 2, 'Dairy, Gluten, Egg', 'Cream cheese, digestive base, blueberry compote'],
+  bwc: ['1', 0, 3, 'Dairy, Gluten, Nuts, Egg', 'Banana, walnut, brown butter, flour, sugar'],
+  brw: ['1', 0, 3, 'Dairy, Gluten, Nuts, Egg', 'Dark chocolate, butter, walnuts, flour, sugar'],
+  crs: ['1', 0, 2, 'Dairy, Gluten', 'Flour, butter, yeast'],
+  pbh: ['1', 2, 10, 'Dairy, Gluten', 'Mixed vegetables, pav bhaji masala, butter, pav, onion, lemon'],
+  cpb: ['1', 2, 10, 'Dairy, Gluten', 'Pav bhaji with grated cheese and butter'],
+  kpb: ['1', 3, 12, 'Dairy, Gluten', 'Chunky vegetables, pav bhaji masala, butter, pav'],
+  mp: ['1', 2, 8, 'Dairy, Gluten', 'Pav, bhaji masala, onion, tomato, capsicum, butter'],
+  tp: ['1', 2, 10, 'Dairy', 'Rice, pav bhaji masala, peas, capsicum, butter'],
+  mk: ['1', 0, 2, 'Dairy, Nuts', 'Slow-cooked milk, sugar, cardamom, pistachio, set in a clay pot'],
+  ncb: ['1–2', 2, 25, 'Dairy', 'Basmati rice, chicken, yoghurt, saffron, kewra, fried onion'],
+  nmb: ['1–2', 2, 30, 'Dairy', 'Basmati rice, goat meat on the bone, yoghurt, saffron, fried onion'],
+  nvb: ['1–2', 1, 25, 'Dairy', 'Basmati rice, vegetables, paneer, saffron, fried onion'],
+  sk2: ['1–2', 2, 18, '', 'Minced mutton, onion, ginger-garlic, green chilli, mint chutney'],
+  ct: ['1–2', 2, 18, 'Dairy', 'Boneless chicken, yoghurt, kashmiri chilli, garam masala'],
+  ms: ['2', 3, 10, 'Nuts', 'Long green chillies, peanut, sesame, coconut, tamarind'],
+  dkm: ['1', 0, 3, 'Dairy, Gluten, Nuts', 'Fried bread, saffron milk, sugar, almonds, cashew'],
+  qb: ['1', 0, 10, 'Dairy, Nuts', 'Quinoa, chickpeas, roasted vegetables, tahini'],
+  tb: ['1', 1, 15, 'Gluten, Soy', 'Grilled chicken, brown rice, teriyaki, sesame, greens'],
+  gs: ['1', 0, 8, 'Dairy', 'Feta, olives, cucumber, tomato, red onion, oregano'],
+  bbs: ['1', 0, 5, 'Dairy', 'Strawberry, blueberry, banana, yoghurt'],
+};
+const SPICE = ['Not spicy', 'Mild', 'Medium spicy', 'Hot'];
+const ALLERGENS = ['Dairy', 'Gluten', 'Nuts', 'Egg', 'Soy'];
+RESTAURANTS.forEach((r) => {
+  if (COVER[r.id]) r.cover = photoUrl(PHOTO[COVER[r.id]], 1200, 420);
+  r.menu.forEach((m) => {
+    if (PHOTO[m.id] && !m.img) m.img = photoUrl(PHOTO[m.id], 480, 480);
+    const x = DET[m.id];
+    if (x) Object.assign(m, { serves: x[0], spice: x[1], mins: x[2], contains: x[3] ? x[3].split(', ') : [], ing: x[4] });
+  });
+});
 const RMAP = Object.fromEntries(RESTAURANTS.map((r) => [r.id, r]));
 const OWNER_RID = 'spice';
 const EXTRA_RESTAURANTS = [
@@ -1320,7 +1444,12 @@ const inr = (n) => '₹' + Math.round(Number(n) || 0).toLocaleString('en-IN');
 const clock = (t) => new Date(t).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit' });
 const ago = (t) => { const m = Math.max(0, Math.round((Date.now() - t) / 60000)); return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : Math.floor(m / 60) + ' h ago'; };
 const VegMark = ({ veg }) => html`<span className=${'vm ' + (veg ? 'veg' : 'nv')} role="img" aria-label=${veg ? 'Veg' : 'Non-veg'}></span>`;
-const Plate = ({ c, size, img }) => img ? html`<img className=${'plate photo ' + (size || '')} src=${img} alt="" loading="lazy" />` : html`<div className=${'plate ' + (size || '')} style=${{ '--c1': c[0], '--c2': c[1] }} aria-hidden="true"></div>`;
+const RLogo = ({ r }) => r.logo ? html`<img className="rlogo img" src=${r.logo} alt=${r.name + ' logo'} />` : html`<div className="rlogo" style=${{ '--b1': r.b[0], '--b2': r.b[1] }}>${r.short}</div>`;
+function Plate({ c, size, img, alt }) {
+  const [bad, setBad] = useState(false);
+  useEffect(() => setBad(false), [img]);
+  return img && !bad ? html`<img className=${'plate photo ' + (size || '')} src=${img} alt=${alt || ''} loading="lazy" decoding="async" onError=${() => setBad(true)} />` : html`<div className=${'plate ' + (size || '')} style=${{ '--c1': c[0], '--c2': c[1] }} aria-hidden="true"></div>`;
+}
 const tagCls = (t) => (t === 'Spicy' ? 'tag spicy' : /Jain/.test(t) ? 'tag jain' : 'tag');
 const unitPrice = (it, variant, addons) => (variant ? (it.variants.find((v) => v[0] === variant) || [0, it.price])[1] : it.price) + it.addons.filter((a) => addons.includes(a[0])).reduce((s, a) => s + a[1], 0);
 const orderTotal = (o) => o.items.reduce((s, i) => s + i.q * i.p, 0);
@@ -1734,6 +1863,7 @@ function MenuPage({ s, d }) {
   const cats = catsOf(s, s.rid).filter((c) => list.some((m) => m.cat === c));
   const active = s.cat && cats.includes(s.cat) ? s.cat : cats[0];
   const lock = useRef(0), bar = useRef(null);
+  const [coverOk, setCoverOk] = useState(null);
   const jump = (c) => { lock.current = Date.now() + 900; d({ type: 'set', k: 'cat', v: c }); const el = document.getElementById('sec-' + c.replace(/\W+/g, '-')); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
   // Highlight the section being read, and keep its chip in view in the sliding bar
   useEffect(() => {
@@ -1751,9 +1881,11 @@ function MenuPage({ s, d }) {
   const count = s.cart.reduce((t, l) => t + l.q, 0), sub = s.cart.reduce((t, l) => t + l.q * l.p, 0);
   const open = myOpen(s), lastO = open[open.length - 1];
   const why = !s.table ? 'Browsing the menu. Scan the QR on your table, or pick your table, to order.' : !r.open ? 'The kitchen is not taking orders from the phone right now. Please ask a waiter.' : !can(r.plan, 'basic') ? 'This restaurant shows its menu here. Please tell your waiter what you would like.' : null;
+  const cover = r.cover && coverOk !== r.cover;
   return html`<main className="container" id="menu-main">
-    <div className="rhead">
-      <div className="rlogo" style=${{ '--b1': r.b[0], '--b2': r.b[1] }}>${r.short}</div>
+    ${cover ? html`<div className="rcover" id="rcover"><img src=${r.cover} alt="" onError=${() => setCoverOk(r.cover)} /><${RLogo} r=${r} /></div>` : null}
+    <div className=${'rhead' + (cover ? ' has-cover' : '')}>
+      <${RLogo} r=${r} />
       <div className="grow"><h1>${r.name}</h1><p className="rline">${r.cuisine} · ${r.area} · <span className="rating">${r.rating}${I('star', 11)}</span></p></div>
       ${s.table ? html`<button className="table-pill" onClick=${() => d({ type: 'sheet', sheet: { type: 'table' } })} title="Change table">Table ${s.table}</button>` : can(r.plan, 'basic') ? html`<button className="btn sm" onClick=${() => d({ type: 'sheet', sheet: { type: 'table' } })}>${I('qr', 15)}Pick your table</button>` : null}
     </div>
@@ -1770,9 +1902,9 @@ function MenuPage({ s, d }) {
         ${cats.map((c) => html`<section className="msec" key=${c} id=${'sec-' + c.replace(/\W+/g, '-')}><h2>${c}</h2>
           ${list.filter((m) => m.cat === c).map((it) => html`<div className=${'dish' + (it.stock ? '' : ' out')} key=${it.id}>
             <div className="dtxt"><div className="dtop"><${VegMark} veg=${it.veg} />${it.tags.map((t) => html`<span key=${t} className=${tagCls(t)}>${t}</span>`)}</div>
-              <b className="dname">${it.name}</b><span className="dprice">${it.variants.length ? inr(Math.min(...it.variants.map((v) => v[1]))) + (it.variants.length > 1 && it.variants[0][1] !== it.variants[1][1] ? ' onwards' : '') : inr(it.price)}</span>
-              <p className="ddesc">${it.desc}</p></div>
-            <div className="dmedia"><${Plate} c=${it.c} img=${it.img} /><${DishControl} s=${s} d=${d} it=${it} r=${r} /></div>
+              <button className="dname" onClick=${() => openDish(d, it)}>${it.name}</button><span className="dprice">${it.variants.length ? inr(Math.min(...it.variants.map((v) => v[1]))) + (it.variants.length > 1 && it.variants[0][1] !== it.variants[1][1] ? ' onwards' : '') : inr(it.price)}</span>
+              <p className="ddesc">${it.desc}</p>${dishFacts(it).length ? html`<p className="dmeta">${dishFacts(it).filter((f) => f[0] !== 'Spice' || it.spice).map((f) => f[0] === 'Serves' ? 'Serves ' + f[1] : f[1]).join(' · ')}</p>` : null}</div>
+            <div className="dmedia"><button className="dpic" onClick=${() => openDish(d, it)} aria-label=${'Photo and details: ' + it.name}><${Plate} c=${it.c} img=${it.img} alt=${it.name} /></button><${DishControl} s=${s} d=${d} it=${it} r=${r} /></div>
           </div>`)}
         </section>`)}
         ${!cats.length ? html`<div className="empty"><p>No dishes match your search.</p></div>` : null}
@@ -1871,16 +2003,32 @@ function MyOrders({ s, d }) {
   </div></main>`;
 }
 
+const dishFacts = (it) => [it.serves ? ['Serves', it.serves] : null, it.spice != null && it.spice !== '' ? ['Spice', SPICE[it.spice]] : null, it.mins ? ['Ready in', it.mins + ' min'] : null].filter(Boolean);
+const bigImg = (src) => (src || '').replace('w=480&h=480', 'w=960&h=600');
+const openDish = (d, it) => d({ type: 'sheet', sheet: { type: 'dish', id: it.id, variant: it.variants.length ? it.variants[0][0] : null, addons: [], q: 1 } });
 function DishSheet({ s, d }) {
   const sh = s.sheet, r = R(s, s.rid), it = s.menus[s.rid].find((m) => m.id === sh.id);
   if (!it) return null;
   const unit = unitPrice(it, sh.variant, sh.addons);
-  return html`<${Modal} id="dish-sheet" onClose=${() => d({ type: 'sheet', sheet: null })}>
-    <div className="row" style=${{ alignItems: 'flex-start', flexWrap: 'nowrap' }}><${Plate} c=${it.c} img=${it.img} size="md" /><div className="grow"><div className="modal-h"><h2><${VegMark} veg=${it.veg} />${it.name}</h2><button className="btn sm icon" onClick=${() => d({ type: 'sheet', sheet: null })} aria-label="Close">${I('x')}</button></div><p className="small muted">${it.desc}</p></div></div>
+  const close = () => d({ type: 'sheet', sheet: null });
+  const orderable = it.stock && can(r.plan, 'basic') && r.open;
+  const facts = dishFacts(it), from = it.variants.length ? Math.min(...it.variants.map((v) => v[1])) : it.price;
+  const add = () => {
+    if (!s.table) { d({ type: 'sheet', sheet: { type: 'table', then: it.id } }); return; }
+    d({ type: 'add', rid: r.id, it, variant: sh.variant, addons: sh.addons, q: sh.q }); toast('Added to your order');
+  };
+  return html`<${Modal} id="dish-sheet" onClose=${close}>
+    <div className="dish-hero"><${Plate} c=${it.c} img=${bigImg(it.img)} size="hero" alt=${it.name} /><button className="btn sm icon dish-x" onClick=${close} aria-label="Close">${I('x')}</button>${it.tags.length ? html`<div className="dish-tags">${it.tags.map((t) => html`<span key=${t} className=${tagCls(t)}>${t}</span>`)}</div>` : null}</div>
+    <div><div className="dish-title"><h2><${VegMark} veg=${it.veg} />${it.name}</h2><b className="num">${inr(from)}${it.variants.length > 1 ? html`<small className="muted"> onwards</small>` : null}</b></div>
+      <p className="small muted" style=${{ marginTop: 4 }}>${it.desc}</p></div>
+    ${facts.length ? html`<div className="dfacts" id="dish-facts">${facts.map(([k, v]) => html`<div key=${k}><span>${k}</span><b>${k === 'Spice' ? html`${v}${it.spice ? html` <i className="chilli">${'●'.repeat(it.spice)}</i>` : null}` : v}</b></div>`)}</div>` : null}
+    ${it.ing ? html`<div className="dmore"><b>What's in it</b><p className="small">${it.ing}</p></div>` : null}
+    ${it.contains ? html`<div className="dmore"><b>Allergens</b>${it.contains.length ? html`<div className="row" style=${{ gap: 6 }}>${it.contains.map((a) => html`<span key=${a} className="tag allergen">Contains ${a.toLowerCase()}</span>`)}</div>` : html`<p className="small">None of the common allergens listed by the restaurant.</p>`}<p className="small muted" style=${{ fontSize: 12 }}>From the restaurant. If you have an allergy, please tell the staff too.</p></div>` : null}
+    ${!orderable ? html`<p className="small muted">${it.stock ? 'Please tell your waiter if you would like this.' : 'Sold out today.'}</p>` : html`
     ${it.variants.length ? html`<div className="opt-group"><b>Portion</b>${it.variants.map(([n, p]) => html`<button key=${n} className="opt" aria-pressed=${sh.variant === n} onClick=${() => d({ type: 'patchSheet', patch: { variant: n } })}><span className="box round">${sh.variant === n ? I('check', 12) : null}</span><span>${n}</span><span className="num">${inr(p)}</span></button>`)}</div>` : null}
     ${it.addons.length ? html`<div className="opt-group"><b>Add-ons <span className="muted">(optional)</span></b>${it.addons.map(([n, p]) => { const on = sh.addons.includes(n); return html`<button key=${n} className="opt" aria-pressed=${on} onClick=${() => d({ type: 'patchSheet', patch: { addons: on ? sh.addons.filter((x) => x !== n) : [...sh.addons, n] } })}><span className="box">${on ? I('check', 12) : null}</span><span>${n}</span><span className="num">+${inr(p)}</span></button>`; })}</div>` : null}
     <div className="row" style=${{ flexWrap: 'nowrap' }}><div className="stepper"><button onClick=${() => d({ type: 'patchSheet', patch: { q: Math.max(1, sh.q - 1) } })} aria-label="One less">−</button><span>${sh.q}</span><button onClick=${() => d({ type: 'patchSheet', patch: { q: sh.q + 1 } })} aria-label="One more">+</button></div>
-      <button className="btn primary lg grow" onClick=${() => { d({ type: 'add', rid: r.id, it, variant: sh.variant, addons: sh.addons, q: sh.q }); toast('Added to your order'); }}>Add · ${inr(unit * sh.q)}</button></div>
+      <button className="btn primary lg grow" onClick=${add}>${s.table ? 'Add · ' + inr(unit * sh.q) : 'Pick your table to add'}</button></div>`}
   <//>`;
 }
 
@@ -2109,19 +2257,34 @@ function ForRestaurants({ s, d }) {
     <section className="sx"><div className="container">
       <div className="cta-band"><div className="cta-in"><span className="fx-badge"><i>${I('sparkle', 14)}</i>${SETUP.trial}-day free trial</span><h2>Start billing from your phone this week.</h2><p>Register in two minutes. Try every feature free for ${SETUP.trial} days, no payment details needed.</p>
         <div className="fx-ctas"><button className="btn primary lg" onClick=${() => signup('basic')}>Register your restaurant<${Arr} /></button><button className="btn lg" onClick=${() => d({ type: 'tourGo', i: 0 })}>${I('sparkle')}Take the guided tour</button></div></div></div>
-      <footer className="site-foot"><${Logo} d=${d} /><span>Demo with sample data · © 2026 MenuMitra</span></footer>
+      <footer className="site-foot"><${Logo} d=${d} /><span>Demo with sample data · Sample food photos from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> · © 2026 MenuMitra</span></footer>
     </div></section>
   </main>`;
 }
 
+/* Logo (square) and cover photo (wide) a restaurant uploads; shown on its menu and bills */
+function BrandPhotos({ r, logo, cover, onChange, id }) {
+  const [busy, setBusy] = useState('');
+  const pick = (k, W, H) => (e) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (!f) return; setBusy(k); resizePhoto(f, W, H).then((url) => { onChange({ [k]: url }); toast(k === 'logo' ? 'Logo updated' : 'Cover photo updated', 'ok'); }).catch((err) => toast(err.message)).finally(() => setBusy('')); };
+  const R0 = { ...r, logo };
+  return html`<div className="brand-photos" id=${id}>
+    <div className="bp-logo"><span className="bp-h">Logo</span>
+      <div className="bp-prev">${logo ? html`<img className="rlogo img" src=${logo} alt="Logo" />` : html`<${RLogo} r=${R0} />`}</div>
+      <div className="row" style=${{ gap: 6 }}><label className="btn sm">${I('camera', 14)}${busy === 'logo' ? 'Saving…' : logo ? 'Change' : 'Upload'}<input type="file" accept="image/*" hidden onChange=${pick('logo', 256, 256)} /></label>${logo ? html`<button className="btn sm ghost" onClick=${() => onChange({ logo: null })}>Remove</button>` : null}</div></div>
+    <div className="bp-cover"><span className="bp-h">Cover photo <small className="muted">shown at the top of your menu</small></span>
+      <div className="bp-wide">${cover ? html`<img src=${cover} alt="Cover" />` : html`<span className="small muted">No cover yet. A photo of your best dish or your place works well.</span>`}</div>
+      <div className="row" style=${{ gap: 6 }}><label className="btn sm">${I('camera', 14)}${busy === 'cover' ? 'Saving…' : cover ? 'Change' : 'Upload'}<input type="file" accept="image/*" hidden onChange=${pick('cover', 1200, 420)} /></label>${cover ? html`<button className="btn sm ghost" onClick=${() => onChange({ cover: null })}>Remove</button>` : null}</div></div>
+  </div>`;
+}
+
 function SignupSheet({ s, d }) {
-  const [f, setF] = useState({ name: '', area: '', owner: '', phone: '', tables: 10, plan: s.sheet.plan || 'basic', billing: BILLING[s.sheet.billing] ? s.sheet.billing : 'y' });
+  const [f, setF] = useState({ name: '', area: '', owner: '', phone: '', logo: null, cover: null, tables: 10, plan: s.sheet.plan || 'basic', billing: BILLING[s.sheet.billing] ? s.sheet.billing : 'y' });
   const [done, setDone] = useState(false);
   const [err, setErr] = useState('');
   const set = (k, v) => setF((o) => ({ ...o, [k]: v }));
   const submit = () => {
     if (!f.name.trim() || !f.area.trim() || !f.owner.trim()) { setErr('Fill in the restaurant name, area and your name.'); return; }
-    d({ type: 'signup', data: { name: f.name.trim(), area: f.area.trim(), owner: f.owner.trim(), plan: f.plan, billing: f.billing, tables: Math.max(1, Math.min(60, Number(f.tables) || 1)) } });
+    d({ type: 'signup', data: { name: f.name.trim(), area: f.area.trim(), owner: f.owner.trim(), logo: f.logo, cover: f.cover, plan: f.plan, billing: f.billing, tables: Math.max(1, Math.min(60, Number(f.tables) || 1)) } });
     setDone(true);
   };
   if (done) return html`<${Modal} onClose=${() => d({ type: 'sheet', sheet: null })}>
@@ -2136,6 +2299,8 @@ function SignupSheet({ s, d }) {
     <label className="field">Restaurant name<input id="su-name" placeholder="e.g. Kesar Kitchen" value=${f.name} onChange=${(e) => set('name', e.target.value)} /></label>
     <label className="field">Area and city<input id="su-area" placeholder="e.g. Satellite, Ahmedabad" value=${f.area} onChange=${(e) => set('area', e.target.value)} /></label>
     <div className="fields2"><label className="field">Your name<input id="su-owner" value=${f.owner} onChange=${(e) => set('owner', e.target.value)} /></label><label className="field">Mobile<input id="su-phone" inputMode="tel" placeholder="98xxx xxxxx" value=${f.phone} onChange=${(e) => set('phone', e.target.value)} /></label></div>
+    <details className="bp-opt"><summary>Add your logo and cover photo <span className="muted">(optional, you can do it later)</span></summary>
+      <${BrandPhotos} id="su-photos" r=${{ name: f.name || 'Your restaurant', short: (f.name || 'R').split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase(), b: ['#0f766e', '#34d399'] }} logo=${f.logo} cover=${f.cover} onChange=${(p) => setF((o) => ({ ...o, ...p }))} /></details>
     <div className="fields2"><label className="field">Number of tables<div className="stepper" style=${{ justifySelf: 'start' }}><button onClick=${() => set('tables', Math.max(1, f.tables - 1))} aria-label="One table less">−</button><span>${f.tables}</span><button onClick=${() => set('tables', Math.min(60, f.tables + 1))} aria-label="One table more">+</button></div></label>
       <label className="field">Plan<select value=${f.plan} onChange=${(e) => set('plan', e.target.value)}>${PLAN_KEYS.map((k) => html`<option key=${k} value=${k}>${PLANS[k].name} · from ${inr(PLANS[k].total.h)}</option>`)}</select></label></div>
     <div className="field"><span>Pay after the free trial</span><div className="paypick two" role="radiogroup" aria-label="Billing period">${BILL_KEYS.map((k) => { const c = planCost(f.plan, k); return html`<button key=${k} role="radio" aria-checked=${f.billing === k} onClick=${() => set('billing', k)}><b>${BILLING[k].label}</b><span>${inr(c.total)}</span><small>${c.save ? 'About ' + inr(c.per) + '/mo · save ' + inr(c.save) : 'About ' + inr(c.per) + '/mo'}</small></button>`; })}</div></div>
@@ -2214,7 +2379,7 @@ function WhoSees({ s, d }) {
         <ul>${ANALYTICS_BY_PLAN[k].map((x) => html`<li key=${x}>${I('chart', 15)}${x}</li>`)}</ul></div>`)}</div>
       <div className="fx-ctas" style=${{ marginTop: 26 }}><button className="btn primary lg" onClick=${() => { d({ type: 'role', role: 'owner' }); d({ type: 'set', k: 'ownerTab', v: 'reports' }); }}>See a restaurant’s analytics<${Arr} /></button><button className="btn lg" onClick=${() => { d({ type: 'role', role: 'admin' }); d({ type: 'set', k: 'adminTab', v: 'overview' }); }}>${I('shield')}See our team’s board</button></div>
     </div></div></section>
-    <div className="container"><footer className="site-foot"><${Logo} d=${d} /><span>Demo with sample data · © 2026 MenuMitra</span></footer></div>
+    <div className="container"><footer className="site-foot"><${Logo} d=${d} /><span>Demo with sample data · Sample food photos from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> · © 2026 MenuMitra</span></footer></div>
   </main>`;
 }
 
@@ -2334,7 +2499,8 @@ function Lock({ title, text, plan, d }) {
   return html`<div className="lock"><span className="lock-ic">${I('lock', 22)}</span><h3>${title}</h3><p>${text}</p><button className="btn primary" onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { plan } }); toast('Switched to ' + PLANS[plan].name); }}>Switch to ${PLANS[plan].name}</button></div>`;
 }
 
-function resizePhoto(file) {
+function resizePhoto(file, W, H) {
+  W = W || 480; H = H || W;
   return new Promise((resolve, reject) => {
     if (!/^image\//.test(file.type)) { reject(new Error('Choose a photo (JPG, PNG or WebP)')); return; }
     const fr = new FileReader();
@@ -2343,10 +2509,11 @@ function resizePhoto(file) {
       const img = new Image();
       img.onerror = () => reject(new Error('Could not open that photo'));
       img.onload = () => {
-        const side = Math.min(img.width, img.height), size = Math.min(480, side);
-        const c = document.createElement('canvas'); c.width = c.height = size;
-        c.getContext('2d').drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, size, size);
-        resolve(c.toDataURL('image/jpeg', 0.8));
+        // centre-crop to the W:H shape, never upscale
+        const ratio = W / H, sw = Math.min(img.width, img.height * ratio), sh = sw / ratio, k = Math.min(1, img.width / W, img.height / H);
+        const c = document.createElement('canvas'); c.width = Math.round(W * Math.max(k, sw / W > 1 ? 1 : sw / W)); c.height = Math.round(c.width / ratio);
+        c.getContext('2d').drawImage(img, (img.width - sw) / 2, (img.height - sh) / 2, sw, sh, 0, 0, c.width, c.height);
+        resolve(c.toDataURL('image/jpeg', 0.78));
       };
       img.src = fr.result;
     };
@@ -2441,6 +2608,13 @@ function DishEditor({ s, d }) {
     <label className="field">Description<textarea id="de-desc" rows="2" value=${x.desc} placeholder="What is in it, how it is cooked" onChange=${(e) => set('desc', e.target.value)}></textarea></label>
     <fieldset className="field"><legend>Labels</legend><div className="chips">${['Bestseller', "Chef's special", 'Spicy', 'Jain on request', 'New'].map((t) => html`<button key=${t} className="chip" aria-pressed=${x.tags.includes(t)} onClick=${() => set('tags', x.tags.includes(t) ? x.tags.filter((y) => y !== t) : [...x.tags, t])}>${t}</button>`)}</div></fieldset>
     ${rows('addons', 'Add-ons (optional)', 'e.g. Extra cheese', 'Extras diners can tick, like extra butter.')}
+    <details className="bp-opt" id="de-details" open=${!!(x.serves || x.ing || x.mins)}><summary>Dish details <span className="muted">(shown when a diner taps the dish)</span></summary>
+      <div className="fields2"><label className="field">Serves<input id="de-serves" value=${x.serves || ''} placeholder="e.g. 1–2" onChange=${(e) => set('serves', e.target.value)} /></label>
+        <label className="field">Ready in (minutes)<input id="de-mins" type="number" min="0" inputMode="numeric" value=${x.mins || ''} placeholder="e.g. 15" onChange=${(e) => set('mins', e.target.value === '' ? '' : Math.max(0, Number(e.target.value) || 0))} /></label></div>
+      <div className="field"><span>Spice level</span><div className="seg full" role="group" aria-label="Spice level">${SPICE.map((n, i) => html`<button key=${n} aria-pressed=${x.spice === i} onClick=${() => set('spice', x.spice === i ? null : i)}>${['None', 'Mild', 'Medium', 'Hot'][i]}</button>`)}</div></div>
+      <fieldset className="field"><legend>Contains (allergens)</legend><div className="chips">${ALLERGENS.map((t) => { const on = (x.contains || []).includes(t); return html`<button key=${t} className="chip" aria-pressed=${on} onClick=${() => set('contains', on ? x.contains.filter((y) => y !== t) : [...(x.contains || []), t])}>${t}</button>`; })}</div><small>Leave all off if it has none of these. Diners see this on the dish.</small></fieldset>
+      <label className="field">Ingredients<textarea id="de-ing" rows="2" value=${x.ing || ''} placeholder="Main ingredients, comma separated" onChange=${(e) => set('ing', e.target.value)}></textarea></label>
+    </details>
     <label className="row" style=${{ gap: 10, fontWeight: 700 }}><button className="switch" role="switch" aria-checked=${x.stock} onClick=${() => set('stock', !x.stock)} aria-label="Available to order now"><i></i></button>Available to order now</label>
     ${err ? html`<p className="notice" style=${{ background: 'var(--bad-soft)', color: 'var(--bad)', fontWeight: 700 }}>${err}</p>` : null}
     <div className="modal-f">
@@ -2686,10 +2860,10 @@ function DishProfit({ s, d, rid }) {
 
 /* ---------- Why owners switch: yearly cost and the struggles we solve ---------- */
 const RIVALS = [
-  { name: 'Petpooja POS Base', note: 'About ₹12,000 a year + GST; QR ordering not included', yr: 12000, url: 'https://www.dineopen.com/blog/petpooja-pricing-plans-2026.html' },
-  { name: 'Petpooja with QR ordering', note: 'About ₹20,000 a year + GST, plus hardware', yr: 20000, url: 'https://www.dineopen.com/blog/petpooja-pricing-plans-2026.html' },
-  { name: 'eResto digiMenu', note: '₹999 a month; yearly gives 2 months free', yr: 9990, url: 'https://eresto.in/pricing' },
-  { name: 'AhaarScan', note: 'QR menu and ordering only, no billing counter', yr: 2999, url: 'https://www.getapp.com.au/software/2111582/ahaar-scan' },
+  { name: 'Typical POS, basic plan', note: 'Billing only; QR ordering usually extra', yr: 12000 },
+  { name: 'Typical POS with QR ordering', note: 'Billing and QR ordering, plus counter hardware', yr: 20000 },
+  { name: 'Typical QR menu app, monthly', note: 'Around ₹999 a month; menu and ordering, no billing', yr: 9990 },
+  { name: 'Basic QR menu app', note: 'QR menu and ordering only, no billing counter', yr: 2999 },
 ];
 const STRUGGLES = [
   ['store', 'Hardware before the first bill', 'A billing counter with a PC, touchscreen and printer can cost ₹30,000–60,000.', 'Zero hardware. Your phone or tablet is the counter; a printer is optional.'],
@@ -2713,11 +2887,10 @@ function WhySwitch({ s }) {
     <div className="sx-h"><h2>More for less, and nothing to buy.</h2><p>What a year costs, and the problems small restaurant owners tell us about, solved.</p></div>
     <div className="cmp-card">
       <div className="card-h"><h3>What one outlet pays in a year</h3><span className="small muted">Software only, before any hardware</span></div>
-      <div className="cmpbars">${all.map((x) => html`<div key=${x.name} className=${'cmpbar' + (x.us ? ' us' : '')}><span className="cb-n"><b>${x.url ? html`<a href=${x.url} target="_blank" rel="noopener">${x.name}</a>` : x.name}</b><small>${x.note}</small></span><span className="cb-t"><i style=${{ width: Math.max(3, (x.yr / max) * 100) + '%' }}></i></span><b className="num cb-v">${x.name.startsWith('DineOpen') ? '~' : ''}${inr(x.yr)}</b></div>`)}</div>
-      <p className="small muted">Competitor prices are as reported by third-party pricing guides; a POS counter's hardware is reported at ₹30,000–60,000 on top. MenuMitra needs only a phone or tablet. Checked October 2026.</p>
+      <div className="cmpbars">${all.map((x) => html`<div key=${x.name} className=${'cmpbar' + (x.us ? ' us' : '')}><span className="cb-n"><b>${x.name}</b><small>${x.note}</small></span><span className="cb-t"><i style=${{ width: Math.max(3, (x.yr / max) * 100) + '%' }}></i></span><b className="num cb-v">${x.us ? '' : '~'}${inr(x.yr)}</b></div>`)}</div>
+      <p className="small muted">Other figures are rounded, typical yearly prices for restaurant software in India, before GST, from public price lists and buyer guides in October 2026. A POS counter's hardware usually adds ₹30,000–60,000. MenuMitra needs only a phone or tablet.</p>
     </div>
     <div className="sv-grid">${STRUGGLES.map(([ic, t, was, fix]) => html`<div key=${t} className="sv"><span className="feat-ic">${I(ic, 22)}</span><b>${t}</b><p className="sv-was">${was}</p><p className="sv-fix">${I('check', 16)}<span>${fix}</span></p></div>`)}</div>
-    <p className="small muted" style=${{ marginTop: 14 }}>Sources: <a href="https://www.dineopen.com/blog/petpooja-pricing-plans-2026.html" target="_blank" rel="noopener">Petpooja plans 2026</a>, <a href="https://servyn.in/guides/petpooja-software-price-comparison/" target="_blank" rel="noopener">POS hardware costs</a>, <a href="https://www.techjockey.com/reviews/petpooja-pos" target="_blank" rel="noopener">Petpooja support reviews</a>, <a href="https://www.capterra.com/p/172163/Petpooja-Restaurant-Management-Platform/reviews/?page=2" target="_blank" rel="noopener">Petpooja setup reviews</a>, <a href="https://www.dineopen.com/blog/petpooja-review-2026" target="_blank" rel="noopener">Petpooja plans</a>, <a href="https://www.dineopen.com/blog/swiggy-zomato-commission-calculator-guide.html" target="_blank" rel="noopener">delivery app commissions</a>, <a href="https://blog.petpooja.com/industry-business-guides/what-is-scan-and-order-qr-ordering-indian-restaurants/" target="_blank" rel="noopener">QR ordering challenges</a>.</p>
   </div></section>`;
 }
 
@@ -2862,7 +3035,8 @@ function OwnerSettings({ s, d }) {
       <div className="row"><button className="btn" onClick=${() => { downloadMenuCsv(s); toast('Menu downloaded as CSV'); }}>${I('download', 16)}Export menu</button><button className="btn" onClick=${() => toast('In the live product this opens WhatsApp support')}>${I('user', 16)}Chat with support</button></div></section>
     <h2 className="sub-h">Compare every feature</h2>
     <${PlanCompare} current=${r.plan} billing=${s.billing || 'y'} />
-    <section className="card"><h3>Restaurant</h3>
+    <section className="card" id="rest-card"><h3>Restaurant</h3>
+      <${BrandPhotos} id="brand-photos" r=${r} logo=${r.logo} cover=${r.cover} onChange=${(p) => d({ type: 'rest', rid: OWNER_RID, patch: p })} />
       <div className="fields2"><label className="field">Name<input value=${r.name} onChange=${(e) => d({ type: 'rest', rid: OWNER_RID, patch: { name: e.target.value } })} /></label>
       <label className="field">Area<input value=${r.area} onChange=${(e) => d({ type: 'rest', rid: OWNER_RID, patch: { area: e.target.value } })} /></label></div>
       <div className="fields2"><label className="field">UPI ID<input value=${r.upi} placeholder="name@bank" onChange=${(e) => d({ type: 'rest', rid: OWNER_RID, patch: { upi: e.target.value } })} /><small>Diners pay this UPI ID from the table. Money goes straight to you.</small></label>
@@ -3265,7 +3439,7 @@ function Owner({ s, d }) {
   return html`<div className="oshell">
     <aside className="oside">
       <${Logo} d=${d} />
-      <div className="orest"><div className="row" style=${{ flexWrap: 'nowrap' }}><div className="rlogo" style=${{ '--b1': r.b[0], '--b2': r.b[1] }}>${r.short}</div><div className="grow"><b>${r.name}</b><div className="small muted">${r.area}, ${r.city}</div></div></div><span className="pill leaf">${PLANS[r.plan].name} plan</span></div>
+      <div className="orest"><div className="row" style=${{ flexWrap: 'nowrap' }}><${RLogo} r=${r} /><div className="grow"><b>${r.name}</b><div className="small muted">${r.area}, ${r.city}</div></div></div><span className="pill leaf">${PLANS[r.plan].name} plan</span></div>
       <nav className="onav" aria-label="Restaurant dashboard">${myTabs.map(([id, label, icon, badge]) => html`<button key=${id} aria-current=${cur === id ? 'page' : undefined} onClick=${() => d({ type: 'set', k: 'ownerTab', v: id })}>${I(icon)}${label}${badge ? html`<span className="badge">${badge}</span>` : null}</button>`)}</nav>
       <div className="oside-foot"><button className="btn block" onClick=${() => d({ type: 'open', rid: OWNER_RID, table: 1 })}>${I('compass', 16)}View my menu</button><p className="small muted">Signed in as ${(s.me2 || { name: 'Kunal Shah' }).name}, ${((s.me2 || { role: 'Owner' }).role).toLowerCase()} · <button className="link small" id="logout" onClick=${() => { d({ type: 'logout' }); toast('Logged out'); }}>Log out</button></p></div>
     </aside>
