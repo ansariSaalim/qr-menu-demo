@@ -296,7 +296,7 @@ p { margin: 0; }
 .bill { border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: grid; gap: 7px; font-size: 14.5px; }
 .bill div { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
 .bill .tot { border-top: 1px dashed var(--line); padding-top: 9px; font-weight: 650; font-size: 16.5px; }
-.cartbar { position: fixed; left: 12px; right: 12px; bottom: calc(76px + env(safe-area-inset-bottom, 0px)); z-index: 25; border: 0; border-radius: 999px; background: var(--cta); color: var(--on-cta); padding: 13px 18px; display: none; align-items: center; justify-content: space-between; font-weight: 650; font-size: 16px; box-shadow: 0 12px 28px rgba(0,0,0,0.25); }
+.cartbar { position: fixed; left: 12px; right: 12px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); z-index: 25; border: 0; border-radius: 999px; background: var(--cta); color: var(--on-cta); padding: 13px 18px; display: none; align-items: center; justify-content: space-between; font-weight: 650; font-size: 16px; box-shadow: 0 12px 28px rgba(0,0,0,0.25); }
 .cartbar small { display: block; font-weight: 600; font-size: 12.5px; opacity: 0.85; text-align: left; }
 .cartbar.dark { background: var(--ink); color: var(--app); }
 .trackstrip { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: var(--ink); color: var(--app); margin-bottom: 12px; }
@@ -902,8 +902,8 @@ p { margin: 0; }
   .rhead { padding-block: 14px 8px; gap: 10px; }
   .rhead .rlogo { display: none; }
   .rhead h1 { font-size: 22px; }
-  .rhead > .grow { flex-basis: calc(100% - 60px); }
-  .rhead > .table-pill, .rhead > .btn.sm { margin-left: 52px; }
+  .rhead > .grow { flex-basis: calc(100% - 100px); }
+  .rhead > .table-pill, .rhead > .btn.sm { margin-left: 0; }
   .fields2 { grid-template-columns: minmax(0, 1fr); }
   .table-grid { grid-template-columns: repeat(4, 1fr); }
   .oshell { grid-template-columns: minmax(0, 1fr); }
@@ -1497,7 +1497,6 @@ function reducer(s, a) {
 
 /* ---------- Guided tour ---------- */
 const TOUR = [
-  { t: 'Diners discover restaurants', d: 'Every restaurant on MenuMitra has a live menu. Diners can browse here, but most arrive by scanning the QR on their table.', apply: (s) => ({ ...s, role: 'diner', screen: 'home', sheet: null }), hl: '#rgrid' },
   { t: 'Scan the QR on the table', d: 'The phone camera opens the menu for that exact table. No app to install, no sign-up.', apply: (s) => ({ ...s, role: 'diner', screen: 'home', sheet: { type: 'scan', rid: 'spice', table: 5 } }), hl: '#scan-sheet' },
   { t: 'The menu, at Table 5', d: 'Categories, veg-only filter, search, dish photos and sold-out dishes greyed out. The table number is already set.', apply: (s) => ({ ...s, role: 'diner', screen: 'menu', rid: 'spice', table: 5, cart: s.rid === 'spice' ? s.cart : [], sheet: null }), hl: '#menu-main' },
   { t: 'Pick a portion and add-ons', d: 'Half or full, extra butter. The price updates before anything goes into the cart.', apply: (s) => ({ ...s, role: 'diner', screen: 'menu', rid: 'spice', table: 5, sheet: { type: 'dish', id: 'pbm', variant: 'Full', addons: ['Extra butter'], q: 1 } }), hl: '#dish-sheet' },
@@ -1527,7 +1526,7 @@ function DemoBar({ s, d }) {
     <div className="dm-l"><span className="demo-pill">Demo</span><span>Sample data · nothing here is a real restaurant or payment</span></div>
     <div className="dm-r">
       <span className="dm-note">View as</span>
-      <div className="dseg" role="group" aria-label="View as (demo only)">${roles.map(([id, full, short]) => html`<button key=${id} aria-pressed=${s.role === id} aria-label=${full} onClick=${() => d({ type: 'role', role: id })}><span className="full">${full}</span><span className="short">${short}</span></button>`)}</div>
+      <div className="dseg" role="group" aria-label="View as (demo only)">${roles.map(([id, full, short]) => html`<button key=${id} aria-pressed=${s.role === id} aria-label=${full} onClick=${() => (id === 'diner' && s.role !== 'diner' ? d({ type: 'open', rid: OWNER_RID, table: s.table || 5 }) : d({ type: 'role', role: id }))}><span className="full">${full}</span><span className="short">${short}</span></button>`)}</div>
       <button className="dbtn" onClick=${() => d({ type: 'go', role: 'diner', screen: 'views' })} aria-label="Who sees what">${I('people', 15)}<span className="l">Who sees what</span></button>
       <button className="dbtn hi" onClick=${() => d({ type: 'tourGo', i: 0 })}>${I('sparkle', 15)}<span className="l">Guided tour</span><span className="s">Tour</span></button>
       <button className="dbtn" onClick=${() => { d({ type: 'reset' }); toast('Demo reset to sample data'); }} aria-label="Reset demo">${I('reset', 15)}<span className="l">Reset</span></button>
@@ -1558,17 +1557,14 @@ function Modal({ id, onClose, wide, children }) {
 
 /* ---------- Diner ---------- */
 function DinerNav({ s, d }) {
-  const open = s.orders.filter((o) => o.mine && o.status !== 'cancelled' && o.pay !== 'paid').length;
-  const cur = s.screen === 'menu' || s.screen === 'cart' ? 'home' : s.screen;
+  const atTable = ['menu', 'cart', 'track', 'pay', 'paid', 'orders'].includes(s.screen);
+  const toPricing = () => { d({ type: 'go', screen: 'home' }); setTimeout(() => { const el = document.getElementById('pricing'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80); };
   return html`<header className="topnav"><div className="container nav-inner">
     <${Logo} d=${d} />
-    <label className="search" htmlFor="q">${I('search', 17)}<input id="q" type="search" placeholder="Search restaurants" value=${s.query} onChange=${(e) => d({ type: 'set', k: 'query', v: e.target.value })} onFocus=${() => { if (s.screen !== 'home' && s.screen !== 'menu') d({ type: 'go', screen: 'home' }); }} /></label>
     <div className="nav-actions">
-      <button className="nav-link" aria-current=${cur === 'home' ? 'page' : undefined} onClick=${() => d({ type: 'go', screen: 'home' })}>${I('compass')}Restaurants</button>
-      <button className="nav-link" aria-current=${cur === 'track' || cur === 'pay' || cur === 'paid' || cur === 'orders' ? 'page' : undefined} onClick=${() => d({ type: 'go', screen: 'orders' })}>${I('receipt')}My orders${open ? html`<span className="badge">${open}</span>` : null}</button>
-      <button className="nav-link" aria-current=${cur === 'business' ? 'page' : undefined} onClick=${() => d({ type: 'go', screen: 'business' })}>${I('store')}For restaurants</button>
+      ${atTable ? null : html`<button className="nav-link" onClick=${toPricing}>${I('rupee')}Pricing</button>`}
       <button className="btn sm login-btn" id="login-btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'login' } })} aria-label="Restaurant log in">${I('user', 16)}<span className="lb-l">Restaurant log in</span></button>
-      <button className="btn primary sm" onClick=${() => d({ type: 'sheet', sheet: { type: 'scan', rid: s.rid || 'spice', table: s.table || 5 } })}>${I('qr', 16)}<span className="sq-l">Scan table QR</span><span className="sq-s">Scan QR</span></button>
+      <button className="btn primary sm" id="try-qr" onClick=${() => d({ type: 'sheet', sheet: { type: 'scan', rid: s.rid || 'spice', table: s.table || 5 } })}>${I('qr', 16)}<span className="sq-l">Try a table QR</span><span className="sq-s">Try QR</span></button>
     </div>
   </div></header>`;
 }
@@ -1721,7 +1717,6 @@ function MenuPage({ s, d }) {
   const why = !s.table ? 'Browsing the menu. Scan the QR on your table, or pick your table, to order.' : !r.open ? 'The kitchen is not taking orders from the phone right now. Please ask a waiter.' : !can(r.plan, 'basic') ? 'This restaurant shows its menu here. Please tell your waiter what you would like.' : null;
   return html`<main className="container" id="menu-main">
     <div className="rhead">
-      <button className="btn icon" onClick=${() => d({ type: 'go', screen: 'home' })} aria-label="Back to restaurants">${I('back')}</button>
       <div className="rlogo" style=${{ '--b1': r.b[0], '--b2': r.b[1] }}>${r.short}</div>
       <div className="grow"><h1>${r.name}</h1><p className="rline">${r.cuisine} · ${r.area} · <span className="rating">${r.rating}${I('star', 11)}</span></p></div>
       ${s.table ? html`<button className="table-pill" onClick=${() => d({ type: 'sheet', sheet: { type: 'table' } })} title="Change table">Table ${s.table}</button>` : can(r.plan, 'basic') ? html`<button className="btn sm" onClick=${() => d({ type: 'sheet', sheet: { type: 'table' } })}>${I('qr', 15)}Pick your table</button>` : null}
@@ -1814,15 +1809,15 @@ function Paid({ s, d }) {
     ${!counter && can(r.plan, 'pro') ? html`<div className="notice leaf">Bill sent to WhatsApp on ${s.me.phone} (demo)</div>` : null}
     ${can(r.plan, 'pro') && lp.amount ? html`<div className="notice" id="loyalty-note"><b>+${Math.floor(lp.amount / 10)} loyalty points</b> at ${r.name}. You have ${Math.floor(lp.amount / 10) + 120} points; 500 points take ₹50 off a future bill.</div>` : null}
     ${can(r.plan, 'pro') ? html`<div className="card"><b>How was your meal?</b><div className="stars">${[1, 2, 3, 4, 5].map((n) => html`<button key=${n} className=${n <= s.rating ? 'on' : ''} onClick=${() => d({ type: 'set', k: 'rating', v: n })} aria-label=${n + ' stars'}>${I('star', 30)}</button>`)}</div>${s.rating ? html`<p className="small muted">Thanks! ${s.rating >= 4 ? '+' + Math.floor(lp.amount / 20) + ' bonus points for rating.' : 'The owner will see your feedback.'}</p>` : null}${s.rating >= 4 ? html`<button className="btn primary" id="g-review" onClick=${() => toast('In the live app this opens ' + r.name + ' on Google Maps to post a review')}>${I('star', 16)}Share it on Google</button>` : null}</div>` : null}
-    <button className="btn block" onClick=${() => d({ type: 'go', screen: 'orders' })}>See my orders</button>
-    <button className="link" style=${{ justifySelf: 'center' }} onClick=${() => d({ type: 'go', screen: 'home' })}>Back to restaurants</button>
+    <button className="btn block" onClick=${() => d({ type: 'go', screen: 'menu' })}>Back to the menu</button>
+    <button className="link" style=${{ justifySelf: 'center' }} onClick=${() => d({ type: 'go', screen: 'orders' })}>Orders from this phone</button>
   </div></main>`;
 }
 
 function MyOrders({ s, d }) {
   const mine = s.orders.filter((o) => o.mine).slice().reverse();
   return html`<main className="container"><div className="narrow">
-    <div className="page-title"><h1>My orders</h1></div>
+    <div className="page-title"><button className="btn icon" onClick=${() => d({ type: 'go', screen: 'menu' })} aria-label="Back to the menu">${I('back')}</button><h1>Orders from this phone</h1></div>
     ${!mine.length ? html`<div className="empty card"><p>You have not ordered yet. Scan a table QR to start.</p><button className="btn primary" onClick=${() => d({ type: 'sheet', sheet: { type: 'scan', rid: 'spice', table: 5 } })}>${I('qr', 16)}Scan a table QR</button></div>` : mine.map((o) => {
       const r = R(s, o.rid);
       return html`<button key=${o.id} className="order-card" style=${{ textAlign: 'left' }} onClick=${() => d({ type: 'open', rid: o.rid, table: o.table }) || d({ type: 'go', screen: 'track' })}>
@@ -2108,9 +2103,9 @@ function SignupSheet({ s, d }) {
 
 /* ---------- Who sees what: the four views of MenuMitra ---------- */
 const WHO = [
-  { id: 'visitor', icon: 'compass', title: 'Visitor', who: 'Anyone browsing, not at a table yet', gets: 'Opens the MenuMitra website or a shared link. No sign-in.',
-    sees: ['Restaurants nearby, with ratings and price for two', 'Full menus with photos, prices and veg marks', 'The For restaurants page with plans and pricing'],
-    not: 'Cannot place an order: that needs the QR on a table.', cta: 'Open as a visitor' },
+  { id: 'visitor', icon: 'compass', title: 'Visitor', who: 'A restaurant owner looking at MenuMitra', gets: 'Opens the MenuMitra website. No sign-in.',
+    sees: ['What MenuMitra does, plans and prices', 'The guided tour and a sample table QR to try', 'Register, or log in to their restaurant'],
+    not: 'Sees no restaurant’s menu or orders: menus open only from a table QR.', cta: 'Open the website' },
   { id: 'diner', icon: 'qr', title: 'Diner at the table', who: 'Eaters who scanned the table QR', gets: 'Scans the QR on the table. The menu opens at that table. No app, no sign-in.',
     sees: ['That restaurant’s menu, already set to their table', 'Their cart, live order status and the bill', 'Pay by UPI from the table, and My orders on that phone'],
     not: 'Never sees other diners’ orders or the restaurant’s sales.', cta: 'Scan Table 5' },
@@ -2122,7 +2117,8 @@ const WHO = [
     not: 'Restaurants and diners can never open this view.', cta: 'Open the team view' },
 ];
 const WHO_ROWS = [
-  ['Restaurants and menus', ['y', 'y', 'Own menu', 'All']],
+  ['Website, plans and pricing', ['y', 'y', 'y', 'y']],
+  ['A restaurant’s menu', ['n', 'At their table', 'Own menu', 'All']],
   ['Place an order', ['n', 'At their table', 'n', 'n']],
   ['Track and pay for an order', ['n', 'Their own', 'n', 'n']],
   ['Live orders', ['n', 'n', 'Own restaurant', 'n']],
@@ -2221,14 +2217,13 @@ function LoginSheet({ s, d }) {
   <//>`;
 }
 function Diner({ s, d }) {
-  const screens = { home: Home, menu: MenuPage, cart: CartScreen, track: Track, pay: Pay, paid: Paid, orders: MyOrders, business: ForRestaurants, views: WhoSees };
+  const screens = { home: ForRestaurants, menu: MenuPage, cart: CartScreen, track: Track, pay: Pay, paid: Paid, orders: MyOrders, business: ForRestaurants, views: WhoSees };
   const Screen = screens[s.screen] || Home;
   const open = s.orders.filter((o) => o.mine && o.status !== 'cancelled' && o.pay !== 'paid').length;
   const cur = s.screen === 'menu' || s.screen === 'cart' || s.screen === 'home' ? 'home' : s.screen === 'business' ? 'business' : s.screen === 'views' ? null : 'orders';
   return html`<div>
     <${DinerNav} s=${s} d=${d} />
     <${Screen} s=${s} d=${d} />
-    <${Tabbar} cur=${cur} tabs=${[['home', 'Restaurants', 'compass'], ['scan', 'Scan QR', 'qr'], ['orders', 'My orders', 'receipt', open], ['business', 'For business', 'store']]} onGo=${(id) => (id === 'scan' ? d({ type: 'sheet', sheet: { type: 'scan', rid: s.rid || 'spice', table: s.table || 5 } }) : d({ type: 'go', screen: id }))} />
     ${s.sheet && s.sheet.type === 'dish' ? html`<${DishSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'table' ? html`<${TableSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'signup' ? html`<${SignupSheet} key=${s.sheet.plan} s=${s} d=${d} />` : null}
