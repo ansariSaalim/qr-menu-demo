@@ -1053,6 +1053,16 @@ button.pos-it:hover:not(:disabled) { border-color: var(--ink); }
 }
 @media (max-width: 420px) { .otop .net-pill { font-size: 0; gap: 0; padding: 9px; } .otop .net-pill::before { width: 9px; height: 9px; } }
 
+
+.sq-s { display: none; }
+@media (max-width: 400px) { .sq-l { display: none; } .sq-s { display: inline; } }
+.staff-pick { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.staff-pick button { border: 1.5px solid var(--line); background: var(--app); border-radius: 12px; padding: 10px 12px; text-align: left; display: grid; gap: 2px; font: inherit; color: inherit; }
+.staff-pick button[aria-checked="true"] { border-color: var(--leaf); background: var(--leaf-soft); }
+.staff-pick small { color: var(--muted); font-size: 12.5px; }
+input.otp { letter-spacing: 0.5em; font-family: var(--f-mono); font-size: 20px; text-align: center; }
+@media (max-width: 1100px) { .login-btn .lb-l { display: none; } }
+@media (max-width: 860px) { .nav-actions .login-btn { display: inline-flex; padding: 7px 10px; } }
 /* Phone polish */
 .ot-s { display: none; }
 .mcards { display: none; }
@@ -1376,7 +1386,7 @@ function loadState() {
   } catch (e) { return base; }
 }
 function saveState(s) {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable, billing: s.billing, anaRange: s.anaRange, adminTab: s.adminTab, adminRid: s.adminRid, costs: s.costs, printer: s.printer, staff: s.staff, customers: s.customers, inv: s.inv, offline: s.offline, pending: s.pending })); } catch (e) { /* storage blocked: the demo still works */ }
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable, billing: s.billing, anaRange: s.anaRange, adminTab: s.adminTab, adminRid: s.adminRid, costs: s.costs, me2: s.me2, printer: s.printer, staff: s.staff, customers: s.customers, inv: s.inv, offline: s.offline, pending: s.pending })); } catch (e) { /* storage blocked: the demo still works */ }
 }
 const R = (s, rid) => ({ ...RMAP[rid], ...s.rest[rid] });
 const canOrder = (s) => { const r = R(s, s.rid); return !!s.table && r.open && s.table <= r.tables; };
@@ -1438,6 +1448,8 @@ function reducer(s, a) {
     }
     case 'khataPay': return { ...s, customers: (s.customers || CUSTOMERS0).map((c) => (c.phone === a.phone ? { ...c, due: 0 } : c)) };
     case 'invAdd': { const x = (s.inv || {})[a.id] || { buy: 0, waste: 0 }; return { ...s, inv: { ...(s.inv || {}), [a.id]: { ...x, [a.kind]: x[a.kind] + a.qty } }, sheet: null }; }
+    case 'login': return { ...s, role: 'owner', ownerTab: a.tab, me2: { name: a.name, role: a.role }, sheet: null };
+    case 'logout': return { ...s, role: 'diner', screen: 'home', me2: null, sheet: null };
     case 'offline': return { ...s, offline: !s.offline, pending: s.offline ? 0 : s.pending };
     case 'advance': return { ...s, orders: s.orders.map((o) => (o.id === a.id ? { ...o, status: { new: 'preparing', preparing: 'ready', ready: 'served' }[o.status] } : o)), fresh: s.fresh === a.id ? null : s.fresh };
     case 'reject': return { ...s, orders: s.orders.map((o) => (o.id === a.id ? { ...o, status: 'cancelled' } : o)), sheet: null };
@@ -1550,12 +1562,13 @@ function DinerNav({ s, d }) {
   const cur = s.screen === 'menu' || s.screen === 'cart' ? 'home' : s.screen;
   return html`<header className="topnav"><div className="container nav-inner">
     <${Logo} d=${d} />
-    <label className="search" htmlFor="q">${I('search', 17)}<input id="q" type="search" placeholder="Search restaurants or dishes" value=${s.query} onChange=${(e) => d({ type: 'set', k: 'query', v: e.target.value })} onFocus=${() => { if (s.screen !== 'home' && s.screen !== 'menu') d({ type: 'go', screen: 'home' }); }} /></label>
+    <label className="search" htmlFor="q">${I('search', 17)}<input id="q" type="search" placeholder="Search restaurants" value=${s.query} onChange=${(e) => d({ type: 'set', k: 'query', v: e.target.value })} onFocus=${() => { if (s.screen !== 'home' && s.screen !== 'menu') d({ type: 'go', screen: 'home' }); }} /></label>
     <div className="nav-actions">
       <button className="nav-link" aria-current=${cur === 'home' ? 'page' : undefined} onClick=${() => d({ type: 'go', screen: 'home' })}>${I('compass')}Restaurants</button>
       <button className="nav-link" aria-current=${cur === 'track' || cur === 'pay' || cur === 'paid' || cur === 'orders' ? 'page' : undefined} onClick=${() => d({ type: 'go', screen: 'orders' })}>${I('receipt')}My orders${open ? html`<span className="badge">${open}</span>` : null}</button>
       <button className="nav-link" aria-current=${cur === 'business' ? 'page' : undefined} onClick=${() => d({ type: 'go', screen: 'business' })}>${I('store')}For restaurants</button>
-      <button className="btn primary sm" onClick=${() => d({ type: 'sheet', sheet: { type: 'scan', rid: s.rid || 'spice', table: s.table || 5 } })}>${I('qr', 16)}Scan table QR</button>
+      <button className="btn sm login-btn" id="login-btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'login' } })} aria-label="Restaurant log in">${I('user', 16)}<span className="lb-l">Restaurant log in</span></button>
+      <button className="btn primary sm" onClick=${() => d({ type: 'sheet', sheet: { type: 'scan', rid: s.rid || 'spice', table: s.table || 5 } })}>${I('qr', 16)}<span className="sq-l">Scan table QR</span><span className="sq-s">Scan QR</span></button>
     </div>
   </div></header>`;
 }
@@ -1632,7 +1645,7 @@ function Home({ s, d }) {
       <${Marquee} items=${STRIP} />
     </div></section>
     <div className="container">
-      <label className="search home-search" htmlFor="q2" style=${{ marginTop: 18 }}>${I('search', 17)}<input id="q2" type="search" placeholder="Search restaurants or dishes" value=${s.query} onChange=${(e) => d({ type: 'set', k: 'query', v: e.target.value })} /></label>
+      <label className="search home-search" htmlFor="q2" style=${{ marginTop: 18 }}>${I('search', 17)}<input id="q2" type="search" placeholder="Search restaurants" value=${s.query} onChange=${(e) => d({ type: 'set', k: 'query', v: e.target.value })} /></label>
       <div className="rhead-top"><div><h2>Restaurants near you</h2><p className="muted">${list.length} in Ahmedabad · sample data</p></div>
         <div className="seg chips-seg" role="group" aria-label="Filter">${filters.map(([k, l]) => html`<button key=${k} aria-pressed=${s.homeFilter === k} onClick=${() => d({ type: 'set', k: 'homeFilter', v: k })}>${l}</button>`)}</div></div>
       <div className="rgrid" id="rgrid">${list.map((r) => html`<button key=${r.id} className="rcard" onClick=${() => d({ type: 'open', rid: r.id })} aria-label=${'Open ' + r.name + ' menu'}>
@@ -2008,7 +2021,7 @@ function ForRestaurants({ s, d }) {
         <span className="fx-badge"><i>${I('store', 14)}</i>Zero hardware · runs on your phone or tablet</span>
         <h1 className="fx-h1">Billing, tables and QR ordering. <em>All on the phone you already have.</em></h1>
         <p className="fx-sub">GST bills, kitchen tickets, running tables and orders from the table QR, in one app. No computer, no printer required, no commission. Built for small and local restaurants.</p>
-        <div className="fx-ctas"><button className="btn primary lg" onClick=${() => signup('basic')}>Register your restaurant<${Arr} /></button><button className="btn lg" onClick=${() => owner('orders')}>See the restaurant dashboard</button></div>
+        <div className="fx-ctas"><button className="btn primary lg" onClick=${() => signup('basic')}>Register your restaurant<${Arr} /></button><button className="btn lg" onClick=${() => d({ type: 'sheet', sheet: { type: 'login' } })}>Restaurant log in</button></div>
         <span className="fx-proof"><${Avatars} list=${RESTAURANTS.slice(1, 5)} /><span>${SETUP.trial}-day free trial<small>From ${inr(planCost('basic', 'y').total)} for 12 months, about ${inr(planCost('basic', 'y').per)} a month</small></span></span>
       </div>
       <${Showcase} tabs=${tabs} label="What you get" />
@@ -2165,6 +2178,48 @@ function WhoSees({ s, d }) {
   </main>`;
 }
 
+
+/* ---------- Restaurant log in: owner by mobile and OTP, staff by PIN ---------- */
+const STAFF_HOME = { Owner: 'orders', Manager: 'orders', Cashier: 'billing', Kitchen: 'orders', Waiter: 'floor' };
+function LoginSheet({ s, d }) {
+  const [who, setWho] = useState('owner');
+  const [phone, setPhone] = useState('98250 12345');
+  const [step, setStep] = useState(1);
+  const [otp, setOtp] = useState('');
+  const staff = (s.staff || STAFF0).filter((x) => x.pin);
+  const [sid, setSid] = useState(staff[0] ? staff[0].id : '');
+  const [pin, setPin] = useState('');
+  const [err, setErr] = useState('');
+  const close = () => d({ type: 'sheet', sheet: null });
+  const enter = (name, role) => { d({ type: 'login', name, role, tab: STAFF_HOME[role] || 'orders' }); toast('Signed in as ' + name + ', ' + role.toLowerCase(), 'ok'); };
+  const ownerGo = () => {
+    if (step === 1) { if (phone.replace(/\D/g, '').length !== 10) { setErr('Enter a 10-digit mobile number.'); return; } setErr(''); setStep(2); setOtp(''); return; }
+    if (!/^\d{4}$/.test(otp)) { setErr('Enter the 4-digit code. In this demo any 4 digits work.'); return; }
+    enter('Kunal Shah', 'Owner');
+  };
+  const staffGo = () => {
+    const x = staff.find((y) => y.id === sid);
+    if (!x) return;
+    if (pin !== x.pin) { setErr('That PIN does not match. In this demo ' + x.name + '’s PIN is ' + x.pin + '.'); return; }
+    enter(x.name, x.role);
+  };
+  return html`<${Modal} id="login-sheet" onClose=${close}>
+    <div className="modal-h"><h2>${I('store', 22)}Restaurant log in</h2><button className="btn sm icon" onClick=${close} aria-label="Close">${I('x')}</button></div>
+    <div className="seg full" role="group" aria-label="Who is signing in"><button aria-pressed=${who === 'owner'} onClick=${() => { setWho('owner'); setErr(''); }}>Owner</button><button aria-pressed=${who === 'staff'} onClick=${() => { setWho('staff'); setErr(''); }}>Staff</button></div>
+    ${who === 'owner' ? html`
+      ${step === 1 ? html`<label className="field">Mobile number<div className="money"><span>+91</span><input id="lg-phone" inputMode="tel" value=${phone} onChange=${(e) => setPhone(e.target.value)} /></div><small>We send a one-time code by SMS or WhatsApp.</small></label>`
+        : html`<label className="field">Code sent to +91 ${phone}<input id="lg-otp" className="otp" inputMode="numeric" maxLength="4" placeholder="• • • •" value=${otp} onChange=${(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 4))} autoFocus /><small>Demo: type any 4 digits. <button className="link small" onClick=${() => setStep(1)}>Change number</button></small></label>`}
+      ${err ? html`<p className="notice">${err}</p>` : null}
+      <button className="btn primary lg block" id="lg-go" onClick=${ownerGo}>${step === 1 ? 'Send code' : 'Log in'}</button>`
+    : html`
+      <p className="small muted">Spice Garden staff. Cashiers open on Billing, waiters on Tables, the kitchen on Orders.</p>
+      <div className="staff-pick" role="radiogroup" aria-label="Who are you">${staff.map((x) => html`<button key=${x.id} role="radio" aria-checked=${sid === x.id} onClick=${() => { setSid(x.id); setPin(''); setErr(''); }}><b>${x.name}</b><small>${x.role}</small></button>`)}</div>
+      <label className="field">4-digit PIN<input id="lg-pin" className="otp" inputMode="numeric" maxLength="4" placeholder="• • • •" value=${pin} onChange=${(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))} /></label>
+      ${err ? html`<p className="notice">${err}</p>` : null}
+      <button className="btn primary lg block" id="lg-staff" disabled=${pin.length !== 4} onClick=${staffGo}>Log in</button>`}
+    <p className="small muted" style=${{ textAlign: 'center' }}>New restaurant? <button className="link small" onClick=${() => d({ type: 'go', screen: 'business' })}>Register and try it free for ${SETUP.trial} days</button></p>
+  <//>`;
+}
 function Diner({ s, d }) {
   const screens = { home: Home, menu: MenuPage, cart: CartScreen, track: Track, pay: Pay, paid: Paid, orders: MyOrders, business: ForRestaurants, views: WhoSees };
   const Screen = screens[s.screen] || Home;
@@ -2177,6 +2232,7 @@ function Diner({ s, d }) {
     ${s.sheet && s.sheet.type === 'dish' ? html`<${DishSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'table' ? html`<${TableSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'signup' ? html`<${SignupSheet} key=${s.sheet.plan} s=${s} d=${d} />` : null}
+    ${s.sheet && s.sheet.type === 'login' ? html`<${LoginSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'scan' ? html`<${ScanSheet} key=${(s.sheet.rid || '') + s.sheet.table} s=${s} d=${d} />` : null}
   </div>`;
 }
@@ -3126,7 +3182,8 @@ function StaffSettings({ s, d }) {
 /* ---------- More (phone layout) ---------- */
 function OwnerMore({ s, d, tabs }) {
   return html`<div style=${{ display: 'grid', gap: 14 }}><div className="ph"><div><h1>More</h1></div></div>
-    <div className="more-grid">${tabs.map(([id, label, icon, badge]) => html`<button key=${id} className="more-it" onClick=${() => d({ type: 'set', k: 'ownerTab', v: id })}>${I(icon, 22)}<b>${label}</b>${badge ? html`<span className="badge">${badge}</span>` : null}</button>`)}</div></div>`;
+    <div className="more-grid">${tabs.map(([id, label, icon, badge]) => html`<button key=${id} className="more-it" onClick=${() => d({ type: 'set', k: 'ownerTab', v: id })}>${I(icon, 22)}<b>${label}</b>${badge ? html`<span className="badge">${badge}</span>` : null}</button>`)}</div>
+    <section className="card help-card"><div className="grow"><b>${(s.me2 || { name: 'Kunal Shah' }).name}</b><p className="small muted">${(s.me2 || { role: 'Owner' }).role} at ${R(s, OWNER_RID).name}</p></div><button className="btn" onClick=${() => d({ type: 'open', rid: OWNER_RID, table: 1 })}>${I('compass', 16)}View my menu</button><button className="btn" id="logout-m" onClick=${() => { d({ type: 'logout' }); toast('Logged out'); }}>Log out</button></section></div>`;
 }
 
 function Owner({ s, d }) {
@@ -3143,7 +3200,7 @@ function Owner({ s, d }) {
       <${Logo} d=${d} />
       <div className="orest"><div className="row" style=${{ flexWrap: 'nowrap' }}><div className="rlogo" style=${{ '--b1': r.b[0], '--b2': r.b[1] }}>${r.short}</div><div className="grow"><b>${r.name}</b><div className="small muted">${r.area}, ${r.city}</div></div></div><span className="pill leaf">${PLANS[r.plan].name} plan</span></div>
       <nav className="onav" aria-label="Restaurant dashboard">${tabs.map(([id, label, icon, badge]) => html`<button key=${id} aria-current=${s.ownerTab === id ? 'page' : undefined} onClick=${() => d({ type: 'set', k: 'ownerTab', v: id })}>${I(icon)}${label}${badge ? html`<span className="badge">${badge}</span>` : null}</button>`)}</nav>
-      <div className="oside-foot"><button className="btn block" onClick=${() => d({ type: 'open', rid: OWNER_RID, table: 1 })}>${I('compass', 16)}View my menu</button><p className="small muted">Signed in as Kunal Shah, owner</p></div>
+      <div className="oside-foot"><button className="btn block" onClick=${() => d({ type: 'open', rid: OWNER_RID, table: 1 })}>${I('compass', 16)}View my menu</button><p className="small muted">Signed in as ${(s.me2 || { name: 'Kunal Shah' }).name}, ${((s.me2 || { role: 'Owner' }).role).toLowerCase()} · <button className="link small" id="logout" onClick=${() => { d({ type: 'logout' }); toast('Logged out'); }}>Log out</button></p></div>
     </aside>
     <div className="omain">
       <header className="otop">
