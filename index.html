@@ -3,13 +3,13 @@
 <head>
 <script>try { document.documentElement.dataset.theme = localStorage.getItem('mm-theme') === 'dark' ? 'dark' : 'light'; } catch (e) { document.documentElement.dataset.theme = 'light'; }</script>
 <meta charset="utf-8">
-<meta name="description" content="Clickable prototype of MenuMitra: QR menu and table ordering for restaurants. Diners scan, order and pay from the table; restaurants see every order live. Sample data only.">
+<meta name="description" content="Clickable prototype of Zestro: QR menu and table ordering for restaurants. Diners scan, order and pay from the table; restaurants see every order live. Sample data only.">
 <meta name="robots" content="noindex">
-<meta property="og:title" content="MenuMitra: scan, order and pay from your table">
-<meta property="og:description" content="Clickable prototype of MenuMitra. Sample data only.">
+<meta property="og:title" content="Zestro: scan, order and pay from your table">
+<meta property="og:description" content="Clickable prototype of Zestro. Sample data only.">
 <meta name="theme-color" content="#ffffff">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MenuMitra Web App</title>
+<title>Zestro Web App</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111827'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='2.2' stroke-linejoin='round'%3E%3Crect x='6' y='6' width='8' height='8' rx='1.6'/%3E%3Ccircle cx='20.5' cy='20.5' r='6'/%3E%3Ccircle cx='20.5' cy='20.5' r='2.4'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1176,7 +1176,7 @@ input.otp { letter-spacing: 0.5em; font-family: var(--f-mono); font-size: 20px; 
 </style>
 </head>
 <body>
-<div id="root"><p style="padding:40px;font-family:system-ui;text-align:center;color:#5b6a5f">Loading MenuMitra…</p></div>
+<div id="root"><p style="padding:40px;font-family:system-ui;text-align:center;color:#5b6a5f">Loading Zestro…</p></div>
 <div class="toasts" id="toasts" aria-live="polite"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
@@ -1500,7 +1500,7 @@ function standeeCanvas(r, t, branded) {
   x.fillStyle = '#e3a114'; x.beginPath(); x.roundRect ? x.roundRect(W / 2 - 180, 950, 360, 104, 52) : x.rect(W / 2 - 180, 950, 360, 104); x.fill();
   x.fillStyle = '#3a2800'; x.font = '700 54px "JetBrains Mono", ui-monospace, monospace'; x.fillText(t ? 'TABLE ' + t : 'MENU', W / 2, 1020);
   x.fillStyle = 'rgba(255,255,255,0.85)'; x.font = '600 32px Figtree, system-ui, sans-serif';
-  x.fillText(branded ? 'No app needed · pay by UPI' : 'No app needed · Powered by MenuMitra', W / 2, 1170);
+  x.fillText(branded ? 'No app needed · pay by UPI' : 'No app needed · Powered by Zestro', W / 2, 1170);
   return c;
 }
 let audioCtx = null;
@@ -1693,7 +1693,7 @@ const TOUR = [
 
 /* ---------- Shared bits ---------- */
 function Logo({ d, sub }) {
-  return html`<button className="logo" onClick=${() => d({ type: 'go', role: 'diner', screen: 'home' })} aria-label="MenuMitra home"><span className="logo-mark">${I('logo', 20)}</span><span>Menu<span className="mm">Mitra</span></span>${sub ? html`<small>${sub}</small>` : null}</button>`;
+  return html`<button className="logo" onClick=${() => d({ type: 'go', role: 'diner', screen: 'home' })} aria-label="Zestro home"><span className="logo-mark">${I('logo', 20)}</span><span><span className="mm">Zest</span>ro</span>${sub ? html`<small>${sub}</small>` : null}</button>`;
 }
 function ThemeBtn() {
   const [dark, setDark] = useState(document.documentElement.dataset.theme === 'dark');
@@ -1806,7 +1806,7 @@ function Home({ s, d }) {
     { id: 'order', icon: 'receipt', label: 'Order', title: 'Straight to the kitchen', text: 'Your order lands on the restaurant screen with your table number. Watch it go from accepted to ready.', points: ['No waiting for a waiter', 'Add a note for the kitchen'], cta: html`<button className="btn primary" onClick=${() => d({ type: 'tourGo', i: 0 })}>Take the guided tour<${Arr} /></button>`,
       vis: html`<div className="mk-stack"><${MockOrder} no=${118} t=${5} who="You · Table 5" lines=${[[1, 'Paneer Tikka', true], [2, 'Butter Naan', true]]} total=${380} stage="new" /><div className="mk-track"><b className="small">Your order</b><div className="track"><div className="done"><i></i>Sent</div><div className="done"><i></i>Accepted</div><div className="now"><i></i>Cooking</div><div><i></i>Ready</div></div></div></div>` },
     { id: 'pay', icon: 'rupee', label: 'Pay', title: 'Pay from the table', text: 'Pay by UPI straight to the restaurant, or at the counter as usual. The bill comes to your phone.', points: ['No waiting for the bill', 'Money goes straight to the restaurant'], cta: html`<button className="btn primary" onClick=${() => d({ type: 'open', rid: 'spice', table: 5 })}>Order and pay<${Arr} /></button>`,
-      vis: html`<div className="mk-pay"><span className="small muted">Pay Spice Garden · Table 5</span><span className="amt">₹724</span><${QR} text=${'MenuMitra demo: sample payment code, not a real UPI ID. Nothing can be paid.'} size=${120} /><span className="mono small">spicegarden@upi</span><span className="pill ok">${I('check', 13)}Paid · confirmed by the restaurant</span></div>` },
+      vis: html`<div className="mk-pay"><span className="small muted">Pay Spice Garden · Table 5</span><span className="amt">₹724</span><${QR} text=${'Zestro demo: sample payment code, not a real UPI ID. Nothing can be paid.'} size=${120} /><span className="mono small">spicegarden@upi</span><span className="pill ok">${I('check', 13)}Paid · confirmed by the restaurant</span></div>` },
   ];
   return html`<main>
     <section className="fx"><div className="container">
@@ -1818,7 +1818,7 @@ function Home({ s, d }) {
         <span className="fx-proof"><${Avatars} list=${RESTAURANTS.slice(0, 4)} /><span>6 restaurants in Ahmedabad<small>Sample data for this demo</small></span></span>
       </div>
       <${Showcase} tabs=${tabs} label="How ordering works" />
-      <p className="strip-h">On MenuMitra near you · sample restaurants</p>
+      <p className="strip-h">On Zestro near you · sample restaurants</p>
       <${Marquee} items=${STRIP} />
     </div></section>
     <div className="container">
@@ -1924,7 +1924,7 @@ function MenuPage({ s, d }) {
           </div>`)}
         </section>`)}
         ${!cats.length ? html`<div className="empty"><p>No dishes match your search.</p></div>` : null}
-        ${!can(r.plan, 'pro') ? html`<p className="small muted" style=${{ textAlign: 'center', padding: '28px 0 6px' }}>Menu by <b style=${{ color: 'var(--leaf)' }}>MenuMitra</b></p>` : null}
+        ${!can(r.plan, 'pro') ? html`<p className="small muted" style=${{ textAlign: 'center', padding: '28px 0 6px' }}>Menu by <b style=${{ color: 'var(--leaf)' }}>Zestro</b></p>` : null}
       </div>
       <aside className="cart-panel" aria-label="Your order"><h2>Your order ${s.table ? html`<span className="table-pill">Table ${s.table}</span>` : null}</h2><${CartBody} s=${s} d=${d} r=${r} compact=${false} /></aside>
     </div>
@@ -1991,7 +1991,7 @@ function Paid({ s, d }) {
     <h1 style=${{ fontSize: 26 }}>${counter ? 'Staff will bring your bill' : 'Paid ' + inr(lp.amount)}</h1>
     <p className="muted">${r.name} · Table ${s.table}${counter ? ' · ' + inr(lp.amount) + ' due at the counter' : ' · by ' + (lp.method === 'upi' ? 'UPI' : 'card')}</p>
     ${!counter && can(r.plan, 'pro') ? html`<div className="wa" id="wa-bill" aria-label="WhatsApp bill preview">
-      <div className="wa-h"><span className="wa-av">${r.short}</span><span><b>${r.name}</b><small>via MenuMitra · verified business</small></span></div>
+      <div className="wa-h"><span className="wa-av">${r.short}</span><span><b>${r.name}</b><small>via Zestro · verified business</small></span></div>
       <div className="wa-msg"><p>Hi ${(s.me.name || 'there').split(' ')[0]}, thank you for dining at <b>${r.name}</b>!</p>
         <p>Amount: <b>${inr(lp.amount)}</b><br />Date: ${new Date().toLocaleDateString('en-IN')} ${clock(Date.now())}<br />Invoice: <span className="wa-link">View bill #${(s.orders.filter((o) => o.mine).slice(-1)[0] || { no: 0 }).no}</span></p>
         <p>How was your meal?</p><small className="wa-t">${clock(Date.now())}</small></div>
@@ -2221,13 +2221,13 @@ const FEATS = [
 ];
 const FAQS = [
   ['start', 'Getting started', [
-    ['What do I need to buy?', 'Nothing. MenuMitra runs on the phone or tablet you already have. A thermal printer (58 or 80 mm) is optional: without one, bills go on WhatsApp or show on the screen.'],
+    ['What do I need to buy?', 'Nothing. Zestro runs on the phone or tablet you already have. A thermal printer (58 or 80 mm) is optional: without one, bills go on WhatsApp or show on the screen.'],
     ['Do diners need to install an app?', 'No. They scan the QR with their phone camera and the menu opens in the browser.'],
     ['How long does it take to set up?', 'Under an hour. Or we come to you: we type your menu, take dish photos, put up the table QR codes and train your staff.'],
     ['What if the internet goes down?', 'Counter billing keeps working and saves on the phone. Bills upload when the internet is back. Table QR ordering needs internet.'],
   ]],
   ['billing', 'Plans & billing', [
-    ['How do I pay for MenuMitra?', 'For 6 months or 12 months at a time, per outlet. There is no monthly plan. 12 months costs less than two 6-month payments.'],
+    ['How do I pay for Zestro?', 'For 6 months or 12 months at a time, per outlet. There is no monthly plan. 12 months costs less than two 6-month payments.'],
     ['Is there a free trial?', 'Yes, ' + SETUP.trial + ' days with every feature of the plan, and no payment details needed.'],
     ['Is there a setup charge?', 'Setting up yourself is free. On-site setup costs ' + inr(SETUP.onsite) + ', and is free with Pro for 12 months.'],
     ['Do you take a commission on orders?', 'No. You pay the plan price only. Diners pay straight to your UPI ID, and every rupee is yours.'],
@@ -2331,7 +2331,7 @@ function ForRestaurants({ s, d }) {
     <section className="sx"><div className="container">
       <div className="cta-band"><div className="cta-in"><span className="fx-badge"><i>${I('sparkle', 14)}</i>${SETUP.trial}-day free trial</span><h2>Start billing from your phone this week.</h2><p>Register in two minutes. Try every feature free for ${SETUP.trial} days, no payment details needed.</p>
         <div className="fx-ctas"><button className="btn primary lg" onClick=${() => signup('basic')}>Register your restaurant<${Arr} /></button><button className="btn lg" onClick=${() => d({ type: 'tourGo', i: 0 })}>${I('sparkle')}Take the guided tour</button></div></div></div>
-      <footer className="site-foot"><${Logo} d=${d} /><span>Demo with sample data · Sample food photos from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> · © 2026 MenuMitra</span></footer>
+      <footer className="site-foot"><${Logo} d=${d} /><span>Demo with sample data · Sample food photos from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> · © 2026 Zestro</span></footer>
     </div></section>
   </main>`;
 }
@@ -2384,10 +2384,10 @@ function SignupSheet({ s, d }) {
   <//>`;
 }
 
-/* ---------- Who sees what: the four views of MenuMitra ---------- */
+/* ---------- Who sees what: the four views of Zestro ---------- */
 const WHO = [
-  { id: 'visitor', icon: 'compass', title: 'Visitor', who: 'A restaurant owner looking at MenuMitra', gets: 'Opens the MenuMitra website. No sign-in.',
-    sees: ['What MenuMitra does, plans and prices', 'The guided tour and a sample table QR to try', 'Register, or log in to their restaurant'],
+  { id: 'visitor', icon: 'compass', title: 'Visitor', who: 'A restaurant owner looking at Zestro', gets: 'Opens the Zestro website. No sign-in.',
+    sees: ['What Zestro does, plans and prices', 'The guided tour and a sample table QR to try', 'Register, or log in to their restaurant'],
     not: 'Sees no restaurant’s menu or orders: menus open only from a table QR.', cta: 'Open the website' },
   { id: 'diner', icon: 'qr', title: 'Diner at the table', who: 'Eaters who scanned the table QR', gets: 'Scans the QR on the table. The menu opens at that table. No app, no sign-in.',
     sees: ['That restaurant’s menu, already set to their table', 'Their cart, live order status and the bill', 'Pay by UPI from the table, and My orders on that phone'],
@@ -2395,8 +2395,8 @@ const WHO = [
   { id: 'owner', icon: 'store', title: 'Restaurant owner & staff', who: 'The people running one restaurant', gets: 'Signs in with a mobile number and a one-time code, on any phone, tablet or laptop.',
     sees: ['Live orders for their own restaurant', 'Menu, prices, sold-out and table QR codes', 'Analytics for their restaurant, based on their plan'],
     not: 'Only ever sees their own restaurant.', cta: 'Open the dashboard' },
-  { id: 'team', icon: 'shield', title: 'MenuMitra team', who: 'Us. Staff only', gets: 'Staff accounts with two-step sign-in, on a separate admin address.',
-    sees: ['Every restaurant, new sign-ups and approvals', 'Plans, billing and MenuMitra revenue', 'Any restaurant’s analytics board, with every section open'],
+  { id: 'team', icon: 'shield', title: 'Zestro team', who: 'Us. Staff only', gets: 'Staff accounts with two-step sign-in, on a separate admin address.',
+    sees: ['Every restaurant, new sign-ups and approvals', 'Plans, billing and Zestro revenue', 'Any restaurant’s analytics board, with every section open'],
     not: 'Restaurants and diners can never open this view.', cta: 'Open the team view' },
 ];
 const WHO_ROWS = [
@@ -2410,7 +2410,7 @@ const WHO_ROWS = [
   ['Analytics', ['n', 'n', 'Own, by plan', 'Every restaurant']],
   ['Plan and billing', ['n', 'n', 'Own', 'All restaurants']],
   ['Approve new restaurants', ['n', 'n', 'n', 'y']],
-  ['MenuMitra revenue', ['n', 'n', 'n', 'y']],
+  ['Zestro revenue', ['n', 'n', 'n', 'y']],
 ];
 const ANALYTICS_BY_PLAN = {
   basic: ['Menu views and QR scans', 'Sales, orders and average bill for any dates', 'Top dishes and how diners paid', 'Day-end report and Excel export'],
@@ -2427,8 +2427,8 @@ function WhoSees({ s, d }) {
   return html`<main id="who-main">
     <section className="fx"><div className="container"><div className="fx-panel">
       <span className="fx-badge"><i>${I('people', 14)}</i>One app, four views</span>
-      <h1 className="fx-h1">Who sees what <em>on MenuMitra</em></h1>
-      <p className="fx-sub">Everyone uses the same MenuMitra, but each person only sees what they need. Here is each view, how people get to it and what they can do.</p>
+      <h1 className="fx-h1">Who sees what <em>on Zestro</em></h1>
+      <p className="fx-sub">Everyone uses the same Zestro, but each person only sees what they need. Here is each view, how people get to it and what they can do.</p>
     </div></div></section>
     <section className="sx" style=${{ paddingTop: 28 }}><div className="container">
       <div className="who-grid">${WHO.map((w, i) => html`<article key=${w.id} className="who">
@@ -2441,7 +2441,7 @@ function WhoSees({ s, d }) {
       </article>`)}</div>
     </div></section>
     <section className="sx"><div className="container">
-      <div className="sx-h"><h2>What each person can see</h2><p>The restaurant owner and the MenuMitra team both get analytics boards. Owners see their own restaurant; only our team sees across all of them.</p></div>
+      <div className="sx-h"><h2>What each person can see</h2><p>The restaurant owner and the Zestro team both get analytics boards. Owners see their own restaurant; only our team sees across all of them.</p></div>
       <div className="twrap"><table className="tbl cmp who-tbl"><thead><tr><th>What</th>${WHO.map((w) => html`<th key=${w.id}>${w.title}</th>`)}</tr></thead>
         <tbody>${WHO_ROWS.map(([f, v]) => html`<tr key=${f}><td>${f}</td>${v.map((x, i) => html`<td key=${i} className=${x === 'y' ? 'yes' : x === 'n' ? 'no' : ''}>${cell(x)}</td>`)}</tr>`)}</tbody></table></div>
     </div></section>
@@ -2453,7 +2453,7 @@ function WhoSees({ s, d }) {
         <ul>${ANALYTICS_BY_PLAN[k].map((x) => html`<li key=${x}>${I('chart', 15)}${x}</li>`)}</ul></div>`)}</div>
       <div className="fx-ctas" style=${{ marginTop: 26 }}><button className="btn primary lg" onClick=${() => { d({ type: 'role', role: 'owner' }); d({ type: 'set', k: 'ownerTab', v: 'reports' }); }}>See a restaurant’s analytics<${Arr} /></button><button className="btn lg" onClick=${() => { d({ type: 'role', role: 'admin' }); d({ type: 'set', k: 'adminTab', v: 'overview' }); }}>${I('shield')}See our team’s board</button></div>
     </div></div></section>
-    <div className="container"><footer className="site-foot"><${Logo} d=${d} /><span>Demo with sample data · Sample food photos from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> · © 2026 MenuMitra</span></footer></div>
+    <div className="container"><footer className="site-foot"><${Logo} d=${d} /><span>Demo with sample data · Sample food photos from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> · © 2026 Zestro</span></footer></div>
   </main>`;
 }
 
@@ -2471,7 +2471,7 @@ const ROLE_ACCESS = {
 };
 const ROLE_NOTE = {
   Owner: 'Everything, including the plan, staff and reports.',
-  Manager: 'Everything except the plan, payments to MenuMitra and staff logins.',
+  Manager: 'Everything except the plan, payments to Zestro and staff logins.',
   Cashier: 'Billing, tables, orders and khata. Takes payments and closes the day.',
   Waiter: 'Tables, orders and the menu. Takes orders, cannot take payments or change prices.',
   Kitchen: 'The kitchen screen and the sold-out switch. No bills, no prices.',
@@ -2757,7 +2757,7 @@ function OwnerTables({ s, d }) {
     <div className="tables-wrap">
       <div className="qrgrid">${Array.from({ length: n }, (_, i) => i + 1).map((t) => { const [tone, word] = status(t); return html`<button key=${t} className="qrcard" aria-pressed=${t === sel} onClick=${() => d({ type: 'set', k: 'qrTable', v: t })}><b>Table ${t}</b><${QR} text=${tableLink(OWNER_RID, t)} size=${96} /><span className=${'pill ' + tone}>${word}</span></button>`; })}</div>
       <div style=${{ display: 'grid', gap: 10 }}>
-        <div className="standee" id="standee" style=${{ background: 'linear-gradient(160deg,' + r.b[0] + ',' + r.b[1] + ')' }}><b>${r.name}</b><span>Scan to order from your table</span><div className="qr-wrap"><${QR} text=${tableLink(OWNER_RID, sel)} size=${170} /></div><span className="tbig">TABLE ${sel}</span><small>${branded ? 'No app needed · pay by UPI' : 'No app needed · Powered by MenuMitra'}</small></div>
+        <div className="standee" id="standee" style=${{ background: 'linear-gradient(160deg,' + r.b[0] + ',' + r.b[1] + ')' }}><b>${r.name}</b><span>Scan to order from your table</span><div className="qr-wrap"><${QR} text=${tableLink(OWNER_RID, sel)} size=${170} /></div><span className="tbig">TABLE ${sel}</span><small>${branded ? 'No app needed · pay by UPI' : 'No app needed · Powered by Zestro'}</small></div>
         <button className="btn" onClick=${() => download(sel)}>${I('download', 16)}Download Table ${sel} standee</button>
         <button className="btn ghost" onClick=${() => d({ type: 'open', rid: OWNER_RID, table: sel })}>Open Table ${sel} as a diner</button>
         <p className="hint">Scan this QR with your phone: it opens the demo menu at Table ${sel}.</p>
@@ -2954,8 +2954,8 @@ const STRUGGLES = [
 function WhySwitch({ s }) {
   const b = planCost('basic', 'y'), a = planCost('pro', 'y');
   const ours = [
-    { name: 'MenuMitra Basic', note: 'Billing, tables, QR ordering, kitchen screen. No hardware', yr: b.total, us: true },
-    { name: 'MenuMitra Pro', note: 'Adds inventory, loyalty, Google reviews and dish profit', yr: a.total, us: true },
+    { name: 'Zestro Basic', note: 'Billing, tables, QR ordering, kitchen screen. No hardware', yr: b.total, us: true },
+    { name: 'Zestro Pro', note: 'Adds inventory, loyalty, Google reviews and dish profit', yr: a.total, us: true },
   ];
   const all = [...ours, ...RIVALS].sort((x, y) => x.yr - y.yr), max = Math.max(...all.map((x) => x.yr));
   return html`<section className="sx" id="why-switch"><div className="container">
@@ -2963,7 +2963,7 @@ function WhySwitch({ s }) {
     <div className="cmp-card">
       <div className="card-h"><h3>What one outlet pays in a year</h3><span className="small muted">Software only, before any hardware</span></div>
       <div className="cmpbars">${all.map((x) => html`<div key=${x.name} className=${'cmpbar' + (x.us ? ' us' : '')}><span className="cb-n"><b>${x.name}</b><small>${x.note}</small></span><span className="cb-t"><i style=${{ width: Math.max(3, (x.yr / max) * 100) + '%' }}></i></span><b className="num cb-v">${x.us ? '' : '~'}${inr(x.yr)}</b></div>`)}</div>
-      <p className="small muted">Other figures are rounded, typical yearly prices for restaurant software in India, before GST, from public price lists and buyer guides in October 2026. A POS counter's hardware usually adds ₹30,000–60,000. MenuMitra needs only a phone or tablet.</p>
+      <p className="small muted">Other figures are rounded, typical yearly prices for restaurant software in India, before GST, from public price lists and buyer guides in October 2026. A POS counter's hardware usually adds ₹30,000–60,000. Zestro needs only a phone or tablet.</p>
     </div>
     <div className="sv-grid">${STRUGGLES.map(([ic, t, was, fix]) => html`<div key=${t} className="sv"><span className="feat-ic">${I(ic, 22)}</span><b>${t}</b><p className="sv-was">${was}</p><p className="sv-fix">${I('check', 16)}<span>${fix}</span></p></div>`)}</div>
   </div></section>`;
@@ -3047,7 +3047,7 @@ function Analytics({ s, d, rid, team }) {
 }
 function OwnerReports({ s, d }) { return html`<${Analytics} s=${s} d=${d} rid=${OWNER_RID} />`; }
 
-/* ---------- Our team: platform analytics (private to MenuMitra staff) ---------- */
+/* ---------- Our team: platform analytics (private to Zestro staff) ---------- */
 function TeamOverview({ s, d, rows }) {
   const paying = rows;
   const mrr = paying.reduce((t, r) => t + planCost(r.plan, r.billing).per, 0);
@@ -3071,7 +3071,7 @@ function TeamOverview({ s, d, rows }) {
       <div className="tile"><span>Monthly recurring revenue</span><b>${inr(mrr)}</b><small>↑ ${Math.round((1 / growth[4] - 1) * 100)}% vs last month</small></div>
       <div className="tile"><span>Yearly run rate</span><b>${inr(mrr * 12)}</b><small className="m">before GST</small></div>
       <div className="tile"><span>Orders, last 30 days</span><b>${orders30.toLocaleString('en-IN')}</b><small className="m">all restaurants</small></div>
-      <div className="tile"><span>Order value through MenuMitra</span><b>${short(gmv)}</b><small className="m">30 days · we take no commission</small></div>
+      <div className="tile"><span>Order value through Zestro</span><b>${short(gmv)}</b><small className="m">30 days · we take no commission</small></div>
     </div>
     <div className="two">
       <section className="card"><div className="card-h"><h3>Monthly recurring revenue</h3><span className="small muted">Last 6 months</span></div><${BarsChart} rows=${months} fmt=${inr} axisFmt=${short} label="MRR" /></section>
@@ -3569,7 +3569,7 @@ function Admin({ s, d }) {
   return html`<div>
     <header className="topnav"><div className="container nav-inner"><${Logo} d=${d} sub="team" /><div className="nav-actions"><span className="pill info hide-xs">${I('shield', 13)}Staff only</span><button className="btn outline sm" onClick=${() => d({ type: 'role', role: 'diner' })}>${I('compass', 16)}Diner view</button></div></div></header>
     <main className="container" id="admin-main" style=${{ display: 'grid', gap: 18, paddingTop: 24, paddingBottom: 60 }}>
-      <div className="ph"><div><h1>${tab === 'overview' ? 'MenuMitra at a glance' : tab === 'board' ? 'Restaurant boards' : 'All restaurants'}</h1><p className="muted">${tab === 'board' ? 'The same analytics a restaurant sees, with every section open. Only MenuMitra staff can open other restaurants’ boards.' : 'Revenue, plans and usage across every restaurant. In the live product this is private, behind staff accounts.'}</p></div>
+      <div className="ph"><div><h1>${tab === 'overview' ? 'Zestro at a glance' : tab === 'board' ? 'Restaurant boards' : 'All restaurants'}</h1><p className="muted">${tab === 'board' ? 'The same analytics a restaurant sees, with every section open. Only Zestro staff can open other restaurants’ boards.' : 'Revenue, plans and usage across every restaurant. In the live product this is private, behind staff accounts.'}</p></div>
         <div className="seg chips-seg" role="group" aria-label="Team view">${tabs.map(([k, l, ic]) => html`<button key=${k} aria-pressed=${tab === k} onClick=${() => d({ type: 'set', k: 'adminTab', v: k })}>${I(ic, 15)}${l}</button>`)}</div></div>
       ${tab !== 'restaurants' && s.signups.length ? html`<div className="notice"><b>${s.signups.length} new sign-up${s.signups.length > 1 ? 's' : ''} waiting for approval.</b> <button className="link" onClick=${() => d({ type: 'set', k: 'adminTab', v: 'restaurants' })}>Review now →</button></div>` : null}
       ${tab === 'overview' ? html`<${TeamOverview} s=${s} d=${d} rows=${rows} />` : null}
@@ -3582,7 +3582,7 @@ function Admin({ s, d }) {
         <div className="tile"><span>Monthly recurring revenue</span><b>${inr(mrr)}</b><small className="m">6 and 12-month payments spread per month</small></div>
         <div className="tile"><span>Orders today</span><b>${orders}</b><small className="m">all restaurants</small></div>
       </div>
-      ${s.signups.length ? html`<section className="card"><h3>New sign-ups to review <span className="badge">${s.signups.length}</span></h3>${s.signups.map((su) => html`<div key=${su.id} className="signup"><div className="grow"><b>${su.name}</b><div className="small muted">${su.area} · ${su.tables} tables · owner ${su.owner}</div></div><span className=${'pill ' + (su.plan === 'pro' ? 'leaf' : 'info')}>${PLANS[su.plan].name} · ${BILLING[su.billing || 'y'].label}</span><button className="btn sm" onClick=${() => d({ type: 'approve', id: su.id, ok: false })}>Decline</button><button className="btn sm primary" onClick=${() => { d({ type: 'approve', id: su.id, ok: true }); toast(su.name + ' is live on MenuMitra'); }}>Approve</button></div>`)}</section>` : null}
+      ${s.signups.length ? html`<section className="card"><h3>New sign-ups to review <span className="badge">${s.signups.length}</span></h3>${s.signups.map((su) => html`<div key=${su.id} className="signup"><div className="grow"><b>${su.name}</b><div className="small muted">${su.area} · ${su.tables} tables · owner ${su.owner}</div></div><span className=${'pill ' + (su.plan === 'pro' ? 'leaf' : 'info')}>${PLANS[su.plan].name} · ${BILLING[su.billing || 'y'].label}</span><button className="btn sm" onClick=${() => d({ type: 'approve', id: su.id, ok: false })}>Decline</button><button className="btn sm primary" onClick=${() => { d({ type: 'approve', id: su.id, ok: true }); toast(su.name + ' is live on Zestro'); }}>Approve</button></div>`)}</section>` : null}
       <section className="card"><h3>Restaurants by plan</h3><div className="mix" role="img" aria-label=${mix.map(([k, c]) => c + ' ' + PLANS[k].name).join(', ')}>${mix.filter(([, c]) => c).map(([k, c]) => html`<i key=${k} className=${'m-' + k} style=${{ flex: c }}></i>`)}</div><div className="mixkey">${mix.map(([k, c]) => html`<span key=${k}><i className=${'m-' + k}></i>${PLANS[k].name} · ${c}</span>`)}</div></section>
       <div className="twrap"><table className="tbl"><thead><tr><th>Restaurant</th><th>Area</th><th>Plan</th><th className="r">Tables</th><th className="r">Orders today</th><th className="r">Per month</th><th>Billing</th><th>Joined</th><th></th></tr></thead>
         <tbody>${rows.map((r, i) => html`<tr key=${r.name + i} className=${r.isNew ? 'new' : ''}>

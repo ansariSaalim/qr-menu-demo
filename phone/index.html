@@ -3,17 +3,17 @@
 <head>
 <script>try { document.documentElement.dataset.theme = localStorage.getItem('mm-theme') === 'dark' ? 'dark' : 'light'; } catch (e) { document.documentElement.dataset.theme = 'light'; }</script>
 <meta charset="utf-8">
-<meta name="description" content="Clickable phone preview of the MenuMitra app. Sample data only.">
+<meta name="description" content="Clickable phone preview of the Zestro app. Sample data only.">
 <meta name="robots" content="noindex">
-<meta property="og:title" content="MenuMitra: phone app preview">
+<meta property="og:title" content="Zestro: phone app preview">
 <meta name="theme-color" content="#ffffff">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MenuMitra Phone Preview</title>
+<title>Zestro Phone Preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..800&family=JetBrains+Mono:wght@600&display=swap">
 <style>
-/* Layout: the MenuMitra web app at phone size inside a device frame, with a guide panel beside it on wide screens; on a real phone the app fills the screen */
+/* Layout: the Zestro web app at phone size inside a device frame, with a guide panel beside it on wide screens; on a real phone the app fills the screen */
 :root {
   --page: #f4f8f6; --panel: #ffffff; --panel-2: #f3f6f4; --ink: #111827; --muted: #667085; --line: #e5e9ec;
   --leaf: #0a7f62; --leaf-soft: #e5f6ee; --on-leaf: #ffffff; --cta: #171717; --on-cta: #ffffff; --sun: #f2a516; --on-sun: #3a2800;
@@ -78,7 +78,7 @@ iframe { display: block; width: 390px; height: 800px; border: 0; background: var
 <div class="stage">
   <div class="phone-wrap"><div class="phone"><div class="screen">
     <div class="status" aria-hidden="true"><span>9:41</span><span class="island"></span><span>5G ▮▮▮</span></div>
-    <iframe id="app" title="MenuMitra app, phone size" src="../index.html#embed"></iframe>
+    <iframe id="app" title="Zestro app, phone size" src="../index.html#embed"></iframe>
   </div></div></div>
   <aside class="side" id="side" aria-label="Demo guide"></aside>
 </div>
@@ -99,7 +99,7 @@ function render() {
     ? '<button class="go" data-a="' + a({ type: 'tourGo', i: 0 }) + '">Start the guided tour</button>'
     : '<div class="row"><button class="go" data-a="' + a(t >= state.steps.length - 1 ? { type: 'tourEnd' } : { type: 'tourGo', i: t + 1 }) + '">' + (t >= state.steps.length - 1 ? 'Finish' : 'Next step') + '</button><button class="plain" data-a="' + a({ type: 'tourEnd' }) + '">End tour</button></div>';
   side.innerHTML =
-    '<div class="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 3h7v7H3zM15.5 10a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zM15.5 13.3a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4zM3 14v7M6.5 14v3.5M14 3h7M14 6.5h3.5"/></svg></span><div><b>Menu<span>Mitra</span></b><small>Phone app preview · sample data</small></div></div>' +
+    '<div class="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 3h7v7H3zM15.5 10a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zM15.5 13.3a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4zM3 14v7M6.5 14v3.5M14 3h7M14 6.5h3.5"/></svg></span><div><b><span>Zest</span>ro</b><small>Phone app preview · sample data</small></div></div>' +
     '<p class="lead">QR menu and table ordering at phone size: the same app as the <a href="../" target="_blank" rel="noopener">web version</a>. Diners scan, order and pay from the table; the restaurant sees every order live.</p>' +
     '<section class="box"><h2>Guided tour' + (t === null ? '' : ' <span class="tag">Step ' + (t + 1) + ' of ' + state.steps.length + '</span>') + '</h2>' + tour + '</section>' +
     '<section class="box"><h2>View as</h2><div class="seg" role="group" aria-label="View as (demo only)">' + ROLES.map(([id, l]) => '<button data-a="' + a({ type: 'role', role: id }) + '" aria-pressed="' + (state.role === id) + '">' + esc(l) + '</button>').join('') + '</div>' +
