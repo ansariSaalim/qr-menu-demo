@@ -2331,7 +2331,7 @@ function DemoVideo() {
   const [kind, setKind] = useState(() => { try { return window.matchMedia('(max-width: 700px)').matches ? 'mobile' : 'desktop'; } catch (e) { return 'desktop'; } });
   const v = DEMO_VIDS[kind];
   return html`<section className="sx" id="watch"><div className="container">
-    <div className="sx-h"><h2>Watch the full demo</h2><p>2 minutes 24 seconds, step by step: what the diner sees, then what you and your staff see.</p></div>
+    <div className="sx-h"><h2>Watch the full demo</h2><p>3 minutes, step by step: what the diner sees, then what you, your staff and your partners see.</p></div>
     <div className="center-tabs"><div className="seg" role="group" aria-label="Video version">${Object.keys(DEMO_VIDS).map((k) => html`<button key=${k} aria-pressed=${kind === k} onClick=${() => setKind(k)}>${DEMO_VIDS[k].label}</button>`)}</div></div>
     <div className=${'demo-vid ' + kind}><video key=${kind} id="demo-video" controls playsInline preload="none" poster=${v.poster} src=${v.src}></video></div>
     <p className="small muted" style=${{ textAlign: 'center', marginTop: 12 }}>${v.note}</p>
