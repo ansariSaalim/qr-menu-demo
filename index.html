@@ -1238,6 +1238,20 @@ input.otp { letter-spacing: 0.5em; font-family: var(--f-mono); font-size: 20px; 
   .pa-grid .btn { grid-column: 1 / -1; }
   .pcards { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Swiggy and Zomato */
+.online-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 10px 14px; border: 1px solid var(--line); border-radius: 16px; background: var(--app); }
+.ob-l { font-weight: 600; margin-right: 2px; }
+.app-pill { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: var(--app-2); border-radius: 999px; padding: 6px 12px 6px 8px; font: inherit; color: var(--muted); }
+.app-pill i { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); opacity: 0.5; }
+.app-pill.on { color: var(--ink); background: var(--leaf-soft); border-color: var(--leaf); }
+.app-pill.on i { background: var(--ok); opacity: 1; }
+.app-pill small { font-size: 12px; color: var(--muted); font-weight: 600; }
+.oc-rider { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--info); }
+.apps-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.app-card { display: grid; gap: 10px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--app); align-content: start; }
+.toggle-line { gap: 10px; font-weight: 600; flex-wrap: nowrap; }
+@media (max-width: 760px) { .apps-grid { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body>
@@ -1306,7 +1320,7 @@ const I = (name, size) => html`<svg className="ic" width=${size || 18} height=${
 /* Two plans, paid for 6 or 12 months ahead. Every plan starts with a 15-day free trial. */
 const PLANS = {
   basic: { name: 'Basic', total: { h: 2799, y: 4999 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Waiters with their own PIN and their own tables', 'Table QR ordering, diners pay after eating', 'Kitchen screen per station and a token board for a TV', 'Expense book with bill photos', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
-  pro: { name: 'Pro', total: { h: 4199, y: 7499 }, perks: ['Everything in Basic', 'Monthly profit, partners and investor logins', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review link on every bill', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
+  pro: { name: 'Pro', total: { h: 4199, y: 7499 }, perks: ['Everything in Basic', 'Swiggy and Zomato orders on the same screen', 'Monthly profit, partners and investor logins', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review link on every bill', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
 };
 PLANS.basic.price = Math.round(PLANS.basic.total.y / 12); PLANS.pro.price = Math.round(PLANS.pro.total.y / 12);
 const PLAN_KEYS = ['basic', 'pro'];
@@ -1602,8 +1616,10 @@ function freshState() {
       { id: 'o112', rid: 'spice', no: 112, table: 4, name: 'Shah', items: [{ n: 'Veg Dum Biryani', opt: 'Full', q: 2, p: 260, veg: true }, { n: 'Masala Chaas', q: 3, p: 70, veg: true }], status: 'served', pay: 'paid', method: 'upi', t: now - 95 * MIN },
       { id: 'o113', rid: 'spice', no: 113, table: 1, name: 'Neha', items: [{ n: 'Paneer Butter Masala', opt: 'Full', q: 1, p: 280, veg: true }, { n: 'Butter Naan', q: 3, p: 60, veg: true }], status: 'served', pay: 'paid', method: 'cash', t: now - 70 * MIN },
       { id: 'o114', rid: 'spice', no: 114, table: 11, name: 'Kabir', items: [{ n: 'Butter Chicken', opt: 'Full', q: 1, p: 340, veg: false }, { n: 'Lachha Paratha', q: 3, p: 70, veg: true }], status: 'served', pay: 'unpaid', t: now - 40 * MIN },
+      { id: 'o118', rid: 'spice', no: 118, type: 'online', src: 'zomato', ref: 'Z74219935', online: true, name: 'Rahul', items: [{ n: 'Paneer Butter Masala', opt: 'Full', q: 1, p: 280, veg: true }, { n: 'Butter Naan', q: 3, p: 60, veg: true }, { n: 'Gulab Jamun', q: 1, p: 110, veg: true }], note: 'Send cutlery', status: 'new', pay: 'paid', method: 'online', prep: 20, t: now - 1 * MIN },
+      { id: 'o119', rid: 'spice', no: 119, type: 'online', src: 'swiggy', ref: '#21964471', online: true, name: 'Sneha', items: [{ n: 'Veg Dum Biryani', opt: 'Full', q: 1, p: 260, veg: true }, { n: 'Masala Chaas', q: 2, p: 70, veg: true }], status: 'preparing', pay: 'paid', method: 'online', prep: 20, t: now - 9 * MIN },
     ],
-    alerts: [], nextNo: { spice: 118 }, fresh: null,
+    alerts: [], nextNo: { spice: 120 }, fresh: null,
     cats: Object.fromEntries(RESTAURANTS.map((r) => [r.id, CATS_OF(r.menu)])),
     signups: SIGNUPS.map((s) => ({ ...s })), approved: [],
     printer: { on: false, type: 'bt', width: 80, autoKot: true, autoBill: false }, staff: null, customers: null, inv: {}, offline: false, pending: 0,
@@ -1620,7 +1636,7 @@ function loadState() {
   } catch (e) { return base; }
 }
 function saveState(s) {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, ver: s.ver, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable, billing: s.billing, anaRange: s.anaRange, adminTab: s.adminTab, adminRid: s.adminRid, costs: s.costs, me2: s.me2, printer: s.printer, staff: s.staff, customers: s.customers, inv: s.inv, offline: s.offline, pending: s.pending, stations: s.stations, expenses: s.expenses, partners: s.partners, payouts: s.payouts, finMonth: s.finMonth })); } catch (e) { /* storage blocked: the demo still works */ }
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, ver: s.ver, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable, billing: s.billing, anaRange: s.anaRange, adminTab: s.adminTab, adminRid: s.adminRid, costs: s.costs, me2: s.me2, printer: s.printer, staff: s.staff, customers: s.customers, inv: s.inv, offline: s.offline, pending: s.pending, stations: s.stations, online: s.online, expenses: s.expenses, partners: s.partners, payouts: s.payouts, finMonth: s.finMonth })); } catch (e) { /* storage blocked: the demo still works */ }
 }
 const R = (s, rid) => ({ ...RMAP[rid], ...s.rest[rid] });
 const canOrder = (s) => { const r = R(s, s.rid); return !!s.table && r.open && s.table <= r.tables; };
@@ -1689,6 +1705,8 @@ function reducer(s, a) {
     case 'khataPay': return { ...s, customers: (s.customers || CUSTOMERS0).map((c) => (c.phone === a.phone ? { ...c, due: 0 } : c)) };
     case 'invAdd': { const x = (s.inv || {})[a.id] || { buy: 0, waste: 0 }; return { ...s, inv: { ...(s.inv || {}), [a.id]: { ...x, [a.kind]: x[a.kind] + a.qty } }, sheet: null }; }
     case 'login': return { ...s, role: 'owner', ownerTab: a.tab, me2: { name: a.name, role: a.role, id: a.id }, sheet: null };
+    case 'onlineOrder': { const no = s.nextNo[OWNER_RID] || 101, c = onlineOf(s)[a.src]; const o = { id: 'o' + OWNER_RID + no + '-' + Date.now(), rid: OWNER_RID, no, type: 'online', src: a.src, ref: a.ref, online: true, name: a.name, items: a.items, note: '', status: c.auto ? 'preparing' : 'new', pay: 'paid', method: 'online', prep: c.prep, t: Date.now() }; return { ...s, orders: [...s.orders, o], nextNo: { ...s.nextNo, [OWNER_RID]: no + 1 }, fresh: o.id, ownerCol: o.status }; }
+    case 'onlineSet': { const cur = onlineOf(s); return { ...s, online: { ...cur, [a.k]: { ...cur[a.k], ...a.patch } } }; }
     case 'expAdd': return { ...s, expenses: [a.e, ...expensesOf(s)] };
     case 'expDel': return { ...s, expenses: expensesOf(s).filter((e) => e.id !== a.id) };
     case 'payout': return { ...s, payouts: [...payoutsOf(s), a.p], sheet: null };
@@ -1749,6 +1767,7 @@ const TOUR = [
   { t: 'One code on the first order', d: 'The diner confirms their mobile with a 4-digit code on WhatsApp or SMS, once per visit. A photo of the QR is no use without a real number.', apply: (s) => ({ ...ensureCartIn({ ...s, table: 5 }), role: 'diner', screen: 'cart', table: 5, ver: null, me: { ...s.me, name: s.me.name || 'Priya', phone: s.me.phone || '98240 12345' }, sheet: { type: 'otp' } }), hl: '#otp-sheet' },
   { t: 'It lands on the restaurant screen', d: 'A chime and a new card with the table number, every dish and the note. No waiter in between.', apply: (s) => { let n = s.cart.length && s.rid === 'spice' ? placeOrderIn(tourVer({ ...s, table: s.table || 5 })) : s; if (!lastMine(n)) n = placeOrderIn(tourVer(ensureCartIn({ ...n, table: 5 }))); return { ...n, role: 'owner', ownerTab: 'orders', ownerCol: 'new', sheet: null }; }, hl: () => { const o = window.__mmLast; return o ? '#oc-' + o : '#board'; } },
   { t: 'Accept it and the kitchen ticket prints', d: 'Accepting moves the order to Preparing and sends a ticket (KOT) to the kitchen printer.', apply: (s) => { const o = lastMine(s); if (!o) return s; return { ...s, role: 'owner', ownerTab: 'orders', ownerCol: 'preparing', orders: s.orders.map((x) => (x.id === o.id && x.status === 'new' ? { ...x, status: 'preparing' } : x)), sheet: { type: 'kot', id: o.id } }; }, hl: '#kot' },
+  { t: 'Swiggy and Zomato on the same screen', d: 'Delivery app orders land next to table orders, already paid. Accept, cook and hand to the rider. A dish marked sold out goes off the apps too.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'orders', ownerCol: 'new', sheet: null }), hl: '#online-bar' },
   { t: 'The diner follows it live', d: 'Received, preparing, ready, served. They can order more onto the same bill or call a waiter.', apply: (s) => ({ ...s, role: 'diner', screen: 'track', rid: 'spice', table: s.table || 5, sheet: null }), hl: '#track-main' },
   { t: 'Pay from the table', d: 'Once served, the diner pays by UPI from the phone or chooses the counter. The restaurant sees it at once.', apply: (s) => ({ ...s, role: 'diner', screen: 'pay', rid: 'spice', table: s.table || 5, pay: 'upi', sheet: null, orders: s.orders.map((o) => (o.mine && o.rid === 'spice' && o.pay !== 'paid' && o.status !== 'cancelled' ? { ...o, status: 'served' } : o)) }), hl: '#pay-main' },
   { t: 'Bill at the counter from a phone', d: 'Tap dishes, add a discount, split cash and UPI, and print or WhatsApp the GST bill. No computer and no printer needed.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'billing', sheet: null }), hl: '#pos' },
@@ -1757,7 +1776,7 @@ const TOUR = [
   { t: 'One QR per table', d: 'Download a print-ready standee for each table. Scan one with your own phone: it opens this demo at that table.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'tables', qrTable: 5, sheet: null }), hl: '#standee' },
   { t: 'Reports for your CA and for you', d: 'Basic shows sales for any dates with an Excel export and a day-end report. Pro adds busy hours, repeat diners, stock and profit per dish.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'reports', sheet: null }), hl: '#reports-main' },
   { t: 'Add dishes with photos', d: 'Name, price, a photo from the phone, Half/Full portions and add-ons. It shows on every table the moment it is saved.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'menu', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: 'Main Course', name: 'Paneer Lababdar', price: '290', veg: true, desc: 'Paneer in a rich onion-tomato gravy with cream.', tags: ['New'], variants: [], addons: [['Extra butter', 30]], stock: true, img: null, c: ['#d9722e', '#f7e4c3'] } } }), hl: '#dish-editor' },
-  { t: 'Two plans, or pick modules', d: 'Basic is ₹4,999 for 12 months: billing, tables, waiters, table QR ordering and the kitchen screen. Pro adds inventory, profit and partners, loyalty, Google reviews and dish profit. Pay for 6 or 12 months, after a 15-day free trial.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
+  { t: 'Two plans, or pick modules', d: 'Basic is ₹4,999 for 12 months: billing, tables, waiters, table QR ordering and the kitchen screen. Pro adds Swiggy and Zomato orders, inventory, profit and partners, loyalty, Google reviews and dish profit. Pay for 6 or 12 months, after a 15-day free trial.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
   { t: 'Each waiter gets their own tables', d: 'Suresh looks after T1–T6 and Vijay T7–T12. A waiter’s phone opens on their tables, and a call from a table goes to that waiter.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'floor', me2: { name: 'Suresh', role: 'Waiter', id: 'st4' }, sheet: null }), hl: '#floor' },
   { t: 'One screen per kitchen station', d: 'The tandoor screen shows only starters and breads. Each station marks its part ready, and the order turns Ready when every part is done.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'orders', ownerCol: 'preparing', me2: { name: 'Ravi', role: 'Kitchen', id: 'st7' }, sheet: null }), hl: '#board' },
   { t: 'Expenses with a photo of the bill', d: 'The cashier or manager adds every expense as it happens: gas, salaries, repairs. Cash paid out today is checked at day end.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'expenses', sheet: null }), hl: '#exp-add' },
@@ -2208,6 +2227,7 @@ const FEATURES = [
   ['Sales reports for any dates, day-end report, Excel export', ['y', 'y']],
   ['Inventory: recipes, stock used by every bill, purchases, wastage', ['n', 'y']],
   ['Food cost and profit per dish', ['n', 'y']],
+  ['Swiggy and Zomato orders on the same screen, menu and sold-out sync', ['Add-on', 'y']],
   ['Monthly profit and loss, partners’ shares, payouts', ['n', 'y']],
   ['Investor logins: each partner sees only their own share', ['n', 'y']],
   ['Expense book with a photo of every bill', ['y', 'y']],
@@ -2256,6 +2276,7 @@ const MODULES = [
   { id: 'bill', name: 'Billing counter', y: 2999, text: 'GST bills, discounts, cash/UPI split, khata, offline billing, day-end report, Excel. Printer optional.' },
   { id: 'qr', name: 'Table QR ordering + kitchen screen', y: 1499, text: 'Diners order from the table, kitchen screen with sound, token board.' },
   { id: 'tables', name: 'Tables and waiters', y: 999, text: 'Running bills per table, move and merge, waiters with their own PIN and tables, kitchen stations.' },
+  { id: 'online', name: 'Swiggy and Zomato orders', y: 1499, text: 'App orders on your kitchen screen, auto-accept, menu and sold-out sync, commission report.' },
   { id: 'inv', name: 'Inventory, profit and partners', y: 1999, text: 'Recipes, stock used by every bill, wastage, profit per dish, monthly profit and loss, partners and investor logins.' },
   { id: 'grow', name: 'Loyalty and reviews', y: 999, text: 'Loyalty points, bills on WhatsApp (' + WA.included + ' messages a month included), Google review requests, repeat-diner reports.' },
 ];
@@ -2314,6 +2335,7 @@ const FAQS = [
     ['Is there a free trial?', 'Yes, ' + SETUP.trial + ' days with every feature of the plan, and no payment details needed.'],
     ['Is there a setup charge?', 'Setting up yourself is free. On-site setup costs ' + inr(SETUP.onsite) + ', and is free with Pro for 12 months.'],
     ['Do you take a commission on orders?', 'No. You pay the plan price only. Diners pay straight to your UPI ID, and every rupee is yours.'],
+    ['Can I get Swiggy and Zomato orders here?', 'Yes, on Pro or as an add-on. App orders land on the same kitchen screen as your tables, already paid. Your menu and sold-out dishes stay in sync. The apps still charge their own commission; we add nothing.'],
   ]],
   ['diners', 'Diners & payments', [
     ['How many WhatsApp messages are included?', 'Pro includes ' + WA.included + ' WhatsApp messages a month for bills, offers and your daily summary. Extra messages cost ₹' + WA.extra.toFixed(2) + ' each, added to your next payment. You can see the count in Plan & settings.'],
@@ -2640,16 +2662,18 @@ function OwnerOrders({ s, d }) {
       if (stageOf(o) === 'preparing') return ['Mark ready', () => { d({ type: 'stationReady', id: o.id, st: stn }); toast(stationName(s, stn) + ' part of #' + o.no + ' is ready'); }];
       return null;
     }
-    return [nextLbl[o.status], () => { d({ type: 'advance', id: o.id }); toast(o.status === 'new' ? 'Accepted. Ticket sent to the kitchen.' : o.status === 'preparing' ? 'Order #' + o.no + ' is ready' : 'Order #' + o.no + ' served'); }];
+    if (o.online && o.status === 'ready') return ['Handed to rider', () => { d({ type: 'advance', id: o.id }); toast('Order #' + o.no + ' picked up by the ' + APPS[o.src] + ' rider'); }];
+    return [nextLbl[o.status], () => { d({ type: 'advance', id: o.id }); toast(o.status === 'new' ? (o.online ? 'Accepted on ' + APPS[o.src] + '. Ticket sent to the kitchen.' : 'Accepted. Ticket sent to the kitchen.') : o.status === 'preparing' ? 'Order #' + o.no + ' is ready' + (o.online ? '. ' + APPS[o.src] + ' tells the rider.' : '') : 'Order #' + o.no + ' served'); }];
   };
   const waiting = mine.filter((o) => o.status === 'served' && o.pay !== 'paid');
   const done = mine.filter((o) => (o.status === 'served' && o.pay === 'paid') || o.status === 'cancelled').sort((a, b) => b.no - a.no);
   const card = (o) => { const items = stn ? o.items.filter((i) => stationOfItem(s, i) === stn) : o.items, rest = o.items.length - items.length, w = o.type !== 'takeaway' ? waiterOf(s, o.table) : null, a = act(o); return html`<article key=${o.id} id=${'oc-' + o.id} className=${'oc' + (o.status === 'new' ? ' new' : '') + (s.fresh === o.id ? ' fresh' : '')}>
     <div className="oc-h"><span className="tno">${tlabel(o)}</span><b>#${o.no}</b><small>${ago(o.t)}</small></div>
-    <span className="oc-who">${o.name}${o.mine || o.qr ? ' · table QR' : ''}${w && !stn ? html` · <span className="oc-wt">${I('user', 11)}${w.name}</span>` : null}${o.ver ? html` <span className="pill ok vbadge" title=${'Verified ' + maskPhone(o.phone)}>${I('check', 11)}Verified</span>` : o.mine ? html` <span className="pill sun vbadge">Not verified</span>` : null}</span>
+    <span className="oc-who">${o.name}${o.mine || o.qr ? ' · table QR' : ''}${o.online ? ' · ' + o.ref + ' · paid online' : ''}${w && !stn ? html` · <span className="oc-wt">${I('user', 11)}${w.name}</span>` : null}${o.ver ? html` <span className="pill ok vbadge" title=${'Verified ' + maskPhone(o.phone)}>${I('check', 11)}Verified</span>` : o.mine ? html` <span className="pill sun vbadge">Not verified</span>` : null}</span>
     <ul>${items.map((i, k) => html`<li key=${k}><b>${i.q}×</b><span><${VegMark} veg=${i.veg} /> ${i.n}${i.opt ? html`<small>${i.opt}</small>` : null}</span></li>`)}</ul>
     ${rest ? html`<small className="muted oc-rest">+ ${rest} more for ${[...new Set(o.items.filter((i) => stationOfItem(s, i) !== stn).map((i) => stationName(s, stationOfItem(s, i))))].join(', ')}</small>` : null}
     ${o.note ? html`<div className="oc-note">Note: ${o.note}</div>` : null}
+    ${o.online && o.status !== 'served' && o.status !== 'cancelled' ? html`<div className="oc-rider">${I('clock', 13)}${o.status === 'new' ? 'Accept within 3 minutes or ' + APPS[o.src] + ' cancels it' : o.status === 'ready' ? 'Packed. Hand it to the ' + APPS[o.src] + ' rider' : 'Rider arrives in about ' + riderIn(o) + ' min'}</div>` : null}
     ${stn ? null : html`<${StationProgress} s=${s} o=${o} />`}
     <div className="oc-f"><strong>${inr(due(o, r))}</strong><div className="oc-btns">
       <button className="btn sm icon" onClick=${() => d({ type: 'sheet', sheet: { type: 'kot', id: o.id } })} aria-label="Kitchen ticket" title="Kitchen ticket">${I('print', 16)}</button>
@@ -2658,8 +2682,9 @@ function OwnerOrders({ s, d }) {
     ${o.status === 'new' ? html`<button className="link danger small" style=${{ justifySelf: 'start' }} onClick=${() => d({ type: 'sheet', sheet: { type: 'reject', id: o.id } })}>Reject order</button>` : null}
   </article>`; };
   return html`
-    <div className="ph"><div><h1>${stn ? 'Kitchen · ' + stationName(s, stn) : 'Live orders'}</h1><p className="muted">${stn ? 'Only ' + stationName(s, stn) + ' dishes: ' + ((stationsOf(s).find((x) => x.id === stn) || { cats: [] }).cats.join(', ') || 'none yet') + '. Mark your part ready; the order turns Ready when every station is done.' : mt && scope === 'mine' ? 'Orders and calls from your tables, ' + rangeLabel(mt) + '.' : 'QR, waiter and counter orders in one kitchen queue. This screen works as the kitchen screen on any phone or tablet.'}</p></div>
+    <div className="ph"><div><h1>${stn ? 'Kitchen · ' + stationName(s, stn) : 'Live orders'}</h1><p className="muted">${stn ? 'Only ' + stationName(s, stn) + ' dishes: ' + ((stationsOf(s).find((x) => x.id === stn) || { cats: [] }).cats.join(', ') || 'none yet') + '. Mark your part ready; the order turns Ready when every station is done.' : mt && scope === 'mine' ? 'Orders and calls from your tables, ' + rangeLabel(mt) + '.' : 'QR, waiter, counter, Swiggy and Zomato orders in one kitchen queue. This screen works as the kitchen screen on any phone or tablet.'}</p></div>
       <div className="row">${mt ? html`<div className="seg" role="group" aria-label="Which orders"><button aria-pressed=${scope === 'mine'} onClick=${() => setScope('mine')}>My tables</button><button aria-pressed=${scope === 'all'} onClick=${() => setScope('all')}>All</button></div>` : null}<button className="btn" id="token-btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'tokens' } })}>${I('grid', 16)}Token board</button>${roleOf(s) === 'Kitchen' ? null : html`<button className="btn primary" id="take-order" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder' } })}>${I('plus', 17)}Take an order</button>`}<button className=${'btn' + (s.sound ? ' on' : '')} onClick=${() => { d({ type: 'set', k: 'sound', v: !s.sound }); if (!s.sound) chime(); }} aria-pressed=${s.sound}>${I(s.sound ? 'sound' : 'mute')}${s.sound ? 'Sound on' : 'Sound off'}</button></div></div>
+    ${!stn && roleOf(s) !== 'Waiter' ? html`<${OnlineBar} s=${s} d=${d} />` : null}
     ${alerts.length ? html`<div className="reqs">${alerts.map((a) => html`<div key=${a.id} className=${'req' + (a.kind === 'paid' ? ' pay' : '')}>${I(a.kind === 'paid' ? 'check' : 'bell')}<span><b>Table ${a.table}</b> ${REQ_TEXT[a.kind]}${a.amount ? ' · ' + inr(a.amount) : ''}${a.kind === 'waiter' ? (waiterOf(s, a.table) ? ' → ' + waiterOf(s, a.table).name : ' → every waiter') : ''}</span><small>${ago(a.t)}</small><button className="btn sm" onClick=${() => d({ type: 'alertDone', id: a.id })}>Done</button></div>`)}</div>` : null}
     <div className="seg full colswitch" role="group" aria-label="Order stage">${cols.map(([k, l]) => html`<button key=${k} aria-pressed=${s.ownerCol === k} onClick=${() => d({ type: 'set', k: 'ownerCol', v: k })}>${l.split(' ')[0]}${col(k).length ? html`<span className="badge">${col(k).length}</span>` : null}</button>`)}</div>
     <div className="kanban" id="board" data-col=${s.ownerCol}>${cols.map(([k, l, tone]) => html`<section key=${k} className="col" data-stage=${k}><div className="col-h"><i className=${'dot ' + tone}></i>${l}<span>${col(k).length}</span></div>
@@ -2721,7 +2746,7 @@ function OwnerMenu({ s, d }) {
       <div className="card flush">${items.map((it) => html`<div key=${it.id} className=${'mrow' + (it.stock ? '' : ' out')}>
         <button className="mmain" onClick=${() => editDish(it)} aria-label=${limited ? it.name : 'Edit ' + it.name} disabled=${limited} style=${limited ? { cursor: 'default', opacity: 1 } : null}><${Plate} c=${it.c} img=${it.img} size="sm" /><span className="mtxt"><span className="mname"><${VegMark} veg=${it.veg} />${it.name}${it.tags.slice(0, 1).map((t) => html`<span key=${t} className=${tagCls(t)}>${t}</span>`)}</span><small>${it.variants.length ? it.variants.map((v) => v[0] + ' ' + inr(v[1])).join(' · ') : inr(it.price)}${it.addons.length ? ' · ' + it.addons.length + ' add-on' + (it.addons.length > 1 ? 's' : '') : ''}</small></span></button>
         ${limited ? null : html`<button className="btn sm icon ghost hide-xs" onClick=${() => editDish(it)} aria-label=${'Edit ' + it.name} title="Edit">${I('edit', 16)}</button>`}
-        <button className="switch" role="switch" aria-checked=${it.stock} disabled=${viewOnly} onClick=${() => { d({ type: 'stock', rid: OWNER_RID, id: it.id }); toast(it.name + (it.stock ? ' marked sold out on every table' : ' is back on the menu')); }} aria-label=${it.name + ' available'}><i></i><span>${it.stock ? 'Available' : 'Sold out'}</span></button>
+        <button className="switch" role="switch" aria-checked=${it.stock} disabled=${viewOnly} onClick=${() => { d({ type: 'stock', rid: OWNER_RID, id: it.id }); toast(it.name + (it.stock ? ' marked sold out on every table' + (appsOn(s).length ? ', on ' + appsOn(s).map((k) => APPS[k]).join(' and ') + ' too' : '') : ' is back on the menu' + (appsOn(s).length ? ' and the apps' : ''))); }} aria-label=${it.name + ' available'}><i></i><span>${it.stock ? 'Available' : 'Sold out'}</span></button>
       </div>`)}</div></section>`; })}
       ${!list.length && cat === 'all' ? html`<div className="empty card"><p>No dishes match "${q}".</p></div>` : null}
     </div>
@@ -3116,6 +3141,9 @@ function Analytics({ s, d, rid, team }) {
         <${Stack} parts=${[{ label: 'UPI', v: S.c.upi }, { label: 'Cash', v: S.c.cash }, { label: 'Card', v: S.c.card }]} fmt=${(v) => v + ' orders'} /></section>
     </div><//>
 
+    ${rid === OWNER_RID ? html`<h2 className="sub-h">Sales by channel ${!team && !can(plan, 'pro') ? html`<span className="pill">Pro</span>` : null}</h2>
+    <${Gate} need="pro" plan=${plan} d=${d} team=${team} title="Sales by channel and app commission are on Pro"><${ChannelReport} s=${s} S=${S} /><//>` : null}
+
     <h2 className="sub-h">Trends and patterns ${!team && !can(plan, 'pro') ? html`<span className="pill">Pro</span>` : null}</h2>
     <${Gate} need="pro" plan=${plan} d=${d} team=${team} title="Busy hours, slow dishes and tables are on Pro"><div className="ana">
     <div className="two">
@@ -3204,7 +3232,7 @@ function OwnerSettings({ s, d }) {
       ${(r.billing || 'y') !== 'y' ? html`<button className="btn sun" onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { billing: 'y' } }); d({ type: 'set', k: 'billing', v: 'y' }); toast('Switched to 12 months · save ' + inr(planCost(r.plan, 'y').save)); }}>Pay for 12 months, save ${inr(planCost(r.plan, 'y').save)}</button>` : null}</section>
     <${BillingSwitch} s=${s} d=${d} />
     <div id="plans"><${PlanCards} current=${r.plan} currentBilling=${r.billing} billing=${s.billing || 'y'} onPick=${(k) => { const b = BILLING[s.billing] ? s.billing : 'y'; d({ type: 'rest', rid: OWNER_RID, patch: { plan: k, billing: b } }); toast(r.name + ' is on ' + PLANS[k].name + ', ' + BILLING[b].per); }} label=${(k) => (RANK[k] > RANK[r.plan] ? 'Upgrade to ' : 'Switch to ') + PLANS[k].name} /></div>
-    <div className="notice leaf"><b>On ${PLANS[r.plan].name} you get:</b> ${r.plan === 'pro' ? 'billing, tables, table QR ordering, kitchen screen, khata and reports, plus inventory, profit and partners, loyalty, WhatsApp bills, Google reviews and dish profit.' : 'billing with GST, tables and takeaway, table QR ordering, kitchen screen, khata and sales reports with Excel export.'}</div>
+    <div className="notice leaf"><b>On ${PLANS[r.plan].name} you get:</b> ${r.plan === 'pro' ? 'billing, tables, table QR ordering, kitchen screen, khata and reports, plus Swiggy and Zomato orders, inventory, profit and partners, loyalty, WhatsApp bills, Google reviews and dish profit.' : 'billing with GST, tables and takeaway, table QR ordering, kitchen screen, khata and sales reports with Excel export.'}</div>
     <section className="card" id="qr-safety"><div className="card-h"><h3>${I('shield', 18)} Table QR safety</h3></div>
       <label className="row" style=${{ gap: 10, fontWeight: 650, flexWrap: 'nowrap' }}><button className="switch" role="switch" id="qr-otp" aria-checked=${r.qrOtp !== false} onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { qrOtp: r.qrOtp === false } }); toast(r.qrOtp === false ? 'Diners verify their mobile on the first order' : 'Mobile code turned off'); }} aria-label="Ask for a mobile code on the first order"><i></i></button>Ask for a mobile code on each table’s first order</label>
       <ul className="small muted qs-list">
@@ -3217,6 +3245,7 @@ function OwnerSettings({ s, d }) {
     <${PrinterSettings} s=${s} d=${d} />
     <${StaffSettings} s=${s} d=${d} />
     <${StationSettings} s=${s} d=${d} />
+    <${OnlineSettings} s=${s} d=${d} />
     ${(() => { const used = 182 + s.orders.filter((o) => o.rid === OWNER_RID && o.pay === 'paid' && (o.mine || o.counter || o.staff)).length; const pct = Math.min(100, Math.round((used / WA.included) * 100)); return can(r.plan, 'pro') ? html`<section className="card" id="wa-usage"><div className="card-h"><h3>WhatsApp this month</h3><span className="small muted">${used} of ${WA.included} included messages used</span></div><div className="meter" role="img" aria-label=${used + ' of ' + WA.included + ' WhatsApp messages used'}><i style=${{ width: pct + '%' }}></i></div><p className="small muted">Bills, offers and your daily summary. After ${WA.included}, each message costs ₹${WA.extra.toFixed(2)}, added to your next payment. Resets on the 1st.</p></section>` : html`<section className="card" id="wa-usage"><div className="card-h"><h3>WhatsApp bills</h3><span className="pill">Pro</span></div><p className="small muted">On Pro, diners get bills on WhatsApp and you get a daily summary: ${WA.included} messages a month included.</p></section>`; })()}
     <section className="card help-card"><div className="grow"><h3>Help when you need it</h3><p className="small muted">WhatsApp support in Hindi, Gujarati and English on every plan${r.plan === 'pro' ? ', with priority replies from 9 am to 11 pm' : ''}. Export your menu and every bill whenever you like.</p></div>
       <div className="row"><button className="btn" onClick=${() => { downloadMenuCsv(s); toast('Menu downloaded as CSV'); }}>${I('download', 16)}Export menu</button><button className="btn" onClick=${() => toast('In the live product this opens WhatsApp support')}>${I('user', 16)}Chat with support</button></div></section>
@@ -3256,7 +3285,7 @@ function RejectSheet({ s, d }) {
 }
 
 /* ---------- Bills: GST split, discount, service charge ---------- */
-const tlabel = (o) => (o.type === 'takeaway' ? 'Parcel' : 'T' + o.table);
+const tlabel = (o) => (o.type === 'online' ? APPS[o.src] || 'Online' : o.type === 'takeaway' ? 'Parcel' : 'T' + o.table);
 const round2 = (n) => Math.round(n * 100) / 100;
 function billOf(lines, r, disc, dine) {
   const sub = lines.reduce((t, l) => t + l.q * l.p, 0);
@@ -3267,7 +3296,7 @@ function billOf(lines, r, disc, dine) {
   const raw = taxable + svc + half * 2, total = Math.round(raw);
   return { sub, disc: d, taxable, svc, cgst: half, sgst: half, roundOff: round2(total - raw), total };
 }
-const due = (o, r) => billOf(o.items, r, o.disc, o.type !== 'takeaway' && !o.counter).total;
+const due = (o, r) => billOf(o.items, r, o.disc, o.type !== 'takeaway' && o.type !== 'online' && !o.counter).total;
 const METHOD = { cash: 'Cash', upi: 'UPI', card: 'Card', split: 'Cash + UPI', khata: 'Khata', counter: 'At the counter' };
 function printOrToast(s, what) {
   const p = s.printer || {};
@@ -3386,11 +3415,11 @@ function DayEndSheet({ s, d }) {
   const bills = s.orders.filter((o) => o.rid === OWNER_RID && o.pay === 'paid' && o.t >= today.getTime());
   const by = { cash: 0, upi: 0, card: 0, khata: 0 };
   let disc = 0, gst = 0, total = 0;
-  bills.forEach((o) => { const B = billOf(o.items, r, o.disc, o.type !== 'takeaway' && !o.counter); total += B.total; disc += B.disc; gst += B.cgst + B.sgst; if (o.method === 'split' && o.split) { by.cash += o.split.cash; by.upi += o.split.upi; } else by[o.method in by ? o.method : 'cash'] += B.total; });
+  bills.forEach((o) => { const B = billOf(o.items, r, o.disc, o.type !== 'takeaway' && o.type !== 'online' && !o.counter); total += B.total; disc += B.disc; gst += B.cgst + B.sgst; if (o.method === 'split' && o.split) { by.cash += o.split.cash; by.upi += o.split.upi; } else by[o.method in by ? o.method : 'cash'] += B.total; });
   const open = s.orders.filter((o) => o.rid === OWNER_RID && o.pay !== 'paid' && o.status !== 'cancelled');
   const csv = () => {
     const head = 'Bill no,Time,Table,Items,Subtotal,Discount,CGST,SGST,Total,Paid by';
-    const lines = bills.map((o) => { const B = billOf(o.items, r, o.disc, o.type !== 'takeaway' && !o.counter); return [o.no, clock(o.t), tlabel(o), o.items.reduce((t, i) => t + i.q, 0), B.sub, B.disc, B.cgst, B.sgst, B.total, METHOD[o.method] || 'Cash'].join(','); });
+    const lines = bills.map((o) => { const B = billOf(o.items, r, o.disc, o.type !== 'takeaway' && o.type !== 'online' && !o.counter); return [o.no, clock(o.t), tlabel(o), o.items.reduce((t, i) => t + i.q, 0), B.sub, B.disc, B.cgst, B.sgst, B.total, METHOD[o.method] || 'Cash'].join(','); });
     const url = URL.createObjectURL(new Blob([[head, ...lines].join('\n')], { type: 'text/csv' }));
     const a = document.createElement('a'); a.href = url; a.download = 'day-end-' + today.toISOString().slice(0, 10) + '.csv'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
     toast('Day-end bills downloaded for Excel');
@@ -3635,6 +3664,62 @@ function StaffSettings({ s, d }) {
       <button className="btn primary" disabled=${!ok} onClick=${() => { const id = 'st' + Date.now(); const x = { id, ...f, name: f.name.trim(), ...(f.role === 'Waiter' ? { tables: free } : {}), ...(f.role === 'Kitchen' ? { station: (sts[0] || {}).id || '' } : {}) }; put([...list, x]); toast(x.name + ' added as ' + f.role + (f.role === 'Waiter' ? ' · ' + rangeLabel(x.tables) : f.role === 'Kitchen' ? ' · ' + stationName(s, x.station) : '')); if (f.role === 'Waiter') setEd(id); setF({ name: '', role: f.role, pin: '' }); }}>${I('plus', 15)}Add</button></div>
     <p className="small muted">Partners and investors get their PIN on the Profit & partners screen.</p>
   </section>`;
+}
+
+/* ---------- Swiggy and Zomato orders on the same screen ---------- */
+const APPS = { swiggy: 'Swiggy', zomato: 'Zomato' };
+const ONLINE0 = { swiggy: { on: true, open: true, auto: false, prep: 20, fee: 25, outlet: '218843' }, zomato: { on: true, open: true, auto: false, prep: 20, fee: 25, outlet: '19254471' } };
+const onlineOf = (s) => ({ swiggy: { ...ONLINE0.swiggy, ...((s.online || {}).swiggy || {}) }, zomato: { ...ONLINE0.zomato, ...((s.online || {}).zomato || {}) } });
+const appsOn = (s) => Object.keys(APPS).filter((k) => onlineOf(s)[k].on);
+const riderIn = (o) => Math.max(1, Math.round((o.t + (o.prep || 20) * 60000 - Date.now()) / 60000));
+const NAMES_ONLINE = ['Rahul', 'Sneha', 'Aditya', 'Fatima', 'Karan', 'Pooja', 'Yash', 'Zoya', 'Harsh', 'Nidhi'];
+function OnlineBar({ s, d }) {
+  const on = onlineOf(s), keys = appsOn(s); if (!keys.length) return null;
+  const open = keys.filter((k) => on[k].open);
+  const test = () => {
+    if (!open.length) { toast('Both apps are paused. Turn one on to get orders.'); return; }
+    const src = open[Math.floor(Math.random() * open.length)];
+    const menu = s.menus[OWNER_RID].filter((m) => m.stock), pick = menu.slice().sort(() => Math.random() - 0.5).slice(0, 2 + Math.floor(Math.random() * 2));
+    const items = pick.map((m) => { const v = m.variants.length ? m.variants[m.variants.length - 1] : null; return { n: m.name, opt: v ? v[0] : '', q: 1 + Math.floor(Math.random() * 2), p: v ? v[1] : m.price, veg: m.veg }; });
+    const n4 = () => 1000 + Math.floor(Math.random() * 9000);
+    d({ type: 'onlineOrder', src, ref: src === 'swiggy' ? '#' + n4() + n4() : 'Z' + n4() + n4(), name: NAMES_ONLINE[Math.floor(Math.random() * NAMES_ONLINE.length)], items });
+    toast('New ' + APPS[src] + ' order' + (on[src].auto ? ', accepted by itself' : '') + '. It is already paid.', 'ok');
+  };
+  return html`<div className="online-bar" id="online-bar"><span className="small muted ob-l">Delivery apps</span>
+    ${keys.map((k) => html`<button key=${k} className=${'app-pill' + (on[k].open ? ' on' : '')} role="switch" aria-checked=${on[k].open} aria-label=${'Take ' + APPS[k] + ' orders'} onClick=${() => { d({ type: 'onlineSet', k, patch: { open: !on[k].open } }); toast(on[k].open ? APPS[k] + ' paused. You show as closed there until you turn it on.' : 'Taking ' + APPS[k] + ' orders again'); }}><i></i><b>${APPS[k]}</b><small>${on[k].open ? (on[k].auto ? 'Open · auto-accept' : 'Open') : 'Paused'}</small></button>`)}
+    <span className="spacer"></span><button className="btn sm" id="test-online" onClick=${test}>${I('plus', 15)}Test an app order</button></div>`;
+}
+function OnlineSettings({ s, d }) {
+  const on = onlineOf(s), set = (k, patch) => d({ type: 'onlineSet', k, patch }), live = appsOn(s);
+  return html`<section className="card" id="online-apps"><div className="card-h"><h3>${I('store', 18)} Swiggy and Zomato</h3><span className="small muted">Delivery orders on the same screen as your tables</span></div>
+    <div className="apps-grid">${Object.keys(APPS).map((k) => { const c = on[k]; return html`<div key=${k} className="app-card">
+      <div className="row"><b>${APPS[k]}</b><span className=${'pill ' + (c.on ? 'ok' : '')}>${c.on ? 'Connected' : 'Not connected'}</span><span className="grow"></span><button className="switch" role="switch" aria-checked=${c.on} aria-label=${'Connect ' + APPS[k]} onClick=${() => { set(k, { on: !c.on }); toast(c.on ? APPS[k] + ' disconnected. Its orders stay in the ' + APPS[k] + ' app.' : APPS[k] + ' connected (demo). Your menu was sent; orders now arrive here.'); }}><i></i></button></div>
+      ${c.on ? html`<span className="small muted">Outlet ID ${c.outlet}</span>
+        <label className="row toggle-line"><button className="switch" role="switch" aria-checked=${c.auto} aria-label=${'Accept ' + APPS[k] + ' orders by themselves'} onClick=${() => { set(k, { auto: !c.auto }); toast(c.auto ? 'You accept each ' + APPS[k] + ' order yourself' : APPS[k] + ' orders now go straight to the kitchen'); }}><i></i></button>Accept orders by themselves</label>
+        <div className="fields2"><label className="field">Cooking time (min)<input type="number" min="5" max="90" value=${c.prep} onChange=${(e) => set(k, { prep: Math.max(5, Math.min(90, Number(e.target.value) || 20)) })} /></label>
+        <label className="field">Commission (%)<input type="number" min="0" max="40" value=${c.fee} onChange=${(e) => set(k, { fee: Math.max(0, Math.min(40, Number(e.target.value) || 0)) })} /><small>From your ${APPS[k]} contract</small></label></div>` : html`<p className="small muted">Connect with your ${APPS[k]} outlet ID. We do it for you on the setup visit.</p>`}
+    </div>`; })}</div>
+    <div className="row"><button className="btn" disabled=${!live.length} onClick=${() => toast('Menu, prices, photos and sold-out dishes sent to ' + live.map((k) => APPS[k]).join(' and ') + '. They show there in 5 to 10 minutes.')}>${I('reset', 15)}Send menu to the apps</button></div>
+    <p className="small muted">Prices and sold-out dishes go across by themselves. Mark a dish sold out here and it goes off both apps too.</p>
+    <p className="small muted">The apps still charge their own commission. Zestro adds nothing on top, and table QR orders have no commission at all.</p>
+  </section>`;
+}
+function ChannelReport({ s, S }) {
+  const r = R(s, OWNER_RID), on = onlineOf(s), share = { dine: 0.58, take: 0.14, swiggy: 0.15, zomato: 0.13 };
+  const since = new Date(); since.setHours(0, 0, 0, 0); const from = since.getTime() - (S.n - 1) * 864e5;
+  const demo = s.orders.filter((o) => o.rid === OWNER_RID && o.online && o.status !== 'cancelled' && o.t >= from);
+  const rows = [['dine', 'Dine-in and table QR', 0], ['take', 'Counter and takeaway', 0], ['swiggy', 'Swiggy', on.swiggy.fee], ['zomato', 'Zomato', on.zomato.fee]].map(([k, l, fee]) => {
+    const mine = demo.filter((o) => o.src === k), sales = S.c.sales * share[k] + mine.reduce((t, o) => t + due(o, r), 0);
+    const orders = Math.round(S.c.orders * share[k] * (APPS[k] ? 0.8 : 1)) + mine.length;
+    return { k, l, fee, orders, sales, comm: (sales * fee) / 100 };
+  });
+  const comm = rows.reduce((t, x) => t + x.comm, 0), app = rows.filter((x) => x.fee);
+  const avgApp = app.reduce((t, x) => t + x.comm, 0) / Math.max(1, app.reduce((t, x) => t + x.orders, 0));
+  return html`<section className="card" id="channels"><div className="card-h"><h3>Sales by channel</h3><span className="small muted">${S.n === 1 ? 'Today' : 'Last ' + S.n + ' days'} · ${inr(comm)} paid in app commission</span></div>
+    <${HBars} rows=${rows.map((x) => ({ label: x.l, v: x.sales }))} fmt=${short} />
+    <div className="twrap"><table className="tbl sr"><thead><tr><th>Channel</th><th className="r">Orders</th><th className="r">Sales</th><th className="r">Commission</th><th className="r">You keep</th></tr></thead>
+      <tbody>${rows.map((x) => html`<tr key=${x.k}><td><b>${x.l}</b>${x.fee ? html` <small className="muted">${x.fee}%</small>` : null}</td><td className="r">${x.orders.toLocaleString('en-IN')}</td><td className="r">${inr(x.sales)}</td><td className="r">${x.comm ? '−' + inr(x.comm) : '₹0'}</td><td className="r"><b>${inr(x.sales - x.comm)}</b></td></tr>`)}</tbody></table></div>
+    <p className="small muted">Each app order costs you about ${inr(avgApp)} in commission. When a regular orders from your table QR or calls you for a parcel, you keep all of it.</p></section>`;
 }
 
 /* ---------- Waiter sections and kitchen stations ---------- */
