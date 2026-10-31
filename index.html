@@ -1319,8 +1319,8 @@ const I = (name, size) => html`<svg className="ic" width=${size || 18} height=${
 /* ---------- Sample data ---------- */
 /* Two plans, paid for 6 or 12 months ahead. Every plan starts with a 15-day free trial. */
 const PLANS = {
-  basic: { name: 'Basic', total: { h: 2799, y: 4999 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Waiters with their own PIN and their own tables', 'Table QR ordering, diners pay after eating', 'Kitchen screen per station and a token board for a TV', 'Expense book with bill photos', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
-  pro: { name: 'Pro', total: { h: 4199, y: 7499 }, perks: ['Everything in Basic', 'Swiggy and Zomato orders on the same screen', 'Monthly profit, partners and investor logins', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review link on every bill', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
+  basic: { name: 'Basic', total: { h: 2999, y: 4999 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Waiters with their own PIN and their own tables', 'Table QR ordering, diners pay after eating', 'Kitchen screen per station and a token board for a TV', 'Expense book with bill photos', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
+  pro: { name: 'Pro', total: { h: 4999, y: 7999 }, perks: ['Everything in Basic', 'Swiggy and Zomato orders on the same screen', 'Monthly profit, partners and investor logins', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review link on every bill', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
 };
 PLANS.basic.price = Math.round(PLANS.basic.total.y / 12); PLANS.pro.price = Math.round(PLANS.pro.total.y / 12);
 const PLAN_KEYS = ['basic', 'pro'];
@@ -3804,7 +3804,7 @@ function sampleExpenses() {
     add(1, 'Rent', 60000, 'Bank', 'Shop rent');
     add(1, 'Salaries', back ? 158000 : 162500, 'Bank', 'Salaries, 10 staff');
     [3, 10, 17, 24].forEach((dd) => add(dd, 'Electricity & gas', 5550, 'Cash', '3 commercial gas cylinders', 'Ramesh'));
-    add(5, 'Other', 625, 'UPI', 'Zestro Pro plan, monthly share of ₹7,499');
+    add(5, 'Other', 667, 'UPI', 'Zestro Pro plan, monthly share of ₹7,999');
     add(8, 'Electricity & gas', back ? 26840 : 28160, 'UPI', 'Electricity bill');
     add(9, 'Packaging', back ? 6400 : 7150, 'UPI', 'Parcel boxes and bags', 'Farah');
     add(12, 'Repairs', back ? 4200 : 1800, 'Cash', back ? 'Fridge compressor repair' : 'Chimney cleaning', 'Farah');
