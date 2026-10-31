@@ -3063,7 +3063,6 @@ const RIVALS = [
   { name: 'Typical POS, basic plan', note: 'Billing only; QR ordering usually extra', yr: 12000 },
   { name: 'Typical POS with QR ordering', note: 'Billing and QR ordering, plus counter hardware', yr: 20000 },
   { name: 'Typical QR menu app, monthly', note: 'Around ₹999 a month; menu and ordering, no billing', yr: 9990 },
-  { name: 'Basic QR menu app', note: 'QR menu and ordering only, no billing counter', yr: 2999 },
 ];
 const STRUGGLES = [
   ['store', 'Hardware before the first bill', 'A billing counter with a PC, touchscreen and printer can cost ₹30,000–60,000.', 'Zero hardware. Your phone or tablet is the counter; a printer is optional.'],
@@ -3080,7 +3079,7 @@ function WhySwitch({ s }) {
   const b = planCost('basic', 'y'), a = planCost('pro', 'y');
   const ours = [
     { name: 'Zestro Basic', note: 'Billing, tables, QR ordering, kitchen screen. No hardware', yr: b.total, us: true },
-    { name: 'Zestro Pro', note: 'Adds inventory, loyalty, Google reviews and dish profit', yr: a.total, us: true },
+    { name: 'Zestro Pro', note: 'Adds Swiggy and Zomato orders, inventory, profit and partners, loyalty', yr: a.total, us: true },
   ];
   const all = [...ours, ...RIVALS].sort((x, y) => x.yr - y.yr), max = Math.max(...all.map((x) => x.yr));
   return html`<section className="sx" id="why-switch"><div className="container">
