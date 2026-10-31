@@ -1173,6 +1173,71 @@ input.otp { letter-spacing: 0.5em; font-family: var(--f-mono); font-size: 20px; 
   @page { margin: 10mm; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+/* Waiter sections, kitchen stations, expenses, profit and partners */
+.c5 { background: #8e5bd6; } .c6 { background: #d6457a; } .c7 { background: #7d8b99; }
+:root[data-theme="dark"] .c5 { background: #9c6fe0; } :root[data-theme="dark"] .c6 { background: #e0628f; } :root[data-theme="dark"] .c7 { background: #8a98a6; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .c5 { background: #9c6fe0; } :root:not([data-theme="light"]) .c6 { background: #e0628f; } :root:not([data-theme="light"]) .c7 { background: #8a98a6; } }
+.chip.sm { padding: 6px 12px; font-size: 13px; }
+.st-prog { display: flex; gap: 6px; flex-wrap: wrap; }
+.st-prog .pill { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; }
+.oc-wt { display: inline-flex; align-items: center; gap: 3px; color: var(--ink); font-weight: 600; }
+.oc-rest { font-size: 12.5px; }
+.st-list { display: grid; gap: 12px; }
+.st-item { display: grid; gap: 8px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--app); }
+.st-item .row { flex-wrap: nowrap; }
+.staff-item { border-bottom: 1px solid var(--line); }
+.staff-item .staff-row { border-bottom: 0; flex-wrap: wrap; }
+.staff-item:last-child { border-bottom: 0; }
+.wt-edit { display: grid; gap: 8px; padding: 0 0 12px; }
+.wt-grid button { height: 52px; display: grid; place-items: center; align-content: center; gap: 0; line-height: 1.1; }
+.wt-grid button small { font-family: var(--f-body, inherit); font-size: 10.5px; font-weight: 600; opacity: 0.75; }
+.inp.sm { padding: 6px 10px; font-size: 13.5px; width: auto; }
+.ft.other { opacity: 0.55; }
+.ft-w { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+.floor-key .sections { color: var(--muted); }
+.tbl.sr { min-width: 560px; }
+.exp-form { display: grid; grid-template-columns: 160px minmax(0, 1fr) 170px; gap: 10px; }
+.exp-foot { gap: 10px; align-items: center; }
+.exp-thumb { width: 44px; height: 56px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); flex: none; }
+.exp-list { display: grid; }
+.exp-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.exp-row:last-child { border-bottom: 0; }
+.exp-row .grow { display: grid; gap: 2px; min-width: 0; }
+.exp-row .grow b { font-weight: 600; }
+.exp-row .grow small { font-size: 12.5px; }
+.exp-date { width: 42px; flex: none; display: grid; justify-items: center; line-height: 1.1; padding: 5px 0; border-radius: 10px; background: var(--app-2); }
+.exp-date b { font-family: var(--f-mono); font-size: 15px; }
+.exp-date small { font-size: 11px; color: var(--muted); font-weight: 600; }
+.pnl { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.pnl td { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.pnl td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; padding-left: 12px; }
+.pnl tr.sub td { font-weight: 650; }
+.pnl tr.tot td { font-weight: 700; font-size: 16px; border-bottom: 0; border-top: 2px solid var(--ink); }
+.pnl td.gain { color: var(--ok); } .pnl td.neg { color: var(--bad); }
+.pcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }
+.pcard { display: grid; gap: 10px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 18px; background: var(--app); }
+.pc-h { display: flex; align-items: center; gap: 8px; }
+.pc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; }
+.pc-grid span { display: grid; gap: 1px; }
+.pc-grid small { font-size: 12px; color: var(--muted); font-weight: 600; }
+.pc-grid b { font-size: 17px; font-variant-numeric: tabular-nums; }
+.pc-grid b.gain { color: var(--ok); } .pc-grid b.neg { color: var(--bad); }
+.pbar { height: 8px; border-radius: 99px; background: var(--app-2); overflow: hidden; }
+.pbar i { display: block; height: 100%; background: var(--leaf); border-radius: inherit; }
+.share-in { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--muted); font-weight: 600; }
+.share-in input { width: 58px; padding: 4px 8px; border: 1px solid var(--line); border-radius: 9px; background: var(--app); color: var(--ink); font: inherit; font-weight: 700; text-align: right; }
+.partner-add { display: grid; gap: 8px; padding-top: 4px; }
+.pa-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr) 90px 100px auto; gap: 8px; }
+.stmt { white-space: pre-wrap; font-family: var(--f-mono); font-size: 13.5px; line-height: 1.55; background: var(--app-2); border-radius: 14px; padding: 14px 16px; margin: 0; }
+.my-day .tile b { font-size: 23px; }
+@media (max-width: 760px) {
+  .exp-form { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .exp-form .field:nth-child(2) { grid-column: 1 / -1; order: 3; }
+  .pa-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .pa-grid .btn { grid-column: 1 / -1; }
+  .pcards { grid-template-columns: minmax(0, 1fr); }
+}
 </style>
 </head>
 <body>
@@ -1219,6 +1284,8 @@ const P = {
   clock: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2',
   lock: 'M5 11h14v9H5zM8 11V8a4 4 0 0 1 8 0v3',
   camera: 'M4 8h3l2-3h6l2 3h3v11H4zM12 10.5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
+  wallet: 'M4 7h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7zM4 7V6a2 2 0 0 1 2-2h10v3M16 13.5h.01',
+  pie: 'M12 3a9 9 0 1 0 9 9h-9V3zM15 3.4A8.6 8.6 0 0 1 20.6 9H15V3.4z',
   rupee: 'M7 4h10M7 8.5h10M9 4c4 0 5 2 5 4.5S12 13 9 13h-1l7 7',
   edit: 'M4 20h4L19 9l-4-4L4 16zM14 6l4 4',
   user: 'M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM4 21c1-4 4.2-6 8-6s7 2 8 6',
@@ -1238,8 +1305,8 @@ const I = (name, size) => html`<svg className="ic" width=${size || 18} height=${
 /* ---------- Sample data ---------- */
 /* Two plans, paid for 6 or 12 months ahead. Every plan starts with a 15-day free trial. */
 const PLANS = {
-  basic: { name: 'Basic', total: { h: 2799, y: 4999 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Waiter phones, each with their own PIN', 'Table QR ordering, diners pay after eating', 'Kitchen screen and a token board for a TV', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
-  pro: { name: 'Pro', total: { h: 4199, y: 7499 }, perks: ['Everything in Basic', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review link on every bill', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
+  basic: { name: 'Basic', total: { h: 2799, y: 4999 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Waiters with their own PIN and their own tables', 'Table QR ordering, diners pay after eating', 'Kitchen screen per station and a token board for a TV', 'Expense book with bill photos', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
+  pro: { name: 'Pro', total: { h: 4199, y: 7499 }, perks: ['Everything in Basic', 'Monthly profit, partners and investor logins', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review link on every bill', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
 };
 PLANS.basic.price = Math.round(PLANS.basic.total.y / 12); PLANS.pro.price = Math.round(PLANS.pro.total.y / 12);
 const PLAN_KEYS = ['basic', 'pro'];
@@ -1529,8 +1596,8 @@ function freshState() {
     rest: Object.fromEntries(RESTAURANTS.map((r) => [r.id, { plan: r.plan, billing: { nawab: 'h', pav: 'h' }[r.id] || 'y', open: r.open, upi: r.upi, tables: r.tables, name: r.name, area: r.area, gst: r.gst }])),
     menus: Object.fromEntries(RESTAURANTS.map((r) => [r.id, r.menu.map((m) => ({ ...m }))])),
     orders: [
-      { id: 'o115', rid: 'spice', no: 115, table: 2, name: 'Mehta family', items: [{ n: 'Dal Makhani', q: 1, p: 240, veg: true }, { n: 'Butter Naan', opt: 'Garlic', q: 4, p: 75, veg: true }, { n: 'Jeera Rice', q: 1, p: 170, veg: true }], status: 'ready', pay: 'unpaid', t: now - 23 * MIN },
-      { id: 'o116', qr: true, ver: true, phone: '9898011223', rid: 'spice', no: 116, table: 9, name: 'Arjun', items: [{ n: 'Chicken 65', q: 1, p: 290, veg: false }, { n: 'Fresh Lime Soda', opt: 'Salted', q: 2, p: 90, veg: true }], note: 'Less spicy please', status: 'preparing', pay: 'unpaid', t: now - 11 * MIN },
+      { id: 'o115', rid: 'spice', no: 115, table: 2, name: 'Taken by Suresh', by: 'Suresh', staff: true, items: [{ n: 'Dal Makhani', q: 1, p: 240, veg: true }, { n: 'Butter Naan', opt: 'Garlic', q: 4, p: 75, veg: true }, { n: 'Jeera Rice', q: 1, p: 170, veg: true }], status: 'ready', pay: 'unpaid', t: now - 23 * MIN },
+      { id: 'o116', qr: true, ver: true, phone: '9898011223', rid: 'spice', no: 116, table: 9, name: 'Arjun', items: [{ n: 'Chicken 65', q: 1, p: 290, veg: false }, { n: 'Fresh Lime Soda', opt: 'Salted', q: 2, p: 90, veg: true }], note: 'Less spicy please', sr: { tandoor: true }, status: 'preparing', pay: 'unpaid', t: now - 11 * MIN },
       { id: 'o117', qr: true, ver: true, phone: '9824544210', rid: 'spice', no: 117, table: 7, name: 'Priya', items: [{ n: 'Paneer Tikka', q: 1, p: 260, veg: true }, { n: 'Masala Chaas', q: 2, p: 70, veg: true }], status: 'new', pay: 'unpaid', t: now - 2 * MIN },
       { id: 'o112', rid: 'spice', no: 112, table: 4, name: 'Shah', items: [{ n: 'Veg Dum Biryani', opt: 'Full', q: 2, p: 260, veg: true }, { n: 'Masala Chaas', q: 3, p: 70, veg: true }], status: 'served', pay: 'paid', method: 'upi', t: now - 95 * MIN },
       { id: 'o113', rid: 'spice', no: 113, table: 1, name: 'Neha', items: [{ n: 'Paneer Butter Masala', opt: 'Full', q: 1, p: 280, veg: true }, { n: 'Butter Naan', q: 3, p: 60, veg: true }], status: 'served', pay: 'paid', method: 'cash', t: now - 70 * MIN },
@@ -1553,7 +1620,7 @@ function loadState() {
   } catch (e) { return base; }
 }
 function saveState(s) {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, ver: s.ver, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable, billing: s.billing, anaRange: s.anaRange, adminTab: s.adminTab, adminRid: s.adminRid, costs: s.costs, me2: s.me2, printer: s.printer, staff: s.staff, customers: s.customers, inv: s.inv, offline: s.offline, pending: s.pending })); } catch (e) { /* storage blocked: the demo still works */ }
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: s.role, screen: s.screen, rid: s.rid, table: s.table, cart: s.cart, note: s.note, me: s.me, ver: s.ver, rest: s.rest, menus: s.menus, cats: s.cats, orders: s.orders, alerts: s.alerts, nextNo: s.nextNo, signups: s.signups, approved: s.approved, ownerTab: s.ownerTab, sound: s.sound, qrTable: s.qrTable, billing: s.billing, anaRange: s.anaRange, adminTab: s.adminTab, adminRid: s.adminRid, costs: s.costs, me2: s.me2, printer: s.printer, staff: s.staff, customers: s.customers, inv: s.inv, offline: s.offline, pending: s.pending, stations: s.stations, expenses: s.expenses, partners: s.partners, payouts: s.payouts, finMonth: s.finMonth })); } catch (e) { /* storage blocked: the demo still works */ }
 }
 const R = (s, rid) => ({ ...RMAP[rid], ...s.rest[rid] });
 const canOrder = (s) => { const r = R(s, s.rid); return !!s.table && r.open && s.table <= r.tables; };
@@ -1601,11 +1668,11 @@ function reducer(s, a) {
     case 'qty': return { ...s, cart: s.cart.map((l) => (l.key === a.key ? { ...l, q: l.q + a.d } : l)).filter((l) => l.q > 0) };
     case 'place': return placeOrderIn(s);
     case 'verified': return { ...s, me: { ...s.me, name: a.name, phone: a.phone }, ver: { rid: s.rid, table: s.table, phone: a.phone, at: Date.now() }, sheet: null };
-    case 'staffOrder': { const no = s.nextNo[OWNER_RID] || 101; const o = { id: 'o' + OWNER_RID + no + '-' + Date.now(), rid: OWNER_RID, no, table: a.table, type: 'dine', name: 'Taken by the waiter', items: a.items, note: (a.note || '').trim(), status: 'preparing', pay: 'unpaid', t: Date.now(), staff: true }; return { ...s, orders: [...s.orders, o], nextNo: { ...s.nextNo, [OWNER_RID]: no + 1 }, fresh: o.id, ownerCol: 'preparing', sheet: null }; }
+    case 'staffOrder': { const no = s.nextNo[OWNER_RID] || 101; const o = { id: 'o' + OWNER_RID + no + '-' + Date.now(), rid: OWNER_RID, no, table: a.table, type: 'dine', name: 'Taken by ' + (a.by || 'the waiter'), by: a.by, items: a.items, note: (a.note || '').trim(), status: 'preparing', pay: 'unpaid', t: Date.now(), staff: true }; return { ...s, orders: [...s.orders, o], nextNo: { ...s.nextNo, [OWNER_RID]: no + 1 }, fresh: o.id, ownerCol: 'preparing', sheet: null }; }
     case 'counterBill': {
       const no = s.nextNo[OWNER_RID] || 101, r = R(s, OWNER_RID), now = Date.now();
       const take = a.otype === 'takeaway', paid = a.mode === 'pay';
-      const o = { id: 'o' + OWNER_RID + no + '-' + now, rid: OWNER_RID, no, table: take ? 0 : a.table, type: take ? 'takeaway' : 'dine', name: a.name || (take ? 'Parcel' : 'Counter'), phone: a.phone, items: a.items, disc: a.disc || 0, discWhy: a.discWhy, note: '', status: take || !paid ? 'preparing' : 'served', pay: paid ? 'paid' : 'unpaid', method: paid ? a.method : undefined, split: a.split || undefined, t: now, counter: !take && paid, staff: true };
+      const o = { id: 'o' + OWNER_RID + no + '-' + now, rid: OWNER_RID, no, table: take ? 0 : a.table, type: take ? 'takeaway' : 'dine', name: a.name || (take ? 'Parcel' : 'Counter'), phone: a.phone, items: a.items, disc: a.disc || 0, discWhy: a.discWhy, note: '', status: take || !paid ? 'preparing' : 'served', pay: paid ? 'paid' : 'unpaid', method: paid ? a.method : undefined, split: a.split || undefined, t: now, counter: !take && paid, staff: true, by: a.by, cashier: paid ? a.by : undefined };
       const total = billOf(o.items, r, o.disc, o.type !== 'takeaway' && !o.counter).total;
       let customers = s.customers;
       if (a.phone) {
@@ -1617,16 +1684,20 @@ function reducer(s, a) {
     case 'moveTable': return { ...s, orders: s.orders.map((o) => (o.rid === OWNER_RID && o.type !== 'takeaway' && o.table === a.from && o.pay !== 'paid' && o.status !== 'cancelled' ? { ...o, table: a.to } : o)), alerts: s.alerts.map((al) => (al.rid === OWNER_RID && al.table === a.from ? { ...al, table: a.to } : al)), sheet: { type: 'tbill', table: a.to } };
     case 'settleTable': {
       const ids = s.orders.filter((o) => o.rid === OWNER_RID && o.type !== 'takeaway' && o.table === a.table && o.pay !== 'paid' && o.status !== 'cancelled').map((o) => o.id);
-      return { ...s, orders: s.orders.map((o) => (ids.includes(o.id) ? { ...o, pay: 'paid', method: a.method, status: 'served' } : o)), alerts: s.alerts.filter((al) => !(al.rid === OWNER_RID && al.table === a.table)), pending: s.offline ? (s.pending || 0) + 1 : s.pending, sheet: { type: 'bill', ids } };
+      return { ...s, orders: s.orders.map((o) => (ids.includes(o.id) ? { ...o, pay: 'paid', method: a.method, status: 'served', cashier: a.by } : o)), alerts: s.alerts.filter((al) => !(al.rid === OWNER_RID && al.table === a.table)), pending: s.offline ? (s.pending || 0) + 1 : s.pending, sheet: { type: 'bill', ids } };
     }
     case 'khataPay': return { ...s, customers: (s.customers || CUSTOMERS0).map((c) => (c.phone === a.phone ? { ...c, due: 0 } : c)) };
     case 'invAdd': { const x = (s.inv || {})[a.id] || { buy: 0, waste: 0 }; return { ...s, inv: { ...(s.inv || {}), [a.id]: { ...x, [a.kind]: x[a.kind] + a.qty } }, sheet: null }; }
-    case 'login': return { ...s, role: 'owner', ownerTab: a.tab, me2: { name: a.name, role: a.role }, sheet: null };
+    case 'login': return { ...s, role: 'owner', ownerTab: a.tab, me2: { name: a.name, role: a.role, id: a.id }, sheet: null };
+    case 'expAdd': return { ...s, expenses: [a.e, ...expensesOf(s)] };
+    case 'expDel': return { ...s, expenses: expensesOf(s).filter((e) => e.id !== a.id) };
+    case 'payout': return { ...s, payouts: [...payoutsOf(s), a.p], sheet: null };
+    case 'stationReady': return { ...s, orders: s.orders.map((o) => { if (o.id !== a.id) return o; const sr = { ...(o.sr || {}), [a.st]: true }; return { ...o, sr, status: orderStations(s, o).every((x) => sr[x]) ? 'ready' : o.status }; }) };
     case 'logout': return { ...s, role: 'diner', screen: 'home', me2: null, sheet: null };
     case 'offline': return { ...s, offline: !s.offline, pending: s.offline ? 0 : s.pending };
     case 'advance': return { ...s, orders: s.orders.map((o) => (o.id === a.id ? { ...o, status: { new: 'preparing', preparing: 'ready', ready: 'served' }[o.status] } : o)), fresh: s.fresh === a.id ? null : s.fresh };
     case 'reject': return { ...s, orders: s.orders.map((o) => (o.id === a.id ? { ...o, status: 'cancelled' } : o)), sheet: null };
-    case 'markPaid': return { ...s, orders: s.orders.map((o) => (o.id === a.id ? { ...o, pay: 'paid', method: a.method } : o)), alerts: s.alerts.filter((al) => !(al.table === (s.orders.find((o) => o.id === a.id) || {}).table && al.kind !== 'waiter')) };
+    case 'markPaid': return { ...s, orders: s.orders.map((o) => (o.id === a.id ? { ...o, pay: 'paid', method: a.method, cashier: a.by } : o)), alerts: s.alerts.filter((al) => !(al.table === (s.orders.find((o) => o.id === a.id) || {}).table && al.kind !== 'waiter')) };
     case 'request': {
       if (s.alerts.some((al) => al.rid === s.rid && al.table === s.table && al.kind === a.kind)) return s;
       return { ...s, alerts: [{ id: 'a' + Date.now(), rid: s.rid, table: s.table, kind: a.kind, t: Date.now() }, ...s.alerts] };
@@ -1686,10 +1757,17 @@ const TOUR = [
   { t: 'One QR per table', d: 'Download a print-ready standee for each table. Scan one with your own phone: it opens this demo at that table.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'tables', qrTable: 5, sheet: null }), hl: '#standee' },
   { t: 'Reports for your CA and for you', d: 'Basic shows sales for any dates with an Excel export and a day-end report. Pro adds busy hours, repeat diners, stock and profit per dish.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'reports', sheet: null }), hl: '#reports-main' },
   { t: 'Add dishes with photos', d: 'Name, price, a photo from the phone, Half/Full portions and add-ons. It shows on every table the moment it is saved.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'menu', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: 'Main Course', name: 'Paneer Lababdar', price: '290', veg: true, desc: 'Paneer in a rich onion-tomato gravy with cream.', tags: ['New'], variants: [], addons: [['Extra butter', 30]], stock: true, img: null, c: ['#d9722e', '#f7e4c3'] } } }), hl: '#dish-editor' },
-  { t: 'Two plans, or pick modules', d: 'Basic is ₹4,999 for 12 months: billing, tables, waiters, table QR ordering and the kitchen screen. Pro adds inventory, loyalty, Google reviews and dish profit. Pay for 6 or 12 months, after a 15-day free trial.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
+  { t: 'Two plans, or pick modules', d: 'Basic is ₹4,999 for 12 months: billing, tables, waiters, table QR ordering and the kitchen screen. Pro adds inventory, profit and partners, loyalty, Google reviews and dish profit. Pay for 6 or 12 months, after a 15-day free trial.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
+  { t: 'Each waiter gets their own tables', d: 'Suresh looks after T1–T6 and Vijay T7–T12. A waiter’s phone opens on their tables, and a call from a table goes to that waiter.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'floor', me2: { name: 'Suresh', role: 'Waiter', id: 'st4' }, sheet: null }), hl: '#floor' },
+  { t: 'One screen per kitchen station', d: 'The tandoor screen shows only starters and breads. Each station marks its part ready, and the order turns Ready when every part is done.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'orders', ownerCol: 'preparing', me2: { name: 'Ravi', role: 'Kitchen', id: 'st7' }, sheet: null }), hl: '#board' },
+  { t: 'Expenses with a photo of the bill', d: 'The cashier or manager adds every expense as it happens: gas, salaries, repairs. Cash paid out today is checked at day end.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'expenses', sheet: null }), hl: '#exp-add' },
+  { t: 'Monthly profit, split between partners', d: 'Sales from every bill, food cost from recipes and the expense book make the profit and loss. Each partner’s share, payouts and pay-back are worked out for you.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'profit', sheet: null }), hl: '#partners' },
+  { t: 'Investors see only their share', d: 'A partner logs in with their own PIN and sees the profit, their share, payouts and a statement for WhatsApp. Bills, staff and the menu stay private.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'profit', me2: { name: 'Imran Patel', role: 'Investor', id: 'p2' }, sheet: null }), hl: '#partners' },
   { t: 'New restaurants sign up themselves', d: 'Any restaurant can compare plans and register from the For restaurants page.', apply: (s) => ({ ...s, role: 'diner', screen: 'business', sheet: null }), hl: '#biz-main .plans' },
   { t: 'Our team sees the whole platform', d: 'Staff-only analytics: revenue, orders across all restaurants, plan mix, upgrade candidates and a watch list. Staff can also open any restaurant’s board.', apply: (s) => ({ ...s, role: 'admin', adminTab: 'overview', sheet: null }), hl: '#admin-main' },
 ];
+/* Every step starts signed in as the owner unless it signs in someone else */
+TOUR.forEach((x) => { const f = x.apply; x.apply = (s) => f(s.me2 ? { ...s, me2: null } : s); });
 
 /* ---------- Shared bits ---------- */
 function Logo({ d, sub }) {
@@ -2130,7 +2208,12 @@ const FEATURES = [
   ['Sales reports for any dates, day-end report, Excel export', ['y', 'y']],
   ['Inventory: recipes, stock used by every bill, purchases, wastage', ['n', 'y']],
   ['Food cost and profit per dish', ['n', 'y']],
-  ['Waiter phones, each waiter with their own PIN', ['y', 'y']],
+  ['Monthly profit and loss, partners’ shares, payouts', ['n', 'y']],
+  ['Investor logins: each partner sees only their own share', ['n', 'y']],
+  ['Expense book with a photo of every bill', ['y', 'y']],
+  ['Waiter phones with their own PIN and their own tables', ['y', 'y']],
+  ['Kitchen stations: a screen each for tandoor, main kitchen, drinks', ['y', 'y']],
+  ['Staff report: orders and sales per waiter, cash per cashier', ['n', 'y']],
   ['Loyalty points and bills on WhatsApp', ['n', 'y']],
   ['WhatsApp messages included', ['–', WA.included + ' a month, then ₹' + WA.extra.toFixed(2) + ' each']],
   ['Google review link on every bill', ['n', 'y']],
@@ -2172,8 +2255,8 @@ function PlanCards({ current, currentBilling, billing, onPick, label }) {
 const MODULES = [
   { id: 'bill', name: 'Billing counter', y: 2999, text: 'GST bills, discounts, cash/UPI split, khata, offline billing, day-end report, Excel. Printer optional.' },
   { id: 'qr', name: 'Table QR ordering + kitchen screen', y: 1499, text: 'Diners order from the table, kitchen screen with sound, token board.' },
-  { id: 'tables', name: 'Tables and waiters', y: 999, text: 'Running bills per table, move and merge, waiter phones with their own PIN.' },
-  { id: 'inv', name: 'Inventory and food cost', y: 1999, text: 'Recipes, stock used by every bill, purchases, wastage, profit per dish.' },
+  { id: 'tables', name: 'Tables and waiters', y: 999, text: 'Running bills per table, move and merge, waiters with their own PIN and tables, kitchen stations.' },
+  { id: 'inv', name: 'Inventory, profit and partners', y: 1999, text: 'Recipes, stock used by every bill, wastage, profit per dish, monthly profit and loss, partners and investor logins.' },
   { id: 'grow', name: 'Loyalty and reviews', y: 999, text: 'Loyalty points, bills on WhatsApp (' + WA.included + ' messages a month included), Google review requests, repeat-diner reports.' },
 ];
 const modPrice = (y, b) => (b === 'h' ? Math.round((y * 0.56) / 10) * 10 - 1 : y);
@@ -2209,7 +2292,7 @@ const USES = [
   { id: 'stall', label: 'Small & local', title: 'No hardware. Just the phone in your pocket.', points: ['Bill, take payment and send orders to the kitchen from one phone', 'No printer? Send the bill on WhatsApp or show it on screen', 'Paper menu to digital menu in a day: we type it in for you'], plan: 'basic' },
   { id: 'cafe', label: 'Cafés', title: 'Counter billing and table orders in one place', points: ['Fast billing with GST, offers and cash/UPI split', 'Diners order from the table QR, you see it live', 'Kitchen screen on any old phone or tablet'], plan: 'basic' },
   { id: 'family', label: 'Family restaurants', title: 'Every table, every bill, on one screen', points: ['Running bills per table, move and merge tables', 'Diners order more rounds from the QR and pay after eating', 'Day-end report and Excel export for your CA'], plan: 'basic' },
-  { id: 'fine', label: 'Busy kitchens & chains', title: 'Stock, staff and profit under control', points: ['Inventory: every bill uses up stock from your recipes', 'Food cost and profit for every dish', 'Loyalty, WhatsApp bills and Google reviews'], plan: 'pro' },
+  { id: 'fine', label: 'Busy kitchens & chains', title: 'Stock, staff and profit under control', points: ['Inventory: every bill uses up stock from your recipes', 'Monthly profit, split between partners, with investor logins', 'Waiter sections, kitchen stations and a staff report'], plan: 'pro' },
 ];
 const FEATS = [
   ['store', 'Zero hardware', 'Runs on the phone or tablet you already have. A printer is optional, not required.'],
@@ -2393,8 +2476,8 @@ const WHO = [
     sees: ['That restaurant’s menu, already set to their table', 'Their cart, live order status and the bill', 'Pay by UPI from the table, and My orders on that phone'],
     not: 'Never sees other diners’ orders or the restaurant’s sales.', cta: 'Scan Table 5' },
   { id: 'owner', icon: 'store', title: 'Restaurant owner & staff', who: 'The people running one restaurant', gets: 'Signs in with a mobile number and a one-time code, on any phone, tablet or laptop.',
-    sees: ['Live orders for their own restaurant', 'Menu, prices, sold-out and table QR codes', 'Analytics for their restaurant, based on their plan'],
-    not: 'Only ever sees their own restaurant.', cta: 'Open the dashboard' },
+    sees: ['Live orders for their own restaurant', 'Menu, prices, sold-out and table QR codes', 'Analytics, expenses and profit, based on their plan'],
+    not: 'Only ever sees their own restaurant. Waiters see their own tables, cooks their own station, investors only their own share.', cta: 'Open the dashboard' },
   { id: 'team', icon: 'shield', title: 'Zestro team', who: 'Us. Staff only', gets: 'Staff accounts with two-step sign-in, on a separate admin address.',
     sees: ['Every restaurant, new sign-ups and approvals', 'Plans, billing and Zestro revenue', 'Any restaurant’s analytics board, with every section open'],
     not: 'Restaurants and diners can never open this view.', cta: 'Open the team view' },
@@ -2408,6 +2491,7 @@ const WHO_ROWS = [
   ['Edit menu, prices, sold out', ['n', 'n', 'y', 'n']],
   ['Table QR codes', ['n', 'n', 'y', 'n']],
   ['Analytics', ['n', 'n', 'Own, by plan', 'Every restaurant']],
+  ['Profit and partners’ shares', ['n', 'n', 'Owner; investors their own share', 'n']],
   ['Plan and billing', ['n', 'n', 'Own', 'All restaurants']],
   ['Approve new restaurants', ['n', 'n', 'n', 'y']],
   ['Zestro revenue', ['n', 'n', 'n', 'y']],
@@ -2459,36 +2543,38 @@ function WhoSees({ s, d }) {
 
 
 /* ---------- Restaurant log in: owner by mobile and OTP, staff by PIN ---------- */
-const STAFF_HOME = { Owner: 'orders', Manager: 'orders', Cashier: 'billing', Kitchen: 'orders', Waiter: 'floor' };
+const STAFF_HOME = { Owner: 'orders', Manager: 'orders', Cashier: 'billing', Kitchen: 'orders', Waiter: 'floor', Investor: 'profit' };
 /* What each staff role sees. The owner sees everything. */
-const TAB_LABEL = { orders: 'Orders', billing: 'Billing', floor: 'Tables', menu: 'Menu', inventory: 'Inventory', customers: 'Customers & khata', tables: 'QR codes', reports: 'Reports', settings: 'Plan & settings' };
+const TAB_LABEL = { orders: 'Orders', billing: 'Billing', floor: 'Tables', menu: 'Menu', inventory: 'Inventory', customers: 'Customers & khata', expenses: 'Expenses', profit: 'Profit & partners', tables: 'QR codes', reports: 'Reports', settings: 'Plan & settings' };
 const ROLE_ACCESS = {
   Owner: null,
-  Manager: ['orders', 'billing', 'floor', 'menu', 'inventory', 'customers', 'tables', 'reports'],
-  Cashier: ['billing', 'floor', 'orders', 'customers'],
+  Manager: ['orders', 'billing', 'floor', 'menu', 'inventory', 'customers', 'expenses', 'tables', 'reports'],
+  Cashier: ['billing', 'floor', 'orders', 'customers', 'expenses'],
   Waiter: ['floor', 'orders', 'menu'],
   Kitchen: ['orders', 'menu'],
+  Investor: ['profit'],
 };
 const ROLE_NOTE = {
-  Owner: 'Everything, including the plan, staff and reports.',
-  Manager: 'Everything except the plan, payments to Zestro and staff logins.',
-  Cashier: 'Billing, tables, orders and khata. Takes payments and closes the day.',
-  Waiter: 'Tables, orders and the menu. Takes orders, cannot take payments or change prices.',
-  Kitchen: 'The kitchen screen and the sold-out switch. No bills, no prices.',
+  Owner: 'Everything, including the plan, staff, profit and partners.',
+  Manager: 'Everything except the plan, staff logins, profit and partners. Can add and delete expenses.',
+  Cashier: 'Billing, tables, orders, khata and adding expenses. Takes payments and closes the day.',
+  Waiter: 'Their own tables, orders and the menu. Takes orders, cannot take payments or change prices.',
+  Kitchen: 'Their station’s kitchen screen and the sold-out switch. No bills, no prices.',
+  Investor: 'Only their own share of the profit, payouts and statements. No bills, staff or menu.',
 };
 const roleOf = (s) => (s.me2 && s.me2.role) || 'Owner';
-const canPay = (s) => !['Waiter', 'Kitchen'].includes(roleOf(s));
+const canPay = (s) => !['Waiter', 'Kitchen', 'Investor'].includes(roleOf(s));
 function LoginSheet({ s, d }) {
   const [who, setWho] = useState('owner');
   const [phone, setPhone] = useState('98250 12345');
   const [step, setStep] = useState(1);
   const [otp, setOtp] = useState('');
-  const staff = (s.staff || STAFF0).filter((x) => x.pin);
+  const staff = [...(s.staff || STAFF0).filter((x) => x.pin), ...partnersOf(s).filter((p) => p.pin).map((p) => ({ id: p.id, name: p.name, role: 'Investor', pin: p.pin }))];
   const [sid, setSid] = useState(staff[0] ? staff[0].id : '');
   const [pin, setPin] = useState('');
   const [err, setErr] = useState('');
   const close = () => d({ type: 'sheet', sheet: null });
-  const enter = (name, role) => { d({ type: 'login', name, role, tab: STAFF_HOME[role] || 'orders' }); toast('Signed in as ' + name + ', ' + role.toLowerCase(), 'ok'); };
+  const enter = (name, role, id) => { d({ type: 'login', name, role, id, tab: STAFF_HOME[role] || 'orders' }); toast('Signed in as ' + name + ', ' + role.toLowerCase(), 'ok'); };
   const ownerGo = () => {
     if (step === 1) { if (phone.replace(/\D/g, '').length !== 10) { setErr('Enter a 10-digit mobile number.'); return; } setErr(''); setStep(2); setOtp(''); return; }
     if (!/^\d{4}$/.test(otp)) { setErr('Enter the 4-digit code. In this demo any 4 digits work.'); return; }
@@ -2498,7 +2584,7 @@ function LoginSheet({ s, d }) {
     const x = staff.find((y) => y.id === sid);
     if (!x) return;
     if (pin !== x.pin) { setErr('That PIN does not match. In this demo ' + x.name + '’s PIN is ' + x.pin + '.'); return; }
-    enter(x.name, x.role);
+    enter(x.name, x.role, x.id);
   };
   return html`<${Modal} id="login-sheet" onClose=${close}>
     <div className="modal-h"><h2>${I('store', 22)}Restaurant log in</h2><button className="btn sm icon" onClick=${close} aria-label="Close">${I('x')}</button></div>
@@ -2509,8 +2595,8 @@ function LoginSheet({ s, d }) {
       ${err ? html`<p className="notice">${err}</p>` : null}
       <button className="btn primary lg block" id="lg-go" onClick=${ownerGo}>${step === 1 ? 'Send code' : 'Log in'}</button>`
     : html`
-      <p className="small muted">Spice Garden staff. Each person sees only their part of the app.</p>
-      <div className="staff-pick" role="radiogroup" aria-label="Who are you">${staff.map((x) => html`<button key=${x.id} role="radio" aria-checked=${sid === x.id} onClick=${() => { setSid(x.id); setPin(''); setErr(''); }}><b>${x.name}</b><small>${x.role}</small></button>`)}</div>
+      <p className="small muted">Spice Garden staff and partners. Each person sees only their part of the app.</p>
+      <div className="staff-pick" role="radiogroup" aria-label="Who are you">${staff.map((x) => html`<button key=${x.id} role="radio" aria-checked=${sid === x.id} onClick=${() => { setSid(x.id); setPin(''); setErr(''); }}><b>${x.name}</b><small>${x.role}${x.role === 'Waiter' ? ' · ' + rangeLabel(x.tables) : x.role === 'Kitchen' && x.station ? ' · ' + stationName(s, x.station) : ''}</small></button>`)}</div>
       ${staff.find((x) => x.id === sid) ? html`<p className="small role-sees"><b>${staff.find((x) => x.id === sid).role} sees:</b> ${(ROLE_ACCESS[staff.find((x) => x.id === sid).role] || Object.keys(TAB_LABEL)).map((k) => TAB_LABEL[k]).join(', ')}</p>` : null}
       <label className="field">4-digit PIN<input id="lg-pin" className="otp" inputMode="numeric" maxLength="4" placeholder="• • • •" value=${pin} onChange=${(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))} /></label>
       ${err ? html`<p className="notice">${err}</p>` : null}
@@ -2539,33 +2625,47 @@ function Diner({ s, d }) {
 const REQ_TEXT = { waiter: 'is calling a waiter', bill: 'asked for the bill', counter: 'will pay at the counter', paid: 'paid by UPI' };
 function OwnerOrders({ s, d }) {
   const r = R(s, OWNER_RID);
-  const mine = s.orders.filter((o) => o.rid === OWNER_RID);
-  const col = (st) => mine.filter((o) => o.status === st).sort((a, b) => a.t - b.t);
+  const mt = myTables(s), stn = myStation(s), [scope, setScope] = useState(mt ? 'mine' : 'all');
+  let mine = s.orders.filter((o) => o.rid === OWNER_RID);
+  if (mt && scope === 'mine') mine = mine.filter((o) => o.type !== 'takeaway' && mt.includes(o.table));
+  if (stn) mine = mine.filter((o) => o.items.some((i) => stationOfItem(s, i) === stn));
+  const stageOf = (o) => (stn && o.status === 'preparing' && (o.sr || {})[stn] ? 'ready' : o.status);
+  const col = (st) => mine.filter((o) => stageOf(o) === st).sort((a, b) => a.t - b.t);
   const cols = [['new', 'New', 'sun'], ['preparing', 'Preparing', 'info'], ['ready', 'Ready to serve', 'ok']];
   const nextLbl = { new: 'Accept', preparing: 'Mark ready', ready: 'Served' };
-  const alerts = s.alerts.filter((a) => a.rid === OWNER_RID);
+  const alerts = s.alerts.filter((a) => a.rid === OWNER_RID && !stn && (!mt || scope === 'all' || mt.includes(a.table) || !waiterOf(s, a.table)));
+  const act = (o) => {
+    if (stn) {
+      if (o.status === 'new') return ['Accept', () => { d({ type: 'advance', id: o.id }); toast('Accepted. Every station gets its part.'); }];
+      if (stageOf(o) === 'preparing') return ['Mark ready', () => { d({ type: 'stationReady', id: o.id, st: stn }); toast(stationName(s, stn) + ' part of #' + o.no + ' is ready'); }];
+      return null;
+    }
+    return [nextLbl[o.status], () => { d({ type: 'advance', id: o.id }); toast(o.status === 'new' ? 'Accepted. Ticket sent to the kitchen.' : o.status === 'preparing' ? 'Order #' + o.no + ' is ready' : 'Order #' + o.no + ' served'); }];
+  };
   const waiting = mine.filter((o) => o.status === 'served' && o.pay !== 'paid');
   const done = mine.filter((o) => (o.status === 'served' && o.pay === 'paid') || o.status === 'cancelled').sort((a, b) => b.no - a.no);
-  const card = (o) => html`<article key=${o.id} id=${'oc-' + o.id} className=${'oc' + (o.status === 'new' ? ' new' : '') + (s.fresh === o.id ? ' fresh' : '')}>
+  const card = (o) => { const items = stn ? o.items.filter((i) => stationOfItem(s, i) === stn) : o.items, rest = o.items.length - items.length, w = o.type !== 'takeaway' ? waiterOf(s, o.table) : null, a = act(o); return html`<article key=${o.id} id=${'oc-' + o.id} className=${'oc' + (o.status === 'new' ? ' new' : '') + (s.fresh === o.id ? ' fresh' : '')}>
     <div className="oc-h"><span className="tno">${tlabel(o)}</span><b>#${o.no}</b><small>${ago(o.t)}</small></div>
-    <span className="oc-who">${o.name}${o.mine || o.qr ? ' · table QR' : ''}${o.ver ? html` <span className="pill ok vbadge" title=${'Verified ' + maskPhone(o.phone)}>${I('check', 11)}Verified</span>` : o.mine ? html` <span className="pill sun vbadge">Not verified</span>` : null}</span>
-    <ul>${o.items.map((i, k) => html`<li key=${k}><b>${i.q}×</b><span><${VegMark} veg=${i.veg} /> ${i.n}${i.opt ? html`<small>${i.opt}</small>` : null}</span></li>`)}</ul>
+    <span className="oc-who">${o.name}${o.mine || o.qr ? ' · table QR' : ''}${w && !stn ? html` · <span className="oc-wt">${I('user', 11)}${w.name}</span>` : null}${o.ver ? html` <span className="pill ok vbadge" title=${'Verified ' + maskPhone(o.phone)}>${I('check', 11)}Verified</span>` : o.mine ? html` <span className="pill sun vbadge">Not verified</span>` : null}</span>
+    <ul>${items.map((i, k) => html`<li key=${k}><b>${i.q}×</b><span><${VegMark} veg=${i.veg} /> ${i.n}${i.opt ? html`<small>${i.opt}</small>` : null}</span></li>`)}</ul>
+    ${rest ? html`<small className="muted oc-rest">+ ${rest} more for ${[...new Set(o.items.filter((i) => stationOfItem(s, i) !== stn).map((i) => stationName(s, stationOfItem(s, i))))].join(', ')}</small>` : null}
     ${o.note ? html`<div className="oc-note">Note: ${o.note}</div>` : null}
+    ${stn ? null : html`<${StationProgress} s=${s} o=${o} />`}
     <div className="oc-f"><strong>${inr(due(o, r))}</strong><div className="oc-btns">
       <button className="btn sm icon" onClick=${() => d({ type: 'sheet', sheet: { type: 'kot', id: o.id } })} aria-label="Kitchen ticket" title="Kitchen ticket">${I('print', 16)}</button>
-      <button className=${'btn sm' + (o.status === 'new' ? ' primary' : '')} onClick=${() => { d({ type: 'advance', id: o.id }); toast(o.status === 'new' ? 'Accepted. Ticket sent to the kitchen.' : o.status === 'preparing' ? 'Order #' + o.no + ' is ready' : 'Order #' + o.no + ' served'); }}>${nextLbl[o.status]}</button>
+      ${a ? html`<button className=${'btn sm' + (o.status === 'new' ? ' primary' : '')} onClick=${a[1]}>${a[0]}</button>` : html`<span className="small muted">${o.status === 'ready' ? 'Waiter serves' : 'Waiting for ' + orderStations(s, o).filter((x) => !(o.sr || {})[x]).map((x) => stationName(s, x)).join(', ')}</span>`}
     </div></div>
     ${o.status === 'new' ? html`<button className="link danger small" style=${{ justifySelf: 'start' }} onClick=${() => d({ type: 'sheet', sheet: { type: 'reject', id: o.id } })}>Reject order</button>` : null}
-  </article>`;
+  </article>`; };
   return html`
-    <div className="ph"><div><h1>Live orders</h1><p className="muted">QR, waiter and counter orders in one kitchen queue. This screen works as the kitchen screen on any phone or tablet.</p></div>
-      <div className="row"><button className="btn" id="token-btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'tokens' } })}>${I('grid', 16)}Token board</button>${roleOf(s) === 'Kitchen' ? null : html`<button className="btn primary" id="take-order" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder' } })}>${I('plus', 17)}Take an order</button>`}<button className=${'btn' + (s.sound ? ' on' : '')} onClick=${() => { d({ type: 'set', k: 'sound', v: !s.sound }); if (!s.sound) chime(); }} aria-pressed=${s.sound}>${I(s.sound ? 'sound' : 'mute')}${s.sound ? 'Sound on' : 'Sound off'}</button></div></div>
-    ${alerts.length ? html`<div className="reqs">${alerts.map((a) => html`<div key=${a.id} className=${'req' + (a.kind === 'paid' ? ' pay' : '')}>${I(a.kind === 'paid' ? 'check' : 'bell')}<span><b>Table ${a.table}</b> ${REQ_TEXT[a.kind]}${a.amount ? ' · ' + inr(a.amount) : ''}</span><small>${ago(a.t)}</small><button className="btn sm" onClick=${() => d({ type: 'alertDone', id: a.id })}>Done</button></div>`)}</div>` : null}
+    <div className="ph"><div><h1>${stn ? 'Kitchen · ' + stationName(s, stn) : 'Live orders'}</h1><p className="muted">${stn ? 'Only ' + stationName(s, stn) + ' dishes: ' + ((stationsOf(s).find((x) => x.id === stn) || { cats: [] }).cats.join(', ') || 'none yet') + '. Mark your part ready; the order turns Ready when every station is done.' : mt && scope === 'mine' ? 'Orders and calls from your tables, ' + rangeLabel(mt) + '.' : 'QR, waiter and counter orders in one kitchen queue. This screen works as the kitchen screen on any phone or tablet.'}</p></div>
+      <div className="row">${mt ? html`<div className="seg" role="group" aria-label="Which orders"><button aria-pressed=${scope === 'mine'} onClick=${() => setScope('mine')}>My tables</button><button aria-pressed=${scope === 'all'} onClick=${() => setScope('all')}>All</button></div>` : null}<button className="btn" id="token-btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'tokens' } })}>${I('grid', 16)}Token board</button>${roleOf(s) === 'Kitchen' ? null : html`<button className="btn primary" id="take-order" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder' } })}>${I('plus', 17)}Take an order</button>`}<button className=${'btn' + (s.sound ? ' on' : '')} onClick=${() => { d({ type: 'set', k: 'sound', v: !s.sound }); if (!s.sound) chime(); }} aria-pressed=${s.sound}>${I(s.sound ? 'sound' : 'mute')}${s.sound ? 'Sound on' : 'Sound off'}</button></div></div>
+    ${alerts.length ? html`<div className="reqs">${alerts.map((a) => html`<div key=${a.id} className=${'req' + (a.kind === 'paid' ? ' pay' : '')}>${I(a.kind === 'paid' ? 'check' : 'bell')}<span><b>Table ${a.table}</b> ${REQ_TEXT[a.kind]}${a.amount ? ' · ' + inr(a.amount) : ''}${a.kind === 'waiter' ? (waiterOf(s, a.table) ? ' → ' + waiterOf(s, a.table).name : ' → every waiter') : ''}</span><small>${ago(a.t)}</small><button className="btn sm" onClick=${() => d({ type: 'alertDone', id: a.id })}>Done</button></div>`)}</div>` : null}
     <div className="seg full colswitch" role="group" aria-label="Order stage">${cols.map(([k, l]) => html`<button key=${k} aria-pressed=${s.ownerCol === k} onClick=${() => d({ type: 'set', k: 'ownerCol', v: k })}>${l.split(' ')[0]}${col(k).length ? html`<span className="badge">${col(k).length}</span>` : null}</button>`)}</div>
     <div className="kanban" id="board" data-col=${s.ownerCol}>${cols.map(([k, l, tone]) => html`<section key=${k} className="col" data-stage=${k}><div className="col-h"><i className=${'dot ' + tone}></i>${l}<span>${col(k).length}</span></div>
       ${col(k).length ? col(k).map(card) : html`<div className="col-empty">${k === 'new' ? 'No new orders. Place one from the diner view.' : 'Nothing here.'}</div>`}</section>`)}</div>
     ${waiting.length && roleOf(s) !== 'Kitchen' ? html`<section className="card"><h3>Waiting for payment</h3><div>${waiting.map((o) => html`<div key=${o.id} className="payrow"><span className="tno">${tlabel(o)}</span><span><b>#${o.no}</b> · ${o.name}<br /><small className="muted">${o.method === 'counter' ? 'Paying at the counter' : 'Not paid yet'}</small></span><strong className="num">${inr(due(o, r))}</strong>
-      ${canPay(s) ? html`<div className="row">${['cash', 'upi', 'card'].map((m) => html`<button key=${m} className="btn sm" onClick=${() => { d({ type: 'markPaid', id: o.id, method: m }); toast('Order #' + o.no + ' marked paid'); }}>${m === 'upi' ? 'UPI' : m[0].toUpperCase() + m.slice(1)}</button>`)}</div>` : html`<span className="small muted">Cashier settles</span>`}</div>`)}</div></section>` : null}
+      ${canPay(s) ? html`<div className="row">${['cash', 'upi', 'card'].map((m) => html`<button key=${m} className="btn sm" onClick=${() => { d({ type: 'markPaid', id: o.id, method: m, by: meName(s) }); toast('Order #' + o.no + ' marked paid'); }}>${m === 'upi' ? 'UPI' : m[0].toUpperCase() + m.slice(1)}</button>`)}</div>` : html`<span className="small muted">Cashier settles</span>`}</div>`)}</div></section>` : null}
     ${done.length ? html`<section className="card"><h3>Done today <span className="muted small">${done.length} orders</span></h3><div className="donechips">${done.map((o) => html`<span key=${o.id} className="donechip"><b>#${o.no}</b>${tlabel(o)} · ${inr(due(o, r))} ${o.status === 'cancelled' ? html`<span className="pill bad">Rejected</span>` : html`<span className="pill ok">Paid</span>`}</span>`)}</div></section>` : null}
   `;
 }
@@ -2879,7 +2979,7 @@ function downloadCsv(S) {
 /* ---------- Waiter mode: staff take an order for a table (diners without a phone) ---------- */
 function StaffOrderSheet({ s, d }) {
   const r = R(s, OWNER_RID), max = r.tables;
-  const [t, setT] = useState(s.sheet.table || 3);
+  const [t, setT] = useState(s.sheet.table || (myTables(s) || [3])[0]);
   const [q, setQ] = useState({});
   const [note, setNote] = useState('');
   const menu = s.menus[OWNER_RID].filter((m) => m.stock);
@@ -2896,7 +2996,7 @@ function StaffOrderSheet({ s, d }) {
     <div className="so-list">${cats.map((c) => html`<div key=${c} className="so-cat"><b className="small muted">${c}</b>${menu.filter((m) => m.cat === c).map((m) => html`<div key=${m.id} className="so-row"><${VegMark} veg=${m.veg} /><span className="grow">${m.name}${unit(m)[0] ? html` <small className="muted">${unit(m)[0]}</small>` : null}</span><span className="num small">${inr(unit(m)[1])}</span>
       ${q[m.id] ? html`<div className="stepper sm"><button onClick=${() => bump(m.id, -1)} aria-label=${'One less ' + m.name}>−</button><span>${q[m.id]}</span><button onClick=${() => bump(m.id, 1)} aria-label=${'One more ' + m.name}>+</button></div>` : html`<button className="btn sm" onClick=${() => bump(m.id, 1)} aria-label=${'Add ' + m.name}>Add</button>`}</div>`)}</div>`)}</div>
     <label className="field">Note for the kitchen<input id="so-note" value=${note} placeholder="e.g. less spicy" onChange=${(e) => setNote(e.target.value)} /></label>
-    <button className="btn primary lg block" id="so-send" disabled=${!count} onClick=${() => { d({ type: 'staffOrder', table: t, items: lines, note }); toast('Order for Table ' + t + ' sent to the kitchen', 'ok'); }}>Send to kitchen${count ? ' · ' + count + ' item' + (count > 1 ? 's' : '') + ' · ' + inr(total) : ''}</button>
+    <button className="btn primary lg block" id="so-send" disabled=${!count} onClick=${() => { d({ type: 'staffOrder', table: t, items: lines, note, by: meName(s) }); toast('Order for Table ' + t + ' sent to the kitchen', 'ok'); }}>Send to kitchen${count ? ' · ' + count + ' item' + (count > 1 ? 's' : '') + ' · ' + inr(total) : ''}</button>
   <//>`;
 }
 function downloadMenuCsv(s) {
@@ -3043,6 +3143,8 @@ function Analytics({ s, d, rid, team }) {
 
     <h2 className="sub-h">Dish profit ${!team && !can(plan, 'pro') ? html`<span className="pill">Pro</span>` : null}</h2>
     <${Gate} need="pro" plan=${plan} d=${d} team=${team} title="Dish profit after costs and overheads is on Pro"><${DishProfit} s=${s} d=${d} rid=${rid} /><//>
+    ${rid === OWNER_RID ? html`<h2 className="sub-h">Staff and kitchen stations ${!team && !can(plan, 'pro') ? html`<span className="pill">Pro</span>` : null}</h2>
+    <${Gate} need="pro" plan=${plan} d=${d} team=${team} title="Waiter, cashier and station reports are on Pro"><${StaffReport} s=${s} S=${S} /><//>` : null}
   </div>`;
 }
 function OwnerReports({ s, d }) { return html`<${Analytics} s=${s} d=${d} rid=${OWNER_RID} />`; }
@@ -3102,7 +3204,7 @@ function OwnerSettings({ s, d }) {
       ${(r.billing || 'y') !== 'y' ? html`<button className="btn sun" onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { billing: 'y' } }); d({ type: 'set', k: 'billing', v: 'y' }); toast('Switched to 12 months · save ' + inr(planCost(r.plan, 'y').save)); }}>Pay for 12 months, save ${inr(planCost(r.plan, 'y').save)}</button>` : null}</section>
     <${BillingSwitch} s=${s} d=${d} />
     <div id="plans"><${PlanCards} current=${r.plan} currentBilling=${r.billing} billing=${s.billing || 'y'} onPick=${(k) => { const b = BILLING[s.billing] ? s.billing : 'y'; d({ type: 'rest', rid: OWNER_RID, patch: { plan: k, billing: b } }); toast(r.name + ' is on ' + PLANS[k].name + ', ' + BILLING[b].per); }} label=${(k) => (RANK[k] > RANK[r.plan] ? 'Upgrade to ' : 'Switch to ') + PLANS[k].name} /></div>
-    <div className="notice leaf"><b>On ${PLANS[r.plan].name} you get:</b> ${r.plan === 'pro' ? 'billing, tables, table QR ordering, kitchen screen, khata and reports, plus inventory, loyalty, WhatsApp bills, Google reviews and dish profit.' : 'billing with GST, tables and takeaway, table QR ordering, kitchen screen, khata and sales reports with Excel export.'}</div>
+    <div className="notice leaf"><b>On ${PLANS[r.plan].name} you get:</b> ${r.plan === 'pro' ? 'billing, tables, table QR ordering, kitchen screen, khata and reports, plus inventory, profit and partners, loyalty, WhatsApp bills, Google reviews and dish profit.' : 'billing with GST, tables and takeaway, table QR ordering, kitchen screen, khata and sales reports with Excel export.'}</div>
     <section className="card" id="qr-safety"><div className="card-h"><h3>${I('shield', 18)} Table QR safety</h3></div>
       <label className="row" style=${{ gap: 10, fontWeight: 650, flexWrap: 'nowrap' }}><button className="switch" role="switch" id="qr-otp" aria-checked=${r.qrOtp !== false} onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { qrOtp: r.qrOtp === false } }); toast(r.qrOtp === false ? 'Diners verify their mobile on the first order' : 'Mobile code turned off'); }} aria-label="Ask for a mobile code on the first order"><i></i></button>Ask for a mobile code on each table’s first order</label>
       <ul className="small muted qs-list">
@@ -3114,6 +3216,7 @@ function OwnerSettings({ s, d }) {
     </section>
     <${PrinterSettings} s=${s} d=${d} />
     <${StaffSettings} s=${s} d=${d} />
+    <${StationSettings} s=${s} d=${d} />
     ${(() => { const used = 182 + s.orders.filter((o) => o.rid === OWNER_RID && o.pay === 'paid' && (o.mine || o.counter || o.staff)).length; const pct = Math.min(100, Math.round((used / WA.included) * 100)); return can(r.plan, 'pro') ? html`<section className="card" id="wa-usage"><div className="card-h"><h3>WhatsApp this month</h3><span className="small muted">${used} of ${WA.included} included messages used</span></div><div className="meter" role="img" aria-label=${used + ' of ' + WA.included + ' WhatsApp messages used'}><i style=${{ width: pct + '%' }}></i></div><p className="small muted">Bills, offers and your daily summary. After ${WA.included}, each message costs ₹${WA.extra.toFixed(2)}, added to your next payment. Resets on the 1st.</p></section>` : html`<section className="card" id="wa-usage"><div className="card-h"><h3>WhatsApp bills</h3><span className="pill">Pro</span></div><p className="small muted">On Pro, diners get bills on WhatsApp and you get a daily summary: ${WA.included} messages a month included.</p></section>`; })()}
     <section className="card help-card"><div className="grow"><h3>Help when you need it</h3><p className="small muted">WhatsApp support in Hindi, Gujarati and English on every plan${r.plan === 'pro' ? ', with priority replies from 9 am to 11 pm' : ''}. Export your menu and every bill whenever you like.</p></div>
       <div className="row"><button className="btn" onClick=${() => { downloadMenuCsv(s); toast('Menu downloaded as CSV'); }}>${I('download', 16)}Export menu</button><button className="btn" onClick=${() => toast('In the live product this opens WhatsApp support')}>${I('user', 16)}Chat with support</button></div></section>
@@ -3204,7 +3307,7 @@ function OwnerBilling({ s, d }) {
     if (!count) return;
     if (method === 'khata' && mode === 'pay' && !cust.phone.trim()) { toast('Add the customer’s mobile number to put this on khata'); return; }
     const cp = Math.min(B.total, Math.max(0, Number(cashPart) || 0));
-    d({ type: 'counterBill', mode, otype: type, table: type === 'dine' ? table : 0, items: lines.map(({ key, ...l }) => l), disc: B.disc, discWhy: disc.why, name: cust.name.trim(), phone: cust.phone.trim(), method, split: method === 'split' ? { cash: cp, upi: B.total - cp } : null });
+    d({ type: 'counterBill', by: meName(s), mode, otype: type, table: type === 'dine' ? table : 0, items: lines.map(({ key, ...l }) => l), disc: B.disc, discWhy: disc.why, name: cust.name.trim(), phone: cust.phone.trim(), method, split: method === 'split' ? { cash: cp, upi: B.total - cp } : null });
     toast(mode === 'kot' ? 'KOT sent to the kitchen · Table ' + table + ' bill is running' : 'Bill saved · ' + inr(B.total) + ' by ' + METHOD[method] + (s.offline ? ' · saved offline' : ''), 'ok');
     reset();
   };
@@ -3320,15 +3423,27 @@ function OwnerFloor({ s, d }) {
   });
   const parcels = open.filter((o) => o.type === 'takeaway');
   const busy = tabs.filter((x) => x.os.length).length;
+  const mt = myTables(s), [view, setView] = useState(mt ? 'mine' : 'all');
+  const shown = mt && view === 'mine' ? tabs.filter((x) => mt.includes(x.t)) : tabs;
+  const waiters = staffOf(s).filter((x) => x.role === 'Waiter' && (x.tables || []).length);
+  const day0 = new Date(); day0.setHours(0, 0, 0, 0);
+  const myDay = mt ? s.orders.filter((o) => o.rid === OWNER_RID && o.type !== 'takeaway' && mt.includes(o.table) && o.status !== 'cancelled' && o.t >= day0.getTime()) : [];
+  const myCalls = mt ? s.alerts.filter((a) => a.rid === OWNER_RID && a.kind !== 'paid' && (mt.includes(a.table) || !waiterOf(s, a.table))) : [];
   return html`<div id="floor" style=${{ display: 'grid', gap: 16 }}>
-    <div className="ph"><div><h1>Tables</h1><p className="muted">${busy} of ${r.tables} tables busy. QR, waiter and counter orders add up into one running bill per table.</p></div>
-      <div className="row">${canPay(s) ? html`<button className="btn primary" onClick=${() => d({ type: 'set', k: 'ownerTab', v: 'billing' })}>${I('plus', 16)}New bill</button>` : html`<button className="btn primary" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder' } })}>${I('plus', 16)}Take an order</button>`}</div></div>
-    <div className="floor">${tabs.map((x) => html`<button key=${x.t} className=${'ft ' + x.st[0]} onClick=${() => d({ type: 'sheet', sheet: { type: 'tbill', table: x.t } })} aria-label=${'Table ' + x.t + ', ' + x.st[1]}>
+    <div className="ph"><div><h1>Tables</h1><p className="muted">${mt && view === 'mine' ? shown.filter((x) => x.os.length).length + ' of your ' + mt.length + ' tables busy (' + rangeLabel(mt) + ').' : busy + ' of ' + r.tables + ' tables busy.'} QR, waiter and counter orders add up into one running bill per table.</p></div>
+      <div className="row">${mt ? html`<div className="seg" role="group" aria-label="Which tables"><button aria-pressed=${view === 'mine'} onClick=${() => setView('mine')}>My tables</button><button aria-pressed=${view === 'all'} onClick=${() => setView('all')}>All tables</button></div>` : null}${canPay(s) ? html`<button className="btn primary" onClick=${() => d({ type: 'set', k: 'ownerTab', v: 'billing' })}>${I('plus', 16)}New bill</button>` : html`<button className="btn primary" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder' } })}>${I('plus', 16)}Take an order</button>`}</div></div>
+    ${mt ? html`<div className="tiles my-day">
+      <div className="tile"><span>Your orders today</span><b>${myDay.length}</b><small className="m">on ${rangeLabel(mt)}</small></div>
+      <div className="tile"><span>Your tables’ sales</span><b>${short(myDay.reduce((t, o) => t + due(o, r), 0))}</b><small className="m">today, with GST</small></div>
+      <div className="tile"><span>Calling you</span><b className=${myCalls.length ? 'neg' : ''}>${myCalls.length}</b><small className=${myCalls.length ? 'bad' : 'm'}>${myCalls.length ? myCalls.map((a) => 'T' + a.table).join(', ') : 'Nobody waiting'}</small></div>
+      <div className="tile"><span>Ready to serve</span><b>${open.filter((o) => o.status === 'ready' && mt.includes(o.table)).length}</b><small className="m">pick up from the kitchen</small></div></div>` : null}
+    <div className="floor">${shown.map((x) => { const w = waiterOf(s, x.t); return html`<button key=${x.t} className=${'ft ' + x.st[0] + (mt && !mt.includes(x.t) ? ' other' : '')} onClick=${() => d({ type: 'sheet', sheet: { type: 'tbill', table: x.t } })} aria-label=${'Table ' + x.t + ', ' + x.st[1]}>
       <span className="ft-h"><b>T${x.t}</b>${x.alert ? html`<span className="ft-bell">${I('bell', 14)}</span>` : null}</span>
       <span className="ft-s">${x.st[1]}</span>
       ${x.os.length ? html`<span className="ft-t num">${inr(x.total)}</span><small>${x.os.length} order${x.os.length > 1 ? 's' : ''} · ${ago(x.since)}</small>` : html`<small>Tap to start</small>`}
-    </button>`)}</div>
-    <div className="floor-key small muted"><span><i className="k free"></i>Free</span><span><i className="k cook"></i>Food on the way</span><span><i className="k eat"></i>Eating</span><span><i className="k bill"></i>Wants the bill</span></div>
+      ${!mt || view === 'all' ? html`<span className="ft-w">${I('user', 12)}${w ? w.name : 'No waiter'}</span>` : null}
+    </button>`; })}</div>
+    <div className="floor-key small muted"><span><i className="k free"></i>Free</span><span><i className="k cook"></i>Food on the way</span><span><i className="k eat"></i>Eating</span><span><i className="k bill"></i>Wants the bill</span>${!mt && waiters.length ? html`<span className="sections">Sections: ${waiters.map((w) => w.name + ' ' + rangeLabel(w.tables)).join(' · ')}${roleOf(s) === 'Owner' ? html` · <button className="link small" onClick=${() => { d({ type: 'set', k: 'ownerTab', v: 'settings' }); setTimeout(() => { const el = document.getElementById('staff'); if (el) el.scrollIntoView({ block: 'start' }); }, 60); }}>Change</button>` : null}</span>` : null}</div>
     <section className="card"><div className="card-h"><h3>Takeaway and parcels</h3><span className="small muted">${parcels.length ? parcels.length + ' waiting' : 'None waiting'}</span></div>
       ${parcels.length ? parcels.map((o) => html`<div key=${o.id} className="payrow"><span className="tno">Parcel</span><span><b>#${o.no}</b> · ${o.name}<br /><small className="muted">${STATUS[o.status] === 'Served' ? 'Collected' : o.status === 'ready' ? 'Ready for pickup' : 'In the kitchen'}</small></span><strong className="num">${inr(due(o, r))}</strong><button className="btn sm" onClick=${() => d({ type: 'sheet', sheet: { type: 'bill', id: o.id } })}>${I('receipt', 15)}Bill</button></div>`) : html`<p className="small muted">Takeaway bills from the Billing screen show here until they are paid.</p>`}</section>
   </div>`;
@@ -3356,7 +3471,7 @@ function TableBillSheet({ s, d }) {
       ${mode ? html`<div className="rows-line two-col"><select className="inp" id="tb-to" aria-label=${mode === 'move' ? 'Move to table' : 'Merge with table'} value=${to} onChange=${(e) => setTo(e.target.value)}><option value="">${mode === 'move' ? 'Move to a free table…' : 'Bring in the bill of table…'}</option>${(mode === 'move' ? free : busy).map((x) => html`<option key=${x} value=${x}>Table ${x}</option>`)}</select>
         <button className="btn primary" disabled=${!to} onClick=${() => { if (mode === 'move') { d({ type: 'moveTable', from: t, to: Number(to) }); toast('Table ' + t + ' moved to Table ' + to); } else { d({ type: 'moveTable', from: Number(to), to: t }); toast('Table ' + to + ' merged into Table ' + t); setMode(null); } }}>${mode === 'move' ? 'Move' : 'Merge'}</button></div>` : null}
       ${canPay(s) ? html`<b className="small">Settle the bill</b>
-      <div className="chips paym">${['cash', 'upi', 'card', 'khata'].map((k) => html`<button key=${k} className="chip" onClick=${() => { d({ type: 'settleTable', table: t, method: k }); toast('Table ' + t + ' settled · ' + inr(B.total) + ' by ' + METHOD[k], 'ok'); }}>${METHOD[k]}</button>`)}</div>` : html`<p className="small muted">The cashier settles the bill. Print it and take it to the table.</p>`}`}
+      <div className="chips paym">${['cash', 'upi', 'card', 'khata'].map((k) => html`<button key=${k} className="chip" onClick=${() => { d({ type: 'settleTable', table: t, method: k, by: meName(s) }); toast('Table ' + t + ' settled · ' + inr(B.total) + ' by ' + METHOD[k], 'ok'); }}>${METHOD[k]}</button>`)}</div>` : html`<p className="small muted">The cashier settles the bill. Print it and take it to the table.</p>`}`}
   <//>`;
 }
 
@@ -3485,20 +3600,344 @@ function PrinterSettings({ s, d }) {
       <div className="row"><button className="btn" onClick=${() => toast('Test page sent to the ' + p.width + ' mm printer (demo)')}>Print a test page</button><span className="small muted">${p.type === 'bt' ? 'Pair the printer in your phone’s Bluetooth settings first.' : p.type === 'usb' ? 'Plug the printer into the tablet or laptop.' : 'The printer and this device must be on the same Wi-Fi.'}</span></div>` : html`<p className="small muted">Any 58 or 80 mm thermal printer works when you want one. Nothing to fix in the restaurant; connect or remove it here any time.</p>`}
   </section>`;
 }
-const STAFF0 = [{ id: 'st1', name: 'Kunal Shah', role: 'Owner', pin: '' }, { id: 'st2', name: 'Ramesh', role: 'Cashier', pin: '4821' }, { id: 'st3', name: 'Anil', role: 'Kitchen', pin: '7730' }, { id: 'st4', name: 'Suresh', role: 'Waiter', pin: '2468' }];
+const STAFF0 = [
+  { id: 'st1', name: 'Kunal Shah', role: 'Owner', pin: '' }, { id: 'st5', name: 'Farah', role: 'Manager', pin: '1122' }, { id: 'st2', name: 'Ramesh', role: 'Cashier', pin: '4821' },
+  { id: 'st4', name: 'Suresh', role: 'Waiter', pin: '2468', tables: [1, 2, 3, 4, 5, 6] }, { id: 'st6', name: 'Vijay', role: 'Waiter', pin: '1590', tables: [7, 8, 9, 10, 11, 12] },
+  { id: 'st3', name: 'Anil', role: 'Kitchen', pin: '7730', station: 'main' }, { id: 'st7', name: 'Ravi', role: 'Kitchen', pin: '1357', station: 'tandoor' }, { id: 'st8', name: 'Deepa', role: 'Kitchen', pin: '8642', station: 'drinks' },
+];
 function StaffSettings({ s, d }) {
-  const list = s.staff || STAFF0;
-  const [f, setF] = useState({ name: '', role: 'Cashier', pin: '' });
+  const r = R(s, OWNER_RID), list = staffOf(s), sts = stationsOf(s);
+  const [f, setF] = useState({ name: '', role: 'Waiter', pin: '' });
+  const [ed, setEd] = useState(null);
   const ok = f.name.trim() && /^\d{4}$/.test(f.pin);
+  const put = (v) => d({ type: 'set', k: 'staff', v });
+  const all = Array.from({ length: r.tables }, (_, i) => i + 1);
+  const toggleT = (x, t) => put(list.map((y) => (y.id === x.id ? { ...y, tables: (y.tables || []).includes(t) ? y.tables.filter((z) => z !== t) : [...(y.tables || []), t].sort((a, b) => a - b) } : y.role === 'Waiter' && (y.tables || []).includes(t) ? { ...y, tables: y.tables.filter((z) => z !== t) } : y)));
+  const free = all.filter((t) => !waiterOf(s, t));
+  const ROLES = ['Owner', 'Manager', 'Cashier', 'Waiter', 'Kitchen', 'Investor'];
   return html`<section className="card" id="staff"><div className="card-h"><h3>${I('people', 18)} Staff logins</h3><span className="small muted">Each person signs in with a 4-digit PIN and sees only their part</span></div>
-    <div className="staff-list">${list.map((x) => html`<div key=${x.id} className="staff-row"><span className="grow"><b>${x.name}</b></span><span className=${'pill ' + (x.role === 'Owner' ? 'leaf' : x.role === 'Waiter' ? 'sun' : 'info')}>${x.role}</span><span className="num small muted">${x.pin ? 'PIN ••••' : 'Mobile + OTP'}</span>${x.role !== 'Owner' ? html`<button className="btn sm icon" aria-label=${'Remove ' + x.name} onClick=${() => { d({ type: 'set', k: 'staff', v: list.filter((y) => y.id !== x.id) }); toast(x.name + ' can no longer sign in'); }}>${I('trash', 15)}</button>` : html`<span style=${{ width: 32 }}></span>`}</div>`)}</div>
-    <div className="twrap access"><table className="tbl cmp acc"><thead><tr><th>Who sees what</th>${['Owner', 'Manager', 'Cashier', 'Waiter', 'Kitchen'].map((x) => html`<th key=${x}>${x}</th>`)}</tr></thead>
-      <tbody>${Object.keys(TAB_LABEL).map((k) => html`<tr key=${k}><td>${TAB_LABEL[k]}</td>${['Owner', 'Manager', 'Cashier', 'Waiter', 'Kitchen'].map((x) => { const ok = !ROLE_ACCESS[x] || ROLE_ACCESS[x].includes(k); const part = ok && ((k === 'menu' && x === 'Waiter') ? 'View' : (k === 'menu' && x === 'Kitchen') ? 'Sold out' : (k === 'orders' && x === 'Kitchen') ? 'Kitchen' : (k === 'floor' && x === 'Waiter') ? 'No payment' : null); return html`<td key=${x} className=${ok ? (part ? '' : 'yes') : 'no'}>${ok ? (part || I('check', 16)) : '–'}</td>`; })}</tr>`)}</tbody></table></div>
+    <div className="staff-list">${list.map((x) => html`<div key=${x.id} className="staff-item"><div className="staff-row">
+      <span className="grow"><b>${x.name}</b>${x.role === 'Waiter' ? html` <small className="muted">${rangeLabel(x.tables)}</small>` : null}</span>
+      <span className=${'pill ' + (x.role === 'Owner' ? 'leaf' : x.role === 'Waiter' ? 'sun' : 'info')}>${x.role}</span>
+      ${x.role === 'Waiter' ? html`<button className="btn sm" aria-expanded=${ed === x.id} onClick=${() => setEd(ed === x.id ? null : x.id)}>${I('table', 14)}Tables</button>` : null}
+      ${x.role === 'Kitchen' ? html`<select className="inp sm" aria-label=${'Station for ' + x.name} value=${x.station || ''} onChange=${(e) => { put(list.map((y) => (y.id === x.id ? { ...y, station: e.target.value } : y))); toast(x.name + ' now sees ' + (e.target.value ? stationName(s, e.target.value) + ' dishes only' : 'every station')); }}>${sts.map((t) => html`<option key=${t.id} value=${t.id}>${t.name}</option>`)}<option value="">All stations</option></select>` : null}
+      <span className="num small muted hide-m">${x.pin ? 'PIN ••••' : 'Mobile + OTP'}</span>
+      ${x.role !== 'Owner' ? html`<button className="btn sm icon" aria-label=${'Remove ' + x.name} onClick=${() => { put(list.filter((y) => y.id !== x.id)); toast(x.name + ' can no longer sign in'); }}>${I('trash', 15)}</button>` : html`<span style=${{ width: 32 }}></span>`}</div>
+      ${ed === x.id ? html`<div className="wt-edit"><span className="small muted">Tap the tables ${x.name} looks after. A table can have one waiter; picking it here takes it from the other waiter.</span>
+        <div className="table-grid wt-grid" role="group" aria-label=${'Tables for ' + x.name}>${all.map((t) => { const o = waiterOf(s, t); return html`<button key=${t} aria-pressed=${(x.tables || []).includes(t)} onClick=${() => toggleT(x, t)}>${t}${o && o.id !== x.id ? html`<small>${o.name.split(' ')[0]}</small>` : null}</button>`; })}</div></div>` : null}
+    </div>`)}</div>
+    ${free.length ? html`<p className="notice">No waiter for ${rangeLabel(free)}. Calls from ${free.length > 1 ? 'those tables' : 'that table'} go to every waiter.</p>` : null}
+    <div className="twrap access"><table className="tbl cmp acc"><thead><tr><th>Who sees what</th>${ROLES.map((x) => html`<th key=${x}>${x}</th>`)}</tr></thead>
+      <tbody>${Object.keys(TAB_LABEL).map((k) => html`<tr key=${k}><td>${TAB_LABEL[k]}</td>${ROLES.map((x) => { const ok = !ROLE_ACCESS[x] || ROLE_ACCESS[x].includes(k); const part = ok && ((k === 'menu' && x === 'Waiter') ? 'View' : (k === 'menu' && x === 'Kitchen') ? 'Sold out' : (k === 'orders' && x === 'Kitchen') ? 'Station' : (k === 'floor' && x === 'Waiter') ? 'Own tables' : (k === 'expenses' && x === 'Cashier') ? 'Add' : (k === 'profit' && x === 'Investor') ? 'Own share' : null); return html`<td key=${x} className=${ok ? (part ? '' : 'yes') : 'no'}>${ok ? (part || I('check', 16)) : '–'}</td>`; })}</tr>`)}</tbody></table></div>
     <div className="staff-add"><input className="inp" aria-label="Staff name" placeholder="Name" value=${f.name} onChange=${(e) => setF({ ...f, name: e.target.value })} />
-      <select className="inp" aria-label="Role" value=${f.role} onChange=${(e) => setF({ ...f, role: e.target.value })}><option>Cashier</option><option>Kitchen</option><option>Waiter</option><option>Manager</option></select>
+      <select className="inp" aria-label="Role" value=${f.role} onChange=${(e) => setF({ ...f, role: e.target.value })}><option>Waiter</option><option>Cashier</option><option>Kitchen</option><option>Manager</option></select>
       <input className="inp" aria-label="4-digit PIN" placeholder="PIN" inputMode="numeric" maxLength="4" value=${f.pin} onChange=${(e) => setF({ ...f, pin: e.target.value.replace(/\D/g, '').slice(0, 4) })} />
-      <button className="btn primary" disabled=${!ok} onClick=${() => { d({ type: 'set', k: 'staff', v: [...list, { id: 'st' + Date.now(), ...f, name: f.name.trim() }] }); toast(f.name.trim() + ' added as ' + f.role); setF({ name: '', role: 'Cashier', pin: '' }); }}>${I('plus', 15)}Add</button></div>
+      <button className="btn primary" disabled=${!ok} onClick=${() => { const id = 'st' + Date.now(); const x = { id, ...f, name: f.name.trim(), ...(f.role === 'Waiter' ? { tables: free } : {}), ...(f.role === 'Kitchen' ? { station: (sts[0] || {}).id || '' } : {}) }; put([...list, x]); toast(x.name + ' added as ' + f.role + (f.role === 'Waiter' ? ' · ' + rangeLabel(x.tables) : f.role === 'Kitchen' ? ' · ' + stationName(s, x.station) : '')); if (f.role === 'Waiter') setEd(id); setF({ name: '', role: f.role, pin: '' }); }}>${I('plus', 15)}Add</button></div>
+    <p className="small muted">Partners and investors get their PIN on the Profit & partners screen.</p>
   </section>`;
+}
+
+/* ---------- Waiter sections and kitchen stations ---------- */
+const STATIONS0 = [
+  { id: 'tandoor', name: 'Tandoor', cats: ['Starters', 'Breads'] },
+  { id: 'main', name: 'Main kitchen', cats: ['Main Course', 'Rice & Biryani', 'Thalis'] },
+  { id: 'drinks', name: 'Drinks & desserts', cats: ['Beverages', 'Desserts'] },
+];
+const stationsOf = (s) => s.stations || STATIONS0;
+const staffOf = (s) => s.staff || STAFF0;
+const stationOfItem = (s, i) => { const m = s.menus[OWNER_RID].find((x) => x.name === i.n), st = stationsOf(s); const hit = m && st.find((x) => x.cats.includes(m.cat)); return (hit || st.find((x) => x.id === 'main') || st[0] || {}).id; };
+const orderStations = (s, o) => [...new Set(o.items.map((i) => stationOfItem(s, i)))].filter(Boolean);
+const stationName = (s, id) => (stationsOf(s).find((x) => x.id === id) || { name: 'All stations' }).name;
+const waiterOf = (s, t) => staffOf(s).find((x) => x.role === 'Waiter' && (x.tables || []).includes(t));
+const meStaff = (s) => (s.me2 && s.me2.id ? staffOf(s).find((x) => x.id === s.me2.id) : null);
+const myTables = (s) => { const m = meStaff(s); return m && m.role === 'Waiter' && m.tables && m.tables.length ? m.tables : null; };
+const myStation = (s) => { const m = meStaff(s); return m && m.role === 'Kitchen' && m.station && stationsOf(s).some((x) => x.id === m.station) ? m.station : null; };
+const meName = (s) => (s.me2 && s.me2.name) || 'Kunal Shah';
+const rangeLabel = (ts) => {
+  const a = [...(ts || [])].sort((x, y) => x - y); if (!a.length) return 'No tables yet';
+  const out = []; let st = a[0], pv = a[0];
+  const push = () => out.push(st === pv ? 'T' + st : 'T' + st + '–T' + pv);
+  a.slice(1).forEach((t) => { if (t === pv + 1) pv = t; else { push(); st = pv = t; } });
+  push(); return out.join(', ');
+};
+function StationProgress({ s, o }) {
+  const sts = orderStations(s, o); if (sts.length < 2 || o.status !== 'preparing') return null;
+  return html`<div className="st-prog">${sts.map((id) => html`<span key=${id} className=${'pill ' + ((o.sr || {})[id] ? 'ok' : 'sun')}>${(o.sr || {})[id] ? I('check', 11) : null}${stationName(s, id)}</span>`)}</div>`;
+}
+function StationSettings({ s, d }) {
+  const sts = stationsOf(s), cats = catsOf(s, OWNER_RID);
+  const [name, setName] = useState('');
+  const put = (v) => d({ type: 'set', k: 'stations', v });
+  const move = (c, to) => put(sts.map((x) => ({ ...x, cats: x.id === to ? [...x.cats.filter((y) => y !== c), c] : x.cats.filter((y) => y !== c) })));
+  const loose = cats.filter((c) => !sts.some((x) => x.cats.includes(c)));
+  return html`<section className="card" id="stations"><div className="card-h"><h3>${I('bell', 18)} Kitchen stations</h3><span className="small muted">Each station’s screen shows only its own dishes</span></div>
+    <div className="st-list">${sts.map((x) => { const cooks = staffOf(s).filter((y) => y.role === 'Kitchen' && y.station === x.id); return html`<div key=${x.id} className="st-item">
+      <div className="row"><b>${x.name}</b><span className="small muted grow">${cooks.length ? cooks.map((y) => y.name).join(', ') : 'Nobody on this station yet'}</span>${sts.length > 1 ? html`<button className="btn sm icon ghost" aria-label=${'Remove station ' + x.name} onClick=${() => { put(sts.filter((y) => y.id !== x.id)); toast(x.name + ' removed. Its dishes go to the first station.'); }}>${I('trash', 15)}</button>` : null}</div>
+      <div className="chips">${cats.map((c) => html`<button key=${c} className="chip sm" aria-pressed=${x.cats.includes(c)} onClick=${() => move(c, x.id)}>${c}</button>`)}</div></div>`; })}</div>
+    ${loose.length ? html`<p className="small muted">${loose.join(', ')} ${loose.length > 1 ? 'are' : 'is'} not on a station yet, so ${loose.length > 1 ? 'they go' : 'it goes'} to ${stationName(s, (sts.find((x) => x.id === 'main') || sts[0] || {}).id)}.</p>` : null}
+    <div className="row"><input className="inp grow" aria-label="New station name" placeholder="New station, e.g. Chinese or Bar" value=${name} onChange=${(e) => setName(e.target.value)} /><button className="btn" disabled=${!name.trim()} onClick=${() => { put([...sts, { id: 'st' + Date.now(), name: name.trim(), cats: [] }]); toast(name.trim() + ' station added. Tap categories to move them there.'); setName(''); }}>${I('plus', 15)}Add station</button></div>
+    <p className="small muted">An order with dishes from two stations shows on both screens. Each marks its part ready; the order turns Ready when every part is done.</p>
+  </section>`;
+}
+/* Staff performance: sample history split by each waiter's tables, plus orders placed in this demo */
+function StaffReport({ s, S }) {
+  const r = R(s, OWNER_RID), list = staffOf(s), rnd = seeded('staff-' + S.n);
+  const since = new Date(); since.setHours(0, 0, 0, 0); const from = since.getTime() - (S.n - 1) * 864e5;
+  const demo = s.orders.filter((o) => o.rid === OWNER_RID && (o.mine || o.counter || o.staff) && o.status !== 'cancelled' && o.t >= from);
+  const tsales = Object.fromEntries(S.tables.map((x) => [x.t, x]));
+  const sec = (ts) => ts.reduce((a, t) => (tsales[t] ? { orders: a.orders + tsales[t].orders, sales: a.sales + tsales[t].sales } : a), { orders: 0, sales: 0 });
+  const waiters = list.filter((x) => x.role === 'Waiter');
+  const loose = Array.from({ length: r.tables }, (_, i) => i + 1).filter((t) => !waiterOf(s, t));
+  const wrows = waiters.map((w) => { const ts = w.tables || [], b = sec(ts), mine = demo.filter((o) => o.type !== 'takeaway' && ts.includes(o.table)); return { id: w.id, name: w.name, tables: rangeLabel(ts), orders: b.orders + mine.length, sales: b.sales + mine.reduce((t, o) => t + due(o, r), 0), ans: 1 + rnd() * 2, calls: Math.round(b.orders * (0.16 + rnd() * 0.08)) }; });
+  if (loose.length) { const b = sec(loose); wrows.push({ id: 'none', name: 'No waiter', tables: rangeLabel(loose), orders: b.orders, sales: b.sales, ans: null, calls: null }); }
+  const cashiers = list.filter((x) => x.role === 'Cashier' || x.role === 'Manager');
+  const wts = cashiers.map(() => 0.6 + rnd()), wsum = wts.reduce((t, v) => t + v, 0) || 1;
+  const crows = cashiers.map((c, i) => { const mine = demo.filter((o) => o.pay === 'paid' && (o.cashier === c.name || o.by === c.name)); const bills = Math.round((S.c.orders * wts[i]) / wsum) + mine.length; const amt = (S.c.sales * wts[i]) / wsum + mine.reduce((t, o) => t + due(o, r), 0); return { id: c.id, name: c.name, role: c.role, bills, amt, cash: amt * (S.c.cash / Math.max(1, S.c.orders)) }; });
+  const srows = stationsOf(s).map((x) => { const plates = S.dishes.filter((dd) => x.cats.includes(dd.cat)).reduce((t, dd) => t + dd.q, 0); const cooks = list.filter((y) => y.role === 'Kitchen' && y.station === x.id).map((y) => y.name); return { id: x.id, name: x.name, cooks: cooks.join(', ') || '–', plates, mins: Math.max(4, S.c.prep + (x.id === 'drinks' ? -8 : x.id === 'tandoor' ? -3 : 2) + (rnd() - 0.5) * 2) }; });
+  const best = wrows.filter((x) => x.ans != null).sort((a, b) => b.sales - a.sales)[0];
+  return html`<section className="card" id="staff-report"><div className="card-h"><h3>${I('people', 18)} Staff and stations</h3><span className="small muted">${S.n === 1 ? 'Today' : 'Last ' + S.n + ' days'}${best ? ' · top waiter: ' + best.name : ''}</span></div>
+    <div className="twrap"><table className="tbl sr"><thead><tr><th>Waiter</th><th>Tables</th><th className="r">Orders</th><th className="r">Sales</th><th className="r">Calls answered</th><th className="r">Avg. to answer</th></tr></thead>
+      <tbody>${wrows.map((x) => html`<tr key=${x.id}><td><b>${x.name}</b></td><td>${x.tables}</td><td className="r">${x.orders.toLocaleString('en-IN')}</td><td className="r">${inr(x.sales)}</td><td className="r">${x.calls == null ? '–' : x.calls}</td><td className="r">${x.ans == null ? '–' : x.ans.toFixed(1) + ' min'}</td></tr>`)}</tbody></table></div>
+    <div className="twrap"><table className="tbl sr"><thead><tr><th>At the counter</th><th>Role</th><th className="r">Bills settled</th><th className="r">Collected</th><th className="r">In cash</th></tr></thead>
+      <tbody>${crows.map((x) => html`<tr key=${x.id}><td><b>${x.name}</b></td><td>${x.role}</td><td className="r">${x.bills.toLocaleString('en-IN')}</td><td className="r">${inr(x.amt)}</td><td className="r">${inr(x.cash)}</td></tr>`)}</tbody></table></div>
+    <div className="twrap"><table className="tbl sr"><thead><tr><th>Kitchen station</th><th>Cooks</th><th className="r">Plates</th><th className="r">Avg. cooking time</th></tr></thead>
+      <tbody>${srows.map((x) => html`<tr key=${x.id}><td><b>${x.name}</b></td><td>${x.cooks}</td><td className="r">${x.plates.toLocaleString('en-IN')}</td><td className="r">${x.mins.toFixed(0)} min</td></tr>`)}</tbody></table></div>
+    <p className="small muted">Every order, bill and call carries the name of the person who handled it. Cash collected tells you what each cashier hands over at day end.</p>
+  </section>`;
+}
+
+/* ---------- Expenses, profit and partners ---------- */
+const EXP_CATS = ['Rent', 'Salaries', 'Electricity & gas', 'Repairs', 'Marketing', 'Packaging', 'Other'];
+const monthKey = (t) => { const x = new Date(t); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0'); };
+const monthName = (k, short) => new Date(k + '-15T12:00:00').toLocaleString('en-IN', short ? { month: 'short' } : { month: 'long', year: 'numeric' });
+const monthEnded = (k) => k !== monthKey(Date.now()) || new Date(Date.now() + 864e5).getDate() === 1;
+const isoDay = (t) => { const x = new Date(t); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
+function sampleExpenses() {
+  const now = new Date(), out = [];
+  [1, 0].forEach((back) => {
+    const y = now.getFullYear(), m = now.getMonth() - back, last = back ? 31 : now.getDate();
+    const add = (day, cat, amt, by, note, who) => { const t = new Date(y, m, day, 12); if (day > last || t.getMonth() !== ((m % 12) + 12) % 12) return; out.push({ id: 'ex' + back + '-' + out.length, t: t.getTime(), cat, amt, by, note, who: who || 'Kunal Shah' }); };
+    add(1, 'Rent', 60000, 'Bank', 'Shop rent');
+    add(1, 'Salaries', back ? 158000 : 162500, 'Bank', 'Salaries, 10 staff');
+    [3, 10, 17, 24].forEach((dd) => add(dd, 'Electricity & gas', 5550, 'Cash', '3 commercial gas cylinders', 'Ramesh'));
+    add(5, 'Other', 625, 'UPI', 'Zestro Pro plan, monthly share of ₹7,499');
+    add(8, 'Electricity & gas', back ? 26840 : 28160, 'UPI', 'Electricity bill');
+    add(9, 'Packaging', back ? 6400 : 7150, 'UPI', 'Parcel boxes and bags', 'Farah');
+    add(12, 'Repairs', back ? 4200 : 1800, 'Cash', back ? 'Fridge compressor repair' : 'Chimney cleaning', 'Farah');
+    add(15, 'Marketing', back ? 8000 : 6000, 'UPI', back ? 'Instagram ads and pamphlets' : 'Instagram ads');
+    add(18, 'Other', 4800, 'Bank', 'CA fees and licences');
+    add(22, 'Repairs', 2600, 'Cash', 'Plumber and tap fittings', 'Farah');
+    add(20, 'Other', 1500, 'UPI', 'Pest control');
+    add(25, 'Other', 2400, 'Cash', 'Drinking water cans', 'Ramesh');
+  });
+  return out.sort((a, b) => b.t - a.t);
+}
+const PARTNERS0 = [
+  { id: 'p1', name: 'Kunal Shah', role: 'Owner', phone: '9825012345', capital: 800000, share: 50, before: 210000, pin: '' },
+  { id: 'p2', name: 'Imran Patel', role: 'Investor', phone: '9824033221', capital: 500000, share: 30, before: 126000, pin: '5050' },
+  { id: 'p3', name: 'Meera Desai', role: 'Investor', phone: '9898077665', capital: 300000, share: 20, before: 84000, pin: '3030' },
+];
+let SAMPLE_EXP = null;
+const expensesOf = (s) => s.expenses || SAMPLE_EXP || (SAMPLE_EXP = sampleExpenses());
+const partnersOf = (s) => s.partners || PARTNERS0;
+function fcShare(s) {
+  const A = analytics(OWNER_RID), menu = s.menus[OWNER_RID]; let fc = 0, rev = 0;
+  A.dishes.forEach((x) => { const m = menu.find((y) => y.name === x.n); if (m && RECIPES[m.id]) { fc += x.wt * foodCost(m) * FC_EXTRA; rev += x.wt * x.price; } });
+  return rev ? fc / rev : 0.3;
+}
+/* Recipes list the main ingredients; spices, masala and garnish add about a quarter on top */
+const FC_EXTRA = 1.4;
+function monthsAvail() {
+  const A = analytics(OWNER_RID), cur = monthKey(Date.now()), cnt = {};
+  A.days.forEach((x) => { const k = monthKey(x.dt); cnt[k] = (cnt[k] || 0) + 1; });
+  return Object.keys(cnt).filter((k) => cnt[k] >= 25 || k === cur).sort();
+}
+function monthPnl(s, key) {
+  const r = R(s, OWNER_RID), A = analytics(OWNER_RID);
+  const days = A.days.filter((x) => monthKey(x.dt) === key);
+  const demo = s.orders.filter((o) => o.rid === OWNER_RID && (o.mine || o.counter || o.staff) && o.status !== 'cancelled' && monthKey(o.t) === key);
+  const gross = days.reduce((t, x) => t + x.sales, 0) + demo.reduce((t, o) => t + due(o, r), 0);
+  const sales = gross / (1 + (r.gst || 0) / 100), food = sales * fcShare(s);
+  const exps = expensesOf(s).filter((e) => monthKey(e.t) === key);
+  const byCat = EXP_CATS.map((c) => ({ c, v: exps.filter((e) => e.cat === c).reduce((t, e) => t + e.amt, 0) }));
+  const exp = byCat.reduce((t, x) => t + x.v, 0);
+  return { key, days: days.length, orders: days.reduce((t, x) => t + x.orders, 0) + demo.length, gross, gst: gross - sales, sales, food, gp: sales - food, byCat, exp, exps, profit: sales - food - exp };
+}
+function samplePayouts(s) {
+  const ms = monthsAvail(); if (ms.length < 2) return [];
+  const prev = monthPnl(s, ms[ms.length - 2]), now = new Date(), t = new Date(now.getFullYear(), now.getMonth(), Math.min(5, now.getDate()), 18).getTime();
+  return partnersOf(s).filter((p) => PARTNERS0.some((q) => q.id === p.id)).map((p, i) => ({ id: 'pay' + i, pid: p.id, amt: Math.floor((Math.max(0, prev.profit) * p.share / 100 * (p.role === 'Owner' ? 0.6 : 1)) / 1000) * 1000, t, by: 'Bank', note: 'Share of ' + monthName(prev.key) + ' profit' })).filter((x) => x.amt > 0);
+}
+const payoutsOf = (s) => s.payouts || samplePayouts(s);
+function partnerStats(s, p) {
+  const ms = monthsAvail(), P = ms.map((k) => monthPnl(s, k));
+  const earned = P.reduce((t, x) => t + (x.profit * p.share) / 100, 0);
+  const pays = payoutsOf(s).filter((x) => x.pid === p.id), paid = pays.reduce((t, x) => t + x.amt, 0);
+  const back = (p.before || 0) + paid, full = P.filter((x) => monthEnded(x.key)), base = full.length ? full[full.length - 1] : P[P.length - 1];
+  const rate = base ? (base.profit * p.share) / 100 : 0, left = Math.max(0, p.capital - back);
+  return { earned, paid, pays, due: Math.round(earned - paid), back, pct: p.capital ? Math.min(100, (back / p.capital) * 100) : 0, rate, months: rate > 0 && left > 0 ? Math.ceil(left / rate) : null, first: ms[0] };
+}
+function MonthSeg({ s, d, ms, cur }) {
+  return html`<div className="seg" role="group" aria-label="Month">${ms.map((k) => html`<button key=${k} aria-pressed=${cur === k} onClick=${() => d({ type: 'set', k: 'finMonth', v: k })}>${monthName(k, true)}${monthEnded(k) ? '' : ' so far'}</button>`)}</div>`;
+}
+const pickMonth = (s, ms) => (ms.includes(s.finMonth) ? s.finMonth : ms[ms.length - 1]);
+function downloadPnl(s, P, who) {
+  const q = (v) => '"' + String(v).replace(/"/g, '""') + '"';
+  const head = [['Zestro profit and loss', R(s, OWNER_RID).name, monthName(P.key)], [], ['Line', 'Amount (Rs)'], ['Sales with GST', Math.round(P.gross)], ['GST collected', Math.round(P.gst)], ['Sales before GST', Math.round(P.sales)], ['Food cost (recipes)', Math.round(P.food)], ['Gross profit', Math.round(P.gp)], ...P.byCat.map((x) => [x.c, x.v]), ['Net profit', Math.round(P.profit)]];
+  const exp = who ? [] : [[], ['Date', 'Type', 'What for', 'Paid by', 'Entered by', 'Amount (Rs)'], ...P.exps.slice().sort((a, b) => a.t - b.t).map((e) => [isoDay(e.t), e.cat, e.note, e.by, e.who, e.amt])];
+  const url = URL.createObjectURL(new Blob([[...head, ...exp].map((r) => r.map(q).join(',')).join('\n')], { type: 'text/csv' }));
+  const a = document.createElement('a'); a.href = url; a.download = 'profit-' + P.key + '.csv'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+function OwnerExpenses({ s, d }) {
+  const ms = monthsAvail(), key = pickMonth(s, ms), role = roleOf(s), canDel = role === 'Owner' || role === 'Manager';
+  const P = monthPnl(s, key);
+  const [f, setF] = useState({ amt: '', cat: 'Other', by: 'Cash', note: '', date: isoDay(Date.now()), img: null });
+  const ok = Number(f.amt) > 0 && f.note.trim();
+  const top = P.byCat.slice().sort((a, b) => b.v - a.v)[0];
+  const todayCash = expensesOf(s).filter((e) => isoDay(e.t) === isoDay(Date.now()) && e.by === 'Cash').reduce((t, e) => t + e.amt, 0);
+  const save = () => { const t = new Date(f.date + 'T12:00:00').getTime(); d({ type: 'expAdd', e: { id: 'ex' + Date.now(), t: isNaN(t) ? Date.now() : t, cat: f.cat, amt: Math.round(Number(f.amt)), by: f.by, note: f.note.trim(), who: meName(s), img: f.img } }); toast(inr(f.amt) + ' added to ' + f.cat, 'ok'); setF({ ...f, amt: '', note: '', img: null }); };
+  const pick = (e) => { const file = e.target.files && e.target.files[0]; e.target.value = ''; if (!file) return; resizePhoto(file, 480, 640).then((img) => setF((x) => ({ ...x, img }))).catch((err) => toast(err.message)); };
+  const list = P.exps.slice().sort((a, b) => b.t - a.t);
+  return html`<div id="expenses" style=${{ display: 'grid', gap: 16 }}>
+    <div className="ph"><div><h1>Expenses</h1><p className="muted">Every rupee that goes out: rent, salaries, gas, repairs. Staff add them as they happen, with a photo of the bill.</p></div><${MonthSeg} s=${s} d=${d} ms=${ms} cur=${key} /></div>
+    <div className="tiles">
+      <div className="tile"><span>${monthName(key)}</span><b>${short(P.exp)}</b><small className="m">${P.exps.length} entries</small></div>
+      <div className="tile"><span>Biggest cost</span><b className="tname">${top && top.v ? top.c : '–'}</b><small className="m">${top && top.v ? inr(top.v) : 'Nothing yet'}</small></div>
+      <div className="tile"><span>Cash paid out today</span><b>${inr(todayCash)}</b><small className="m">match it with the cash drawer</small></div>
+      <div className="tile"><span>Share of sales</span><b>${P.sales ? Math.round((P.exp / P.sales) * 100) : 0}%</b><small className="m">of ${short(P.sales)} sales before GST</small></div>
+    </div>
+    <section className="card" id="exp-add"><div className="card-h"><h3>${I('plus', 18)} Add an expense</h3><span className="small muted">Saved as ${meName(s)}</span></div>
+      <div className="exp-form">
+        <label className="field">Amount<div className="money"><span>₹</span><input id="exp-amt" type="number" min="0" inputMode="numeric" placeholder="0" value=${f.amt} onChange=${(e) => setF({ ...f, amt: e.target.value })} /></div></label>
+        <label className="field">What for<input id="exp-note" placeholder="e.g. 2 gas cylinders" value=${f.note} onChange=${(e) => setF({ ...f, note: e.target.value })} /></label>
+        <label className="field">Date<input id="exp-date" type="date" max=${isoDay(Date.now())} value=${f.date} onChange=${(e) => setF({ ...f, date: e.target.value })} /></label>
+      </div>
+      <div className="chips" role="group" aria-label="Type of expense">${EXP_CATS.map((c) => html`<button key=${c} className="chip sm" aria-pressed=${f.cat === c} onClick=${() => setF({ ...f, cat: c })}>${c}</button>`)}</div>
+      <div className="row exp-foot"><div className="seg" role="group" aria-label="Paid by">${['Cash', 'UPI', 'Bank'].map((k) => html`<button key=${k} aria-pressed=${f.by === k} onClick=${() => setF({ ...f, by: k })}>${k}</button>`)}</div>
+        <label className="btn">${I('camera', 16)}${f.img ? 'Change photo' : 'Photo of the bill'}<input type="file" accept="image/*" capture="environment" hidden onChange=${pick} /></label>
+        ${f.img ? html`<img className="exp-thumb" src=${f.img} alt="Bill photo" />` : null}
+        <span className="spacer"></span>
+        <button className="btn primary" id="exp-save" disabled=${!ok} onClick=${save}>Add expense</button></div>
+    </section>
+    <section className="card" id="exp-list"><div className="card-h"><h3>${monthName(key)}</h3><span className="small muted">${inr(P.exp)} in ${P.exps.length} entries</span></div>
+      ${P.exp ? html`<${Stack} parts=${P.byCat.filter((x) => x.v).map((x) => ({ label: x.c, v: x.v, slot: EXP_CATS.indexOf(x.c) + 1 }))} fmt=${short} />` : null}
+      <div className="exp-list">${list.length ? list.map((e) => html`<div key=${e.id} className="exp-row">
+        <span className="exp-date"><b>${new Date(e.t).getDate()}</b><small>${monthName(monthKey(e.t), true)}</small></span>
+        <span className="grow"><b>${e.note}</b><small className="muted">${e.cat} · ${e.by} · by ${e.who}</small></span>
+        ${e.img ? html`<img className="exp-thumb" src=${e.img} alt=${'Bill: ' + e.note} />` : null}
+        <strong className="num">${inr(e.amt)}</strong>
+        ${canDel ? html`<button className="btn sm icon ghost" aria-label=${'Delete ' + e.note} onClick=${() => { d({ type: 'expDel', id: e.id }); toast('Expense deleted'); }}>${I('trash', 15)}</button>` : null}
+      </div>`) : html`<p className="small muted">No expenses for this month yet.</p>`}</div>
+      ${canDel ? null : html`<p className="small muted">Made a mistake? Ask the owner or manager to delete an entry.</p>`}
+    </section>
+  </div>`;
+}
+function PartnerAdd({ s, d }) {
+  const list = partnersOf(s);
+  const blank = { name: '', phone: '', capital: '', share: '', pin: '' };
+  const [f, setF] = useState(blank);
+  const left = 100 - list.reduce((t, p) => t + Number(p.share || 0), 0);
+  const ok = f.name.trim() && Number(f.capital) > 0 && Number(f.share) > 0 && /^\d{4}$/.test(f.pin);
+  return html`<div className="partner-add">
+    <b className="small">Add a partner or investor</b>
+    <div className="pa-grid">
+      <input className="inp" aria-label="Partner name" placeholder="Name" value=${f.name} onChange=${(e) => setF({ ...f, name: e.target.value })} />
+      <input className="inp" aria-label="Mobile number" placeholder="Mobile" inputMode="tel" value=${f.phone} onChange=${(e) => setF({ ...f, phone: e.target.value.replace(/[^\d ]/g, '') })} />
+      <input className="inp" aria-label="Money put in, in rupees" placeholder="Put in ₹" type="number" min="0" value=${f.capital} onChange=${(e) => setF({ ...f, capital: e.target.value })} />
+      <input className="inp" aria-label="Profit share, per cent" placeholder="Share %" type="number" min="0" max="100" value=${f.share} onChange=${(e) => setF({ ...f, share: e.target.value })} />
+      <input className="inp" aria-label="4-digit PIN for their login" placeholder="Login PIN" inputMode="numeric" maxLength="4" value=${f.pin} onChange=${(e) => setF({ ...f, pin: e.target.value.replace(/\D/g, '').slice(0, 4) })} />
+      <button className="btn primary" id="pa-add" disabled=${!ok} onClick=${() => { d({ type: 'set', k: 'partners', v: [...list, { id: 'p' + Date.now(), name: f.name.trim(), role: 'Investor', phone: f.phone, capital: Number(f.capital), share: Number(f.share), before: 0, pin: f.pin }] }); toast(f.name.trim() + ' added. They log in with PIN ' + f.pin + ' and see only their share.', 'ok'); setF(blank); }}>${I('plus', 15)}Add</button>
+    </div>
+    <p className="small muted">${left > 0 ? left + '% of the profit is not given to anyone yet.' : left < 0 ? 'Shares are over 100% by ' + -left + '%. Lower someone’s share above.' : 'Shares add up to 100%.'} Each partner gets their own PIN to see their share, and nothing else.</p>
+  </div>`;
+}
+function OwnerProfit({ s, d }) {
+  const r = R(s, OWNER_RID), inv = roleOf(s) === 'Investor';
+  const ms = monthsAvail(), key = pickMonth(s, ms), idx = ms.indexOf(key);
+  const P = monthPnl(s, key), prev = idx > 0 && P.days >= 28 ? monthPnl(s, ms[idx - 1]) : null;
+  const parts = partnersOf(s), totalShare = parts.reduce((t, p) => t + Number(p.share || 0), 0);
+  const me = inv ? parts.find((p) => p.id === (s.me2 || {}).id) : null;
+  const shown = inv ? (me ? [me] : []) : parts;
+  const pays = payoutsOf(s).filter((x) => !inv || (me && x.pid === me.id)).slice().sort((a, b) => b.t - a.t);
+  const pname = (id) => (parts.find((p) => p.id === id) || { name: 'Partner' }).name;
+  const vs = prev ? 'vs ' + monthName(prev.key, true) : '';
+  const big = P.byCat.slice().sort((a, b) => b.v - a.v);
+  const pct0 = (v) => (P.sales ? Math.round((v / P.sales) * 100) : 0);
+  const rows = [['Sales with GST', P.gross], ['GST collected, goes to the government', -P.gst], ['Sales before GST', P.sales, 'sub'], ['Food cost from your recipes, ' + pct0(P.food) + '%', -P.food], ['Gross profit', P.gp, 'sub'], ...P.byCat.filter((x) => x.v).map((x) => [x.c, -x.v]), ['Net profit', P.profit, 'tot']];
+  const sal = (P.byCat.find((x) => x.c === 'Salaries') || { v: 0 }).v, rent = (P.byCat.find((x) => x.c === 'Rent') || { v: 0 }).v;
+  const went = [{ label: 'Food cost', v: P.food, slot: 2 }, { label: 'Salaries', v: sal, slot: 1 }, { label: 'Rent', v: rent, slot: 4 }, { label: 'Other expenses', v: P.exp - sal - rent, slot: 7 }, ...(P.profit > 0 ? [{ label: 'Profit', v: P.profit, slot: 3 }] : [])];
+  const setShare = (p, v) => d({ type: 'set', k: 'partners', v: parts.map((x) => (x.id === p.id ? { ...x, share: Math.max(0, Math.min(100, Number(v) || 0)) } : x)) });
+  const body = html`<div style=${{ display: 'grid', gap: 16 }}>
+    <div className="tiles">
+      <div className="tile"><span>Sales before GST</span><b>${short(P.sales)}</b>${prev ? html`<${Delta} a=${P.sales} b=${prev.sales} label=${vs} />` : html`<small className="m">${P.orders.toLocaleString('en-IN')} orders</small>`}</div>
+      <div className="tile"><span>Food cost</span><b>${short(P.food)}</b><small className="m">${pct0(P.food)}% of sales, from recipes</small></div>
+      <div className="tile"><span>Expenses</span><b>${short(P.exp)}</b><small className="m">${big[0] && big[0].v ? 'Most on ' + big[0].c.toLowerCase() : 'None yet'}</small></div>
+      <div className="tile"><span>Net profit</span><b className=${P.profit < 0 ? 'neg' : ''}>${P.profit < 0 ? '−' : ''}${short(Math.abs(P.profit))}</b>${prev ? html`<${Delta} a=${P.profit} b=${prev.profit} label=${vs} />` : html`<small className=${P.profit < 0 ? 'bad' : 'm'}>${pct0(P.profit)}% of sales</small>`}</div>
+    </div>
+    <div className="two">
+      <section className="card" id="pnl"><div className="card-h"><h3>Profit and loss</h3><span className="small muted">${monthName(key)}${monthEnded(key) ? '' : ', so far'}</span></div>
+        <table className="pnl"><tbody>${rows.map(([l, v, k]) => html`<tr key=${l} className=${k || ''}><td>${l}</td><td className=${'num' + (k === 'tot' && v < 0 ? ' neg' : '') + (k === 'tot' && v >= 0 ? ' gain' : '')}>${v < 0 ? '−' : ''}${inr(Math.abs(v))}</td></tr>`)}</tbody></table>
+        <p className="small muted">A view to run the restaurant, not your tax books. Sales come from every bill, food cost from your recipes, expenses from the expense book.</p></section>
+      <section className="card" id="went" style=${{ alignContent: 'start' }}><div className="card-h"><h3>Where the money went</h3><span className="small muted">Share of sales before GST</span></div>
+        <${Stack} parts=${went} fmt=${short} />
+        <p className="small muted">${P.profit > 0 ? 'For every ₹100 of food sold, ₹' + pct0(P.profit) + ' is left as profit after food, salaries, rent and every other bill.' : 'Costs are higher than sales this month.'}</p></section>
+    </div>
+    <section className="card" id="partners"><div className="card-h"><h3>${I('people', 18)} ${inv ? 'Your share' : 'Partners'}</h3><span className="small muted">${inv ? 'Only you and the owner see this' : parts.length + ' partners · ' + inr(parts.reduce((t, p) => t + Number(p.capital || 0), 0)) + ' put in'}</span></div>
+      ${!inv && totalShare !== 100 ? html`<p className="notice">Shares add up to ${totalShare}%. Make them 100% so the profit splits correctly.</p>` : null}
+      <div className="pcards">${shown.map((p) => { const x = partnerStats(s, p), mine = (P.profit * p.share) / 100; return html`<div key=${p.id} className="pcard" id=${'pc-' + p.id}>
+        <div className="pc-h"><b>${p.name}</b><span className=${'pill ' + (p.role === 'Owner' ? 'leaf' : 'info')}>${p.role}</span><span className="grow"></span>${inv ? html`<span className="num"><b>${p.share}%</b> share</span>` : html`<label className="share-in"><input type="number" min="0" max="100" aria-label=${'Profit share of ' + p.name + ', per cent'} value=${p.share} onChange=${(e) => setShare(p, e.target.value)} />% share</label>`}</div>
+        <div className="pc-grid">
+          <span><small>Put in</small><b>${inr(p.capital)}</b></span>
+          <span><small>${monthName(key, true)} share</small><b className=${mine < 0 ? 'neg' : ''}>${mine < 0 ? '−' : ''}${inr(Math.abs(mine))}</b></span>
+          <span><small>Paid out</small><b>${inr(x.paid)}</b></span>
+          <span><small>Still to pay</small><b className=${x.due > 0 ? 'gain' : ''}>${inr(Math.max(0, x.due))}</b></span>
+        </div>
+        <div className="pbar" role="img" aria-label=${Math.round(x.pct) + '% of the money put in has come back'}><i style=${{ width: x.pct.toFixed(1) + '%' }}></i></div>
+        <small className="muted">${inr(x.back)} back so far, ${Math.round(x.pct)}% of ${inr(p.capital)}${x.months ? ' · the rest in about ' + x.months + ' months at this rate' : x.pct >= 100 ? ' · fully paid back' : ''}</small>
+        <div className="row">${!inv ? html`<button className="btn sm primary" disabled=${x.due <= 0} onClick=${() => d({ type: 'sheet', sheet: { type: 'payout', pid: p.id } })}>${I('rupee', 15)}Pay out</button>` : null}<button className="btn sm" onClick=${() => d({ type: 'sheet', sheet: { type: 'statement', pid: p.id, key } })}>${I('receipt', 15)}Statement</button>${!inv && p.role !== 'Owner' ? html`<button className="btn sm icon ghost" aria-label=${'Remove ' + p.name} onClick=${() => { d({ type: 'set', k: 'partners', v: parts.filter((y) => y.id !== p.id) }); toast(p.name + ' removed. Their share is free to give to someone else.'); }}>${I('trash', 15)}</button>` : null}</div>
+      </div>`; })}</div>
+      ${!inv ? html`<${PartnerAdd} s=${s} d=${d} />` : null}
+    </section>
+    <section className="card" id="payouts"><div className="card-h"><h3>Payouts</h3><span className="small muted">Profit paid to ${inv ? 'you' : 'partners'}</span></div>
+      ${pays.length ? pays.map((x) => html`<div key=${x.id} className="payrow"><span className="tno">${new Date(x.t).getDate() + ' ' + monthName(monthKey(x.t), true)}</span><span><b>${pname(x.pid)}</b><br /><small className="muted">${x.note} · ${x.by}</small></span><strong className="num">${inr(x.amt)}</strong></div>`) : html`<p className="small muted">No payouts yet.</p>`}</section>
+  </div>`;
+  return html`<div id="profit" style=${{ display: 'grid', gap: 16 }}>
+    <div className="ph"><div><h1>${inv ? 'Your investment in ' + r.name : 'Profit & partners'}</h1><p className="muted">${inv ? 'Read-only. You see the restaurant’s profit, your share and your payouts. Bills, staff and the menu stay private.' : 'Monthly profit from every bill, your recipes and the expense book, split between partners by their share.'}</p></div>
+      <div className="row"><${MonthSeg} s=${s} d=${d} ms=${ms} cur=${key} /><button className="btn sm" onClick=${() => { downloadPnl(s, P, inv); toast('Downloaded ' + monthName(key) + ' for Excel'); }}>${I('download', 15)}${inv ? 'Download' : 'For your CA'}</button></div></div>
+    ${inv ? body : html`<${Gate} need="pro" plan=${r.plan} d=${d} title="Profit, partners and investor logins are on Pro">${body}<//>`}
+  </div>`;
+}
+function PayoutSheet({ s, d }) {
+  const p = partnersOf(s).find((x) => x.id === s.sheet.pid);
+  const x = p ? partnerStats(s, p) : { due: 0 };
+  const [amt, setAmt] = useState(String(Math.max(0, x.due)));
+  const [by, setBy] = useState('Bank');
+  const close = () => d({ type: 'sheet', sheet: null });
+  if (!p) return null;
+  return html`<${Modal} id="payout-sheet" onClose=${close}>
+    <div className="modal-h"><h2>${I('rupee', 22)}Pay ${p.name}</h2><button className="btn sm icon" onClick=${close} aria-label="Close">${I('x')}</button></div>
+    <p className="small muted">Still to pay: <b>${inr(Math.max(0, x.due))}</b>. That is their ${p.share}% of the profit since ${monthName(x.first)}, minus what they were already paid.</p>
+    <label className="field">Amount<div className="money"><span>₹</span><input id="po-amt" type="number" min="0" inputMode="numeric" value=${amt} onChange=${(e) => setAmt(e.target.value)} /></div></label>
+    <div className="field"><span>Paid by</span><div className="seg full" role="group" aria-label="Paid by">${['Bank', 'UPI', 'Cash'].map((k) => html`<button key=${k} aria-pressed=${by === k} onClick=${() => setBy(k)}>${k}</button>`)}</div></div>
+    <button className="btn primary lg block" id="po-save" disabled=${!(Number(amt) > 0)} onClick=${() => { d({ type: 'payout', p: { id: 'pay' + Date.now(), pid: p.id, amt: Math.round(Number(amt)), t: Date.now(), by, note: 'Share of profit' } }); toast(inr(amt) + ' paid to ' + p.name + '. Their statement goes on WhatsApp.', 'ok'); }}>Record payout${Number(amt) > 0 ? ' · ' + inr(amt) : ''}</button>
+  <//>`;
+}
+function StatementSheet({ s, d }) {
+  const p = partnersOf(s).find((x) => x.id === s.sheet.pid), close = () => d({ type: 'sheet', sheet: null });
+  if (!p) return null;
+  const key = s.sheet.key, P = monthPnl(s, key), x = partnerStats(s, p), r = R(s, OWNER_RID);
+  const text = [r.name + ': partner statement', monthName(key) + (monthEnded(key) ? '' : ', so far'), '',
+    'Sales before GST: ' + inr(P.sales), 'Food cost: ' + inr(P.food), 'Expenses: ' + inr(P.exp), 'Net profit: ' + inr(P.profit), '',
+    p.name + ', ' + p.share + '% share: ' + inr((P.profit * p.share) / 100), 'Paid to you so far: ' + inr(x.paid), 'Still to be paid: ' + inr(Math.max(0, x.due)),
+    'Money put in: ' + inr(p.capital) + ' · back so far: ' + inr(x.back) + ' (' + Math.round(x.pct) + '%)', '', 'Sent from Zestro'].join('\n');
+  const phone = String(p.phone || '').replace(/\D/g, '').slice(-10);
+  return html`<${Modal} id="statement-sheet" onClose=${close}>
+    <div className="modal-h"><h2>${I('receipt', 22)}Statement</h2><button className="btn sm icon" onClick=${close} aria-label="Close">${I('x')}</button></div>
+    <pre className="stmt">${text}</pre>
+    <div className="row"><a className="btn primary" href=${'https://wa.me/' + (phone.length === 10 ? '91' + phone : '') + '?text=' + encodeURIComponent(text)} target="_blank" rel="noopener">Send on WhatsApp</a>
+      <button className="btn" onClick=${() => { try { navigator.clipboard.writeText(text).then(() => toast('Statement copied'), () => toast('Select the text to copy it')); } catch (e) { toast('Select the text to copy it'); } }}>Copy</button>
+      <button className="btn" onClick=${() => { downloadPnl(s, P, true); toast('Downloaded for Excel'); }}>${I('download', 15)}Excel</button></div>
+  <//>`;
 }
 
 /* ---------- More (phone layout) ---------- */
@@ -3510,14 +3949,15 @@ function OwnerMore({ s, d, tabs }) {
 
 function Owner({ s, d }) {
   const r = R(s, OWNER_RID);
-  const newN = can(r.plan, 'basic') ? s.orders.filter((o) => o.rid === OWNER_RID && o.status === 'new').length : 0;
-  const busyTables = new Set(s.orders.filter((o) => o.rid === OWNER_RID && o.type !== 'takeaway' && o.pay !== 'paid' && o.status !== 'cancelled').map((o) => o.table)).size;
+  const mtb = myTables(s), stb = myStation(s), mineT = (o) => !mtb || (o.type !== 'takeaway' && mtb.includes(o.table));
+  const newN = can(r.plan, 'basic') ? s.orders.filter((o) => o.rid === OWNER_RID && o.status === 'new' && mineT(o) && (!stb || o.items.some((i) => stationOfItem(s, i) === stb))).length : 0;
+  const busyTables = new Set(s.orders.filter((o) => o.rid === OWNER_RID && o.type !== 'takeaway' && o.pay !== 'paid' && o.status !== 'cancelled' && mineT(o)).map((o) => o.table)).size;
   const dueN = (s.customers || CUSTOMERS0).filter((c) => c.due).length;
-  const tabs = [['orders', 'Orders', 'orders', newN], ['billing', 'Billing', 'receipt'], ['floor', 'Tables', 'table', busyTables], ['menu', 'Menu', 'menu'], ['inventory', 'Inventory', 'box'], ['customers', 'Customers & khata', 'people', dueN], ['tables', 'QR codes', 'qr'], ['reports', 'Reports', 'chart'], ['settings', 'Plan & settings', 'gear']];
+  const tabs = [['orders', 'Orders', 'orders', newN], ['billing', 'Billing', 'receipt'], ['floor', 'Tables', 'table', busyTables], ['menu', 'Menu', 'menu'], ['inventory', 'Inventory', 'box'], ['customers', 'Customers & khata', 'people', dueN], ['expenses', 'Expenses', 'wallet'], ['profit', 'Profit & partners', 'pie'], ['tables', 'QR codes', 'qr'], ['reports', 'Reports', 'chart'], ['settings', 'Plan & settings', 'gear']];
   const role = roleOf(s), allow = ROLE_ACCESS[role];
   const myTabs = allow ? tabs.filter((t) => allow.includes(t[0])) : tabs;
   const cur = s.ownerTab === 'more' && myTabs.length > 5 ? 'more' : myTabs.some((t) => t[0] === s.ownerTab) ? s.ownerTab : myTabs[0][0];
-  const Body = { orders: OwnerOrders, billing: OwnerBilling, floor: OwnerFloor, menu: OwnerMenu, inventory: OwnerInventory, customers: OwnerCustomers, tables: OwnerTables, reports: OwnerReports, settings: OwnerSettings }[cur];
+  const Body = { orders: OwnerOrders, billing: OwnerBilling, floor: OwnerFloor, menu: OwnerMenu, inventory: OwnerInventory, customers: OwnerCustomers, expenses: OwnerExpenses, profit: OwnerProfit, tables: OwnerTables, reports: OwnerReports, settings: OwnerSettings }[cur];
   const mobileTabs = myTabs.length <= 5 ? myTabs : [...myTabs.slice(0, 4), ['more', 'More', 'grid']];
   const moreIds = myTabs.length <= 5 ? [] : [...myTabs.slice(4).map((t) => t[0]), 'more'];
   return html`<div className="oshell">
@@ -3532,10 +3972,10 @@ function Owner({ s, d }) {
         <div className="otop-name"><b>${r.name}</b><span className="pill leaf">${PLANS[r.plan].name}</span></div>
         <span className="spacer"></span>
         ${role !== 'Owner' ? html`<button className="btn sm staff-out" onClick=${() => { d({ type: 'logout' }); toast('Logged out'); }}>Log out</button>` : null}
-        <button className=${'net-pill' + (s.offline ? ' off' : '')} id="net-pill" onClick=${() => { if (s.offline) toast((s.pending ? s.pending + ' bill' + (s.pending > 1 ? 's' : '') + ' uploaded. ' : '') + 'Back online.', 'ok'); else toast('Offline (demo): billing keeps working and saves on this device'); d({ type: 'offline' }); }} title="Try offline billing">${s.offline ? 'Offline' + (s.pending ? ' · ' + s.pending + ' to upload' : '') : 'Online'}</button>
-        <button className=${'open-toggle' + (r.open ? ' on' : '')} role="switch" aria-checked=${r.open} onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { open: !r.open } }); toast(r.open ? 'Ordering paused. Diners can still see the menu.' : 'Taking orders again'); }}><i></i><span className="ot-l">${r.open ? 'Taking orders' : 'Orders paused'}</span><span className="ot-s">${r.open ? 'Open' : 'Paused'}</span></button>
+        ${role === 'Investor' ? null : html`<button className=${'net-pill' + (s.offline ? ' off' : '')} id="net-pill" onClick=${() => { if (s.offline) toast((s.pending ? s.pending + ' bill' + (s.pending > 1 ? 's' : '') + ' uploaded. ' : '') + 'Back online.', 'ok'); else toast('Offline (demo): billing keeps working and saves on this device'); d({ type: 'offline' }); }} title="Try offline billing">${s.offline ? 'Offline' + (s.pending ? ' · ' + s.pending + ' to upload' : '') : 'Online'}</button>
+        <button className=${'open-toggle' + (r.open ? ' on' : '')} role="switch" aria-checked=${r.open} onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { open: !r.open } }); toast(r.open ? 'Ordering paused. Diners can still see the menu.' : 'Taking orders again'); }}><i></i><span className="ot-l">${r.open ? 'Taking orders' : 'Orders paused'}</span><span className="ot-s">${r.open ? 'Open' : 'Paused'}</span></button>`}
       </header>
-      ${role !== 'Owner' ? html`<div className="role-bar"><span className="pill info">${(s.me2 || {}).name} · ${role}</span><span className="small muted">${ROLE_NOTE[role]}</span></div>` : null}
+      ${role !== 'Owner' ? html`<div className="role-bar"><span className="pill info">${(s.me2 || {}).name} · ${role}</span><span className="small muted">${ROLE_NOTE[role]}${myTables(s) ? ' Your tables: ' + rangeLabel(myTables(s)) + '.' : ''}${myStation(s) ? ' Your station: ' + stationName(s, myStation(s)) + '.' : ''}</span></div>` : null}
       <main className="obody">${cur === 'more' ? html`<${OwnerMore} s=${s} d=${d} tabs=${myTabs.slice(4)} />` : html`<${Body || OwnerOrders} s=${s} d=${d} />`}</main>
     </div>
     <${Tabbar} cur=${moreIds.includes(cur) ? 'more' : cur} tabs=${mobileTabs.map(([id, label, icon, badge]) => [id, label.split(' ')[0], icon, badge])} onGo=${(id) => d({ type: 'set', k: 'ownerTab', v: id })} />
@@ -3548,6 +3988,8 @@ function Owner({ s, d }) {
     ${s.sheet && s.sheet.type === 'dayend' ? html`<${DayEndSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'tbill' ? html`<${TableBillSheet} key=${s.sheet.table} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'tokens' ? html`<${TokenBoard} s=${s} d=${d} />` : null}
+    ${s.sheet && s.sheet.type === 'payout' ? html`<${PayoutSheet} key=${s.sheet.pid} s=${s} d=${d} />` : null}
+    ${s.sheet && s.sheet.type === 'statement' ? html`<${StatementSheet} s=${s} d=${d} />` : null}
     ${s.sheet && s.sheet.type === 'invMove' ? html`<${InvMoveSheet} key=${s.sheet.id + s.sheet.kind} s=${s} d=${d} />` : null}
   </div>`;
 }
@@ -3606,8 +4048,9 @@ function App() {
     // Shareable entry points for testers: #owner, #cashier, #waiter, #kitchen, #login, #team, #tour, #business, #who
     const h = location.hash.slice(1);
     if (h === 'owner') return { ...st, role: 'owner', ownerTab: 'orders', me2: null, sheet: null, tour: null };
-    const STAFF_LINK = { cashier: ['Ramesh', 'Cashier'], waiter: ['Suresh', 'Waiter'], kitchen: ['Anil', 'Kitchen'] };
-    if (STAFF_LINK[h]) return { ...st, role: 'owner', ownerTab: STAFF_HOME[STAFF_LINK[h][1]], me2: { name: STAFF_LINK[h][0], role: STAFF_LINK[h][1] }, sheet: null, tour: null };
+    const STAFF_LINK = { cashier: ['Ramesh', 'Cashier', 'st2'], waiter: ['Suresh', 'Waiter', 'st4'], kitchen: ['Anil', 'Kitchen', 'st3'], tandoor: ['Ravi', 'Kitchen', 'st7'], investor: ['Imran Patel', 'Investor', 'p2'] };
+    if (h === 'profit' || h === 'expenses') return { ...st, role: 'owner', ownerTab: h, me2: null, sheet: null, tour: null };
+    if (STAFF_LINK[h]) return { ...st, role: 'owner', ownerTab: STAFF_HOME[STAFF_LINK[h][1]], me2: { name: STAFF_LINK[h][0], role: STAFF_LINK[h][1], id: STAFF_LINK[h][2] }, sheet: null, tour: null };
     if (h === 'login') return { ...st, role: 'diner', screen: 'home', me2: null, sheet: { type: 'login' }, tour: null };
     if (h === 'team') return { ...st, role: 'admin', adminTab: 'overview', sheet: null, tour: null };
     if (h === 'business') return { ...st, role: 'diner', screen: 'business', sheet: null, tour: null };
