@@ -1252,6 +1252,16 @@ input.otp { letter-spacing: 0.5em; font-family: var(--f-mono); font-size: 20px; 
 .app-card { display: grid; gap: 10px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--app); align-content: start; }
 .toggle-line { gap: 10px; font-weight: 600; flex-wrap: nowrap; }
 @media (max-width: 760px) { .apps-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Free trial limits */
+.trial-box { max-width: 900px; margin: 0 auto 18px; padding: 16px 20px; border: 1px dashed var(--leaf); border-radius: 18px; background: var(--leaf-soft); display: grid; gap: 10px; }
+.trial-box > b { display: inline-flex; align-items: center; gap: 8px; }
+.trial-box ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 18px; }
+.trial-box li { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; line-height: 1.45; }
+.trial-box li .ic { flex: none; margin-top: 3px; color: var(--ok); }
+.trial-box.compact { margin: 0; padding: 12px 14px; }
+.trial-box.compact ul { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 760px) { .trial-box ul { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body>
@@ -1334,11 +1344,21 @@ const BILLING = {
   h: { months: 6, label: '6 months', every: 'every 6 months', per: 'for 6 months' },
   y: { months: 12, label: '12 months', every: 'every year', per: 'for 12 months' },
 };
-const BILL_KEYS = ['h', 'y'];
+const BILL_KEYS = ['y'];   // yearly only; 'h' stays for old saved data
+/* Free trial: what a new restaurant can do before paying */
+const TRIAL = { days: 15, tables: 5, orders: 200, wa: 50, keep: 30 };
+const TRIAL_LIMITS = [
+  'Every feature of the plan you pick, for ' + TRIAL.days + ' days',
+  'Up to ' + TRIAL.tables + ' table QR codes (print them at home)',
+  'Up to ' + TRIAL.orders + ' orders and bills in total',
+  TRIAL.wa + ' WhatsApp messages',
+  'One trial per restaurant, checked by mobile number and GST or FSSAI number',
+  'Swiggy and Zomato connect after you pay, not during the trial',
+  'Pay for the year and everything carries on. Not ready? Your data is kept ' + TRIAL.keep + ' days',
+];
 const planCost = (k, b) => {
   const P = PLANS[k] || PLANS.basic, key = BILLING[b] ? b : 'y', months = BILLING[key].months, total = P.total[key];
-  const save = key === 'y' ? P.total.h * 2 - total : 0;
-  return { full: Math.round(P.total.h / 6), per: Math.round(total / months), total, save, months, off: key === 'y' ? Math.round((save / (P.total.h * 2)) * 100) : 0 };
+  return { full: Math.round(total / months), per: Math.round(total / months), total, save: 0, months, off: 0 };
 };
 const dish = (id, cat, name, price, veg, desc, c1, c2, x) => ({ id, cat, name, price, veg, desc, c: [c1, c2], tags: [], variants: [], addons: [], stock: true, ...(x || {}) });
 const RESTAURANTS = [
@@ -1517,13 +1537,13 @@ RESTAURANTS.forEach((r) => {
 const RMAP = Object.fromEntries(RESTAURANTS.map((r) => [r.id, r]));
 const OWNER_RID = 'spice';
 const EXTRA_RESTAURANTS = [
-  { name: 'Kadak Chai Adda', area: 'Vastrapur, Ahmedabad', plan: 'basic', billing: 'h', tables: 4, ordersToday: 31, joined: 'Oct 2026' },
-  { name: 'Locho Corner', area: 'Adajan, Surat', plan: 'basic', billing: 'h', tables: 6, ordersToday: 27, joined: 'Oct 2026' },
+  { name: 'Kadak Chai Adda', area: 'Vastrapur, Ahmedabad', plan: 'basic', billing: 'y', tables: 4, ordersToday: 31, joined: 'Oct 2026' },
+  { name: 'Locho Corner', area: 'Adajan, Surat', plan: 'basic', billing: 'y', tables: 6, ordersToday: 27, joined: 'Oct 2026' },
   { name: 'Riverside Brew Co.', area: 'Alkapuri, Vadodara', plan: 'pro', billing: 'y', tables: 20, ordersToday: 73, joined: 'Jul 2026' },
-  { name: 'Udupi Corner', area: 'Kothrud, Pune', plan: 'basic', billing: 'h', tables: 10, ordersToday: 39, joined: 'Sep 2026' },
+  { name: 'Udupi Corner', area: 'Kothrud, Pune', plan: 'basic', billing: 'y', tables: 10, ordersToday: 39, joined: 'Sep 2026' },
 ];
 const SIGNUPS = [
-  { id: 'su1', name: 'Kesar Kitchen', area: 'Satellite, Ahmedabad', plan: 'basic', billing: 'h', tables: 10, owner: 'Hetal Patel' },
+  { id: 'su1', name: 'Kesar Kitchen', area: 'Satellite, Ahmedabad', plan: 'basic', billing: 'y', tables: 10, owner: 'Hetal Patel' },
   { id: 'su2', name: 'Momo Station', area: 'Bopal, Ahmedabad', plan: 'pro', billing: 'y', tables: 14, owner: 'Tenzin Dorjee' },
 ];
 const BASE = { sales: 18420, orders: 46, top: { 'Butter Naan': 412, 'Paneer Butter Masala': 186, 'Masala Chaas': 171, 'Paneer Tikka': 148, 'Chicken Dum Biryani': 121, 'Dal Makhani': 109 }, hours: [3, 8, 11, 7, 3, 2, 3, 5, 9, 12, 10, 6, 2] };
@@ -1607,7 +1627,7 @@ function freshState() {
     role: 'diner', screen: 'home', rid: 'spice', table: null, query: '', homeFilter: 'all', vegOnly: false, cat: null,
     cart: [], note: '', me: { name: 'Riya', phone: '98250 12345' }, pay: 'upi', rating: 0, lastPaid: null,
     sheet: null, ownerTab: 'orders', ownerCol: 'new', qrTable: 5, sound: true, billing: 'y', anaRange: 1, adminTab: 'overview', adminRid: 'spice',
-    rest: Object.fromEntries(RESTAURANTS.map((r) => [r.id, { plan: r.plan, billing: { nawab: 'h', pav: 'h' }[r.id] || 'y', open: r.open, upi: r.upi, tables: r.tables, name: r.name, area: r.area, gst: r.gst }])),
+    rest: Object.fromEntries(RESTAURANTS.map((r) => [r.id, { plan: r.plan, billing: 'y', open: r.open, upi: r.upi, tables: r.tables, name: r.name, area: r.area, gst: r.gst }])),
     menus: Object.fromEntries(RESTAURANTS.map((r) => [r.id, r.menu.map((m) => ({ ...m }))])),
     orders: [
       { id: 'o115', rid: 'spice', no: 115, table: 2, name: 'Taken by Suresh', by: 'Suresh', staff: true, items: [{ n: 'Dal Makhani', q: 1, p: 240, veg: true }, { n: 'Butter Naan', opt: 'Garlic', q: 4, p: 75, veg: true }, { n: 'Jeera Rice', q: 1, p: 170, veg: true }], status: 'ready', pay: 'unpaid', t: now - 23 * MIN },
@@ -1776,7 +1796,7 @@ const TOUR = [
   { t: 'One QR per table', d: 'Download a print-ready standee for each table. Scan one with your own phone: it opens this demo at that table.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'tables', qrTable: 5, sheet: null }), hl: '#standee' },
   { t: 'Reports for your CA and for you', d: 'Basic shows sales for any dates with an Excel export and a day-end report. Pro adds busy hours, repeat diners, stock and profit per dish.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'reports', sheet: null }), hl: '#reports-main' },
   { t: 'Add dishes with photos', d: 'Name, price, a photo from the phone, Half/Full portions and add-ons. It shows on every table the moment it is saved.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'menu', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: 'Main Course', name: 'Paneer Lababdar', price: '290', veg: true, desc: 'Paneer in a rich onion-tomato gravy with cream.', tags: ['New'], variants: [], addons: [['Extra butter', 30]], stock: true, img: null, c: ['#d9722e', '#f7e4c3'] } } }), hl: '#dish-editor' },
-  { t: 'Two plans, or pick modules', d: 'Basic is ₹4,999 for 12 months: billing, tables, waiters, table QR ordering and the kitchen screen. Pro adds Swiggy and Zomato orders, inventory, profit and partners, loyalty, Google reviews and dish profit. Pay for 6 or 12 months, after a 15-day free trial.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
+  { t: 'Two plans, or pick modules', d: 'Basic is ₹4,999 for 12 months: billing, tables, waiters, table QR ordering and the kitchen screen. Pro adds Swiggy and Zomato orders, inventory, profit and partners, loyalty, Google reviews and dish profit. One yearly price, after a 15-day free trial.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
   { t: 'Each waiter gets their own tables', d: 'Suresh looks after T1–T6 and Vijay T7–T12. A waiter’s phone opens on their tables, and a call from a table goes to that waiter.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'floor', me2: { name: 'Suresh', role: 'Waiter', id: 'st4' }, sheet: null }), hl: '#floor' },
   { t: 'One screen per kitchen station', d: 'The tandoor screen shows only starters and breads. Each station marks its part ready, and the order turns Ready when every part is done.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'orders', ownerCol: 'preparing', me2: { name: 'Ravi', role: 'Kitchen', id: 'st7' }, sheet: null }), hl: '#board' },
   { t: 'Expenses with a photo of the bill', d: 'The cashier or manager adds every expense as it happens: gas, salaries, repairs. Cash paid out today is checked at day end.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'expenses', sheet: null }), hl: '#exp-add' },
@@ -2239,17 +2259,17 @@ const FEATURES = [
   ['Google review link on every bill', ['n', 'y']],
   ['Busy hours, repeat diners and ratings', ['n', 'y']],
   ['Owner view across outlets, your own branding', ['n', 'y']],
-  ['Free trial', [SETUP.trial + ' days', SETUP.trial + ' days']],
-  ['On-site setup: menu typed, photos, QR stands, staff trained', ['₹' + SETUP.onsite, 'Free on 12 months']],
+  ['Free trial (up to ' + TRIAL.tables + ' table QRs and ' + TRIAL.orders + ' orders)', [TRIAL.days + ' days', TRIAL.days + ' days']],
+  ['On-site setup: menu typed, photos, QR stands, staff trained', ['₹' + SETUP.onsite, 'Free']],
   ['WhatsApp support in Hindi, Gujarati, English', ['y', 'Priority']],
 ];
 const FOR = { basic: 'Cafés, dhabas, family restaurants, quick service', pro: 'Busy restaurants, bakeries, cloud kitchens, chains' };
-function BillingSwitch({ s, d }) {
-  const b = BILLING[s.billing] ? s.billing : 'y';
-  return html`<div className="billsw" id="billing">
-    <div className="seg" role="group" aria-label="Billing period">${BILL_KEYS.map((k) => html`<button key=${k} aria-pressed=${b === k} onClick=${() => d({ type: 'set', k: 'billing', v: k })}>${BILLING[k].label}${k === 'y' ? html`<span className="save">Best value</span>` : null}</button>`)}</div>
-    <p className="small muted">${b === 'y' ? 'Pay once for 12 months and save compared with two 6-month payments.' : 'Pay for 6 months at a time. Switch to 12 months whenever you like.'} Every plan starts with a ${SETUP.trial}-day free trial.</p>
-  </div>`;
+function BillingSwitch() {
+  return null;
+}
+function TrialBox({ compact }) {
+  return html`<div className=${'trial-box' + (compact ? ' compact' : '')} id=${compact ? undefined : 'trial'}><b>${I('sparkle', 16)} What the ${TRIAL.days}-day free trial includes</b>
+    <ul>${TRIAL_LIMITS.map((x) => html`<li key=${x}>${I('check', 14)}${x}</li>`)}</ul></div>`;
 }
 function PlanCompare({ current, billing }) {
   return html`<div className="twrap"><table className="tbl cmp"><thead><tr><th>What you get</th>${PLAN_KEYS.map((k) => html`<th key=${k} className=${k === current ? 'cur' : ''}>${PLANS[k].name}<small>${inr(planCost(k, billing).total)} ${BILLING[BILLING[billing] ? billing : 'y'].per}</small></th>`)}</tr></thead>
@@ -2264,7 +2284,7 @@ function PlanCards({ current, currentBilling, billing, onPick, label }) {
     ${k === current ? html`<span className="pill leaf cur">Current plan</span>` : k === 'pro' ? html`<span className="pill sun cur">Most picked</span>` : null}
     <h3>${PLANS[k].name}</h3><p className="small muted">${FOR[k]}</p>
     <div className="price"><b>${inr(c.total)}</b><span>${BILLING[bk].per}</span></div>
-    <p className="bill-line">About ${inr(c.per)} a month${c.save ? html` · <b>save ${inr(c.save)}</b> vs 6 months twice` : ''}</p>
+    <p className="bill-line">About ${inr(c.per)} a month, paid once a year</p>
     <ul>${PLANS[k].perks.map((p) => html`<li key=${p}>${I('check', 15)}${p}</li>`)}</ul>
     <p className="small muted">${SETUP.trial}-day free trial · on-site setup ${k === 'pro' && bk === 'y' ? 'free' : inr(SETUP.onsite) + ', optional'}</p>
     <button className=${'btn block ' + (same ? '' : 'primary')} disabled=${same} onClick=${() => onPick(k)}>${same ? 'Your plan' : k === current ? 'Switch to ' + BILLING[bk].label : label(k)}</button>
@@ -2331,8 +2351,8 @@ const FAQS = [
     ['What if the internet goes down?', 'Counter billing keeps working and saves on the phone. Bills upload when the internet is back. Table QR ordering needs internet.'],
   ]],
   ['billing', 'Plans & billing', [
-    ['How do I pay for Zestro?', 'For 6 months or 12 months at a time, per outlet. There is no monthly plan. 12 months costs less than two 6-month payments.'],
-    ['Is there a free trial?', 'Yes, ' + SETUP.trial + ' days with every feature of the plan, and no payment details needed.'],
+    ['How do I pay for Zestro?', 'Once a year, per outlet: ' + inr(PLANS.basic.total.y) + ' for Basic or ' + inr(PLANS.pro.total.y) + ' for Pro. There is no monthly or 6-month plan. Try it free for ' + TRIAL.days + ' days first and pay only if you keep it.'],
+    ['Is there a free trial?', 'Yes, ' + TRIAL.days + ' days with every feature of the plan and no payment details. During the trial you get up to ' + TRIAL.tables + ' table QR codes, ' + TRIAL.orders + ' orders and ' + TRIAL.wa + ' WhatsApp messages, one trial per restaurant. Swiggy and Zomato connect after you pay.'],
     ['Is there a setup charge?', 'Setting up yourself is free. On-site setup costs ' + inr(SETUP.onsite) + ', and is free with Pro for 12 months.'],
     ['Do you take a commission on orders?', 'No. You pay the plan price only. Diners pay straight to your UPI ID, and every rupee is yours.'],
     ['Can I get Swiggy and Zomato orders here?', 'Yes, on Pro or as an add-on. App orders land on the same kitchen screen as your tables, already paid. Your menu and sold-out dishes stay in sync. The apps still charge their own commission; we add nothing.'],
@@ -2413,8 +2433,9 @@ function ForRestaurants({ s, d }) {
     <${WhySwitch} s=${s} />
 
     <section className="sx" id="pricing"><div className="container"><div className="sx-glow">
-      <div className="sx-h"><h2>Two plans. No commission. No hardware.</h2><p>Unlimited bills and orders. Pay for 6 or 12 months per outlet, with a ${SETUP.trial}-day free trial first. Prices shown are what you pay.</p></div>
+      <div className="sx-h"><h2>Two plans. No commission. No hardware.</h2><p>Unlimited bills and orders. One yearly price per outlet, with a ${TRIAL.days}-day free trial first. Prices shown are what you pay.</p></div>
       <${BillingSwitch} s=${s} d=${d} />
+      <${TrialBox} />
       <${PlanCards} current=${null} billing=${b} onPick=${(k) => signup(k)} label=${(k) => 'Try ' + PLANS[k].name + ' free'} />
       <div style=${{ maxWidth: 900, margin: '22px auto 0' }}><${ModuleBuilder} s=${s} d=${d} onPick=${(k) => signup(k)} /></div>
       <div className="sizes">${SIZES.map(([t, x]) => html`<div key=${t} className="size"><b>${t}</b><p className="small muted">${x}</p></div>`)}</div>
@@ -2481,8 +2502,9 @@ function SignupSheet({ s, d }) {
     <details className="bp-opt"><summary>Add your logo and cover photo <span className="muted">(optional, you can do it later)</span></summary>
       <${BrandPhotos} id="su-photos" r=${{ name: f.name || 'Your restaurant', short: (f.name || 'R').split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase(), b: ['#0f766e', '#34d399'] }} logo=${f.logo} cover=${f.cover} onChange=${(p) => setF((o) => ({ ...o, ...p }))} /></details>
     <div className="fields2"><label className="field">Number of tables<div className="stepper" style=${{ justifySelf: 'start' }}><button onClick=${() => set('tables', Math.max(1, f.tables - 1))} aria-label="One table less">−</button><span>${f.tables}</span><button onClick=${() => set('tables', Math.min(60, f.tables + 1))} aria-label="One table more">+</button></div></label>
-      <label className="field">Plan<select value=${f.plan} onChange=${(e) => set('plan', e.target.value)}>${PLAN_KEYS.map((k) => html`<option key=${k} value=${k}>${PLANS[k].name} · from ${inr(PLANS[k].total.h)}</option>`)}</select></label></div>
-    <div className="field"><span>Pay after the free trial</span><div className="paypick two" role="radiogroup" aria-label="Billing period">${BILL_KEYS.map((k) => { const c = planCost(f.plan, k); return html`<button key=${k} role="radio" aria-checked=${f.billing === k} onClick=${() => set('billing', k)}><b>${BILLING[k].label}</b><span>${inr(c.total)}</span><small>${c.save ? 'About ' + inr(c.per) + '/mo · save ' + inr(c.save) : 'About ' + inr(c.per) + '/mo'}</small></button>`; })}</div></div>
+      <label className="field">Plan<select value=${f.plan} onChange=${(e) => set('plan', e.target.value)}>${PLAN_KEYS.map((k) => html`<option key=${k} value=${k}>${PLANS[k].name} · ${inr(PLANS[k].total.y)} a year</option>`)}</select></label></div>
+    <p className="small muted">After the free trial: ${inr(PLANS[f.plan].total.y)} for the year (about ${inr(planCost(f.plan, 'y').per)} a month). You pay only if you keep it.</p>
+    <${TrialBox} compact=${true} />
     ${err ? html`<p className="notice" style=${{ background: 'var(--bad-soft)', color: 'var(--bad)', fontWeight: 700 }}>${err}</p>` : null}
     <button className="btn primary lg block" onClick=${submit}>Send for approval</button>
     <p className="small muted" style=${{ textAlign: 'center' }}>Demo only: nothing is sent anywhere.</p>
@@ -3066,14 +3088,14 @@ const RIVALS = [
 ];
 const STRUGGLES = [
   ['store', 'Hardware before the first bill', 'A billing counter with a PC, touchscreen and printer can cost ₹30,000–60,000.', 'Zero hardware. Your phone or tablet is the counter; a printer is optional.'],
-  ['rupee', 'Big yearly fees', '₹12,000–20,000 a year per outlet, plus GST, plus add-ons.', 'Billing, tables and QR ordering for ' + inr(PLANS.basic.total.y) + ' a year, or ' + inr(PLANS.basic.total.h) + ' for 6 months.'],
+  ['rupee', 'Big yearly fees', '₹12,000–20,000 a year per outlet, plus GST, plus add-ons.', 'Billing, tables and QR ordering for ' + inr(PLANS.basic.total.y) + ' a year, about ' + inr(planCost('basic', 'y').per) + ' a month.'],
   ['orders', 'QR ordering and kitchen screen cost extra', 'Kept for higher-priced plans.', 'Table QR ordering and the kitchen screen are in Basic.'],
   ['gear', 'Hard to set up', 'Owners say it is not easy to configure.', 'We come to you: menu typed, photos taken, QR codes placed, staff trained in a day.'],
   ['bell', 'Support that does not pick up', 'Calls that do not connect, long holds.', 'WhatsApp support in Hindi, Gujarati and English, on every plan.'],
   ['shield', 'Internet drops at the busiest hour', 'Billing stops and the queue grows.', 'Billing keeps working offline and uploads when the internet is back.'],
   ['people', 'Waiters writing orders by hand', 'Wrong dishes, lost slips, unhappy tables.', 'Diners order from the table QR; waiters can order from their phone too.'],
   ['chart', 'No idea which dish really earns', 'Reports show sales, not profit.', 'Food cost from your recipes and profit per dish on Pro.'],
-  ['lock', 'Only one way to pay for it', 'A full year upfront, or nothing.', 'Start with 6 months. Try everything free for ' + SETUP.trial + ' days first.'],
+  ['lock', 'Paying before you know it works', 'A full year upfront, before a single bill.', 'Use it free for ' + TRIAL.days + ' days in your own restaurant first, then pay once for the year.'],
 ];
 function WhySwitch({ s }) {
   const b = planCost('basic', 'y'), a = planCost('pro', 'y');
@@ -3208,7 +3230,7 @@ function TeamOverview({ s, d, rows }) {
     </div>
     <div className="two">
       <section className="card"><div className="card-h"><h3>Restaurants by plan</h3><span className="small muted">${rows.length} restaurants</span></div><${Stack} parts=${mix} fmt=${(v) => v + ' restaurants'} /></section>
-      <section className="card"><div className="card-h"><h3>How restaurants pay</h3><span className="small muted">${paying.length} restaurants · 6 or 12 months ahead</span></div><${Stack} parts=${bmix} fmt=${(v) => v + ' restaurants'} /></section>
+      <section className="card"><div className="card-h"><h3>Trials</h3><span className="small muted">${TRIAL.days} days, then pay for the year</span></div><${TrialBox} compact=${true} /></section>
     </div>
     <div className="two">
       <section className="card"><div className="card-h"><h3>Upgrade candidates</h3><span className="small muted">Worth a call this week</span></div>
@@ -4104,8 +4126,8 @@ function Admin({ s, d }) {
       ${tab === 'restaurants' ? html`<${React.Fragment}>
       <div className="tiles">
         <div className="tile"><span>Restaurants</span><b>${rows.length}</b><small>${s.approved.length ? s.approved.length + ' approved today' : '3 joined this month'}</small></div>
-        <div className="tile"><span>On 12 months</span><b>${prepaid}</b><small className="m">${paying.length - prepaid} on 6 months</small></div>
-        <div className="tile"><span>Monthly recurring revenue</span><b>${inr(mrr)}</b><small className="m">6 and 12-month payments spread per month</small></div>
+        <div className="tile"><span>Paying yearly</span><b>${prepaid}</b><small className="m">every plan is yearly</small></div>
+        <div className="tile"><span>Monthly recurring revenue</span><b>${inr(mrr)}</b><small className="m">yearly payments spread per month</small></div>
         <div className="tile"><span>Orders today</span><b>${orders}</b><small className="m">all restaurants</small></div>
       </div>
       ${s.signups.length ? html`<section className="card"><h3>New sign-ups to review <span className="badge">${s.signups.length}</span></h3>${s.signups.map((su) => html`<div key=${su.id} className="signup"><div className="grow"><b>${su.name}</b><div className="small muted">${su.area} · ${su.tables} tables · owner ${su.owner}</div></div><span className=${'pill ' + (su.plan === 'pro' ? 'leaf' : 'info')}>${PLANS[su.plan].name} · ${BILLING[su.billing || 'y'].label}</span><button className="btn sm" onClick=${() => d({ type: 'approve', id: su.id, ok: false })}>Decline</button><button className="btn sm primary" onClick=${() => { d({ type: 'approve', id: su.id, ok: true }); toast(su.name + ' is live on Zestro'); }}>Approve</button></div>`)}</section>` : null}

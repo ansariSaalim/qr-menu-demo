@@ -10,7 +10,7 @@ Use "View as" at the top to switch between a diner, the restaurant and our team.
 
 - **Website:** what Zestro does, plans and pricing, sign-up and restaurant log in.
 - **Diner at a table:** scan a table QR, order with portions and add-ons, track the order, pay by UPI or at the counter.
-- **For restaurants:** two plans (Basic ₹4,999 and Pro ₹7,999 for 12 months, or 6 months for ₹2,999 / ₹4,999; Pro includes 300 WhatsApp messages a month), a 15-day free trial, build-your-own modules, outlet pricing, a feature comparison and a sign-up form.
+- **For restaurants:** two plans (Basic ₹4,999 and Pro ₹7,999 a year, yearly only; Pro includes 300 WhatsApp messages a month), a 15-day free trial, build-your-own modules, outlet pricing, a feature comparison and a sign-up form.
 - **Restaurant:** billing counter (GST bill, discounts, cash/UPI split, khata, day-end report), tables with running bills, move and merge, live orders with kitchen tickets and a token board, inventory with recipes and food cost (Pro), customers and khata, menu editor, table QR standees, reports with Excel export, optional printer setup, staff PINs and an offline mode.
 - **Swiggy and Zomato (Pro or add-on):** app orders land on the same kitchen screen, already paid, with auto-accept, rider timing, pause per app, menu and sold-out sync, and a sales-by-channel report with commission. Use "Test an app order" on Live orders.
 - **Staff:** each waiter has their own tables (calls from a table go to that waiter), kitchen stations each get their own screen (tandoor, main kitchen, drinks), and a staff report shows orders and sales per waiter and cash per cashier.
