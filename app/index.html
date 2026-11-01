@@ -2440,8 +2440,8 @@ const FAQS = [
 ];
 /* ---------- Full demo videos: desktop and mobile versions ---------- */
 const DEMO_VIDS = {
-  desktop: { src: 'videos/demo-desktop.mp4', poster: 'videos/demo-desktop.jpg', label: 'Desktop', note: 'The restaurant screens as they look on a laptop, plus the diner’s phone.' },
-  mobile: { src: 'videos/demo-mobile.mp4', poster: 'videos/demo-mobile.jpg', label: 'Mobile', note: 'Everything on a phone, the way owners, staff and diners use it.' },
+  desktop: { src: '../videos/demo-desktop.mp4', poster: '../videos/demo-desktop.jpg', label: 'Desktop', note: 'The restaurant screens as they look on a laptop, plus the diner’s phone.' },
+  mobile: { src: '../videos/demo-mobile.mp4', poster: '../videos/demo-mobile.jpg', label: 'Mobile', note: 'Everything on a phone, the way owners, staff and diners use it.' },
 };
 function DemoVideo() {
   const [kind, setKind] = useState(() => { try { return window.matchMedia('(max-width: 700px)').matches ? 'mobile' : 'desktop'; } catch (e) { return 'desktop'; } });
