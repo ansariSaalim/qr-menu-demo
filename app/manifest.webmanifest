@@ -1,0 +1,20 @@
+{
+  "id": "./",
+  "name": "Zestro: billing, tables and QR orders",
+  "short_name": "Zestro",
+  "description": "Restaurant billing, live table orders, kitchen screen and reports. Owner, cashier, waiters and kitchen each use their own phone, always in sync.",
+  "lang": "en-IN",
+  "start_url": "./#app",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "categories": ["business", "food", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

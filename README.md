@@ -5,6 +5,7 @@ A clickable prototype of Zestro: billing, tables and QR ordering for small and m
 - Web app (laptop, tablet, phone): https://ansarisaalim.github.io/qr-menu-demo/
 - Phone app preview: https://ansarisaalim.github.io/qr-menu-demo/phone/
 - QR codes to scan (table, owner, cashier, waiter, kitchen, tour, pricing): https://ansarisaalim.github.io/qr-menu-demo/try/
+- **Live app (real database):** https://ansarisaalim.github.io/qr-menu-demo/app/ — install it on a phone or computer from https://ansarisaalim.github.io/qr-menu-demo/app/#get-app (Android and computers: one-tap Install; iPhone: Share, then Add to Home Screen)
 
 Use "View as" at the top to switch between a diner, the restaurant and our team. Use "Guided tour" to walk through the whole flow in 24 steps.
 

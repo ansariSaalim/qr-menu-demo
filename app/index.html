@@ -10,6 +10,18 @@
 <meta name="theme-color" content="#ffffff">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Zestro</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Zestro">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<script>
+/* Install as an app: keep the browser's own install offer for our "Install app" button */
+window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); window.__zInstallEv = e; window.dispatchEvent(new Event('z-install')); });
+window.addEventListener('appinstalled', function () { window.__zInstallEv = null; window.__zInstalled = true; window.dispatchEvent(new Event('z-install')); });
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || /[?&]sw=1/.test(location.search))) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111827'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='2.2' stroke-linejoin='round'%3E%3Crect x='6' y='6' width='8' height='8' rx='1.6'/%3E%3Ccircle cx='20.5' cy='20.5' r='6'/%3E%3Ccircle cx='20.5' cy='20.5' r='2.4'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1270,6 +1282,37 @@ input.otp { letter-spacing: 0.5em; font-family: var(--f-mono); font-size: 20px; 
 .live-bn > span { flex: 1; min-width: 220px; display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .live-bn.trial { background: var(--leaf-soft); border-color: var(--leaf); }
 .live-bn.bad { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); }
+/* Install the app */
+.ga { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 16px; max-width: 980px; margin: 0 auto; }
+.ga.one { grid-template-columns: minmax(0, 1fr); max-width: 640px; }
+.ga-card { background: var(--app); border: 1px solid var(--line); border-radius: 26px; padding: clamp(20px, 3vw, 28px); display: grid; gap: 14px; align-content: start; }
+.ga-card h3 { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; display: flex; gap: 10px; align-items: center; }
+.ga-card h3 .ic { color: var(--leaf); flex: none; }
+.ga-card .btn.lg { justify-self: start; }
+.ga-qr { justify-items: center; text-align: center; align-content: center; }
+.ga-qr b { font-size: 17px; }
+.ga-steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; counter-reset: gs; }
+.ga-steps li { display: flex; gap: 12px; align-items: flex-start; line-height: 1.5; }
+.ga-steps li::before { counter-increment: gs; content: counter(gs); flex: none; width: 28px; height: 28px; border-radius: 9px; background: var(--grad); color: #ffffff; font-weight: 650; font-size: 14px; display: grid; place-items: center; }
+.ga-steps li > span { padding-top: 2px; }
+.kbd { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; margin: 0 1px; border: 1px solid var(--line); border-radius: 8px; background: var(--app-2); font-weight: 600; white-space: nowrap; vertical-align: 1px; }
+.ga-plats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 980px; margin: 16px auto 0; }
+.ga-plat { border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px; background: var(--app); }
+.ga-plat summary { cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; list-style: none; }
+.ga-plat summary::-webkit-details-marker { display: none; }
+.ga-plat summary::after { content: '+'; margin-left: auto; font-size: 20px; color: var(--muted); line-height: 1; }
+.ga-plat[open] summary::after { content: '−'; }
+.ga-plat[open] summary { margin-bottom: 12px; }
+.ga-plat .small { margin-top: 10px; }
+.ga-note { text-align: center; margin-top: 18px; }
+.ga-qr-row { display: flex; gap: 14px; align-items: center; padding: 12px; border: 1px dashed var(--line); border-radius: 16px; }
+#install-sheet { display: grid; gap: 16px; }
+#install-sheet .ga-steps { margin-top: 2px; }
+#install-bn .btn.icon { padding: 6px; }
+.get-app-btn .ga-s { display: none; }
+@media (max-width: 860px) { .ga, .ga-plats { grid-template-columns: minmax(0, 1fr); } .get-app-btn .ga-l { display: none; } .get-app-btn .ga-s { display: inline; } .get-app-btn { padding: 7px 10px; } }
+@media (max-width: 370px) { .get-app-btn .ga-s { display: none; } }
+@media (max-width: 340px) { .nav-actions .get-app-btn { display: none; } }
 .acct { display: grid; gap: 16px; padding-top: 24px; padding-bottom: 48px; }
 .acct-perks { list-style: none; padding: 0; margin: 4px 0 8px; display: grid; gap: 4px; }
 .acct-perks li { display: flex; gap: 6px; align-items: center; }
@@ -1334,6 +1377,11 @@ const P = {
   table: 'M3 8h18M5 8v11M19 8v11M8 8V5h8v3M9 13h6',
   sun: 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',
   moon: 'M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z',
+  share: 'M12 3v12M8 7l4-4 4 4M6 11H5v10h14V11h-1',
+  phone: 'M8 2.5h8a1.5 1.5 0 0 1 1.5 1.5v16a1.5 1.5 0 0 1-1.5 1.5H8A1.5 1.5 0 0 1 6.5 20V4A1.5 1.5 0 0 1 8 2.5zM11 18.5h2',
+  laptop: 'M5 5h14v10H5zM2.5 19h19',
+  dots: 'M12 5h.01M12 12h.01M12 19h.01',
+  copy: 'M9 9h11v11H9zM5 15H4V4h11v1',
   logo: 'M3 3h7v7H3zM15.5 10a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zM15.5 13.3a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4zM3 14v7M6.5 14v3.5M14 3h7M14 6.5h3.5',
 };
 const I = (name, size) => html`<svg className="ic" width=${size || 18} height=${size || 18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d=${P[name]} /></svg>`;
@@ -1880,10 +1928,12 @@ function Modal({ id, onClose, wide, children }) {
 function DinerNav({ s, d }) {
   const atTable = LIVE.mode === 'diner' || ['menu', 'cart', 'track', 'pay', 'paid', 'orders'].includes(s.screen);
   const toPricing = () => { d({ type: 'go', screen: 'home' }); setTimeout(() => { const el = document.getElementById('pricing'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80); };
+  const ins = useInstall();
   return html`<header className="topnav"><div className="container nav-inner">
     <${Logo} d=${d} />
     <div className="nav-actions">
       ${atTable ? null : html`<button className="nav-link" onClick=${toPricing}>${I('rupee')}Pricing</button>`}
+      ${atTable || ins.kind === 'installed' ? null : html`<button className="btn sm get-app-btn" id="get-app-btn" onClick=${ins.open} aria-label="Get the app">${I('download', 16)}<span className="ga-l">Get the app</span><span className="ga-s">App</span></button>${ins.sheet}`}
       ${LIVE.mode === 'diner' ? null : LIVE.session ? html`<a className="btn sm login-btn" id="my-rest" href="#app" onClick=${() => setTimeout(() => location.reload(), 30)}>${I('store', 16)}<span className="lb-l">My restaurant</span></a>${LIVE.session.role === 'Owner' ? html`<a className="btn sm" href="#account" onClick=${() => setTimeout(() => location.reload(), 30)}>${I('rupee', 16)}<span className="lb-l">Plan</span></a>` : null}`
         : html`<button className="btn sm login-btn" id="login-btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'login' } })} aria-label="Restaurant log in">${I('user', 16)}<span className="lb-l">Restaurant log in</span></button>
       <button className="btn primary sm" id="try-qr" onClick=${() => d({ type: 'sheet', sheet: { type: 'signup', plan: 'basic' } })}>${I('sparkle', 16)}<span className="sq-l">Start free trial</span><span className="sq-s">Free trial</span></button>`}
@@ -2471,6 +2521,8 @@ function ForRestaurants({ s, d }) {
       <div className="sx-h"><h2>Everything a small restaurant needs, nothing to buy</h2><p>One app for the counter, the tables and the kitchen.</p></div>
       <div className="feat-grid">${FEATS.map(([ic, t, x]) => html`<div key=${t} className="feat"><span className="feat-ic">${I(ic, 24)}</span><b>${t}</b><p>${x}</p></div>`)}</div>
     </div></section>
+
+    <${GetApp} />
 
     <section className="sx"><div className="container">
       <div className="sx-h"><h2>Got questions?</h2><p>What restaurant owners ask us most.</p></div>
@@ -3201,6 +3253,7 @@ function OwnerSettings({ s, d }) {
   return html`
     <div className="ph"><div><h1>Plan & settings</h1><p className="muted">Your plan, printer, staff and restaurant details. No commission on orders.</p></div></div>
     <${LiveSubCard} s=${s} />
+    <${StaffAppCard} s=${s} />
     <section className="card" id="qr-safety"><div className="card-h"><h3>${I('shield', 18)} Table QR safety</h3></div>
       <label className="row" style=${{ gap: 10, fontWeight: 650, flexWrap: 'nowrap' }}><button className="switch" role="switch" id="qr-otp" aria-checked=${r.qrOtp !== false} onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { qrOtp: r.qrOtp === false } }); toast(r.qrOtp === false ? 'Diners verify their mobile on the first order' : 'Mobile code turned off'); }} aria-label="Ask for a mobile code on the first order"><i></i></button>Ask for a mobile code on each table’s first order</label>
       <ul className="small muted qs-list">
@@ -4338,6 +4391,7 @@ function LiveBanner({ s, d }) {
     ${info.state === 'expired' ? html`<div className="live-bn bad"><span>${I('lock', 16)}<b>${info.paid_until ? 'Your plan ended on ' + dateIN(info.paid_until) : 'The free trial has ended'}.</b> New orders are paused. Your data is safe.</span>${pay}</div>` : null}
     ${info.state === 'blocked' ? html`<div className="live-bn bad"><span>${I('lock', 16)}<b>This account is on hold.</b> Message Zestro support on WhatsApp.</span></div>` : null}
     ${menuEmpty && owner ? html`<div className="live-bn"><span>${I('menu', 16)}<b>Start here:</b> add your dishes, then print the table QR codes.</span><button className="btn sm primary" onClick=${() => d({ type: 'set', k: 'ownerTab', v: 'menu' })}>Add dishes</button></div>` : null}
+    <${InstallNudge} />
   </div>`;
 }
 function LiveSubCard({ s }) {
@@ -4533,6 +4587,96 @@ function SignupSheet({ s, d }) {
   <//>`;
 }
 
+/* ---------- Install Zestro as an app (home screen / desktop) ---------- */
+function isStandalone() { try { return window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: window-controls-overlay)').matches || navigator.standalone === true; } catch (e) { return false; } }
+const isIOS = () => /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isAndroid = () => /Android/i.test(navigator.userAgent);
+const APP_URL = location.origin + location.pathname.replace(/index\.html$/, '');
+const PLAT = { android: { icon: 'phone', label: 'Android' }, ios: { icon: 'phone', label: 'iPhone and iPad' }, desktop: { icon: 'laptop', label: 'Computer' } };
+const devicePlat = () => (isIOS() ? 'ios' : isAndroid() ? 'android' : 'desktop');
+function useInstall() {
+  const [, bump] = useState(0);
+  const [sheet, setSheet] = useState(false);
+  useEffect(() => { const f = () => bump((n) => n + 1); window.addEventListener('z-install', f); return () => window.removeEventListener('z-install', f); }, []);
+  const ev = window.__zInstallEv;
+  const kind = isStandalone() ? 'installed' : window.__zInstalled ? 'done' : ev ? 'prompt' : devicePlat();
+  const prompt = async () => {
+    if (!window.__zInstallEv) return false;
+    const e = window.__zInstallEv; window.__zInstallEv = null;
+    try { await e.prompt(); const r = await e.userChoice; if (r && r.outcome === 'accepted') { window.__zInstalled = true; toast('Zestro is installed. Open it from your home screen or apps.'); } } catch (x) { /* browser refused */ }
+    window.dispatchEvent(new Event('z-install'));
+    return true;
+  };
+  const open = async () => { if (!(await prompt())) setSheet(true); };
+  // Rendered at the end of the page so the sticky header cannot clip it
+  return { kind, mobile: isIOS() || isAndroid(), prompt, open, sheet: sheet ? ReactDOM.createPortal(html`<${InstallSheet} onClose=${() => setSheet(false)} />`, document.body) : null };
+}
+function InstallSteps({ p }) {
+  if (p === 'ios') return html`<ol className="ga-steps">
+    <li><span>Open this page in <b>Safari</b>.</span></li>
+    <li><span>Tap <span className="kbd">${I('share', 14)}Share</span> at the bottom of the screen.</span></li>
+    <li><span>Tap <span className="kbd">Add to Home Screen</span>, then <b>Add</b>.</span></li></ol>
+    <p className="small muted">The Zestro icon appears on your home screen. Log in once inside the app.</p>`;
+  if (p === 'android') return html`<ol className="ga-steps">
+    <li><span>Open this page in <b>Chrome</b>.</span></li>
+    <li><span>Tap the menu <span className="kbd">${I('dots', 14)}</span> at the top right.</span></li>
+    <li><span>Tap <span className="kbd">Install app</span> or <span className="kbd">Add to Home screen</span>, then <b>Install</b>.</span></li></ol>
+    <p className="small muted">Zestro appears with your other apps and opens full screen.</p>`;
+  return html`<ol className="ga-steps">
+    <li><span>Open this page in <b>Chrome</b> or <b>Edge</b>.</span></li>
+    <li><span>Click the install icon <span className="kbd">${I('download', 14)}</span> at the right end of the address bar.</span></li>
+    <li><span>Click <b>Install</b>.</span></li></ol>
+    <p className="small muted">Zestro opens in its own window. Handy for the billing counter or a kitchen screen.</p>`;
+}
+function InstallSheet({ onClose }) {
+  const [p, setP] = useState(devicePlat);
+  return html`<${Modal} id="install-sheet" onClose=${onClose}>
+    <div className="modal-h"><h2>${I('download', 22)}Install the Zestro app</h2><button className="btn sm icon" onClick=${onClose} aria-label="Close">${I('x')}</button></div>
+    <div className="seg full" role="group" aria-label="Your device">${Object.keys(PLAT).map((k) => html`<button key=${k} aria-pressed=${p === k} onClick=${() => setP(k)}>${PLAT[k].label}</button>`)}</div>
+    <${InstallSteps} p=${p} />
+    ${p !== 'desktop' && !(isIOS() || isAndroid()) ? html`<div className="ga-qr-row"><${QR} text=${APP_URL + '#get-app'} size=${112} /><span className="small muted">Scan with your phone camera to open Zestro on your phone, then follow the steps there.</span></div>` : null}
+  <//>`;
+}
+/* Website section: "Get the Zestro app" */
+function GetApp() {
+  const ins = useInstall(), plat = devicePlat();
+  const here = ins.kind === 'installed' ? html`<h3>${I('check', 22)}You are using the Zestro app</h3><p className="muted">Open it any time from your home screen or apps list.</p>`
+    : ins.kind === 'done' ? html`<h3>${I('check', 22)}Zestro is installed</h3><p className="muted">Open it from your home screen or apps list and log in.</p>`
+    : ins.kind === 'prompt' ? html`<h3>${I(ins.mobile ? 'phone' : 'laptop', 22)}Install on this ${ins.mobile ? 'phone' : 'computer'}</h3><p className="muted">One tap. No app store needed, and updates arrive by themselves.</p><button className="btn primary lg" id="ga-install" onClick=${ins.prompt}>${I('download', 18)}Install Zestro app</button>`
+    : html`<h3>${I(PLAT[plat].icon, 22)}Install on this ${plat === 'desktop' ? 'computer' : plat === 'ios' ? 'iPhone' : 'phone'}</h3><${InstallSteps} p=${plat} />`;
+  return html`<section className="sx" id="get-app"><div className="container"><div className="sx-panel">
+    <div className="sx-h"><h2>Get the Zestro app</h2><p>Install it on the owner’s, cashier’s, waiters’ and kitchen phones. Everyone logs in with their own PIN and sees the same orders, live. Diners never need it: they just scan the table QR.</p></div>
+    <div className=${'ga' + (ins.mobile ? ' one' : '')}>
+      <div className="ga-card" id="ga-here">${here}</div>
+      ${ins.mobile ? null : html`<div className="ga-card ga-qr"><${QR} text=${APP_URL + '#get-app'} size=${150} /><b>Install it on your phone</b><span className="small muted">Point your phone camera at this code. The page opens with the install steps for your phone.</span></div>`}
+    </div>
+    <div className="ga-plats">${Object.keys(PLAT).filter((k) => k !== plat).map((k) => html`<details key=${k} className="ga-plat"><summary>${I(PLAT[k].icon, 17)}${PLAT[k].label}</summary><${InstallSteps} p=${k} /></details>`)}</div>
+    <p className="small muted ga-note">Free with every plan and the free trial. Works on Android phones with Chrome, iPhones and iPads with Safari, and computers with Chrome or Edge.</p>
+  </div></div></section>`;
+}
+/* Inside the app: a one-line nudge to install it on this device */
+function InstallNudge() {
+  const ins = useInstall();
+  const [hide, setHide] = useState(() => !!lsGet('zestro-install-hide'));
+  if (hide || ins.kind === 'installed' || ins.kind === 'done') return null;
+  return html`<div className="live-bn" id="install-bn"><span>${I('download', 16)}<b>Install Zestro on this ${ins.mobile ? 'phone' : 'device'}</b><small className="muted">Opens from the home screen like any app, full screen.</small></span>
+    <button className="btn sm primary" id="install-bn-go" onClick=${ins.open}>Install</button><button className="btn sm icon" aria-label="Hide this" onClick=${() => { lsSet('zestro-install-hide', 1); setHide(true); }}>${I('x', 16)}</button>${ins.sheet}</div>`;
+}
+/* Plan & settings: send the app to staff */
+function StaffAppCard({ s }) {
+  const ins = useInstall();
+  const info = (s.live && s.live.info) || LIVE.info; if (!info) return null;
+  const msg = 'Install the Zestro app for ' + info.name + ': ' + APP_URL + '\nOpen it, tap Restaurant log in, choose Staff and partners and enter the restaurant code ' + info.id + '. Then pick your name and enter your PIN.';
+  const copy = async () => { try { await navigator.clipboard.writeText(msg); toast('Copied. Paste it to your staff.'); } catch (e) { toast('Copy did not work. Use WhatsApp instead.'); } };
+  return html`<section className="card" id="staff-app"><div className="card-h"><h3>${I('phone', 18)} Zestro on every phone</h3></div>
+    <p className="small muted">Send your staff the app link and the restaurant code <b className="num">${info.id}</b>. They install the app, pick their name and enter their own PIN. Every phone sees the same orders.</p>
+    <div className="row" style=${{ gap: 8, flexWrap: 'wrap' }}>
+      <a className="btn sm primary" id="staff-app-wa" href=${'https://wa.me/?text=' + encodeURIComponent(msg)} target="_blank" rel="noopener">${I('share', 16)}Send on WhatsApp</a>
+      <button className="btn sm" onClick=${copy}>${I('copy', 16)}Copy message</button>
+      ${ins.kind === 'installed' ? null : html`<button className="btn sm" onClick=${ins.open}>${I('download', 16)}Install on this ${ins.mobile ? 'phone' : 'device'}</button>`}
+    </div>${ins.sheet}</section>`;
+}
+
 /* ---------- App (live) ---------- */
 function liveRoute() {
   const h = location.hash, m = h.match(/^#t=([a-z0-9-]+)-(\d{1,3})$/);
@@ -4542,7 +4686,10 @@ function liveRoute() {
   if (h === '#login') return { mode: 'site', sheet: { type: 'login' } };
   if (h === '#signup') return { mode: 'site', sheet: { type: 'signup', plan: 'basic' } };
   if (h === '#pricing') return { mode: 'site', pricing: true };
+  if (h === '#get-app') return { mode: 'site', getApp: true };
   if (LIVE.session && (h === '#app' || h === '' || h === '#')) return { mode: 'owner' };
+  // Opened from the home-screen icon but nobody is logged in yet: go straight to log in
+  if (isStandalone() && (h === '#app' || h === '' || h === '#')) return { mode: 'site', sheet: { type: 'login' } };
   return { mode: 'site' };
 }
 function App({ init }) {
@@ -4577,7 +4724,7 @@ function App({ init }) {
   const [, tick] = useState(0);
   useEffect(() => { const t = setInterval(() => tick((n) => n + 1), 30000); return () => clearInterval(t); }, []);
   useEffect(() => { const k = (e) => { if (e.key === 'Escape' && sRef.current.sheet) raw({ type: 'sheet', sheet: null }); }; window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k); }, []);
-  useEffect(() => { if (init._pricing) setTimeout(() => { const el = document.getElementById('pricing'); if (el) el.scrollIntoView({ block: 'start' }); }, 300); }, []);
+  useEffect(() => { const id = init._pricing ? 'pricing' : init._getApp ? 'get-app' : null; if (id) setTimeout(() => { const el = document.getElementById(id); if (el) el.scrollIntoView({ block: 'start' }); }, 300); }, []);
 
   if (LIVE.mode === 'team') return html`<div><${SiteBar} /><${LiveAdmin} /></div>`;
   if (LIVE.mode === 'account') return html`<div><${SiteBar} d=${d} /><${LiveAccount} s=${s} d=${d} />${s.sheet && s.sheet.type === 'login' ? html`<${LoginSheet} s=${s} d=${d} />` : null}</div>`;
@@ -4593,7 +4740,9 @@ function SiteBar({ d }) {
     <div className="nav-actions">${sess ? html`<a className="btn sm" href="#app" onClick=${() => setTimeout(() => location.reload(), 30)}>${I('store', 16)}My restaurant</a>` : d ? html`<button className="btn sm" onClick=${() => d({ type: 'sheet', sheet: { type: 'login' } })}>${I('user', 16)}Restaurant log in</button>` : null}</div>
   </div></header>`;
 }
-function BootError({ msg }) {
+function BootError({ msg, retry }) {
+  if (retry) return html`<div className="container acct"><section className="card" id="boot-offline" style=${{ maxWidth: 480, margin: '60px auto', textAlign: 'center' }}><h2>${I('reset', 22)} ${msg}</h2>
+    <p className="muted">Zestro needs the internet to show live orders. You are still logged in.</p><button className="btn primary" onClick=${() => location.reload()}>Try again</button></section></div>`;
   return html`<div className="container acct"><section className="card" style=${{ maxWidth: 480, margin: '60px auto', textAlign: 'center' }}><h2>${I('qr', 22)} ${msg}</h2>
     <p className="muted">Check the QR code or the link, or ask the restaurant staff.</p><a className="btn" href="#site" onClick=${() => setTimeout(() => location.reload(), 30)}>Go to Zestro</a></section></div>`;
 }
@@ -4613,10 +4762,12 @@ async function boot() {
       init = liveDinerState(pub, rt.table);
     }
   } catch (e) {
+    // No internet: keep the login and offer to try again, instead of logging the phone out
+    if (rt.mode === 'owner' && !e.code) { root.render(html`<${BootError} msg=${e.message} retry=${true} />`); return; }
     if (rt.mode === 'owner') { lsSet(SESSION_KEY, null); LIVE.session = null; LIVE.mode = 'site'; init = { ...init, sheet: { type: 'login' } }; setTimeout(() => toast(e.code === '28000' ? 'Please log in again' : e.message), 300); }
-    else { root.render(html`<${BootError} msg=${e.message} />`); return; }
+    else { root.render(html`<${BootError} msg=${e.message} retry=${!e.code} />`); return; }
   }
-  init._pricing = !!rt.pricing;
+  init._pricing = !!rt.pricing; init._getApp = !!rt.getApp;
   root.render(html`<${App} init=${init} />`);
 }
 boot();
