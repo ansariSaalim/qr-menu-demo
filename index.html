@@ -1826,6 +1826,7 @@ function DemoBar({ s, d }) {
       <div className="dseg" role="group" aria-label="View as (demo only)">${roles.map(([id, full, short]) => html`<button key=${id} aria-pressed=${s.role === id} aria-label=${full} onClick=${() => (id === 'diner' && s.role !== 'diner' ? d({ type: 'open', rid: OWNER_RID, table: s.table || 5 }) : d({ type: 'role', role: id }))}><span className="full">${full}</span><span className="short">${short}</span></button>`)}</div>
       <button className="dbtn" onClick=${() => d({ type: 'go', role: 'diner', screen: 'views' })} aria-label="Who sees what">${I('people', 15)}<span className="l">Who sees what</span></button>
       <button className="dbtn hi" onClick=${() => d({ type: 'tourGo', i: 0 })}>${I('sparkle', 15)}<span className="l">Guided tour</span><span className="s">Tour</span></button>
+      <a className="dbtn hi" id="live-link" href="app/">${I('store', 15)}<span className="l">Live app</span><span className="s">Live</span></a>
       <${ThemeBtn} />
       <button className="dbtn" onClick=${() => { d({ type: 'reset' }); toast('Demo reset to sample data'); }} aria-label="Reset demo">${I('reset', 15)}<span className="l">Reset</span></button>
     </div>
