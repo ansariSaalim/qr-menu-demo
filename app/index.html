@@ -4167,6 +4167,7 @@ function liveDiff(prev, next, raw) {
   if (!LIVE.session || LIVE.session.role === 'Investor') return;
   const merged = next._merged !== prev._merged ? next._merged : null;
   DATA_KEYS.forEach((k) => {
+    if (LIVE.session.role !== 'Owner' && ['staff', 'partners', 'payouts'].includes(k)) return;
     const v = pick(next, k); if (v === pick(prev, k)) return;
     const j = JSON.stringify(v === undefined ? null : v);
     if (merged && merged.keys.includes(k)) { SYNC.keys[k] = j; return; }

@@ -379,3 +379,10 @@ grant execute on function public.z_signup(jsonb), public.z_login_owner(text, tex
   public.z_public(text), public.z_place_order(text, jsonb), public.z_my_orders(text, text[]), public.z_diner_alert(text, int, text, numeric), public.z_diner_pay(text, text[], text),
   public.z_pay_plan(uuid, text, text, text), public.z_payments(uuid), public.z_admin_login(text), public.z_admin_list(uuid), public.z_admin_update(uuid, text, jsonb)
   to anon, authenticated;
+
+-- ---------------------------------------------------------------- v1.1: staff never download each other's PINs; only the owner changes staff
+create or replace function public.z_mask_pins(v jsonb) returns jsonb language sql immutable set search_path = '' as $$
+  select case when jsonb_typeof(v) = 'array' then coalesce((select jsonb_agg(case when jsonb_typeof(e) = 'object' and e ? 'pin' then e || jsonb_build_object('pin', case when coalesce(e->>'pin', '') = '' then '' else '••••' end) else e end) from jsonb_array_elements(v) e), '[]'::jsonb) else v end
+$$;
+-- z_sync masks 'staff' and 'partners' PINs for every role except Owner; z_save_data allows 'staff', 'partners', 'payouts' for the Owner only.
+-- (Full function bodies were applied as migration zestro_hide_pins_from_staff.)
