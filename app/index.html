@@ -3,10 +3,10 @@
 <head>
 <script>try { document.documentElement.dataset.theme = localStorage.getItem('mm-theme') === 'dark' ? 'dark' : 'light'; } catch (e) { document.documentElement.dataset.theme = 'light'; }</script>
 <meta charset="utf-8">
-<meta name="description" content="Clickable prototype of Zestro: QR menu and table ordering for restaurants. Diners scan, order and pay from the table; restaurants see every order live. Sample data only.">
-<meta name="robots" content="noindex">
+<meta name="description" content="Zestro: billing, tables, kitchen screen and QR ordering for restaurants, on the phone you already have. 15-day free trial.">
+<meta name="robots" content="index, follow">
 <meta property="og:title" content="Zestro: scan, order and pay from your table">
-<meta property="og:description" content="Clickable prototype of Zestro. Sample data only.">
+<meta property="og:description" content="Billing, tables and QR ordering on the phone you already have. Try Demo Kitchen free.">
 <meta name="theme-color" content="#ffffff">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Zestro</title>
@@ -1282,6 +1282,15 @@ input.otp { letter-spacing: 0.5em; font-family: var(--f-mono); font-size: 20px; 
 .live-bn > span { flex: 1; min-width: 220px; display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .live-bn.trial { background: var(--leaf-soft); border-color: var(--leaf); }
 .live-bn.bad { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); }
+.adm-form { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px 14px; margin: 6px 0 12px; }
+.adm-form select { width: 100%; }
+.adm-msg { white-space: pre-wrap; background: var(--app-2); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; font: 13px/1.5 var(--mono, monospace); margin: 8px 0 12px; }
+.adm-devs > td { background: var(--app-2); }
+.adm-devs .tbl { margin: 0; }
+.bad-t { color: var(--bad); }
+#adm-add, #adm-added { display: grid; gap: 6px; }
+@media (max-width: 860px) { .adm-form { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+@media (max-width: 480px) { .adm-form { grid-template-columns: minmax(0, 1fr); } }
 /* Install the app */
 .ga { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 16px; max-width: 980px; margin: 0 auto; }
 .ga.one { grid-template-columns: minmax(0, 1fr); max-width: 640px; }
@@ -1422,7 +1431,7 @@ const planCost = (k, b) => {
 };
 const dish = (id, cat, name, price, veg, desc, c1, c2, x) => ({ id, cat, name, price, veg, desc, c: [c1, c2], tags: [], variants: [], addons: [], stock: true, ...(x || {}) });
 const RESTAURANTS = [
-  { id: 'spice', name: 'Spice Garden', short: 'SG', cuisine: 'North Indian · Gujarati', area: 'Navrangpura', city: 'Ahmedabad', rating: 4.4, reviews: 1820, two: 650, pureVeg: false, plan: 'pro', tables: 12, eta: '20–25 min', open: true, gst: 5, upi: 'spicegarden@upi', b: ['#1d5a39', '#3f8f5f'], c: ['#e0782f', '#f7e4c3'],
+  { id: 'spice', name: 'Demo Kitchen', short: 'SG', cuisine: 'North Indian · Gujarati', area: 'Navrangpura', city: 'Ahmedabad', rating: 4.4, reviews: 1820, two: 650, pureVeg: false, plan: 'pro', tables: 12, eta: '20–25 min', open: true, gst: 5, upi: 'spicegarden@upi', b: ['#1d5a39', '#3f8f5f'], c: ['#e0782f', '#f7e4c3'],
     menu: [
       dish('pt', 'Starters', 'Paneer Tikka', 260, true, 'Cottage cheese in a hung-curd and kashmiri chilli marinade, charred in the tandoor.', '#d9722e', '#f4c98d', { tags: ['Bestseller'], addons: [['Extra mint chutney', 20]] }),
       dish('hbk', 'Starters', 'Hara Bhara Kebab', 210, true, 'Spinach, peas and potato patties with a cashew crust.', '#4f8a3b', '#a9cf74', { tags: ['Jain on request'] }),
@@ -1934,7 +1943,7 @@ function DinerNav({ s, d }) {
     <div className="nav-actions">
       ${atTable ? null : html`<button className="nav-link" onClick=${toPricing}>${I('rupee')}Pricing</button>`}
       ${atTable || ins.kind === 'installed' ? null : html`<button className="btn sm get-app-btn" id="get-app-btn" onClick=${ins.open} aria-label="Get the app">${I('download', 16)}<span className="ga-l">Get the app</span><span className="ga-s">App</span></button>${ins.sheet}`}
-      ${LIVE.mode === 'diner' ? null : LIVE.session ? html`<a className="btn sm login-btn" id="my-rest" href="#app" onClick=${() => setTimeout(() => location.reload(), 30)}>${I('store', 16)}<span className="lb-l">My restaurant</span></a>${LIVE.session.role === 'Owner' ? html`<a className="btn sm" href="#account" onClick=${() => setTimeout(() => location.reload(), 30)}>${I('rupee', 16)}<span className="lb-l">Plan</span></a>` : null}`
+      ${LIVE.mode === 'diner' ? null : LIVE.session ? html`<a className="btn sm login-btn" id="my-rest" href="#app" onClick=${() => setTimeout(() => location.reload(), 30)}>${I('store', 16)}<span className="lb-l">${LIVE.session.demo ? 'Demo Kitchen' : 'My restaurant'}</span></a>${LIVE.session.role === 'Owner' && !LIVE.session.demo ? html`<a className="btn sm" href="#account" onClick=${() => setTimeout(() => location.reload(), 30)}>${I('rupee', 16)}<span className="lb-l">Plan</span></a>` : null}`
         : html`<button className="btn sm login-btn" id="login-btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'login' } })} aria-label="Restaurant log in">${I('user', 16)}<span className="lb-l">Restaurant log in</span></button>
       <button className="btn primary sm" id="try-qr" onClick=${() => d({ type: 'sheet', sheet: { type: 'signup', plan: 'basic' } })}>${I('sparkle', 16)}<span className="sq-l">Start free trial</span><span className="sq-s">Free trial</span></button>`}
     </div>
@@ -1969,7 +1978,7 @@ const STRIP = [
 const Avatars = ({ list }) => html`<span className="avs" aria-hidden="true">${list.map((r) => html`<span key=${r.id} style=${{ '--b1': r.b[0], '--b2': r.b[1] }}>${r.short}</span>`)}</span>`;
 function MockMenu({ s }) {
   const items = s.menus.spice.filter((m) => m.stock).slice(0, 3);
-  return html`<div className="mk-phone"><div className="mk-h"><span>Spice Garden</span><span className="tno">T5</span></div>
+  return html`<div className="mk-phone"><div className="mk-h"><span>Demo Kitchen</span><span className="tno">T5</span></div>
     ${items.map((it) => html`<div key=${it.id} className="mk-dish"><${Plate} c=${it.c} img=${it.img} size="sm" /><span><${VegMark} veg=${it.veg} /> <b>${it.name}</b>${inr(it.variants.length ? it.variants[0][1] : it.price)}</span><span className="mk-add">ADD</span></div>`)}
     <div className="mk-bar"><span>2 items · ₹520</span><span>View cart →</span></div></div>`;
 }
@@ -1992,12 +2001,12 @@ function Home({ s, d }) {
   const scan = () => d({ type: 'sheet', sheet: { type: 'scan', rid: 'spice', table: 5 } });
   const tabs = [
     { id: 'scan', icon: 'qr', label: 'Scan', title: 'Scan the QR on your table', text: 'Point your phone camera at the standee. The menu opens in your browser with your table number already set.', points: ['No app to download', 'Works on any phone'], cta: html`<button className="btn primary" onClick=${scan}>Try it with Table 5<${Arr} /></button>`,
-      vis: html`<div className="hero-qr"><b>Spice Garden</b><span className="small">Scan to order</span><${QR} text=${tableLink('spice', 5)} size=${132} /><span className="hq-tbl">TABLE 5</span></div>` },
-    { id: 'menu', icon: 'menu', label: 'Menu', title: 'A menu that is always up to date', text: 'Photos, veg marks, Half or Full, add-ons. Sold-out dishes are greyed out the moment the kitchen says so.', points: ['Veg-only filter and search', 'Prices you can trust'], cta: html`<button className="btn primary" onClick=${() => d({ type: 'open', rid: 'spice', table: 5 })}>Open Spice Garden<${Arr} /></button>`, vis: html`<${MockMenu} s=${s} />` },
+      vis: html`<div className="hero-qr"><b>Demo Kitchen</b><span className="small">Scan to order</span><${QR} text=${tableLink('demo-kitchen', 1)} size=${132} /><span className="hq-tbl">TABLE 5</span></div>` },
+    { id: 'menu', icon: 'menu', label: 'Menu', title: 'A menu that is always up to date', text: 'Photos, veg marks, Half or Full, add-ons. Sold-out dishes are greyed out the moment the kitchen says so.', points: ['Veg-only filter and search', 'Prices you can trust'], cta: html`<button className="btn primary" onClick=${() => d({ type: 'open', rid: 'spice', table: 5 })}>Open Demo Kitchen<${Arr} /></button>`, vis: html`<${MockMenu} s=${s} />` },
     { id: 'order', icon: 'receipt', label: 'Order', title: 'Straight to the kitchen', text: 'Your order lands on the restaurant screen with your table number. Watch it go from accepted to ready.', points: ['No waiting for a waiter', 'Add a note for the kitchen'], cta: html`<button className="btn primary" onClick=${() => d({ type: 'tourGo', i: 0 })}>Take the guided tour<${Arr} /></button>`,
       vis: html`<div className="mk-stack"><${MockOrder} no=${118} t=${5} who="You · Table 5" lines=${[[1, 'Paneer Tikka', true], [2, 'Butter Naan', true]]} total=${380} stage="new" /><div className="mk-track"><b className="small">Your order</b><div className="track"><div className="done"><i></i>Sent</div><div className="done"><i></i>Accepted</div><div className="now"><i></i>Cooking</div><div><i></i>Ready</div></div></div></div>` },
     { id: 'pay', icon: 'rupee', label: 'Pay', title: 'Pay from the table', text: 'Pay by UPI straight to the restaurant, or at the counter as usual. The bill comes to your phone.', points: ['No waiting for the bill', 'Money goes straight to the restaurant'], cta: html`<button className="btn primary" onClick=${() => d({ type: 'open', rid: 'spice', table: 5 })}>Order and pay<${Arr} /></button>`,
-      vis: html`<div className="mk-pay"><span className="small muted">Pay Spice Garden · Table 5</span><span className="amt">₹724</span><${QR} text=${'Zestro demo: sample payment code, not a real UPI ID. Nothing can be paid.'} size=${120} /><span className="mono small">spicegarden@upi</span><span className="pill ok">${I('check', 13)}Paid · confirmed by the restaurant</span></div>` },
+      vis: html`<div className="mk-pay"><span className="small muted">Pay Demo Kitchen · Table 5</span><span className="amt">₹724</span><${QR} text=${'Zestro demo: sample payment code, not a real UPI ID. Nothing can be paid.'} size=${120} /><span className="mono small">spicegarden@upi</span><span className="pill ok">${I('check', 13)}Paid · confirmed by the restaurant</span></div>` },
   ];
   return html`<main>
     <section className="fx"><div className="container">
@@ -2006,11 +2015,9 @@ function Home({ s, d }) {
         <h1 className="fx-h1">Scan the table. Order. Pay. <em>All from your phone.</em></h1>
         <p className="fx-sub">No waiting for the menu, the waiter or the bill. Your order goes straight to the kitchen with your table number.</p>
         <div className="fx-ctas"><button className="btn primary lg" onClick=${scan}>${I('qr', 19)}Scan a table QR<${Arr} /></button><button className="btn lg" onClick=${() => d({ type: 'tourGo', i: 0 })}>${I('sparkle')}Take the guided tour</button></div>
-        <span className="fx-proof"><${Avatars} list=${RESTAURANTS.slice(0, 4)} /><span>6 restaurants in Ahmedabad<small>Sample data for this demo</small></span></span>
+        <span className="fx-proof"><span>Try Demo Kitchen<small>A real restaurant on the live app</small></span></span>
       </div>
       <${Showcase} tabs=${tabs} label="How ordering works" />
-      <p className="strip-h">On Zestro near you · sample restaurants</p>
-      <${Marquee} items=${STRIP} />
     </div></section>
     <div className="container">
       <label className="search home-search" htmlFor="q2" style=${{ marginTop: 18 }}>${I('search', 17)}<input id="q2" type="search" placeholder="Search restaurants" value=${s.query} onChange=${(e) => d({ type: 'set', k: 'query', v: e.target.value })} /></label>
@@ -2458,7 +2465,7 @@ function ForRestaurants({ s, d }) {
   const [uc, setUc] = useState('family');
   const [fq, setFq] = useState('start');
   const b = s.billing || 'y';
-  const owner = (tab) => { d({ type: 'role', role: 'owner' }); d({ type: 'set', k: 'ownerTab', v: tab }); };
+  const owner = (tab) => startDemo(tab);
   const signup = (plan) => d({ type: 'sheet', sheet: { type: 'signup', plan: plan || 'basic', billing: b } });
   const steps = [['Register', 'Tell us your restaurant name, area and number of tables. We approve new restaurants within a day.'], ['Add your menu', 'Dishes, prices, photos, Half/Full portions and add-ons. Or start from our sample menu.'], ['Print table QR codes', 'Download a standee for every table. Diners scan and order; you see it live.']];
   const tabs = [
@@ -2467,7 +2474,7 @@ function ForRestaurants({ s, d }) {
     { id: 'menu', icon: 'menu', label: 'Menu', title: 'Change the menu in seconds', text: 'Add dishes with photos, set Half/Full prices and add-ons, reorder categories. Changes show on every table at once.', points: ['Sold out in one tap', 'No reprinting, ever'], cta: html`<button className="btn primary" onClick=${() => owner('menu')}>Open the menu manager<${Arr} /></button>`,
       vis: html`<div className="mk-rows">${s.menus.spice.slice(0, 4).map((it, i) => html`<div key=${it.id} className="mrow"><span className="mmain"><${Plate} c=${it.c} img=${it.img} size="sm" /><span className="mtxt"><span className="mname"><${VegMark} veg=${it.veg} />${it.name}</span><small>${inr(it.price)}</small></span></span><span className="switch" role="img" aria-label=${i === 2 ? 'Sold out' : 'In stock'} aria-checked=${i !== 2}><i></i><span>${i === 2 ? 'Sold out' : 'In stock'}</span></span></div>`)}</div>` },
     { id: 'qr', icon: 'qr', label: 'Table QR', title: 'One QR per table, ready to print', text: 'Download a standee for every table. The table number travels with every order, so food reaches the right table.', points: ['Print at any shop', 'Works with any phone camera'], cta: html`<button className="btn primary" onClick=${() => owner('tables')}>See the table QR codes<${Arr} /></button>`,
-      vis: html`<div className="standee" style=${{ position: 'static', width: 230 }}><span className="small">Scan to order</span><b>Spice Garden</b><span className="qr-wrap"><${QR} text=${tableLink('spice', 7)} size=${124} /></span><span className="tbig">TABLE 7</span><small>No app needed · pay by UPI</small></div>` },
+      vis: html`<div className="standee" style=${{ position: 'static', width: 230 }}><span className="small">Scan to order</span><b>Demo Kitchen</b><span className="qr-wrap"><${QR} text=${tableLink('demo-kitchen', 7)} size=${124} /></span><span className="tbig">TABLE 7</span><small>No app needed · pay by UPI</small></div>` },
     { id: 'reports', icon: 'chart', label: 'Analytics', title: 'Know what sells and when', text: 'Sales, orders and the average bill update with every bill. See top dishes, payments and a day-end report, and export to Excel.', points: ['Sales for any dates on Basic, with Excel', 'Busy hours, repeat diners and dish profit on Pro'], cta: html`<button className="btn primary" onClick=${() => owner('reports')}>Open analytics<${Arr} /></button>`,
       vis: html`<div className="mk-tiles"><div className="tile"><span>Sales today</span><b>₹18,420</b><small>+12% vs last week</small></div><div className="tile"><span>Orders</span><b>46</b><small className="m">since 11 am</small></div><div className="tile"><span>Average bill</span><b>₹400</b><small className="m">per table</small></div><div className="tile"><span>Top dish</span><b style=${{ fontSize: 19 }}>Butter Naan</b><small className="m">412 this month</small></div></div>` },
   ];
@@ -2479,12 +2486,10 @@ function ForRestaurants({ s, d }) {
         <span className="fx-badge"><i>${I('store', 14)}</i>Zero hardware · runs on your phone or tablet</span>
         <h1 className="fx-h1">Billing, tables and QR ordering. <em>All on the phone you already have.</em></h1>
         <p className="fx-sub">GST bills, kitchen tickets, running tables and orders from the table QR, in one app. No computer, no printer required, no commission. Built for small and local restaurants.</p>
-        <div className="fx-ctas"><button className="btn primary lg" onClick=${() => signup('basic')}>Register your restaurant<${Arr} /></button><button className="btn lg" onClick=${() => d({ type: 'sheet', sheet: { type: 'login' } })}>Restaurant log in</button><button className="btn lg ghost" id="watch-btn" onClick=${() => { const el = document.getElementById('watch'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>${I('play', 18)}Watch the demo</button></div>
-        <span className="fx-proof"><${Avatars} list=${RESTAURANTS.slice(1, 5)} /><span>${SETUP.trial}-day free trial<small>From ${inr(planCost('basic', 'y').total)} for 12 months, about ${inr(planCost('basic', 'y').per)} a month</small></span></span>
+        <div className="fx-ctas"><button className="btn primary lg" onClick=${() => signup('basic')}>Register your restaurant<${Arr} /></button><button className="btn lg" id="try-demo" onClick=${() => startDemo()}>${I('sparkle', 18)}Try Demo Kitchen</button><button className="btn lg ghost" id="watch-btn" onClick=${() => { const el = document.getElementById('watch'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>${I('play', 18)}Watch the demo</button></div>
+        <span className="fx-proof"><span className="feat-ic" style=${{ width: 44, height: 44 }}>${I('sparkle', 20)}</span><span>${SETUP.trial}-day free trial<small>From ${inr(planCost('basic', 'y').total)} for 12 months, about ${inr(planCost('basic', 'y').per)} a month</small></span></span>
       </div>
       <${Showcase} tabs=${tabs} label="What you get" />
-      <p className="strip-h">Sample restaurants in this demo</p>
-      <${Marquee} items=${STRIP} />
     </div></section>
 
     <${DemoVideo} />
@@ -2532,7 +2537,7 @@ function ForRestaurants({ s, d }) {
 
     <section className="sx"><div className="container">
       <div className="cta-band"><div className="cta-in"><span className="fx-badge"><i>${I('sparkle', 14)}</i>${SETUP.trial}-day free trial</span><h2>Start billing from your phone this week.</h2><p>Register in two minutes. Try every feature free for ${SETUP.trial} days, no payment details needed.</p>
-        <div className="fx-ctas"><button className="btn primary lg" onClick=${() => signup('basic')}>Register your restaurant<${Arr} /></button><a className="btn lg" id="demo-link" href="../#tour" target="_blank" rel="noopener">${I('sparkle')}Try the demo restaurant</a></div></div></div>
+        <div className="fx-ctas"><button className="btn primary lg" onClick=${() => signup('basic')}>Register your restaurant<${Arr} /></button><button className="btn lg" id="demo-link" onClick=${() => startDemo()}>${I('sparkle')}Try Demo Kitchen</button></div></div></div>
       <footer className="site-foot"><${Logo} d=${d} /><span>Food photos on this page from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> · © 2026 Zestro</span></footer>
     </div></section>
   </main>`;
@@ -2618,7 +2623,7 @@ function WhoSees({ s, d }) {
     <section className="sx"><div className="container"><div className="sx-glow">
       <div className="sx-h"><h2>Restaurant analytics, by plan</h2><p>Basic shows sales for any dates with Excel export. Pro adds busy hours, diner insights, stock and dish profit. Locked sections show a blurred preview.</p></div>
       <div className="who-plans">${PLAN_KEYS.map((k) => html`<div key=${k} className=${'who-plan' + (k === R(s, OWNER_RID).plan ? ' on' : '')}>
-        <div className="row" style=${{ justifyContent: 'space-between' }}><b>${PLANS[k].name}</b>${k === R(s, OWNER_RID).plan ? html`<span className="pill leaf">Spice Garden</span>` : null}</div>
+        <div className="row" style=${{ justifyContent: 'space-between' }}><b>${PLANS[k].name}</b>${k === R(s, OWNER_RID).plan ? html`<span className="pill leaf">Demo Kitchen</span>` : null}</div>
         <span className="small muted">${inr(planCost(k, 'y').total)} for 12 months</span>
         <ul>${ANALYTICS_BY_PLAN[k].map((x) => html`<li key=${x}>${I('chart', 15)}${x}</li>`)}</ul></div>`)}</div>
       <div className="fx-ctas" style=${{ marginTop: 26 }}><button className="btn primary lg" onClick=${() => { d({ type: 'role', role: 'owner' }); d({ type: 'set', k: 'ownerTab', v: 'reports' }); }}>See a restaurant’s analytics<${Arr} /></button><button className="btn lg" onClick=${() => { d({ type: 'role', role: 'admin' }); d({ type: 'set', k: 'adminTab', v: 'overview' }); }}>${I('shield')}See our team’s board</button></div>
@@ -3447,7 +3452,7 @@ function DayEndSheet({ s, d }) {
   };
   return html`<${Modal} id="dayend" wide=${true} onClose=${() => d({ type: 'sheet', sheet: null })}>
     <div className="modal-h"><h2>${I('receipt', 22)}Day-end report</h2><button className="btn sm icon" onClick=${() => d({ type: 'sheet', sheet: null })} aria-label="Close">${I('x')}</button></div>
-    <p className="small muted">${today.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })} · bills in this demo</p>
+    <p className="small muted">${today.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })} · bills on this restaurant</p>
     <div className="tiles">
       <div className="tile"><span>Sales</span><b>${inr(total)}</b><small className="m">${bills.length} bills</small></div>
       <div className="tile"><span>Cash in drawer</span><b>${inr(by.cash)}</b><small className="m">count and match</small></div>
@@ -4152,6 +4157,14 @@ function Admin({ s, d }) {
 /* ---------- Live: database connection ---------- */
 const LIVE = { url: 'https://tnffprnunuaukqzpbufy.supabase.co', key: 'sb_publishable_8ggGtGEjhVYMWbGpwyM8SQ_GNlk3uDH', mode: 'site', session: null, info: null, since: null, orders: [], r: null };
 const SESSION_KEY = 'zestro-session', LAST_RID_KEY = 'zestro-last-rid';
+const APP_VER = '1.4';   // shown on our team page next to each phone
+function deviceName() {
+  const u = navigator.userAgent;
+  const os = /iPad/.test(u) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) ? 'iPad' : /iPhone/.test(u) ? 'iPhone' : /Android/.test(u) ? (/Mobile/.test(u) ? 'Android phone' : 'Android tablet') : /Windows/.test(u) ? 'Windows computer' : /Mac/.test(u) ? 'Mac' : /Linux/.test(u) ? 'Linux computer' : 'Device';
+  const br = /Edg\//.test(u) ? 'Edge' : /SamsungBrowser/.test(u) ? 'Samsung Internet' : /Firefox|FxiOS/.test(u) ? 'Firefox' : /Chrome|CriOS/.test(u) ? 'Chrome' : /Safari/.test(u) ? 'Safari' : '';
+  return os + (br ? ' · ' + br : '');
+}
+const clientInfo = () => ({ mode: isStandalone() ? 'app' : 'browser', ver: APP_VER, device: deviceName() });
 const lsGet = (k) => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } };
 const lsSet = (k, v) => { try { if (v === null || v === undefined) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage blocked */ } };
 async function api(fn, args) {
@@ -4164,9 +4177,19 @@ async function api(fn, args) {
   return j;
 }
 function liveSignIn(r) {
-  lsSet(SESSION_KEY, { token: r.token, rid: r.rid, role: r.role, name: r.name, staff_id: r.staff_id, restaurant: r.restaurant });
+  lsSet(SESSION_KEY, { token: r.token, rid: r.rid, role: r.role, name: r.name, staff_id: r.staff_id, restaurant: r.restaurant, demo: !!r.demo });
   try { localStorage.setItem(LAST_RID_KEY, JSON.stringify(r.rid)); } catch (e) { /* ignore */ }
   location.hash = '#app'; location.reload();
+}
+/* Try Demo Kitchen: anyone, no login; orders work, menu and settings changes are not saved */
+async function startDemo(tab) {
+  try {
+    if (LIVE.session && !LIVE.session.demo) { location.hash = '#app'; location.reload(); return; }
+    if (tab) lsSet('zestro-open-tab', tab);
+    if (LIVE.session && LIVE.session.demo) { location.hash = '#app'; location.reload(); return; }
+    toast('Opening Demo Kitchen…');
+    liveSignIn(await api('z_demo_login', {}));
+  } catch (e) { toast(e.message); }
 }
 async function liveSignOut(to) {
   const sess = LIVE.session; lsSet(SESSION_KEY, null);
@@ -4187,7 +4210,7 @@ function installRestaurant(info, rest) {
   return b;
 }
 const nextNoOf = (orders) => orders.reduce((m, o) => Math.max(m, (o.no || 0) + 1), 101);
-const normOrder = (o, rid) => ({ ...o, rid: o.rid || rid, items: Array.isArray(o.items) ? o.items : [], t: Number(o.t) || Date.now() });
+const normOrder = (o, rid) => ({ ...o, rid: rid || o.rid, items: Array.isArray(o.items) ? o.items : [], t: Number(o.t) || Date.now() });
 const DATA_KEYS = ['rest', 'menu', 'cats', 'staff', 'stations', 'online', 'expenses', 'partners', 'payouts', 'customers', 'inv', 'costs', 'printer'];
 const pick = (s, k) => (k === 'rest' ? s.rest[OWNER_RID] : k === 'menu' ? s.menus[OWNER_RID] : k === 'cats' ? s.cats[OWNER_RID] : s[k]);
 function applyData(n, k, v, info) {
@@ -4205,6 +4228,7 @@ function liveOwnerState(sync, sess) {
     orders: (sync.orders || []).map((o) => normOrder(o, rid)), alerts: (sync.alerts || []).filter((a) => !a.done), signups: [], approved: [], sound: true, offline: false, pending: 0, live: { info } };
   DATA_KEYS.forEach((k) => { if (k in data) n = applyData(n, k, data[k], info); });
   if (!data.rest) n = applyData(n, 'rest', { name: info.name, area: info.area, open: true, gst: 5 }, info);
+  const tab = lsGet('zestro-open-tab'); if (tab) { n.ownerTab = tab; lsSet('zestro-open-tab', null); }
   n.nextNo = { [rid]: nextNoOf(n.orders) };
   n._merged = { seq: 0, keys: DATA_KEYS, orders: n.orders.map((o) => o.id), alerts: n.alerts.map((a) => a.id) };
   return n;
@@ -4220,6 +4244,7 @@ function liveDiff(prev, next, raw) {
   if (!LIVE.session || LIVE.session.role === 'Investor') return;
   const merged = next._merged !== prev._merged ? next._merged : null;
   DATA_KEYS.forEach((k) => {
+    if (LIVE.session.demo) return;   // Demo Kitchen: menu and settings stay as they are
     if (LIVE.session.role !== 'Owner' && ['staff', 'partners', 'payouts'].includes(k)) return;
     const v = pick(next, k); if (v === pick(prev, k)) return;
     const j = JSON.stringify(v === undefined ? null : v);
@@ -4264,7 +4289,7 @@ async function livePoll(raw) {
   if (SYNC.busy || !LIVE.session) return;
   SYNC.busy = true;
   try {
-    const r = await api('z_sync', { p_token: LIVE.session.token, p_since: LIVE.since });
+    const r = await api('z_sync2', { p_token: LIVE.session.token, p_since: LIVE.since, p_client: clientInfo() });
     LIVE.since = r.now;
     const orders = (r.orders || []).filter((o) => !SYNC.pendingOrders.has(o.id)).map((o) => normOrder(o, OWNER_RID));
     const data = {}; Object.keys(r.data || {}).forEach((k) => { if (!SYNC.pendingKeys.has(k)) data[k] = r.data[k]; });
@@ -4386,6 +4411,7 @@ function LiveBanner({ s, d }) {
   const info = (s.live && s.live.info) || LIVE.info; if (!info) return null;
   const menuEmpty = !(s.menus[OWNER_RID] || []).length, owner = roleOf(s) === 'Owner';
   const pay = owner ? html`<a className="btn sm primary" href="#account" onClick=${() => setTimeout(() => location.reload(), 30)}>${info.state === 'trial' ? 'Pay for the year' : 'Renew now'}</a>` : null;
+  if (LIVE.session && LIVE.session.demo) return html`<div className="live-banners"><div className="live-bn trial" id="demo-bn"><span>${I('sparkle', 16)}<b>You are trying Demo Kitchen.</b><small className="muted">Take orders, make bills and use the kitchen screen. Menu and settings changes are not saved.</small></span><button className="btn sm primary" onClick=${() => { lsSet(SESSION_KEY, null); location.hash = '#signup'; location.reload(); }}>Register your restaurant</button><button className="btn sm" id="demo-exit" onClick=${() => liveSignOut('#site')}>Exit demo</button></div><${InstallNudge} /></div>`;
   return html`<div className="live-banners">
     ${info.state === 'trial' ? html`<div className="live-bn trial"><span>${I('sparkle', 16)}<b>Free trial: ${daysLeft(info.trial_ends)} days left</b><small className="muted">${info.orders_total} of ${info.trial.orders} orders used · QR ordering on tables 1–${info.trial.tables}</small></span>${pay}</div>` : null}
     ${info.state === 'expired' ? html`<div className="live-bn bad"><span>${I('lock', 16)}<b>${info.paid_until ? 'Your plan ended on ' + dateIN(info.paid_until) : 'The free trial has ended'}.</b> New orders are paused. Your data is safe.</span>${pay}</div>` : null}
@@ -4395,7 +4421,7 @@ function LiveBanner({ s, d }) {
   </div>`;
 }
 function LiveSubCard({ s }) {
-  const info = (s.live && s.live.info) || LIVE.info; if (!info) return null;
+  const info = (s.live && s.live.info) || LIVE.info; if (!info || info.demo) return null;
   return html`<section className="card sub-now" id="live-sub"><div className="grow"><span className="small muted">Your subscription</span>
       <b>${PLANS[info.plan].name} · ${info.state === 'active' ? 'paid until ' + dateIN(info.paid_until) : info.state === 'trial' ? 'free trial, ' + daysLeft(info.trial_ends) + ' days left' : 'ended'}</b>
       <span className="small muted">${inr(info.price)} a year · restaurant code <b className="num">${info.id}</b></span></div>
@@ -4409,8 +4435,9 @@ function LiveAccount({ s, d }) {
   const [pays, setPays] = useState([]);
   const [plan, setPlan] = useState((sess && sess.restaurant && sess.restaurant.plan) || 'basic');
   const [sheet, setSheet] = useState(false);
-  const load = async () => { try { const r = await api('z_sync', { p_token: sess.token, p_since: new Date().toISOString() }); setInfo(r.restaurant); lsSet(SESSION_KEY, { ...sess, restaurant: r.restaurant }); setPays(await api('z_payments', { p_token: sess.token })); } catch (e) { toast(e.message); if (e.code === '28000') liveSignOut('#login'); } };
+  const load = async () => { try { const r = await api('z_sync2', { p_token: sess.token, p_since: new Date().toISOString(), p_client: clientInfo() }); setInfo(r.restaurant); lsSet(SESSION_KEY, { ...sess, restaurant: r.restaurant }); setPays(await api('z_payments', { p_token: sess.token })); } catch (e) { toast(e.message); if (e.code === '28000') liveSignOut('#login'); } };
   useEffect(() => { if (sess) load(); }, []);
+  if (sess && sess.demo) return html`<div className="container acct"><section className="card" id="demo-acct"><h2>Demo Kitchen</h2><p className="muted">This is the demo restaurant, so there is no plan to pay for. Register your own restaurant to start a ${SETUP.trial}-day free trial.</p><div className="row"><button className="btn primary" onClick=${() => { lsSet(SESSION_KEY, null); location.hash = '#signup'; location.reload(); }}>Register your restaurant</button><button className="btn" onClick=${() => liveSignOut('#site')}>Exit demo</button></div></section></div>`;
   if (!sess || sess.role !== 'Owner') return html`<div className="container acct"><section className="card"><h2>Your Zestro account</h2><p className="muted">Log in as the restaurant owner to see your plan and pay for the year.</p><button className="btn primary" onClick=${() => d({ type: 'sheet', sheet: { type: 'login' } })}>Restaurant log in</button></section></div>`;
   if (!info) return null;
   const st = info.state;
@@ -4456,28 +4483,74 @@ function PayPlanSheet({ plan, onClose, onPaid }) {
 }
 
 /* ---------- Live: our team ---------- */
+function seenAgo(t) {
+  if (!t) return 'never';
+  const m = Math.round((Date.now() - new Date(t).getTime()) / 60000);
+  return m < 2 ? 'just now' : m < 60 ? m + ' min ago' : m < 1440 ? Math.round(m / 60) + ' h ago' : Math.round(m / 1440) + ' days ago';
+}
+function AdminAdd({ tok, onDone }) {
+  const [f, setF] = useState({ name: '', area: '', owner: '', phone: '', pin: '', plan: 'basic', tables: 8, trial_days: 15 });
+  const [busy, setBusy] = useState(false); const [err, setErr] = useState(''); const [done, setDone] = useState(null);
+  const set = (k) => (e) => setF({ ...f, [k]: e.target.value });
+  const go = async () => {
+    setErr(''); setBusy(true);
+    try { const r = await api('z_admin_add', { p_token: tok, p: { ...f, tables: Number(f.tables) || 6, trial_days: Number(f.trial_days) || 15 } }); setDone({ ...r, pin: f.pin }); onDone(); }
+    catch (e) { setErr(e.message); }
+    setBusy(false);
+  };
+  if (done) {
+    const msg = 'Welcome to Zestro, ' + (done.owner_name || '') + '!\n' + done.name + ' is ready.\nOpen ' + APP_URL + ' and tap Restaurant log in.\nOwner: mobile ' + done.owner_phone + ' and your PIN ' + done.pin + '.\nStaff: restaurant code ' + done.id + '.\nFree trial until ' + dateIN(done.trial_ends) + '.';
+    return html`<section className="card" id="adm-added"><h3>${I('check', 18)} ${done.name} is added</h3>
+      <p className="small muted">Restaurant code <b className="num">${done.id}</b> · trial until ${dateIN(done.trial_ends)}. Send the owner their login:</p>
+      <pre className="adm-msg">${msg}</pre>
+      <div className="row"><a className="btn sm primary" href=${'https://wa.me/91' + done.owner_phone + '?text=' + encodeURIComponent(msg)} target="_blank" rel="noopener">${I('share', 15)}Send on WhatsApp</a><button className="btn sm" onClick=${() => setDone(null) || setF({ ...f, name: '', area: '', owner: '', phone: '', pin: '' })}>${I('plus', 15)}Add another</button></div></section>`;
+  }
+  return html`<section className="card" id="adm-add"><div className="card-h"><h3>${I('plus', 18)} Add a restaurant</h3><span className="small muted">For on-site sign-ups. The owner logs in with this mobile number and PIN.</span></div>
+    <div className="adm-form">
+      <label className="field">Restaurant name<input id="aa-name" value=${f.name} onChange=${set('name')} placeholder="e.g. Zaika Dhaba" /></label>
+      <label className="field">Area<input id="aa-area" value=${f.area} onChange=${set('area')} placeholder="e.g. Juhapura, Ahmedabad" /></label>
+      <label className="field">Owner name<input id="aa-owner" value=${f.owner} onChange=${set('owner')} /></label>
+      <label className="field">Owner mobile<div className="money"><span>+91</span><input id="aa-phone" inputMode="tel" value=${f.phone} onChange=${set('phone')} placeholder="98xxx xxxxx" /></div></label>
+      <label className="field">Owner PIN (4 digits)<input id="aa-pin" inputMode="numeric" maxLength="4" value=${f.pin} onChange=${(e) => setF({ ...f, pin: e.target.value.replace(/\D/g, '').slice(0, 4) })} /></label>
+      <label className="field">Plan<select id="aa-plan" value=${f.plan} onChange=${set('plan')}><option value="basic">Basic</option><option value="pro">Pro</option></select></label>
+      <label className="field">Tables<input id="aa-tables" type="number" min="1" max="200" value=${f.tables} onChange=${set('tables')} /></label>
+      <label className="field">Free trial (days)<input id="aa-trial" type="number" min="1" max="60" value=${f.trial_days} onChange=${set('trial_days')} /></label>
+    </div>
+    ${err ? html`<p className="notice bad-n">${err}</p>` : null}
+    <button className="btn primary" id="aa-go" disabled=${busy} onClick=${go}>${busy ? 'Adding…' : 'Add restaurant'}</button></section>`;
+}
 function LiveAdmin() {
   const [tok, setTok] = useState(() => { const t = lsGet('zestro-admin'); return t && t.exp > Date.now() ? t.token : null; });
   const [pass, setPass] = useState(''); const [data, setData] = useState(null); const [err, setErr] = useState('');
+  const [open, setOpen] = useState(null); const [adding, setAdding] = useState(false);
   const load = async (t) => { try { setData(await api('z_admin_list', { p_token: t || tok })); } catch (e) { setErr(e.message); if (e.code === '28000') { lsSet('zestro-admin', null); setTok(null); } } };
   useEffect(() => { if (tok) load(tok); }, [tok]);
+  useEffect(() => { if (!tok) return undefined; const t = setInterval(() => load(), 30000); return () => clearInterval(t); }, [tok]);
   const login = async () => { setErr(''); try { const r = await api('z_admin_login', { p_pass: pass }); lsSet('zestro-admin', { token: r.token, exp: Date.now() + 11 * 3600000 }); setTok(r.token); } catch (e) { setErr(e.message); } };
   const upd = async (rid, p, msg) => { try { await api('z_admin_update', { p_token: tok, p_rid: rid, p }); toast(msg, 'ok'); load(); } catch (e) { toast(e.message); } };
   if (!tok) return html`<div className="container acct"><section className="card" style=${{ maxWidth: 420, margin: '40px auto' }}><h2>${I('shield', 20)} Zestro team</h2><p className="small muted">Staff only.</p>
     <label className="field">Password<input id="adm-pass" type="password" value=${pass} onChange=${(e) => setPass(e.target.value)} onKeyDown=${(e) => e.key === 'Enter' && login()} /></label>
     ${err ? html`<p className="notice bad-n">${err}</p>` : null}<button className="btn primary block" id="adm-go" onClick=${login}>Log in</button></section></div>`;
   if (!data) return html`<div className="container acct"><p className="muted">Loading…</p></div>`;
-  const rs = data.restaurants, paid = rs.filter((x) => x.state === 'active'), trial = rs.filter((x) => x.state === 'trial');
+  const rs = data.restaurants, real = rs.filter((x) => !x.demo), paid = real.filter((x) => x.state === 'active'), trial = real.filter((x) => x.state === 'trial');
   const year = data.payments.reduce((t, p) => t + p.amount, 0);
+  const devs = rs.flatMap((x) => (x.devices || []).filter((v) => !v.demo));
+  const tag = (x) => x.demo ? html`<span className="pill leaf">Demo</span>` : html`<span className=${'pill ' + (x.state === 'active' ? 'ok' : x.state === 'trial' ? 'sun' : 'bad')}>${x.state === 'active' ? 'Paid · to ' + dateIN(x.paid_until) : x.state === 'trial' ? 'Trial · ' + daysLeft(x.trial_ends) + ' days left' : x.state === 'blocked' ? 'On hold' : 'Ended'}</span>`;
+  const how = (list) => { const a = list.filter((v) => v.mode === 'app').length, b = list.filter((v) => v.mode !== 'app').length; return [a ? a + ' app' : null, b ? b + ' browser' : null].filter(Boolean).join(' · ') || 'no devices yet'; };
   return html`<div className="container acct" id="admin-live">
-    <div className="ph"><div><h1>Zestro team</h1><p className="muted">Every restaurant on the live app.</p></div><div className="row"><button className="btn" onClick=${() => load()}>${I('reset', 15)}Refresh</button><button className="btn" onClick=${() => { lsSet('zestro-admin', null); setTok(null); }}>Log out</button></div></div>
-    <div className="tiles"><div className="tile"><span>Restaurants</span><b>${rs.length}</b><small className="m">${trial.length} on trial</small></div><div className="tile"><span>Paying</span><b>${paid.length}</b><small className="m">${paid.filter((x) => x.plan === 'pro').length} on Pro</small></div>
-      <div className="tile"><span>Collected</span><b>${inr(year)}</b><small className="m">${data.payments.length} payments</small></div><div className="tile"><span>Orders today</span><b>${rs.reduce((t, x) => t + x.orders_today, 0)}</b><small className="m">all restaurants</small></div></div>
-    <section className="card"><div className="twrap"><table className="tbl"><thead><tr><th>Restaurant</th><th>Owner</th><th>Plan</th><th>Status</th><th className="r">Orders today</th><th className="r">Sales, 30 days</th><th></th></tr></thead>
-      <tbody>${rs.map((x) => html`<tr key=${x.id}><td><b>${x.name}</b><br /><small className="muted num">${x.id}${x.area ? ' · ' + x.area : ''}</small></td><td>${x.owner_name}<br /><small className="muted">+91 ${x.owner_phone}</small></td><td>${PLANS[x.plan].name}</td>
-        <td><span className=${'pill ' + (x.state === 'active' ? 'ok' : x.state === 'trial' ? 'sun' : 'bad')}>${x.state === 'active' ? 'Paid to ' + dateIN(x.paid_until) : x.state === 'trial' ? 'Trial, ' + daysLeft(x.trial_ends) + ' days' : x.state === 'blocked' ? 'On hold' : 'Ended'}</span></td>
-        <td className="r">${x.orders_today}</td><td className="r">${inr(x.sales_30)}</td>
-        <td><div className="row" style=${{ flexWrap: 'nowrap', justifyContent: 'flex-end' }}><button className="btn sm" onClick=${() => upd(x.id, { extend_days: 7 }, 'Trial extended by 7 days')}>+7 days</button><button className="btn sm ghost" onClick=${() => upd(x.id, { status: x.state === 'blocked' ? 'trial' : 'blocked' }, x.state === 'blocked' ? 'Released' : 'Put on hold')}>${x.state === 'blocked' ? 'Release' : 'Hold'}</button></div></td></tr>`)}</tbody></table></div></section>
+    <div className="ph"><div><h1>Zestro team</h1><p className="muted">Every restaurant on the live app. Updates every 30 seconds. Latest app version ${APP_VER}.</p></div><div className="row"><button className="btn primary" id="adm-add-btn" onClick=${() => setAdding(!adding)}>${I('plus', 15)}Add restaurant</button><button className="btn" onClick=${() => load()}>${I('reset', 15)}Refresh</button><button className="btn" onClick=${() => { lsSet('zestro-admin', null); setTok(null); }}>Log out</button></div></div>
+    ${adding ? html`<${AdminAdd} tok=${tok} onDone=${() => load()} />` : null}
+    <div className="tiles"><div className="tile"><span>Restaurants</span><b>${real.length}</b><small className="m">${trial.length} on trial · plus Demo Kitchen</small></div><div className="tile"><span>Paying</span><b>${paid.length}</b><small className="m">${paid.filter((x) => x.plan === 'pro').length} on Pro</small></div>
+      <div className="tile"><span>Collected</span><b>${inr(year)}</b><small className="m">${data.payments.length} payments</small></div><div className="tile"><span>Devices, 30 days</span><b>${devs.length}</b><small className="m">${how(devs)}</small></div></div>
+    <section className="card"><div className="twrap"><table className="tbl adm-tbl"><thead><tr><th>Restaurant</th><th>Owner</th><th>Status</th><th>Using</th><th>Last active</th><th className="r">Orders today</th><th className="r">Sales, 30 days</th><th></th></tr></thead>
+      <tbody>${rs.map((x) => { const old = (x.devices || []).filter((v) => v.ver && v.ver !== APP_VER).length; return html`
+        <tr key=${x.id}><td><b>${x.name}</b><br /><small className="muted num">${x.id}${x.area ? ' · ' + x.area : ''}</small></td>
+        <td>${x.owner_name}<br /><small className="muted">+91 ${x.owner_phone}</small></td>
+        <td>${tag(x)}<br /><small className="muted">${PLANS[x.plan].name}</small></td>
+        <td><button className="link" onClick=${() => setOpen(open === x.id ? null : x.id)}>${(x.devices || []).length} device${(x.devices || []).length === 1 ? '' : 's'}</button><br /><small className="muted">${how(x.devices || [])}${old ? html` · <b className="bad-t">${old} on an old version</b>` : ''}</small></td>
+        <td>${seenAgo(x.last_active)}</td><td className="r">${x.orders_today}</td><td className="r">${inr(x.sales_30)}</td>
+        <td>${x.demo ? null : html`<div className="row" style=${{ flexWrap: 'nowrap', justifyContent: 'flex-end' }}><button className="btn sm" onClick=${() => upd(x.id, { extend_days: 7 }, 'Trial extended by 7 days')}>+7 days</button><button className="btn sm ghost" onClick=${() => upd(x.id, { status: x.state === 'blocked' ? 'trial' : 'blocked' }, x.state === 'blocked' ? 'Released' : 'Put on hold')}>${x.state === 'blocked' ? 'Release' : 'Hold'}</button></div>`}</td></tr>
+        ${open === x.id ? html`<tr key=${x.id + '-d'} className="adm-devs"><td colSpan="8">${(x.devices || []).length ? html`<table className="tbl"><thead><tr><th>Who</th><th>Device</th><th>App or browser</th><th>Version</th><th>Last seen</th></tr></thead><tbody>${x.devices.map((v, i) => html`<tr key=${i}><td>${v.demo ? 'Demo visitor' : v.name + ' · ' + v.role}</td><td>${v.device || '—'}</td><td>${v.mode === 'app' ? html`<span className="pill ok">Installed app</span>` : html`<span className="pill">Browser</span>`}</td><td>${v.ver || 'before 1.4'}${v.ver && v.ver !== APP_VER ? html` <small className="bad-t">old</small>` : null}</td><td>${seenAgo(v.seen)}</td></tr>`)}</tbody></table>` : html`<p className="small muted">No phone has opened this restaurant since device tracking started.</p>`}</td></tr>` : null}`; })}</tbody></table></div></section>
   </div>`;
 }
 
@@ -4665,7 +4738,7 @@ function InstallNudge() {
 /* Plan & settings: send the app to staff */
 function StaffAppCard({ s }) {
   const ins = useInstall();
-  const info = (s.live && s.live.info) || LIVE.info; if (!info) return null;
+  const info = (s.live && s.live.info) || LIVE.info; if (!info || info.demo) return null;
   const msg = 'Install the Zestro app for ' + info.name + ': ' + APP_URL + '\nOpen it, tap Restaurant log in, choose Staff and partners and enter the restaurant code ' + info.id + '. Then pick your name and enter your PIN.';
   const copy = async () => { try { await navigator.clipboard.writeText(msg); toast('Copied. Paste it to your staff.'); } catch (e) { toast('Copy did not work. Use WhatsApp instead.'); } };
   return html`<section className="card" id="staff-app"><div className="card-h"><h3>${I('phone', 18)} Zestro on every phone</h3></div>
@@ -4700,10 +4773,10 @@ function App({ init }) {
   const d = (a) => {
     const cur = sRef.current;
     if (a.type === 'logout') { liveSignOut('#site'); return; }
-    if ((a.type === 'open' || (a.type === 'sheet' && a.sheet && a.sheet.type === 'scan')) && LIVE.mode !== 'diner') { window.open('../#t=spice-5', '_blank', 'noopener'); return; }
+    if ((a.type === 'open' || (a.type === 'sheet' && a.sheet && a.sheet.type === 'scan')) && LIVE.mode !== 'diner') { window.open(tableLink('demo-kitchen', 1), '_blank', 'noopener'); return; }
     // The guided tour lives in the demo (sample restaurants), never inside a real restaurant
-    if (a.type === 'tourGo') { window.open('../#tour', '_blank', 'noopener'); return; }
-    if (a.type === 'role' && a.role !== 'diner' && LIVE.mode === 'site') { if (a.role === 'admin') { location.hash = '#team'; location.reload(); return; } raw({ type: 'sheet', sheet: { type: 'login' } }); return; }
+    if (a.type === 'tourGo') { if (LIVE.mode !== 'owner') startDemo(); return; }
+    if (a.type === 'role' && a.role !== 'diner' && LIVE.mode === 'site') { if (a.role === 'admin') { location.hash = '#team'; location.reload(); return; } startDemo(); return; }
     if (a.type === 'go' && a.role === 'owner' && LIVE.mode !== 'owner') { raw({ type: 'sheet', sheet: { type: 'login' } }); return; }
     if (LIVE.mode === 'diner' && ['place', 'request', 'pay'].includes(a.type)) { dinerAct(a, cur, raw); return; }
     raw(a);
@@ -4755,9 +4828,9 @@ async function boot() {
   let init = { ...freshState(), role: 'diner', screen: 'home', sheet: rt.sheet || null, tour: null, orders: [], alerts: [] };
   try {
     if (rt.mode === 'owner') {
-      const sync = await api('z_sync', { p_token: LIVE.session.token, p_since: null });
+      const sync = await api('z_sync2', { p_token: LIVE.session.token, p_since: null, p_client: clientInfo() });
       LIVE.since = sync.now;
-      const sess = { ...LIVE.session, restaurant: sync.restaurant }; LIVE.session = sess; lsSet(SESSION_KEY, sess);
+      const sess = { ...LIVE.session, rid: sync.restaurant.id, restaurant: sync.restaurant, demo: !!sync.demo }; LIVE.session = sess; lsSet(SESSION_KEY, sess);   // the server knows the restaurant code, even if it was renamed
       init = liveOwnerState(sync, sess); liveRecord(init);
     } else if (rt.mode === 'diner') {
       const pub = await api('z_public', { p_rid: rt.rid });

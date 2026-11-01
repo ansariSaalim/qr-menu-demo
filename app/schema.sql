@@ -386,3 +386,15 @@ create or replace function public.z_mask_pins(v jsonb) returns jsonb language sq
 $$;
 -- z_sync masks 'staff' and 'partners' PINs for every role except Owner; z_save_data allows 'staff', 'partners', 'payouts' for the Owner only.
 -- (Full function bodies were applied as migration zestro_hide_pins_from_staff.)
+
+-- ---------------------------------------------------------------- v1.2 (1 Nov 2026): Demo Kitchen, devices, team adds restaurants
+-- Columns: z_restaurants.is_demo; z_sessions.demo, client ('app' or 'browser'), app_ver, device, last_seen.
+-- z_info adds 'demo' and hides the demo owner's phone.
+-- z_create_restaurant(p jsonb): shared by z_signup (website) and z_admin_add (our team; can set trial_days up to 60). Not callable from the browser.
+-- z_demo_login(): anyone gets a 2-day session for the restaurant marked is_demo (Demo Kitchen, code demo-kitchen).
+--   Demo sessions can take orders, bills and alerts; z_save_data and z_pay_plan refuse them; staff PINs are masked.
+-- z_sync2(p_token, p_since, p_client jsonb): z_sync plus device/app/version/last_seen (written at most once a minute). z_sync is kept for old app copies.
+-- z_admin_list: per restaurant adds owner_phone, last_active and devices (role, name, mode, ver, device, seen); demo first; hides rows with no data.
+-- Saalim Kitchen was moved to id 'demo-kitchen' (name Demo Kitchen, Pro, active 10 years, 12 tables); the empty old row
+-- 'saalim-kitchen-9663' is blocked and hidden, and can be deleted from the Supabase table editor.
+-- Full bodies: see migration notes in this session; applied with execute_sql.

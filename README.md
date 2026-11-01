@@ -1,24 +1,15 @@
-# Zestro demo
+# Zestro
 
-A clickable prototype of Zestro: billing, tables and QR ordering for small and mid-size restaurants, on the phone or tablet they already have. No hardware needed; a printer is optional.
+Billing, tables, kitchen screen and QR ordering for restaurants, on the phone they already have.
 
-- Web app (laptop, tablet, phone): https://ansarisaalim.github.io/qr-menu-demo/
-- Phone app preview: https://ansarisaalim.github.io/qr-menu-demo/phone/
-- QR codes to scan (table, owner, cashier, waiter, kitchen, tour, pricing): https://ansarisaalim.github.io/qr-menu-demo/try/
-- **Live app (real database):** https://ansarisaalim.github.io/qr-menu-demo/app/ — install it on a phone or computer from https://ansarisaalim.github.io/qr-menu-demo/app/#get-app (Android and computers: one-tap Install; iPhone: Share, then Add to Home Screen)
+- **Website and app:** https://ansarisaalim.github.io/qr-menu-demo/ (opens https://ansarisaalim.github.io/qr-menu-demo/app/)
+- **Try Demo Kitchen:** the "Try Demo Kitchen" button on the website. Anyone can take orders and make bills there; menu and settings changes are not saved.
+- **Install as an app:** https://ansarisaalim.github.io/qr-menu-demo/app/#get-app (Android and computers: one-tap Install; iPhone: Share, then Add to Home Screen)
+- **Restaurant log in:** owner with mobile number, code and PIN; staff and partners with the restaurant code and their PIN.
+- **Our team:** https://ansarisaalim.github.io/qr-menu-demo/app/#team (password kept privately). Every restaurant with Demo / Trial / Paid, devices, installed app or browser, app version, last active; add a restaurant on the spot.
 
-Use "View as" at the top to switch between a diner, the restaurant and our team. Use "Guided tour" to walk through the whole flow in 24 steps.
+Data lives in Supabase (project `tnffprnunuaukqzpbufy`, see `app/schema.sql`). OTP and payments run on demo codes until SMS and Razorpay are approved.
 
-- **Website:** what Zestro does, plans and pricing, sign-up and restaurant log in.
-- **Diner at a table:** scan a table QR, order with portions and add-ons, track the order, pay by UPI or at the counter.
-- **For restaurants:** two plans (Basic ₹4,999 and Pro ₹7,999 a year, yearly only; Pro includes 300 WhatsApp messages a month), a 15-day free trial, build-your-own modules, outlet pricing, a feature comparison and a sign-up form.
-- **Restaurant:** billing counter (GST bill, discounts, cash/UPI split, khata, day-end report), tables with running bills, move and merge, live orders with kitchen tickets and a token board, inventory with recipes and food cost (Pro), customers and khata, menu editor, table QR standees, reports with Excel export, optional printer setup, staff PINs and an offline mode.
-- **Swiggy and Zomato (Pro or add-on):** app orders land on the same kitchen screen, already paid, with auto-accept, rider timing, pause per app, menu and sold-out sync, and a sales-by-channel report with commission. Use "Test an app order" on Live orders.
-- **Staff:** each waiter has their own tables (calls from a table go to that waiter), kitchen stations each get their own screen (tandoor, main kitchen, drinks), and a staff report shows orders and sales per waiter and cash per cashier.
-- **Expenses, profit and partners (Pro):** an expense book with bill photos, a monthly profit and loss from bills, recipes and expenses, partners' shares, payouts and pay-back, and investor logins that see only their own share.
-- **Test links:** `#waiter` (Suresh, T1–T6), `#tandoor` (Ravi, tandoor station), `#kitchen`, `#cashier`, `#expenses`, `#profit`, `#investor` (Imran Patel, PIN 5050).
-- **Our team:** every restaurant, plans, 6 and 12-month billing, revenue, and new sign-ups to approve.
-
-**Every restaurant, dish, order and payment here is made-up sample data.** It is a front-end prototype only: nothing is sent to a server, and changes are kept only in your browser (use Reset to start again).
+The old clickable prototype with sample restaurants was retired on 1 Nov 2026; its old links now open the live website. Demo videos: `videos/`.
 
 Built with React 18 and htm from a CDN, with no build step.
