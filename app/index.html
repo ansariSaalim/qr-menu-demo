@@ -2532,8 +2532,8 @@ function ForRestaurants({ s, d }) {
 
     <section className="sx"><div className="container">
       <div className="cta-band"><div className="cta-in"><span className="fx-badge"><i>${I('sparkle', 14)}</i>${SETUP.trial}-day free trial</span><h2>Start billing from your phone this week.</h2><p>Register in two minutes. Try every feature free for ${SETUP.trial} days, no payment details needed.</p>
-        <div className="fx-ctas"><button className="btn primary lg" onClick=${() => signup('basic')}>Register your restaurant<${Arr} /></button><button className="btn lg" onClick=${() => d({ type: 'tourGo', i: 0 })}>${I('sparkle')}Take the guided tour</button></div></div></div>
-      <footer className="site-foot"><${Logo} d=${d} /><span>Demo with sample data · Sample food photos from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> · © 2026 Zestro</span></footer>
+        <div className="fx-ctas"><button className="btn primary lg" onClick=${() => signup('basic')}>Register your restaurant<${Arr} /></button><a className="btn lg" id="demo-link" href="../#tour" target="_blank" rel="noopener">${I('sparkle')}Try the demo restaurant</a></div></div></div>
+      <footer className="site-foot"><${Logo} d=${d} /><span>Food photos on this page from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> · © 2026 Zestro</span></footer>
     </div></section>
   </main>`;
 }
@@ -2623,7 +2623,7 @@ function WhoSees({ s, d }) {
         <ul>${ANALYTICS_BY_PLAN[k].map((x) => html`<li key=${x}>${I('chart', 15)}${x}</li>`)}</ul></div>`)}</div>
       <div className="fx-ctas" style=${{ marginTop: 26 }}><button className="btn primary lg" onClick=${() => { d({ type: 'role', role: 'owner' }); d({ type: 'set', k: 'ownerTab', v: 'reports' }); }}>See a restaurant’s analytics<${Arr} /></button><button className="btn lg" onClick=${() => { d({ type: 'role', role: 'admin' }); d({ type: 'set', k: 'adminTab', v: 'overview' }); }}>${I('shield')}See our team’s board</button></div>
     </div></div></section>
-    <div className="container"><footer className="site-foot"><${Logo} d=${d} /><span>Demo with sample data · Sample food photos from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> · © 2026 Zestro</span></footer></div>
+    <div className="container"><footer className="site-foot"><${Logo} d=${d} /><span>Food photos on this page from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> · © 2026 Zestro</span></footer></div>
   </main>`;
 }
 
@@ -4701,6 +4701,8 @@ function App({ init }) {
     const cur = sRef.current;
     if (a.type === 'logout') { liveSignOut('#site'); return; }
     if ((a.type === 'open' || (a.type === 'sheet' && a.sheet && a.sheet.type === 'scan')) && LIVE.mode !== 'diner') { window.open('../#t=spice-5', '_blank', 'noopener'); return; }
+    // The guided tour lives in the demo (sample restaurants), never inside a real restaurant
+    if (a.type === 'tourGo') { window.open('../#tour', '_blank', 'noopener'); return; }
     if (a.type === 'role' && a.role !== 'diner' && LIVE.mode === 'site') { if (a.role === 'admin') { location.hash = '#team'; location.reload(); return; } raw({ type: 'sheet', sheet: { type: 'login' } }); return; }
     if (a.type === 'go' && a.role === 'owner' && LIVE.mode !== 'owner') { raw({ type: 'sheet', sheet: { type: 'login' } }); return; }
     if (LIVE.mode === 'diner' && ['place', 'request', 'pay'].includes(a.type)) { dinerAct(a, cur, raw); return; }
