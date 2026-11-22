@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Labbaik Chicken Crunch – Order Online</title>
+<meta name="theme-color" content="#c8102e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Gujarati:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#c8102e; --red-d:#9b0c23; --yellow:#ffd60a; --yellow-d:#f4b400;
+  --ink:#1d1d1f; --muted:#6b6b70; --bg:#fff8ec; --card:#ffffff; --line:#f0e3cc;
+  --green:#25d366; --green-d:#128c7e;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Poppins','Noto Sans Gujarati',system-ui,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:110px}
+body.gu .item-name,body.gu .cat-title{font-family:'Noto Sans Gujarati','Poppins',sans-serif}
+button{font-family:inherit;cursor:pointer;border:none}
+
+/* Header */
+.hero{background:linear-gradient(160deg,var(--red) 0%,var(--red-d) 100%);color:#fff;padding:18px 18px 26px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:var(--yellow);opacity:.18}
+.top-row{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}
+.halal{background:#fff;color:#0a7a3a;font-weight:700;font-size:11px;padding:4px 10px;border-radius:20px;letter-spacing:.5px}
+.lang{background:rgba(255,255,255,.18);color:#fff;font-size:12px;font-weight:600;padding:6px 12px;border-radius:20px}
+.brand{font-family:'Bungee',sans-serif;font-size:30px;line-height:1.05;margin-top:14px;color:var(--yellow);text-shadow:2px 2px 0 #6d0715;position:relative;z-index:1}
+.brand span{display:block;font-size:40px}
+.tag{margin-top:8px;font-size:13px;opacity:.92;position:relative;z-index:1}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;position:relative;z-index:1}
+.pill{background:var(--yellow);color:var(--ink);font-size:12px;font-weight:600;padding:6px 11px;border-radius:20px}
+.pill.ghost{background:rgba(255,255,255,.15);color:#fff}
+.pill a{color:inherit;text-decoration:none}
+
+/* Search + tabs */
+.sticky{position:sticky;top:0;z-index:20;background:var(--bg);padding:12px 0 8px;border-bottom:1px solid var(--line)}
+.search{margin:0 16px 10px;display:flex;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:0 12px}
+.search input{flex:1;border:none;outline:none;padding:11px 8px;font-size:15px;font-family:inherit;background:transparent}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:0 16px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;background:#fff;border:1.5px solid var(--line);color:var(--ink);font-size:13px;font-weight:600;padding:8px 14px;border-radius:22px;white-space:nowrap}
+.tab.active{background:var(--red);border-color:var(--red);color:#fff}
+
+/* Menu */
+main{max-width:720px;margin:0 auto;padding:6px 16px}
+.cat{margin-top:22px;scroll-margin-top:118px}
+.cat-title{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:700;margin-bottom:10px}
+.cat-title .em{font-size:22px}
+.cat-title .count{font-size:12px;font-weight:500;color:var(--muted)}
+.item{background:var(--card);border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;box-shadow:0 1px 0 var(--line),0 4px 14px rgba(155,12,35,.05)}
+.item .info{flex:1;min-width:0}
+.item-name{font-size:15px;font-weight:600;line-height:1.3}
+.item-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.price{font-size:15px;font-weight:700;color:var(--red);margin-top:4px}
+.badge{display:inline-block;background:var(--yellow);color:var(--ink);font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;margin-left:6px;vertical-align:middle}
+.add{background:#fff;color:var(--red);border:1.8px solid var(--red);font-weight:700;font-size:14px;padding:8px 20px;border-radius:12px;min-width:92px}
+.add:active{transform:scale(.96)}
+.qty{display:flex;align-items:center;background:var(--red);border-radius:12px;overflow:hidden;min-width:92px;justify-content:space-between}
+.qty button{background:transparent;color:#fff;font-size:20px;font-weight:700;width:32px;height:38px}
+.qty span{color:#fff;font-weight:700;font-size:15px;min-width:22px;text-align:center}
+.empty{text-align:center;color:var(--muted);padding:40px 0}
+
+footer{max-width:720px;margin:30px auto 0;padding:20px 16px;text-align:center;font-size:12px;color:var(--muted);line-height:1.7}
+footer b{color:var(--ink)}
+
+/* Cart bar */
+.cartbar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));max-width:696px;margin:0 auto;background:var(--red);color:#fff;border-radius:16px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 10px 30px rgba(155,12,35,.35);transform:translateY(150%);transition:transform .25s ease;z-index:30}
+.cartbar.show{transform:none}
+.cartbar .l{font-size:12px;opacity:.9}
+.cartbar .t{font-size:17px;font-weight:700}
+.cartbar button{background:var(--yellow);color:var(--ink);font-weight:700;font-size:15px;padding:11px 18px;border-radius:12px}
+
+/* Sheet */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+.overlay.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-width:720px;margin:0 auto;background:#fff;border-radius:22px 22px 0 0;max-height:92vh;overflow-y:auto;transform:translateY(105%);transition:transform .28s ease;z-index:50;padding:8px 18px calc(18px + env(safe-area-inset-bottom))}
+.sheet.show{transform:none}
+.grab{width:44px;height:5px;background:#ddd;border-radius:4px;margin:6px auto 12px}
+.sheet h2{font-size:20px;display:flex;justify-content:space-between;align-items:center}
+.close{background:#f3f3f3;width:34px;height:34px;border-radius:50%;font-size:18px}
+.line{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px dashed var(--line)}
+.line .n{flex:1;font-size:14px;font-weight:500}
+.line .p{font-size:14px;font-weight:700;min-width:60px;text-align:right}
+.line .qty{min-width:86px}
+.line .qty button{height:32px}
+.totals{margin:14px 0 4px;font-size:14px}
+.totals div{display:flex;justify-content:space-between;padding:3px 0}
+.totals .grand{font-size:18px;font-weight:700;border-top:2px solid var(--ink);margin-top:6px;padding-top:8px}
+.note{background:#fff6d6;border:1px solid #ffe58a;color:#6a5200;font-size:12.5px;padding:9px 12px;border-radius:10px;margin:10px 0}
+.note.err{background:#ffe9ec;border-color:#ffb8c3;color:var(--red-d)}
+label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+input.f,textarea.f{width:100%;border:1.5px solid #e4e4e4;border-radius:12px;padding:12px;font-size:15px;font-family:inherit;outline:none}
+input.f:focus,textarea.f:focus{border-color:var(--red)}
+textarea.f{resize:vertical;min-height:64px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg button{background:#f6f6f6;border:1.8px solid #f6f6f6;padding:12px 8px;border-radius:12px;font-weight:600;font-size:14px;color:var(--ink)}
+.seg button.on{background:#fff2f4;border-color:var(--red);color:var(--red)}
+.seg small{display:block;font-weight:400;font-size:11px;color:var(--muted);margin-top:2px}
+.wa{width:100%;margin-top:18px;background:var(--green);color:#fff;font-weight:700;font-size:16px;padding:15px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:10px}
+.wa:disabled{background:#b8b8b8}
+.wa svg{width:22px;height:22px}
+.hint{text-align:center;font-size:11.5px;color:var(--muted);margin-top:8px}
+.toast{position:fixed;left:50%;top:18px;transform:translate(-50%,-120px);background:var(--ink);color:#fff;font-size:13px;padding:10px 16px;border-radius:12px;transition:transform .25s;z-index:60}
+.toast.show{transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="top-row">
+    <span class="halal">✔ 100% HALAL · KGN</span>
+    <button class="lang" id="langBtn" onclick="toggleLang()">ગુજરાતી</button>
+  </div>
+  <h1 class="brand">Labbaik Chicken<span>Crunch</span></h1>
+  <p class="tag">Crispy chicken, pizza, burgers &amp; more — Shahpur, Ahmedabad</p>
+  <div class="pills">
+    <span class="pill">🛵 Free delivery above ₹299</span>
+    <span class="pill ghost">🍽️ Self service</span>
+    <span class="pill ghost"><a href="tel:+919978625199">📞 99786 25199</a></span>
+  </div>
+</header>
+
+<div class="sticky">
+  <div class="search">🔍<input id="q" type="search" placeholder="Search pizza, burger, popcorn…" oninput="render()"></div>
+  <nav class="tabs" id="tabs"></nav>
+</div>
+
+<main id="menu"></main>
+
+<footer>
+  <b>Labbaik Chicken Crunch</b><br>
+  Mill Compound Gate No. 1, Preyas High School, Shahpur, Ahmedabad – 1<br>
+  Raja Khan: <a href="tel:+918866775199">88667 75199</a> · Orders: <a href="tel:+919978625199">99786 25199</a>
+</footer>
+
+<div class="cartbar" id="cartbar">
+  <div><div class="l" id="cbCount">0 items</div><div class="t" id="cbTotal">₹0</div></div>
+  <button onclick="openSheet()">View Cart →</button>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeSheet()"></div>
+<section class="sheet" id="sheet" aria-label="Your order">
+  <div class="grab"></div>
+  <h2>Your Order <button class="close" onclick="closeSheet()">✕</button></h2>
+  <div id="lines"></div>
+  <div class="totals" id="totals"></div>
+
+  <label>Order type</label>
+  <div class="seg">
+    <button id="tDel" class="on" onclick="setType('delivery')">🛵 Home Delivery<small>Min. order ₹299</small></button>
+    <button id="tPick" onclick="setType('pickup')">🏃 Pickup / Dine-in<small>Collect at counter</small></button>
+  </div>
+  <div id="minNote"></div>
+
+  <label for="name">Your name *</label>
+  <input class="f" id="name" placeholder="e.g. Ahmed" autocomplete="name">
+  <label for="phone">Mobile number *</label>
+  <input class="f" id="phone" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit mobile" autocomplete="tel">
+  <div id="addrWrap">
+    <label for="addr">Delivery address *</label>
+    <textarea class="f" id="addr" placeholder="House no., society, area, landmark"></textarea>
+  </div>
+  <label for="notes">Cooking instructions (optional)</label>
+  <input class="f" id="notes" placeholder="e.g. extra spicy, no mayo">
+
+  <button class="wa" id="waBtn" onclick="sendOrder()">
+    <svg viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+    Send Order on WhatsApp
+  </button>
+  <p class="hint">WhatsApp will open with your order ready — just tap <b>Send</b>.</p>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const WA_NUMBER = "919978625199";   // Order line from the menu card
+const MIN_DELIVERY = 299;
+
+const MENU = [
+ {id:"sp", em:"⭐", en:"Labbaik Special", gu:"લબ્બેક સ્પે. વેરાયટી", items:[
+  ["sp1","Labbaik Sp. Chicken Cheesy Cheeza","લબ્બેક સ્પે. ચીકન ચીઝી ચીઝા",300,1],
+  ["sp2","Labbaik Sp. Chicken Bhel","લબ્બેક સ્પે. ચીકન ભેલ",200,1],
+  ["sp3","Labbaik Sp. Chicken Nuggets (8 pcs)","લબ્બેક સ્પે. ચીકન નગેટ્સ (૮ નંગ)",250,1],
+  ["sp4","Crispy Chicken Double Decker","ક્રિસ્પી ચીકન ડબલ ડેકર",200],
+  ["sp5","Crispy Fish Finger (8 pcs)","ક્રિસ્પી ફીશ ફિંગર (૮ નંગ)",200]]},
+ {id:"pz", em:"🍕", en:"Pizza", gu:"પીઝા", items:[
+  ["pz1","Chicken Pizza","ચીકન પીઝા",100],
+  ["pz2","Chicken Tikka Pizza","ચીકન ટીક્કા પીઝા",120],
+  ["pz3","Chicken Tandoori Pizza","ચીકન તંદુરી પીઝા",130],
+  ["pz4","Margherita Cheese Pizza","માર્ગેરીટા ચીઝ પીઝા",100],
+  ["pz5","Mexican Cheese Pizza","મેક્સીકન ચીઝ પીઝા",100],
+  ["pz6","Peri Peri Chicken Pizza","પેરી પેરી ચીકન પીઝા",130],
+  ["pz7","Arabian Chicken Pizza","અરેબીયન ચીકન પીઝા",150],
+  ["pz8","Labbaik All In One","લબ્બેક ઓલ ઈન વન",180,1]]},
+ {id:"bg", em:"🍔", en:"Burger", gu:"બર્ગર", items:[
+  ["bg1","Crispy Chicken Burger","ક્રિસ્પી ચીકન બર્ગર",100],
+  ["bg2","Crispy Chicken Cheese Burger","ક્રિસ્પી ચીકન ચીઝ બર્ગર",120],
+  ["bg3","Labbaik Sp. Burger","લબ્બેક સ્પે. બર્ગર",150,1],
+  ["bg4","Crispy Chicken Finger (12 pcs)","ક્રિસ્પી ચીકન ફિંગર (૧૨ નંગ)",150]]},
+ {id:"pc", em:"🍗", en:"Popcorn", gu:"પોપકોર્ન", items:[
+  ["pc1","Chicken Popcorn (15 pcs)","ચીકન પોપકોર્ન (૧૫ પીસ)",100],
+  ["pc2","Chicken Popcorn (30 pcs)","ચીકન પોપકોર્ન (૩૦ પીસ)",200],
+  ["pc3","Chicken Cheese Popcorn","ચીકન ચીઝ પોપકોર્ન",250]]},
+ {id:"ts", em:"🥪", en:"Toasty", gu:"ટોસ્ટી", items:[
+  ["ts1","Chicken Toasty","ચીકન ટોસ્ટી",80],
+  ["ts2","Tikka Toasty","ટીક્કા ટોસ્ટી",100],
+  ["ts3","Tandoori Toasty","તંદુરી ટોસ્ટી",120],
+  ["ts4","Cheese Corn Toasty","ચીઝ કોર્ન ટોસ્ટી",80],
+  ["ts5","Labbaik Sp. Chicken Cheese Toasty","લબ્બેક સ્પે. ચીકન ચીઝ ટોસ્ટી",130,1]]},
+ {id:"sw", em:"🥙", en:"Sandwich", gu:"સેન્ડવિચ", items:[
+  ["sw1","Chicken Club Sandwich","ચીકન કલબ સેન્ડવિચ",140],
+  ["sw2","Chicken Tikka Sandwich","ચીકન ટીક્કા સેન્ડવિચ",150],
+  ["sw3","Chicken Tandoori Sandwich","ચીકન તંદુરી સેન્ડવિચ",160],
+  ["sw4","Labbaik Sp. Sandwich","લબ્બેક સ્પે. સેન્ડવિચ",200,1]]},
+ {id:"tc", em:"🌮", en:"Tacos", gu:"ટાકોસ", items:[
+  ["tc1","Crispy Chicken Tacos","ક્રિસ્પી ચીકન ટાકોસ",99],
+  ["tc2","Crispy Chicken Cheese Tacos","ક્રિસ્પી ચીકન ચીઝ ટાકોસ",130]]},
+ {id:"ff", em:"🍟", en:"French Fries", gu:"ફ્રેન્ચ ફ્રાઇસ", items:[
+  ["ff1","French Fries","ફ્રેન્ચ ફ્રાઇસ",70],
+  ["ff2","French Fries Peri Peri","ફ્રેન્ચ ફ્રાઇસ પેરી પેરી",80],
+  ["ff3","Cheese French Fries","ચીઝ ફ્રેન્ચ ફ્રાઇસ",200]]}
+];
+
+const ITEMS = {};
+MENU.forEach(c=>c.items.forEach(([id,en,gu,price,sp])=>ITEMS[id]={id,en,gu,price,sp}));
+
+let cart = {}, lang = "en", orderType = "delivery";
+try{ cart = JSON.parse(localStorage.getItem("lcc_cart")||"{}"); Object.keys(cart).forEach(k=>{if(!ITEMS[k]) delete cart[k]}); }catch(e){ cart = {}; }
+const save = ()=>{ try{ localStorage.setItem("lcc_cart", JSON.stringify(cart)); }catch(e){} };
+const rs = n => "₹" + n.toLocaleString("en-IN");
+const nm = it => lang==="gu" ? it.gu : it.en;
+
+function render(){
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  let html = "", tabs = "", any = false;
+  MENU.forEach(c=>{
+    const list = c.items.map(a=>ITEMS[a[0]]).filter(it=>!q || it.en.toLowerCase().includes(q) || it.gu.includes(q));
+    if(!list.length) return;
+    any = true;
+    tabs += `<button class="tab" data-c="${c.id}" onclick="jump('${c.id}')">${c.em} ${lang==="gu"?c.gu:c.en}</button>`;
+    html += `<section class="cat" id="c-${c.id}"><h2 class="cat-title"><span class="em">${c.em}</span>${lang==="gu"?c.gu:c.en}<span class="count">· ${list.length}</span></h2>`;
+    list.forEach(it=>{
+      const qn = cart[it.id]||0;
+      html += `<div class="item"><div class="info">
+        <div class="item-name">${nm(it)}${it.sp?'<span class="badge">SPECIAL</span>':''}</div>
+        ${lang==="gu"?`<div class="item-sub">${it.en}</div>`:''}
+        <div class="price">${rs(it.price)}</div></div>
+        ${qn ? `<div class="qty"><button onclick="chg('${it.id}',-1)">−</button><span>${qn}</span><button onclick="chg('${it.id}',1)">+</button></div>`
+             : `<button class="add" onclick="chg('${it.id}',1)">ADD +</button>`}
+      </div>`;
+    });
+    html += `</section>`;
+  });
+  document.getElementById("menu").innerHTML = any ? html : `<p class="empty">No items match “${q.replace(/</g,"&lt;")}”</p>`;
+  document.getElementById("tabs").innerHTML = tabs;
+  updateBar(); spy();
+}
+
+function chg(id,d){
+  cart[id] = (cart[id]||0) + d;
+  if(cart[id] <= 0) delete cart[id];
+  if(d>0 && cart[id]===1) toast("Added " + nm(ITEMS[id]));
+  save(); render();
+  if(document.getElementById("sheet").classList.contains("show")) renderSheet();
+}
+
+function totals(){
+  let count=0, sub=0;
+  for(const id in cart){ count+=cart[id]; sub+=cart[id]*ITEMS[id].price; }
+  return {count, sub};
+}
+
+function updateBar(){
+  const {count, sub} = totals();
+  document.getElementById("cbCount").textContent = count + (count===1?" item":" items");
+  document.getElementById("cbTotal").textContent = rs(sub);
+  document.getElementById("cartbar").classList.toggle("show", count>0);
+}
+
+function jump(id){ document.getElementById("c-"+id).scrollIntoView({behavior:"smooth"}); }
+function spy(){
+  let cur = null;
+  document.querySelectorAll(".cat").forEach(s=>{ if(s.getBoundingClientRect().top < 150) cur = s.id.slice(2); });
+  document.querySelectorAll(".tab").forEach(t=>{
+    const on = t.dataset.c === (cur || MENU[0].id);
+    if(on && !t.classList.contains("active")) t.scrollIntoView({inline:"center",block:"nearest"});
+    t.classList.toggle("active", on);
+  });
+}
+window.addEventListener("scroll", spy, {passive:true});
+
+function openSheet(){ renderSheet(); document.getElementById("overlay").classList.add("show"); document.getElementById("sheet").classList.add("show"); }
+function closeSheet(){ document.getElementById("overlay").classList.remove("show"); document.getElementById("sheet").classList.remove("show"); }
+
+function setType(t){
+  orderType = t;
+  document.getElementById("tDel").classList.toggle("on", t==="delivery");
+  document.getElementById("tPick").classList.toggle("on", t==="pickup");
+  document.getElementById("addrWrap").style.display = t==="delivery" ? "" : "none";
+  renderSheet();
+}
+
+function renderSheet(){
+  const {count, sub} = totals();
+  if(!count){ closeSheet(); return; }
+  document.getElementById("lines").innerHTML = Object.keys(cart).map(id=>{
+    const it = ITEMS[id];
+    return `<div class="line"><div class="n">${nm(it)}<div class="item-sub">${rs(it.price)} each</div></div>
+      <div class="qty"><button onclick="chg('${id}',-1)">−</button><span>${cart[id]}</span><button onclick="chg('${id}',1)">+</button></div>
+      <div class="p">${rs(it.price*cart[id])}</div></div>`;
+  }).join("");
+  document.getElementById("totals").innerHTML =
+    `<div><span>Items (${count})</span><span>${rs(sub)}</span></div>
+     <div><span>Delivery</span><span>${orderType==="delivery" ? "FREE" : "—"}</span></div>
+     <div class="grand"><span>Total</span><span>${rs(sub)}</span></div>`;
+  const short = MIN_DELIVERY - sub;
+  const blocked = orderType==="delivery" && short>0;
+  document.getElementById("minNote").innerHTML = blocked
+    ? `<div class="note err">Home delivery needs a minimum order of ${rs(MIN_DELIVERY)}. Add <b>${rs(short)}</b> more, or choose Pickup.</div>`
+    : (orderType==="delivery" ? `<div class="note">🎉 You get FREE home delivery!</div>` : "");
+  document.getElementById("waBtn").disabled = blocked;
+}
+
+function sendOrder(){
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.replace(/\D/g,"");
+  const addr = document.getElementById("addr").value.trim();
+  const notes = document.getElementById("notes").value.trim();
+  const {count, sub} = totals();
+  if(!count) return;
+  if(orderType==="delivery" && sub < MIN_DELIVERY) return toast("Minimum ₹299 for delivery");
+  if(!name) return toast("Please enter your name"), document.getElementById("name").focus();
+  if(phone.length !== 10) return toast("Enter a valid 10-digit mobile"), document.getElementById("phone").focus();
+  if(orderType==="delivery" && addr.length < 8) return toast("Please enter full address"), document.getElementById("addr").focus();
+
+  const d = new Date();
+  const oid = "LCC" + String(d.getDate()).padStart(2,"0") + String(d.getHours()).padStart(2,"0") + String(d.getMinutes()).padStart(2,"0") + Math.floor(Math.random()*90+10);
+  let msg = `🍗 *NEW ORDER – Labbaik Chicken Crunch*\n`;
+  msg += `Order ID: *${oid}*\n`;
+  msg += `Type: *${orderType==="delivery" ? "🛵 Home Delivery" : "🏃 Pickup / Dine-in"}*\n\n`;
+  Object.keys(cart).forEach((id,i)=>{
+    const it = ITEMS[id];
+    msg += `${i+1}. ${it.en} × ${cart[id]} = ₹${it.price*cart[id]}\n`;
+  });
+  msg += `\n*Total: ₹${sub}*${orderType==="delivery" ? " (Free delivery)" : ""}\n`;
+  msg += `Payment: Cash / UPI on ${orderType==="delivery" ? "delivery" : "pickup"}\n\n`;
+  msg += `👤 ${name}\n📞 ${phone}\n`;
+  if(orderType==="delivery") msg += `📍 ${addr}\n`;
+  if(notes) msg += `📝 ${notes}\n`;
+
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+  cart = {}; save(); render(); closeSheet();
+  toast("Order sent to WhatsApp ✔");
+}
+
+function toggleLang(){
+  lang = lang==="en" ? "gu" : "en";
+  document.body.classList.toggle("gu", lang==="gu");
+  document.getElementById("langBtn").textContent = lang==="en" ? "ગુજરાતી" : "English";
+  render();
+}
+
+let tt;
+function toast(t){ const el=document.getElementById("toast"); el.textContent=t; el.classList.add("show"); clearTimeout(tt); tt=setTimeout(()=>el.classList.remove("show"),1600); }
+
+render();
+</script>
+</body>
+</html>
