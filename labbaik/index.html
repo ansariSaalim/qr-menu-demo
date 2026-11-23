@@ -49,6 +49,10 @@ main{max-width:720px;margin:0 auto;padding:6px 16px}
 .cat-title .count{font-size:12px;font-weight:500;color:var(--muted)}
 .item{background:var(--card);border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;box-shadow:0 1px 0 var(--line),0 4px 14px rgba(155,12,35,.05)}
 .item .info{flex:1;min-width:0}
+.thumb{width:76px;height:76px;flex:0 0 76px;border-radius:14px;object-fit:cover;background:#ffe9b0 center/40% no-repeat;display:flex;align-items:center;justify-content:center;font-size:30px}
+.item{align-items:center}
+@media(max-width:360px){.thumb{width:64px;height:64px;flex-basis:64px}}
+.photo-note{font-size:11px;color:var(--muted);text-align:center;margin-top:18px}
 .item-name{font-size:15px;font-weight:600;line-height:1.3}
 .item-sub{font-size:12px;color:var(--muted);margin-top:2px}
 .price{font-size:15px;font-weight:700;color:var(--red);margin-top:4px}
@@ -130,6 +134,7 @@ textarea.f{resize:vertical;min-height:64px}
 <footer>
   <b>Labbaik Chicken Crunch</b><br>
   Mill Compound Gate No. 1, Preyas High School, Shahpur, Ahmedabad – 1<br>
+  <span class="photo-note">Photos are for illustration; actual serving may vary.</span><br>
   Raja Khan: <a href="tel:+918866775199">88667 75199</a> · Orders: <a href="tel:+919978625199">99786 25199</a>
 </footer>
 
@@ -218,6 +223,8 @@ const MENU = [
   ["ff3","Cheese French Fries","ચીઝ ફ્રેન્ચ ફ્રાઇસ",200]]}
 ];
 
+const IMG = {"ff1": "1688978181542-87a886a16fbe", "ff2": "1630384060421-cb20d0e0649d", "ff3": "1639744210631-209fce3e256c", "pc1": "1657271511865-f610b280dca4", "pc2": "1657271511865-f610b280dca4", "pc3": "1657271511865-f610b280dca4", "ts2": "1575161067401-e0bf20fd4ac7", "ts3": "1575161067401-e0bf20fd4ac7", "ts4": "1575161067401-e0bf20fd4ac7", "ts5": "1565428441363-a45ade391544", "bg1": "1760533536738-f0965fd52354", "bg2": "1607730127050-e32a8c756fb9", "bg3": "1692737348416-0a4fa4cf1523", "bg4": "1605291581926-df4bf7ee3e89", "sw2": "1703219342329-fce8488cf443", "sw3": "1703219342329-fce8488cf443", "sw4": "1565428441363-a45ade391544", "sp1": "1773620497483-aafa93392160", "sp2": "1657271511865-f610b280dca4", "sp3": "1767469576733-41fc2ba0fdc7", "sp4": "1607730127050-e32a8c756fb9", "sp5": "1678969406337-1869bb0c0dc4", "pz1": "1773620497483-aafa93392160", "pz3": "1773620497483-aafa93392160", "pz4": "1565299624946-b28f40a0ae38", "pz5": "1565299624946-b28f40a0ae38", "pz6": "1773620497483-aafa93392160", "pz7": "1773620497483-aafa93392160", "pz8": "1565299624946-b28f40a0ae38", "tc1": "1633641468621-459655ded429", "tc2": "1633641468621-459655ded429"};
+const imgUrl = id => IMG[id] ? `https://images.unsplash.com/photo-${IMG[id]}?w=240&h=240&fit=crop&auto=format&q=70` : '';
 const ITEMS = {};
 MENU.forEach(c=>c.items.forEach(([id,en,gu,price,sp])=>ITEMS[id]={id,en,gu,price,sp}));
 
@@ -238,7 +245,8 @@ function render(){
     html += `<section class="cat" id="c-${c.id}"><h2 class="cat-title"><span class="em">${c.em}</span>${lang==="gu"?c.gu:c.en}<span class="count">· ${list.length}</span></h2>`;
     list.forEach(it=>{
       const qn = cart[it.id]||0;
-      html += `<div class="item"><div class="info">
+      const u = imgUrl(it.id);
+      html += `<div class="item">${u ? `<img class="thumb" src="${u}" alt="${it.en}" loading="lazy" onerror="this.outerHTML='<div class=&quot;thumb&quot;>${c.em}</div>'">` : `<div class="thumb">${c.em}</div>`}<div class="info">
         <div class="item-name">${nm(it)}${it.sp?'<span class="badge">SPECIAL</span>':''}</div>
         ${lang==="gu"?`<div class="item-sub">${it.en}</div>`:''}
         <div class="price">${rs(it.price)}</div></div>
