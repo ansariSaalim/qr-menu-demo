@@ -576,6 +576,29 @@ button.dname:hover { text-decoration: underline; text-underline-offset: 3px; }
 img.rlogo { object-fit: cover; background: #fff; display: block; }
 .vbadge { font-size: 10.5px; padding: 1px 7px; margin-left: 4px; vertical-align: 1px; display: inline-flex; gap: 3px; align-items: center; }
 .qs-list { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 6px; }
+/* Restaurant theme: owner-picked colors on the diner menu */
+html.branded .topnav { box-shadow: inset 0 -3px 0 var(--leaf); }
+.rcover.rband { background: linear-gradient(135deg, var(--b-brand) 0%, var(--b-brand-2) 70%); }
+.rcover.rband::before { content: ''; position: absolute; right: -40px; top: -60px; width: 220px; height: 220px; border-radius: 50%; background: var(--b-accent); opacity: 0.28; }
+.rcover.rband::after { background: none; }
+.rtag { margin-top: 4px; font-weight: 650; color: var(--leaf); font-size: 14.5px; }
+.theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px; margin: 10px 0 14px; }
+.theme-sw { border: 1.5px solid var(--line); background: var(--app); border-radius: 14px; padding: 8px; text-align: left; display: grid; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--ink); }
+.theme-sw[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 2px var(--ink) inset; }
+.theme-sw i { display: block; height: 30px; border-radius: 9px; }
+.theme-custom { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+.theme-custom label { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+.theme-custom input[type=color] { width: 44px; height: 36px; border: 1px solid var(--line); border-radius: 10px; padding: 2px; background: var(--app); }
+.theme-prev { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--app); max-width: 360px; }
+.theme-prev .tp-band { height: 74px; position: relative; overflow: hidden; }
+.theme-prev .tp-band img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.theme-prev .tp-body { padding: 10px 14px 14px; }
+.theme-prev .tp-name { font-weight: 700; font-size: 16px; }
+.theme-prev .tp-tag { font-weight: 650; font-size: 13px; }
+.theme-prev .tp-dish { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 13.5px; }
+.theme-prev .tp-badge { font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 6px; margin-left: 6px; }
+.theme-prev .tp-add { border-radius: 999px; padding: 6px 16px; font-weight: 700; font-size: 13px; }
+.theme-prev .tp-bar { margin-top: 12px; border-radius: 999px; padding: 9px 14px; display: flex; justify-content: space-between; font-weight: 700; font-size: 13px; }
 .brand-photos { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; margin: 4px 0 14px; }
 .brand-photos > div { display: grid; gap: 8px; align-content: start; }
 .bp-h { font-size: 13px; font-weight: 650; }
@@ -1622,6 +1645,45 @@ const inr = (n) => '₹' + Math.round(Number(n) || 0).toLocaleString('en-IN');
 const clock = (t) => new Date(t).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit' });
 const ago = (t) => { const m = Math.max(0, Math.round((Date.now() - t) / 60000)); return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : Math.floor(m / 60) + ' h ago'; };
 const VegMark = ({ veg }) => html`<span className=${'vm ' + (veg ? 'veg' : 'nv')} role="img" aria-label=${veg ? 'Veg' : 'Non-veg'}></span>`;
+/* ---------- Restaurant theme (look only: brand colour, accent colour, tagline) ---------- */
+const THEMES = [
+  { id: 'zestro', name: 'Zestro (default)', brand: null, accent: null },
+  { id: 'crimson', name: 'Crimson & yellow', brand: '#c8102e', accent: '#ffd60a' },
+  { id: 'saffron', name: 'Saffron', brand: '#e8590c', accent: '#ffd43b' },
+  { id: 'royal', name: 'Royal blue', brand: '#1d4ed8', accent: '#fbbf24' },
+  { id: 'emerald', name: 'Emerald', brand: '#047857', accent: '#facc15' },
+  { id: 'noir', name: 'Black & gold', brand: '#141414', accent: '#d4a017' },
+  { id: 'plum', name: 'Plum', brand: '#7e22ce', accent: '#f9a8d4' },
+  { id: 'cafe', name: 'Café brown', brand: '#6b3e26', accent: '#f4c27a' },
+];
+const hexRgb = (h) => { const m = /^#?([0-9a-f]{6})$/i.exec(h || ''); if (!m) return null; const n = parseInt(m[1], 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
+const lum = (h) => { const c = hexRgb(h); if (!c) return 0; const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]); };
+const onColor = (h) => lum(h) > 0.45 ? '#1a1a1a' : '#ffffff';
+const shade = (h, k) => { const c = hexRgb(h); if (!c) return h; return '#' + c.map((v) => Math.max(0, Math.min(255, Math.round(k < 0 ? v * (1 + k) : v + (255 - v) * k))).toString(16).padStart(2, '0')).join(''); };
+const rgba = (h, a) => { const c = hexRgb(h); return c ? `rgba(${c[0]}, ${c[1]}, ${c[2]}, ${a})` : h; };
+function themeVars(t) {
+  if (!t || !hexRgb(t.brand)) return null;
+  const accent = hexRgb(t.accent) ? t.accent : '#f2a516';
+  const v = {
+    '--cta': t.brand, '--cta-2': shade(t.brand, -0.18), '--on-cta': onColor(t.brand),
+    '--sun': accent, '--sun-soft': rgba(accent, 0.2), '--on-sun': onColor(accent), '--star': accent,
+    '--b-brand': t.brand, '--b-brand-2': shade(t.brand, -0.3), '--b-accent': accent,
+  };
+  // Brand as text/link colour only where it stays readable on the page background
+  const page = getComputedStyle(document.documentElement).getPropertyValue('--page').trim() || '#ffffff';
+  const darkPage = lum(page) < 0.2;
+  const txt = darkPage ? (lum(t.brand) > 0.12 ? t.brand : accent) : (lum(t.brand) < 0.35 ? t.brand : shade(t.brand, -0.45));
+  Object.assign(v, { '--leaf': txt, '--leaf-2': shade(txt, darkPage ? 0.15 : -0.15), '--leaf-soft': rgba(t.brand, darkPage ? 0.22 : 0.1), '--on-leaf': onColor(txt) });
+  return v;
+}
+const BRAND_KEYS = ['--cta', '--cta-2', '--on-cta', '--sun', '--sun-soft', '--on-sun', '--star', '--b-brand', '--b-brand-2', '--b-accent', '--leaf', '--leaf-2', '--leaf-soft', '--on-leaf'];
+function applyBrand(t) {
+  const el = document.documentElement, v = themeVars(t);
+  BRAND_KEYS.forEach((k) => el.style.removeProperty(k));
+  el.classList.toggle('branded', !!v);
+  if (v) Object.entries(v).forEach(([k, val]) => el.style.setProperty(k, val));
+}
+
 const RLogo = ({ r }) => r.logo ? html`<img className="rlogo img" src=${r.logo} alt=${r.name + ' logo'} />` : html`<div className="rlogo" style=${{ '--b1': r.b[0], '--b2': r.b[1] }}>${r.short}</div>`;
 function Plate({ c, size, img, alt }) {
   const [bad, setBad] = useState(false);
@@ -2096,11 +2158,13 @@ function MenuPage({ s, d }) {
   const open = myOpen(s), lastO = open[open.length - 1];
   const why = !s.table ? 'Browsing the menu. Scan the QR on your table, or pick your table, to order.' : !r.open ? 'The kitchen is not taking orders from the phone right now. Please ask a waiter.' : !can(r.plan, 'basic') ? 'This restaurant shows its menu here. Please tell your waiter what you would like.' : null;
   const cover = r.cover && coverOk !== r.cover;
+  const band = !cover && !!themeVars(r.theme);
+  const tagline = r.theme && r.theme.tagline ? r.theme.tagline.trim() : '';
   return html`<main className="container" id="menu-main">
-    ${cover ? html`<div className="rcover" id="rcover"><img src=${r.cover} alt="" onError=${() => setCoverOk(r.cover)} /><${RLogo} r=${r} /></div>` : null}
-    <div className=${'rhead' + (cover ? ' has-cover' : '')}>
+    ${cover ? html`<div className="rcover" id="rcover"><img src=${r.cover} alt="" onError=${() => setCoverOk(r.cover)} /><${RLogo} r=${r} /></div>` : band ? html`<div className="rcover rband" id="rcover"><${RLogo} r=${r} /></div>` : null}
+    <div className=${'rhead' + (cover || band ? ' has-cover' : '')}>
       <${RLogo} r=${r} />
-      <div className="grow"><h1>${r.name}</h1><p className="rline">${[r.cuisine, r.area, r.city].filter(Boolean).join(' · ')}${r.rating ? html` · <span className="rating">${r.rating}${I('star', 11)}</span>` : null}</p></div>
+      <div className="grow"><h1>${r.name}</h1>${tagline ? html`<p className="rtag" id="rtag">${tagline}</p>` : null}<p className="rline">${[r.cuisine, r.area, r.city].filter(Boolean).join(' · ')}${r.rating ? html` · <span className="rating">${r.rating}${I('star', 11)}</span>` : null}</p></div>
       ${s.table ? html`<button className="table-pill" onClick=${() => d({ type: 'sheet', sheet: { type: 'table' } })} title="Change table">Table ${s.table}</button>` : can(r.plan, 'basic') ? html`<button className="btn sm" onClick=${() => d({ type: 'sheet', sheet: { type: 'table' } })}>${I('qr', 15)}Pick your table</button>` : null}
     </div>
     ${why ? html`<div className="notice" style=${{ marginBottom: 12 }}>${why}</div>` : null}
@@ -2544,6 +2608,36 @@ function ForRestaurants({ s, d }) {
 }
 
 /* Logo (square) and cover photo (wide) a restaurant uploads; shown on its menu and bills */
+function ThemeSettings({ r, onChange }) {
+  const t = r.theme || {};
+  const cur = THEMES.find((x) => x.brand && x.brand === t.brand && x.accent === t.accent);
+  const curId = !t.brand ? 'zestro' : cur ? cur.id : 'custom';
+  const set = (patch) => onChange({ theme: { ...t, ...patch } });
+  const v = themeVars(t.brand ? t : null) || {};
+  const brand = t.brand || '#171717', accent = t.accent || '#f2a516';
+  const prevStyle = { '--pb': v['--cta'] || 'var(--cta)', '--pon': v['--on-cta'] || 'var(--on-cta)', '--pa': v['--sun'] || 'var(--sun)', '--pon2': v['--on-sun'] || 'var(--on-sun)', '--pt': v['--leaf'] || 'var(--leaf)' };
+  return html`<section className="card" id="menu-look"><div className="card-h"><h3>${I('sparkle', 18)} Menu look</h3><span className="small muted">What diners see when they scan your QR</span></div>
+    <p className="small muted">Pick your restaurant’s colours and a short tagline. Your logo and cover photo are set in Restaurant, below. Changes show on your menu straight away.</p>
+    <div className="theme-grid" role="group" aria-label="Colour themes">
+      ${THEMES.map((x) => html`<button key=${x.id} className="theme-sw" aria-pressed=${curId === x.id ? 'true' : 'false'} onClick=${() => { if (x.brand) set({ brand: x.brand, accent: x.accent }); else onChange({ theme: t.tagline ? { tagline: t.tagline } : null }); toast(x.name + ' theme', 'ok'); }}>
+        <i style=${{ background: x.brand ? `linear-gradient(135deg, ${x.brand} 0 62%, ${x.accent} 62%)` : 'var(--grad)' }}></i>${x.name}</button>`)}
+    </div>
+    <div className="theme-custom">
+      <label>Main colour <input type="color" value=${brand} onChange=${(e) => set({ brand: e.target.value, accent: t.accent || accent })} /></label>
+      <label>Accent colour <input type="color" value=${accent} onChange=${(e) => set({ accent: e.target.value, brand: t.brand || brand })} /></label>
+      ${curId === 'custom' ? html`<span className="pill">Your own colours</span>` : null}
+    </div>
+    <label className="field">Tagline <small className="muted">(optional, up to 60 letters)</small><input maxLength="60" value=${t.tagline || ''} placeholder="e.g. Crunch you can hear. Taste you’ll remember." onChange=${(e) => onChange({ theme: { ...t, tagline: e.target.value.slice(0, 60) } })} /></label>
+    <p className="bp-h" style=${{ margin: '14px 0 8px' }}>Preview</p>
+    <div className="theme-prev" id="theme-prev" style=${prevStyle}>
+      <div className="tp-band" style=${{ background: r.cover ? 'var(--app-2)' : `linear-gradient(135deg, var(--pb), ${v['--b-brand-2'] || 'var(--cta-2)'})` }}>${r.cover ? html`<img src=${r.cover} alt="" />` : null}</div>
+      <div className="tp-body"><div className="tp-name">${r.name}</div>${t.tagline ? html`<div className="tp-tag" style=${{ color: 'var(--pt)' }}>${t.tagline}</div>` : null}
+        <div className="tp-dish"><span>Paneer Tikka<span className="tp-badge" style=${{ background: 'var(--pa)', color: 'var(--pon2)' }}>Bestseller</span><br /><b>${inr(220)}</b></span><span className="tp-add" style=${{ background: 'var(--pb)', color: 'var(--pon)' }}>ADD</span></div>
+        <div className="tp-bar" style=${{ background: 'var(--pb)', color: 'var(--pon)' }}><span>2 items · ${inr(440)}</span><span>View cart →</span></div></div>
+    </div>
+  </section>`;
+}
+
 function BrandPhotos({ r, logo, cover, onChange, id }) {
   const [busy, setBusy] = useState('');
   const pick = (k, W, H) => (e) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (!f) return; setBusy(k); resizePhoto(f, W, H).then((url) => { onChange({ [k]: url }); toast(k === 'logo' ? 'Logo updated' : 'Cover photo updated', 'ok'); }).catch((err) => toast(err.message)).finally(() => setBusy('')); };
@@ -2660,6 +2754,9 @@ function Diner({ s, d }) {
   const Screen = screens[s.screen] || Home;
   const open = s.orders.filter((o) => o.mine && o.status !== 'cancelled' && o.pay !== 'paid').length;
   const cur = s.screen === 'menu' || s.screen === 'cart' || s.screen === 'home' ? 'home' : s.screen === 'business' ? 'business' : s.screen === 'views' ? null : 'orders';
+  const rTheme = s.rid && ['menu', 'cart', 'track', 'pay', 'paid', 'orders'].includes(s.screen) ? (R(s, s.rid) || {}).theme : null;
+  const themeKey = JSON.stringify(rTheme || null);
+  useEffect(() => { applyBrand(rTheme); return () => applyBrand(null); }, [themeKey]);
   return html`<div>
     <${DinerNav} s=${s} d=${d} />
     <${Screen} s=${s} d=${d} />
@@ -3275,6 +3372,7 @@ function OwnerSettings({ s, d }) {
     ${(() => { const used = 182 + s.orders.filter((o) => o.rid === OWNER_RID && o.pay === 'paid' && (o.mine || o.counter || o.staff)).length; const pct = Math.min(100, Math.round((used / WA.included) * 100)); return can(r.plan, 'pro') ? html`<section className="card" id="wa-usage"><div className="card-h"><h3>WhatsApp this month</h3><span className="small muted">${used} of ${WA.included} included messages used</span></div><div className="meter" role="img" aria-label=${used + ' of ' + WA.included + ' WhatsApp messages used'}><i style=${{ width: pct + '%' }}></i></div><p className="small muted">Bills, offers and your daily summary. After ${WA.included}, each message costs ₹${WA.extra.toFixed(2)}, added to your next payment. Resets on the 1st.</p></section>` : html`<section className="card" id="wa-usage"><div className="card-h"><h3>WhatsApp bills</h3><span className="pill">Pro</span></div><p className="small muted">On Pro, diners get bills on WhatsApp and you get a daily summary: ${WA.included} messages a month included.</p></section>`; })()}
     <section className="card help-card"><div className="grow"><h3>Help when you need it</h3><p className="small muted">WhatsApp support in Hindi, Gujarati and English on every plan${r.plan === 'pro' ? ', with priority replies from 9 am to 11 pm' : ''}. Export your menu and every bill whenever you like.</p></div>
       <div className="row"><button className="btn" onClick=${() => { downloadMenuCsv(s); toast('Menu downloaded as CSV'); }}>${I('download', 16)}Export menu</button><button className="btn" onClick=${() => toast('In the live product this opens WhatsApp support')}>${I('user', 16)}Chat with support</button></div></section>
+    <${ThemeSettings} r=${r} onChange=${(p) => d({ type: 'rest', rid: OWNER_RID, patch: p })} />
     <h2 className="sub-h">Compare every feature</h2>
     <${PlanCompare} current=${r.plan} billing=${s.billing || 'y'} />
     <section className="card" id="rest-card"><h3>Restaurant</h3>
