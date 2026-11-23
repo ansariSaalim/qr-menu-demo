@@ -31,6 +31,13 @@ img{-webkit-user-drag:none;pointer-events:none}
 .brand{font-family:'Bungee',sans-serif;font-size:30px;line-height:1.05;margin-top:14px;color:var(--yellow);text-shadow:2px 2px 0 #6d0715;position:relative;z-index:1}
 .brand span{display:block;font-size:40px}
 .pitch{font-family:'Poppins',sans-serif;font-weight:700;font-size:21px;line-height:1.25;margin-top:12px;position:relative;z-index:1;color:#fff}
+.party{max-width:688px;margin:28px auto 0;margin-left:16px;margin-right:16px;background:linear-gradient(150deg,#ffd60a,#ffb703);border-radius:20px;padding:22px 18px;text-align:center;box-shadow:0 6px 20px rgba(244,180,0,.3);scroll-margin-top:120px}
+@media(min-width:720px){.party{margin-left:auto;margin-right:auto}}
+.party-em{font-size:34px}
+.party h3{font-family:'Noto Sans Gujarati','Poppins',sans-serif;font-size:20px;color:var(--red-d);margin-top:4px;line-height:1.35}
+.party-en{font-weight:700;font-size:14.5px;margin-top:6px}
+.party-sub{font-size:12.5px;color:#5a4500;margin-top:6px}
+.party-btn{margin-top:14px;background:var(--red);color:#fff;font-weight:700;font-size:15px;padding:12px 22px;border-radius:14px}
 .madeby{margin-top:14px;font-size:12.5px;color:var(--muted)}
 .madeby a{color:var(--red);font-weight:700;text-decoration:none}
 .tag{margin-top:8px;font-size:13px;opacity:.92;position:relative;z-index:1}
@@ -138,6 +145,7 @@ textarea.f{resize:vertical;min-height:64px}
   <div class="pills">
     <span class="pill">🛵 Free delivery within 3 km · above ₹299</span>
     <span class="pill ghost">🍽️ Self service</span>
+    <a class="pill ghost" href="#party" style="text-decoration:none">🎉 Party orders</a>
     <span class="pill ghost"><a href="tel:+919978625199">📞 99786 25199</a></span>
   </div>
 </header>
@@ -148,6 +156,14 @@ textarea.f{resize:vertical;min-height:64px}
 </div>
 
 <main id="menu"></main>
+
+<section class="party" id="party">
+  <div class="party-em">🎉</div>
+  <h3>શુભ પ્રસંગના ઓર્ડર લેવામાં આવે છે</h3>
+  <p class="party-en">Orders taken for weddings, birthdays, parties &amp; all functions</p>
+  <p class="party-sub">Bulk orders of pizza, burgers, popcorn &amp; more — tell us the date and number of people.</p>
+  <button class="party-btn" onclick="partyEnquiry()">💬 Enquire on WhatsApp</button>
+</section>
 
 <footer>
   <b>Labbaik Chicken Crunch</b><br>
@@ -497,6 +513,11 @@ function sendOrder(){
   window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
   cart = {}; save(); render(); closeSheet();
   toast("Order sent to WhatsApp ✔");
+}
+
+function partyEnquiry(){
+  const msg = "🎉 *Party / Function Order Enquiry – Labbaik Chicken Crunch*\n\nOccasion: \nDate: \nTime: \nNumber of people: \nItems wanted: \nDelivery address (if any): \n\n(શુભ પ્રસંગ માટે ઓર્ડર)";
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
 function toggleLang(){
