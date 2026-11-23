@@ -359,9 +359,12 @@ function renderSheet(){
   const far = orderType==="delivery" && loc && loc.km > MAX_KM;
   const unverified = orderType==="delivery" && (!loc || loc.failed) && !(loc && loc.failed && document.getElementById("tick").checked);
   const blocked = orderType==="delivery" && (short>0 || far || unverified);
-  document.getElementById("minNote").innerHTML = blocked
-    ? `<div class="note err">Home delivery needs a minimum order of ${rs(MIN_DELIVERY)}. Add <b>${rs(short)}</b> more, or choose Pickup.</div>`
-    : (orderType==="delivery" ? `<div class="note">🎉 You get FREE home delivery!</div>` : "");
+  let mn = "";
+  if(orderType==="delivery"){
+    if(short > 0) mn = `<div class="note err">Home delivery needs a minimum order of ${rs(MIN_DELIVERY)}. Add <b>${rs(short)}</b> more, or choose Pickup.</div>`;
+    else if(!far) mn = `<div class="note">🎉 Your order qualifies for FREE home delivery${unverified ? " — just tap <b>📍 Check if I'm in delivery area</b> below." : "!"}</div>`;
+  }
+  document.getElementById("minNote").innerHTML = mn;
   document.getElementById("waBtn").disabled = blocked;
   document.getElementById("waBtn").lastChild.textContent = (orderType==="delivery" && !far && short<=0 && unverified) ? " Check delivery area first" : " Send Order on WhatsApp";
 }
