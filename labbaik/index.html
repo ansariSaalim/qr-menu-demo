@@ -308,8 +308,31 @@ function spy(){
 }
 window.addEventListener("scroll", spy, {passive:true});
 
-function openSheet(){ renderSheet(); document.getElementById("overlay").classList.add("show"); document.getElementById("sheet").classList.add("show"); }
-function closeSheet(){ document.getElementById("overlay").classList.remove("show"); document.getElementById("sheet").classList.remove("show"); }
+const sheetOpen = () => document.getElementById("sheet").classList.contains("show");
+function showSheet(){ renderSheet(); document.getElementById("overlay").classList.add("show"); document.getElementById("sheet").classList.add("show"); }
+function hideSheet(){ document.getElementById("overlay").classList.remove("show"); document.getElementById("sheet").classList.remove("show"); }
+function openSheet(){ if(sheetOpen()) return; showSheet(); try{ history.pushState({sheet:1}, ""); }catch(e){} }
+function closeSheet(){
+  if(!sheetOpen()) return;
+  if(history.state && history.state.sheet){ history.back(); }   // popstate will hide it
+  else hideSheet();
+}
+
+/* Android back button: close cart first, then "press back again to exit" */
+let lastBack = 0;
+try{
+  history.replaceState({base:1}, "");
+  history.pushState({guard:1}, "");
+}catch(e){}
+window.addEventListener("popstate", e => {
+  if(sheetOpen()){ hideSheet(); return; }
+  if(e.state && e.state.base){
+    if(Date.now() - lastBack < 2000){ history.back(); return; }
+    lastBack = Date.now();
+    toast("Press back again to exit");
+    try{ history.pushState({guard:1}, ""); }catch(err){}
+  }
+});
 
 function setType(t){
   orderType = t;
