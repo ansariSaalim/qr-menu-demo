@@ -255,8 +255,21 @@ const ITEMS = {};
 MENU.forEach(c=>c.items.forEach(([id,en,gu,price,sp])=>ITEMS[id]={id,en,gu,price,sp}));
 
 let cart = {}, lang = "en", orderType = "delivery";
-try{ cart = JSON.parse(localStorage.getItem("lcc_cart")||"{}"); Object.keys(cart).forEach(k=>{if(!ITEMS[k]) delete cart[k]}); }catch(e){ cart = {}; }
-const save = ()=>{ try{ localStorage.setItem("lcc_cart", JSON.stringify(cart)); }catch(e){} };
+const CART_TTL = 30*60*1000;   // keep an unfinished cart for 30 minutes only
+try{
+  const saved = JSON.parse(localStorage.getItem("lcc_cart")||"{}");
+  if(saved.t && Date.now()-saved.t < CART_TTL && saved.items){ cart = saved.items; }
+  else { cart = {}; localStorage.removeItem("lcc_cart"); }
+  Object.keys(cart).forEach(k=>{if(!ITEMS[k]) delete cart[k]});
+}catch(e){ cart = {}; }
+const save = ()=>{ try{
+  if(Object.keys(cart).length) localStorage.setItem("lcc_cart", JSON.stringify({t:Date.now(), items:cart}));
+  else localStorage.removeItem("lcc_cart");
+}catch(e){} };
+// always open at the top of the menu
+try{ history.scrollRestoration = "manual"; }catch(e){}
+window.addEventListener("load", ()=>window.scrollTo(0,0));
+window.addEventListener("pageshow", e=>{ if(e.persisted) window.scrollTo(0,0); });
 const rs = n => "₹" + n.toLocaleString("en-IN");
 const nm = it => lang==="gu" ? it.gu : it.en;
 
