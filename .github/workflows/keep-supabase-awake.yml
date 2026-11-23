@@ -1,0 +1,18 @@
+name: Keep Supabase awake
+# Free Supabase projects pause after about a week with no activity.
+# This pings the public demo endpoint every 3 days so Zestro stays online.
+on:
+  schedule:
+    - cron: "17 3 */3 * *"
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Zestro database
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            "https://tnffprnunuaukqzpbufy.supabase.co/rest/v1/rpc/z_demo_login" \
+            -H "apikey: sb_publishable_8ggGtGEjhVYMWbGpwyM8SQ_GNlk3uDH" -H "Content-Type: application/json" -d '{}')
+          echo "HTTP $code"
+          test "$code" -lt 400
