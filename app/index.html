@@ -1767,8 +1767,6 @@ function freshState() {
       { id: 'o112', rid: 'spice', no: 112, table: 4, name: 'Shah', items: [{ n: 'Veg Dum Biryani', opt: 'Full', q: 2, p: 260, veg: true }, { n: 'Masala Chaas', q: 3, p: 70, veg: true }], status: 'served', pay: 'paid', method: 'upi', t: now - 95 * MIN },
       { id: 'o113', rid: 'spice', no: 113, table: 1, name: 'Neha', items: [{ n: 'Paneer Butter Masala', opt: 'Full', q: 1, p: 280, veg: true }, { n: 'Butter Naan', q: 3, p: 60, veg: true }], status: 'served', pay: 'paid', method: 'cash', t: now - 70 * MIN },
       { id: 'o114', rid: 'spice', no: 114, table: 11, name: 'Kabir', items: [{ n: 'Butter Chicken', opt: 'Full', q: 1, p: 340, veg: false }, { n: 'Lachha Paratha', q: 3, p: 70, veg: true }], status: 'served', pay: 'unpaid', t: now - 40 * MIN },
-      { id: 'o118', rid: 'spice', no: 118, type: 'online', src: 'zomato', ref: 'Z74219935', online: true, name: 'Rahul', items: [{ n: 'Paneer Butter Masala', opt: 'Full', q: 1, p: 280, veg: true }, { n: 'Butter Naan', q: 3, p: 60, veg: true }, { n: 'Gulab Jamun', q: 1, p: 110, veg: true }], note: 'Send cutlery', status: 'new', pay: 'paid', method: 'online', prep: 20, t: now - 1 * MIN },
-      { id: 'o119', rid: 'spice', no: 119, type: 'online', src: 'swiggy', ref: '#21964471', online: true, name: 'Sneha', items: [{ n: 'Veg Dum Biryani', opt: 'Full', q: 1, p: 260, veg: true }, { n: 'Masala Chaas', q: 2, p: 70, veg: true }], status: 'preparing', pay: 'paid', method: 'online', prep: 20, t: now - 9 * MIN },
     ],
     alerts: [], nextNo: { spice: 120 }, fresh: null,
     cats: Object.fromEntries(RESTAURANTS.map((r) => [r.id, CATS_OF(r.menu)])),
