@@ -107,6 +107,10 @@ textarea.f{resize:vertical;min-height:64px}
 .wa{width:100%;margin-top:18px;background:var(--green);color:#fff;font-weight:700;font-size:16px;padding:15px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:10px}
 .wa:disabled{background:#b8b8b8}
 .wa svg{width:22px;height:22px}
+.locbtn{width:100%;margin-top:10px;background:#fff;border:1.8px dashed var(--red);color:var(--red);font-weight:600;font-size:14px;padding:11px;border-radius:12px}
+.tick{display:flex;gap:8px;align-items:flex-start;font-weight:500;font-size:13px;margin-top:10px}
+.tick input{margin-top:3px;width:18px;height:18px;accent-color:var(--red)}
+.note.ok{background:#e8f8ee;border-color:#a8e2bd;color:#0a6b33}
 .hint{text-align:center;font-size:11.5px;color:var(--muted);margin-top:8px}
 .toast{position:fixed;left:50%;top:18px;transform:translate(-50%,-120px);background:var(--ink);color:#fff;font-size:13px;padding:10px 16px;border-radius:12px;transition:transform .25s;z-index:60}
 .toast.show{transform:translate(-50%,0)}
@@ -122,7 +126,7 @@ textarea.f{resize:vertical;min-height:64px}
   <h1 class="brand">Labbaik Chicken<span>Crunch</span></h1>
   <p class="tag">Crispy chicken, pizza, burgers &amp; more — Shahpur, Ahmedabad</p>
   <div class="pills">
-    <span class="pill">🛵 Free delivery above ₹299</span>
+    <span class="pill">🛵 Free delivery within 3 km · above ₹299</span>
     <span class="pill ghost">🍽️ Self service</span>
     <span class="pill ghost"><a href="tel:+919978625199">📞 99786 25199</a></span>
   </div>
@@ -137,7 +141,7 @@ textarea.f{resize:vertical;min-height:64px}
 
 <footer>
   <b>Labbaik Chicken Crunch</b><br>
-  Mill Compound Gate No. 1, Preyas High School, Shahpur, Ahmedabad – 1<br>
+  Mill Compound Gate No. 1, Preyas High School, Shahpur, Ahmedabad – 1 · <a href="https://maps.google.com/?q=23.0324611,72.5806909" target="_blank" rel="noopener">📍 Directions</a><br>
   <span class="photo-note">Photos are for illustration; actual serving may vary.</span><br>
   Raja Khan: <a href="tel:+918866775199">88667 75199</a> · Orders: <a href="tel:+919978625199">99786 25199</a>
 </footer>
@@ -156,7 +160,7 @@ textarea.f{resize:vertical;min-height:64px}
 
   <label>Order type</label>
   <div class="seg">
-    <button id="tDel" class="on" onclick="setType('delivery')">🛵 Home Delivery<small>Min. order ₹299</small></button>
+    <button id="tDel" class="on" onclick="setType('delivery')">🛵 Home Delivery<small>Within 3 km · Min. ₹299</small></button>
     <button id="tPick" onclick="setType('pickup')">🏃 Pickup / Dine-in<small>Collect at counter</small></button>
   </div>
   <div id="minNote"></div>
@@ -168,6 +172,9 @@ textarea.f{resize:vertical;min-height:64px}
   <div id="addrWrap">
     <label for="addr">Delivery address *</label>
     <textarea class="f" id="addr" placeholder="House no., society, area, landmark"></textarea>
+    <button type="button" class="locbtn" id="locBtn" onclick="checkLocation()">📍 Check if I'm in delivery area</button>
+    <div id="locNote"></div>
+    <label class="tick" id="tickWrap" style="display:none"><input type="checkbox" id="tick" onchange="renderSheet()"> My address is within 3 km of Shahpur (Mill Compound)</label>
   </div>
   <label for="notes">Cooking instructions (optional)</label>
   <input class="f" id="notes" placeholder="e.g. extra spicy, no mayo">
@@ -184,6 +191,9 @@ textarea.f{resize:vertical;min-height:64px}
 <script>
 const WA_NUMBER = "919978625199";   // Order line from the menu card
 const MIN_DELIVERY = 299;
+const SHOP = {lat:23.0324611, lng:72.5806909};   // Labbaik Chicken Crunch, Shahpur
+const MAX_KM = 3;
+let loc = null;   // {lat,lng,km} or {failed:true}
 
 const MENU = [
  {id:"sp", em:"⭐", en:"Labbaik Special", gu:"લબ્બેક સ્પે. વેરાયટી", items:[
@@ -323,11 +333,39 @@ function renderSheet(){
      <div><span>Delivery</span><span>${orderType==="delivery" ? "FREE" : "—"}</span></div>
      <div class="grand"><span>Total</span><span>${rs(sub)}</span></div>`;
   const short = MIN_DELIVERY - sub;
-  const blocked = orderType==="delivery" && short>0;
+  const far = orderType==="delivery" && loc && loc.km > MAX_KM;
+  const unverified = orderType==="delivery" && (!loc || loc.failed) && !(loc && loc.failed && document.getElementById("tick").checked);
+  const blocked = orderType==="delivery" && (short>0 || far || unverified);
   document.getElementById("minNote").innerHTML = blocked
     ? `<div class="note err">Home delivery needs a minimum order of ${rs(MIN_DELIVERY)}. Add <b>${rs(short)}</b> more, or choose Pickup.</div>`
     : (orderType==="delivery" ? `<div class="note">🎉 You get FREE home delivery!</div>` : "");
   document.getElementById("waBtn").disabled = blocked;
+  document.getElementById("waBtn").lastChild.textContent = (orderType==="delivery" && !far && short<=0 && unverified) ? " Check delivery area first" : " Send Order on WhatsApp";
+}
+
+function distKm(a,b){
+  const R=6371, r=x=>x*Math.PI/180, dLat=r(b.lat-a.lat), dLng=r(b.lng-a.lng);
+  const h=Math.sin(dLat/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+function showLoc(){
+  const n=document.getElementById("locNote"), b=document.getElementById("locBtn");
+  document.getElementById("tickWrap").style.display = (loc && loc.failed) ? "" : "none";
+  if(!loc){ n.innerHTML=""; return; }
+  if(loc.failed){ n.innerHTML=`<div class="note">Couldn't get your location. Please confirm below — the shop will verify your address.</div>`; b.textContent="📍 Try location again"; return; }
+  b.textContent="📍 Check location again";
+  n.innerHTML = loc.km <= MAX_KM
+    ? `<div class="note ok">✅ You're about ${loc.km.toFixed(1)} km away — home delivery available!</div>`
+    : `<div class="note err">Sorry, you're about ${loc.km.toFixed(1)} km away. We deliver within ${MAX_KM} km only. Please choose Pickup.</div>`;
+}
+function checkLocation(){
+  const b=document.getElementById("locBtn");
+  if(!navigator.geolocation){ loc={failed:true}; showLoc(); renderSheet(); return; }
+  b.textContent="📍 Checking…";
+  navigator.geolocation.getCurrentPosition(p=>{
+    const here={lat:p.coords.latitude,lng:p.coords.longitude};
+    loc={...here, km:distKm(SHOP,here)}; showLoc(); renderSheet();
+  },()=>{ loc={failed:true}; showLoc(); renderSheet(); },{enableHighAccuracy:true,timeout:12000,maximumAge:60000});
 }
 
 function sendOrder(){
@@ -338,6 +376,7 @@ function sendOrder(){
   const {count, sub} = totals();
   if(!count) return;
   if(orderType==="delivery" && sub < MIN_DELIVERY) return toast("Minimum ₹299 for delivery");
+  if(orderType==="delivery" && loc && loc.km > MAX_KM) return toast("Outside 3 km delivery area");
   if(!name) return toast("Please enter your name"), document.getElementById("name").focus();
   if(phone.length !== 10) return toast("Enter a valid 10-digit mobile"), document.getElementById("phone").focus();
   if(orderType==="delivery" && addr.length < 8) return toast("Please enter full address"), document.getElementById("addr").focus();
@@ -355,6 +394,8 @@ function sendOrder(){
   msg += `Payment: Cash / UPI on ${orderType==="delivery" ? "delivery" : "pickup"}\n\n`;
   msg += `👤 ${name}\n📞 ${phone}\n`;
   if(orderType==="delivery") msg += `📍 ${addr}\n`;
+  if(orderType==="delivery" && loc && !loc.failed) msg += `🗺️ Location (${loc.km.toFixed(1)} km): https://maps.google.com/?q=${loc.lat.toFixed(6)},${loc.lng.toFixed(6)}\n`;
+  if(orderType==="delivery" && loc && loc.failed) msg += `⚠️ Location not shared — customer confirmed within 3 km\n`;
   if(notes) msg += `📝 ${notes}\n`;
 
   window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
