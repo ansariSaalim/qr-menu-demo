@@ -1421,8 +1421,8 @@ const I = (name, size) => html`<svg className="ic" width=${size || 18} height=${
 /* ---------- Sample data ---------- */
 /* Two plans, paid for 6 or 12 months ahead. Every plan starts with a 15-day free trial. */
 const PLANS = {
-  basic: { name: 'Basic', total: { h: 2999, y: 4999 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Waiters with their own PIN and their own tables', 'Table QR ordering, diners pay after eating', 'Kitchen screen per station and a token board for a TV', 'Expense book with bill photos', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
-  pro: { name: 'Pro', total: { h: 4999, y: 7999 }, perks: ['Everything in Basic', 'Swiggy and Zomato orders on the same screen', 'Monthly profit, partners and investor logins', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review link on every bill', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
+  basic: { name: 'Basic', total: { h: 3999, y: 6999 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Waiters with their own PIN and their own tables', 'Table QR ordering, diners pay after eating', 'Kitchen screen per station and a token board for a TV', 'Expense book with bill photos', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
+  pro: { name: 'Pro', total: { h: 4999, y: 8999 }, perks: ['Everything in Basic', 'Swiggy and Zomato orders on the same screen', 'Monthly profit, partners and investor logins', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review link on every bill', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
 };
 PLANS.basic.price = Math.round(PLANS.basic.total.y / 12); PLANS.pro.price = Math.round(PLANS.pro.total.y / 12);
 const PLAN_KEYS = ['basic', 'pro'];
@@ -1938,7 +1938,7 @@ const TOUR = [
   { t: 'One QR per table', d: 'Download a print-ready standee for each table. Scan one with your own phone: it opens this demo at that table.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'tables', qrTable: 5, sheet: null }), hl: '#standee' },
   { t: 'Reports for your CA and for you', d: 'Basic shows sales for any dates with an Excel export and a day-end report. Pro adds busy hours, repeat diners, stock and profit per dish.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'reports', sheet: null }), hl: '#reports-main' },
   { t: 'Add dishes with photos', d: 'Name, price, a photo from the phone, Half/Full portions and add-ons. It shows on every table the moment it is saved.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'menu', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: 'Main Course', name: 'Paneer Lababdar', price: '290', veg: true, desc: 'Paneer in a rich onion-tomato gravy with cream.', tags: ['New'], variants: [], addons: [['Extra butter', 30]], stock: true, img: null, c: ['#d9722e', '#f7e4c3'] } } }), hl: '#dish-editor' },
-  { t: 'Two plans, or pick modules', d: 'Basic is ₹4,999 for 12 months: billing, tables, waiters, table QR ordering and the kitchen screen. Pro adds Swiggy and Zomato orders, inventory, profit and partners, loyalty, Google reviews and dish profit. One yearly price, after a 15-day free trial.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
+  { t: 'Two plans, or pick modules', d: 'Basic is ₹6,999 for 12 months: billing, tables, waiters, table QR ordering and the kitchen screen. Pro adds Swiggy and Zomato orders, inventory, profit and partners, loyalty, Google reviews and dish profit. One yearly price, after a 15-day free trial.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
   { t: 'Each waiter gets their own tables', d: 'Suresh looks after T1–T6 and Vijay T7–T12. A waiter’s phone opens on their tables, and a call from a table goes to that waiter.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'floor', me2: { name: 'Suresh', role: 'Waiter', id: 'st4' }, sheet: null }), hl: '#floor' },
   { t: 'One screen per kitchen station', d: 'The tandoor screen shows only starters and breads. Each station marks its part ready, and the order turns Ready when every part is done.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'orders', ownerCol: 'preparing', me2: { name: 'Ravi', role: 'Kitchen', id: 'st7' }, sheet: null }), hl: '#board' },
   { t: 'Expenses with a photo of the bill', d: 'The cashier or manager adds every expense as it happens: gas, salaries, repairs. Cash paid out today is checked at day end.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'expenses', sheet: null }), hl: '#exp-add' },
@@ -2438,12 +2438,12 @@ function PlanCards({ current, currentBilling, billing, onPick, label }) {
 
 /* Build your own: buy only the modules you need. Bundles cost less than the same modules bought one by one. */
 const MODULES = [
-  { id: 'bill', name: 'Billing counter', y: 2999, text: 'GST bills, discounts, cash/UPI split, khata, offline billing, day-end report, Excel. Printer optional.' },
-  { id: 'qr', name: 'Table QR ordering + kitchen screen', y: 1499, text: 'Diners order from the table, kitchen screen with sound, token board.' },
-  { id: 'tables', name: 'Tables and waiters', y: 999, text: 'Running bills per table, move and merge, waiters with their own PIN and tables, kitchen stations.' },
-  { id: 'online', name: 'Swiggy and Zomato orders', y: 1499, text: 'App orders on your kitchen screen, auto-accept, menu and sold-out sync, commission report.' },
-  { id: 'inv', name: 'Inventory, profit and partners', y: 1999, text: 'Recipes, stock used by every bill, wastage, profit per dish, monthly profit and loss, partners and investor logins.' },
-  { id: 'grow', name: 'Loyalty and reviews', y: 999, text: 'Loyalty points, bills on WhatsApp (' + WA.included + ' messages a month included), Google review requests, repeat-diner reports.' },
+  { id: 'bill', name: 'Billing counter', y: 3999, text: 'GST bills, discounts, cash/UPI split, khata, offline billing, day-end report, Excel. Printer optional.' },
+  { id: 'qr', name: 'Table QR ordering + kitchen screen', y: 1999, text: 'Diners order from the table, kitchen screen with sound, token board.' },
+  { id: 'tables', name: 'Tables and waiters', y: 1499, text: 'Running bills per table, move and merge, waiters with their own PIN and tables, kitchen stations.' },
+  { id: 'online', name: 'Swiggy and Zomato orders', y: 1999, text: 'App orders on your kitchen screen, auto-accept, menu and sold-out sync, commission report.' },
+  { id: 'inv', name: 'Inventory, profit and partners', y: 2499, text: 'Recipes, stock used by every bill, wastage, profit per dish, monthly profit and loss, partners and investor logins.' },
+  { id: 'grow', name: 'Loyalty and reviews', y: 1299, text: 'Loyalty points, bills on WhatsApp (' + WA.included + ' messages a month included), Google review requests, repeat-diner reports.' },
 ];
 const modPrice = (y, b) => (b === 'h' ? Math.round((y * 0.56) / 10) * 10 - 1 : y);
 const OUTLET_OFF = 10;
@@ -3932,7 +3932,7 @@ function sampleExpenses() {
     add(1, 'Rent', 60000, 'Bank', 'Shop rent');
     add(1, 'Salaries', back ? 158000 : 162500, 'Bank', 'Salaries, 10 staff');
     [3, 10, 17, 24].forEach((dd) => add(dd, 'Electricity & gas', 5550, 'Cash', '3 commercial gas cylinders', 'Ramesh'));
-    add(5, 'Other', 667, 'UPI', 'Zestro Pro plan, monthly share of ₹7,999');
+    add(5, 'Other', 667, 'UPI', 'Zestro Pro plan, monthly share of ₹8,999');
     add(8, 'Electricity & gas', back ? 26840 : 28160, 'UPI', 'Electricity bill');
     add(9, 'Packaging', back ? 6400 : 7150, 'UPI', 'Parcel boxes and bags', 'Farah');
     add(12, 'Repairs', back ? 4200 : 1800, 'Cash', back ? 'Fridge compressor repair' : 'Chimney cleaning', 'Farah');
