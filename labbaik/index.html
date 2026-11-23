@@ -114,7 +114,13 @@ textarea.f{resize:vertical;min-height:64px}
 .hint{text-align:center;font-size:11.5px;color:var(--muted);margin-top:8px}
 .toast{position:fixed;left:50%;top:18px;transform:translate(-50%,-120px);background:var(--ink);color:#fff;font-size:13px;padding:10px 16px;border-radius:12px;transition:transform .25s;z-index:60}
 .toast.show{transform:translate(-50%,0)}
+.mapbox{display:none;margin-top:10px}
+.mapbox.show{display:block}
+#map{height:220px;border-radius:14px;border:1.5px solid var(--line);overflow:hidden;z-index:0}
+.maphint{font-size:11.5px;color:var(--muted);margin-top:6px;text-align:center}
 </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script>
 </head>
 <body>
 
@@ -171,8 +177,9 @@ textarea.f{resize:vertical;min-height:64px}
   <input class="f" id="phone" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit mobile" autocomplete="tel">
   <div id="addrWrap">
     <label for="addr">Delivery address *</label>
-    <textarea class="f" id="addr" placeholder="House no., society, area, landmark"></textarea>
-    <button type="button" class="locbtn" id="locBtn" onclick="checkLocation()">📍 Check if I'm in delivery area</button>
+    <textarea class="f" id="addr" placeholder="House no., society, area, landmark" oninput="this.dataset.auto='0'"></textarea>
+    <button type="button" class="locbtn" id="locBtn" onclick="checkLocation()">📍 Use my current location</button>
+    <div class="mapbox" id="mapbox"><div id="map"></div><p class="maphint">Drag the red pin to your exact door · Red circle = 3 km delivery area</p></div>
     <div id="locNote"></div>
     <label class="tick" id="tickWrap" style="display:none"><input type="checkbox" id="tick" onchange="renderSheet()"> My address is within 3 km of Shahpur (Mill Compound)</label>
   </div>
@@ -362,7 +369,7 @@ function renderSheet(){
   let mn = "";
   if(orderType==="delivery"){
     if(short > 0) mn = `<div class="note err">Home delivery needs a minimum order of ${rs(MIN_DELIVERY)}. Add <b>${rs(short)}</b> more, or choose Pickup.</div>`;
-    else if(!far) mn = `<div class="note">🎉 Your order qualifies for FREE home delivery${unverified ? " — just tap <b>📍 Check if I'm in delivery area</b> below." : "!"}</div>`;
+    else if(!far) mn = `<div class="note">🎉 Your order qualifies for FREE home delivery${unverified ? " — just tap <b>📍 Use my current location</b> below." : "!"}</div>`;
   }
   document.getElementById("minNote").innerHTML = mn;
   document.getElementById("waBtn").disabled = blocked;
@@ -374,24 +381,69 @@ function distKm(a,b){
   const h=Math.sin(dLat/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dLng/2)**2;
   return 2*R*Math.asin(Math.sqrt(h));
 }
+let map=null, pin=null, geoTimer=null;
 function showLoc(){
   const n=document.getElementById("locNote"), b=document.getElementById("locBtn");
   document.getElementById("tickWrap").style.display = (loc && loc.failed) ? "" : "none";
   if(!loc){ n.innerHTML=""; return; }
   if(loc.failed){ n.innerHTML=`<div class="note">Couldn't get your location. Please confirm below — the shop will verify your address.</div>`; b.textContent="📍 Try location again"; return; }
-  b.textContent="📍 Check location again";
+  b.textContent="📍 Use my current location again";
   n.innerHTML = loc.km <= MAX_KM
     ? `<div class="note ok">✅ You're about ${loc.km.toFixed(1)} km away — home delivery available!</div>`
-    : `<div class="note err">Sorry, you're about ${loc.km.toFixed(1)} km away. We deliver within ${MAX_KM} km only. Please choose Pickup.</div>`;
+    : `<div class="note err">Sorry, this pin is about ${loc.km.toFixed(1)} km away. We deliver within ${MAX_KM} km only. Move the pin or choose Pickup.</div>`;
+}
+function setPoint(lat,lng,src){
+  loc = {lat, lng, km: distKm(SHOP,{lat,lng}), src};
+  showLoc(); renderSheet(); fillAddress(lat,lng);
+}
+function fillAddress(lat,lng){
+  clearTimeout(geoTimer);
+  geoTimer = setTimeout(async ()=>{
+    const a=document.getElementById("addr");
+    if(a.value.trim() && a.dataset.auto!=="1") return;   // never overwrite what the customer typed
+    try{
+      const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=18&accept-language=en`);
+      const j = await r.json();
+      if(j && j.display_name){
+        a.value = j.display_name.replace(/, \d{6}/,"").replace(/, India$/,"").split(", ").slice(0,5).join(", ");
+        a.dataset.auto = "1";
+        toast("Address filled — add your house / flat no.");
+      }
+    }catch(e){}
+  }, 600);
+}
+function showMap(lat,lng){
+  if(typeof L === "undefined") return false;
+  document.getElementById("mapbox").classList.add("show");
+  if(!map){
+    map = L.map("map",{zoomControl:true, attributionControl:true}).setView([lat,lng],16);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19, attribution:"© OpenStreetMap"}).addTo(map);
+    L.circle([SHOP.lat,SHOP.lng],{radius:MAX_KM*1000,color:"#c8102e",weight:1.5,fillOpacity:.05}).addTo(map);
+    L.circleMarker([SHOP.lat,SHOP.lng],{radius:7,color:"#fff",weight:2,fillColor:"#f4b400",fillOpacity:1}).addTo(map).bindTooltip("Labbaik Chicken Crunch");
+    pin = L.marker([lat,lng],{draggable:true}).addTo(map);
+    pin.on("dragend",()=>{ const p=pin.getLatLng(); setPoint(p.lat,p.lng,"pin"); });
+    map.on("click",e=>{ pin.setLatLng(e.latlng); setPoint(e.latlng.lat,e.latlng.lng,"pin"); });
+  } else { map.setView([lat,lng],16); pin.setLatLng([lat,lng]); }
+  setTimeout(()=>map.invalidateSize(),150);
+  return true;
 }
 function checkLocation(){
   const b=document.getElementById("locBtn");
-  if(!navigator.geolocation){ loc={failed:true}; showLoc(); renderSheet(); return; }
-  b.textContent="📍 Checking…";
+  if(!navigator.geolocation){ gpsFailed(); return; }
+  b.textContent="📍 Finding you…";
   navigator.geolocation.getCurrentPosition(p=>{
-    const here={lat:p.coords.latitude,lng:p.coords.longitude};
-    loc={...here, km:distKm(SHOP,here)}; showLoc(); renderSheet();
-  },()=>{ loc={failed:true}; showLoc(); renderSheet(); },{enableHighAccuracy:true,timeout:12000,maximumAge:60000});
+    showMap(p.coords.latitude,p.coords.longitude);
+    setPoint(p.coords.latitude,p.coords.longitude,"gps");
+  }, gpsFailed, {enableHighAccuracy:true,timeout:12000,maximumAge:60000});
+}
+function gpsFailed(){
+  // No GPS: let them place the pin themselves, starting at the shop
+  if(showMap(SHOP.lat,SHOP.lng)){
+    loc=null; showLoc();
+    document.getElementById("locNote").innerHTML=`<div class="note">Couldn't get GPS. Tap the map or drag the pin to your home.</div>`;
+    document.getElementById("locBtn").textContent="📍 Try GPS again";
+    renderSheet();
+  } else { loc={failed:true}; showLoc(); renderSheet(); }
 }
 
 function sendOrder(){
@@ -420,7 +472,7 @@ function sendOrder(){
   msg += `Payment: Cash / UPI on ${orderType==="delivery" ? "delivery" : "pickup"}\n\n`;
   msg += `👤 ${name}\n📞 ${phone}\n`;
   if(orderType==="delivery") msg += `📍 ${addr}\n`;
-  if(orderType==="delivery" && loc && !loc.failed) msg += `🗺️ Location (${loc.km.toFixed(1)} km): https://maps.google.com/?q=${loc.lat.toFixed(6)},${loc.lng.toFixed(6)}\n`;
+  if(orderType==="delivery" && loc && !loc.failed) msg += `🗺️ ${loc.src==="pin"?"Pinned":"GPS"} location (${loc.km.toFixed(1)} km): https://maps.google.com/?q=${loc.lat.toFixed(6)},${loc.lng.toFixed(6)}\n`;
   if(orderType==="delivery" && loc && loc.failed) msg += `⚠️ Location not shared — customer confirmed within 3 km\n`;
   if(notes) msg += `📝 ${notes}\n`;
 
