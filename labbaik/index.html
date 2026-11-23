@@ -136,22 +136,22 @@ textarea.f{resize:vertical;min-height:64px}
 
 <header class="hero">
   <div class="top-row">
-    <span class="halal">✔ 100% HALAL · KGN</span>
-    <button class="lang" id="langBtn" onclick="toggleLang()">ગુજરાતી</button>
+    <span class="halal" data-i="halal"></span>
+    <button class="lang" id="langBtn" onclick="toggleLang()" data-i="langBtn"></button>
   </div>
   <h1 class="brand">Labbaik Chicken<span>Crunch</span></h1>
-  <p class="pitch">Crunch you can hear.<br>Taste you'll remember.</p>
-  <p class="tag">Order in 30 seconds on WhatsApp — hot &amp; crispy at your door 🔥</p>
+  <p class="pitch" data-i="pitch"></p>
+  <p class="tag" data-i="tag"></p>
   <div class="pills">
-    <span class="pill">🛵 Free delivery within 3 km · above ₹299</span>
-    <span class="pill ghost">🍽️ Self service</span>
-    <a class="pill ghost" href="#party" style="text-decoration:none">🎉 Party orders</a>
+    <span class="pill" data-i="pillDel"></span>
+    <span class="pill ghost" data-i="pillSelf"></span>
+    <a class="pill ghost" href="#party" style="text-decoration:none" data-i="pillParty"></a>
     <span class="pill ghost"><a href="tel:+919978625199">📞 99786 25199</a></span>
   </div>
 </header>
 
 <div class="sticky">
-  <div class="search">🔍<input id="q" type="search" placeholder="Search pizza, burger, popcorn…" oninput="render()"></div>
+  <div class="search">🔍<input id="q" type="search" data-ph="search" oninput="render()"></div>
   <nav class="tabs" id="tabs"></nav>
 </div>
 
@@ -159,59 +159,59 @@ textarea.f{resize:vertical;min-height:64px}
 
 <section class="party" id="party">
   <div class="party-em">🎉</div>
-  <h3>શુભ પ્રસંગના ઓર્ડર લેવામાં આવે છે</h3>
-  <p class="party-en">Orders taken for weddings, birthdays, parties &amp; all functions</p>
-  <p class="party-sub">Bulk orders of pizza, burgers, popcorn &amp; more — tell us the date and number of people.</p>
-  <button class="party-btn" onclick="partyEnquiry()">💬 Enquire on WhatsApp</button>
+  <h3 data-i="partyH"></h3>
+  <p class="party-en" data-i="partyEn"></p>
+  <p class="party-sub" data-i="partySub"></p>
+  <button class="party-btn" onclick="partyEnquiry()" data-i="partyBtn"></button>
 </section>
 
 <footer>
   <b>Labbaik Chicken Crunch</b><br>
-  Mill Compound Gate No. 1, Preyas High School, Shahpur, Ahmedabad – 1 · <a href="https://maps.google.com/?q=23.0324611,72.5806909" target="_blank" rel="noopener">📍 Directions</a><br>
-  <span class="photo-note">Photos are for illustration; actual serving may vary.</span><br>
-  Raja Khan: <a href="tel:+918866775199">88667 75199</a> · Orders: <a href="tel:+919978625199">99786 25199</a>
-  <div class="madeby">Made with ❤️ by <a href="https://ansarisaalim.github.io/qr-menu-demo/" target="_blank" rel="noopener">Zestro</a></div>
+  <span data-i="addrShop"></span> · <a href="https://maps.google.com/?q=23.0324611,72.5806909" target="_blank" rel="noopener" data-i="directions"></a><br>
+  <span class="photo-note" data-i="photoNote"></span><br>
+  <span data-i="raja"></span>: <a href="tel:+918866775199">88667 75199</a> · <span data-i="ordersLbl"></span>: <a href="tel:+919978625199">99786 25199</a>
+  <div class="madeby" data-i="madeby"></div>
 </footer>
 
 <div class="cartbar" id="cartbar">
   <div><div class="l" id="cbCount">0 items</div><div class="t" id="cbTotal">₹0</div></div>
-  <button onclick="openSheet()">View Cart →</button>
+  <button onclick="openSheet()" data-i="viewCart"></button>
 </div>
 
 <div class="overlay" id="overlay" onclick="closeSheet()"></div>
 <section class="sheet" id="sheet" aria-label="Your order">
   <div class="grab"></div>
-  <h2>Your Order <button class="close" onclick="closeSheet()">✕</button></h2>
+  <h2><span data-i="yourOrder"></span> <button class="close" onclick="closeSheet()">✕</button></h2>
   <div id="lines"></div>
   <div class="totals" id="totals"></div>
 
-  <label>Order type</label>
+  <label data-i="orderType"></label>
   <div class="seg">
-    <button id="tDel" class="on" onclick="setType('delivery')">🛵 Home Delivery<small>Within 3 km · Min. ₹299</small></button>
-    <button id="tPick" onclick="setType('pickup')">🏃 Pickup / Dine-in<small>Collect at counter</small></button>
+    <button id="tDel" class="on" onclick="setType('delivery')"><span data-i="homeDel"></span><small data-i="homeDelSub"></small></button>
+    <button id="tPick" onclick="setType('pickup')"><span data-i="pickup"></span><small data-i="pickupSub"></small></button>
   </div>
   <div id="minNote"></div>
 
-  <label for="name">Your name *</label>
-  <input class="f" id="name" placeholder="e.g. Ahmed" autocomplete="name">
-  <label for="phone">Mobile number *</label>
-  <input class="f" id="phone" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit mobile" autocomplete="tel">
+  <label for="name" data-i="nameLbl"></label>
+  <input class="f" id="name" data-ph="namePh" autocomplete="name">
+  <label for="phone" data-i="phoneLbl"></label>
+  <input class="f" id="phone" type="tel" inputmode="numeric" maxlength="10" data-ph="phonePh" autocomplete="tel">
   <div id="addrWrap">
-    <label for="addr">Delivery address *</label>
-    <textarea class="f" id="addr" placeholder="House no., society, area, landmark" oninput="this.dataset.auto='0'"></textarea>
-    <button type="button" class="locbtn" id="locBtn" onclick="checkLocation()">📍 Use my current location</button>
-    <div class="mapbox" id="mapbox"><div id="map"></div><p class="maphint">Drag the red pin to your exact door · Red circle = 3 km delivery area</p></div>
+    <label for="addr" data-i="addrLbl"></label>
+    <textarea class="f" id="addr" data-ph="addrPh" oninput="this.dataset.auto='0'"></textarea>
+    <button type="button" class="locbtn" id="locBtn" onclick="checkLocation()"></button>
+    <div class="mapbox" id="mapbox"><div id="map"></div><p class="maphint" data-i="mapHint"></p></div>
     <div id="locNote"></div>
-    <label class="tick" id="tickWrap" style="display:none"><input type="checkbox" id="tick" onchange="renderSheet()"> My address is within 3 km of Shahpur (Mill Compound)</label>
+    <label class="tick" id="tickWrap" style="display:none"><input type="checkbox" id="tick" onchange="renderSheet()"> <span data-i="tick"></span></label>
   </div>
-  <label for="notes">Cooking instructions (optional)</label>
-  <input class="f" id="notes" placeholder="e.g. extra spicy, no mayo">
+  <label for="notes" data-i="notesLbl"></label>
+  <input class="f" id="notes" data-ph="notesPh">
 
   <button class="wa" id="waBtn" onclick="sendOrder()">
     <svg viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
-    Send Order on WhatsApp
+<span id="waTxt"></span>
   </button>
-  <p class="hint">WhatsApp will open with your order ready — just tap <b>Send</b>.</p>
+  <p class="hint" data-i="hint"></p>
 </section>
 
 <div class="toast" id="toast"></div>
@@ -271,6 +271,92 @@ const ITEMS = {};
 MENU.forEach(c=>c.items.forEach(([id,en,gu,price,sp])=>ITEMS[id]={id,en,gu,price,sp}));
 
 let cart = {}, lang = "en", orderType = "delivery";
+try{ if(localStorage.getItem("lcc_lang")==="gu") lang="gu"; }catch(e){}
+
+const T = {
+ en:{
+  langBtn:"ગુજરાતી", halal:"✔ 100% HALAL · KGN",
+  pitch:"Crunch you can hear.<br>Taste you'll remember.",
+  tag:"Order in 30 seconds on WhatsApp — hot &amp; crispy at your door 🔥",
+  pillDel:"🛵 Free delivery within 3 km · above ₹299", pillSelf:"🍽️ Self service", pillParty:"🎉 Party orders",
+  search:"Search pizza, burger, popcorn…",
+  partyH:"Party &amp; Function Orders Taken", partyEn:"For weddings, birthdays, parties &amp; all occasions",
+  partySub:"Bulk orders of pizza, burgers, popcorn &amp; more — tell us the date and number of people.",
+  partyBtn:"💬 Enquire on WhatsApp",
+  addrShop:"Mill Compound Gate No. 1, Preyas High School, Shahpur, Ahmedabad – 1", directions:"📍 Directions",
+  photoNote:"Photos are for illustration; actual serving may vary.", raja:"Raja Khan", ordersLbl:"Orders",
+  madeby:'Made with ❤️ by <a href="https://ansarisaalim.github.io/qr-menu-demo/" target="_blank" rel="noopener">Zestro</a>',
+  viewCart:"View Cart →", yourOrder:"Your Order", orderType:"Order type",
+  homeDel:"🛵 Home Delivery", homeDelSub:"Within 3 km · Min. ₹299", pickup:"🏃 Pickup / Dine-in", pickupSub:"Collect at counter",
+  nameLbl:"Your name *", namePh:"e.g. Ahmed", phoneLbl:"Mobile number *", phonePh:"10-digit mobile",
+  addrLbl:"Delivery address *", addrPh:"House no., society, area, landmark",
+  mapHint:"Drag the red pin to your exact door · Red circle = 3 km delivery area",
+  tick:"My address is within 3 km of Shahpur (Mill Compound)",
+  notesLbl:"Cooking instructions (optional)", notesPh:"e.g. extra spicy, no mayo",
+  hint:"WhatsApp will open with your order ready — just tap <b>Send</b>.",
+  waSend:"Send Order on WhatsApp", waCheck:"Check delivery area first",
+  special:"SPECIAL", add:"ADD +", noMatch:q=>`No items match “${q}”`, added:n=>`Added ${n}`,
+  items:n=>n===1?"1 item":`${n} items`, each:p=>`${p} each`, itemsN:n=>`Items (${n})`,
+  delivery:"Delivery", free:"FREE", total:"Total",
+  minNote:(m,s)=>`Home delivery needs a minimum order of ${m}. Add <b>${s}</b> more, or choose Pickup.`,
+  qualifies:"🎉 Your order qualifies for FREE home delivery", tapLoc:" — just tap <b>📍 Use my current location</b> below.",
+  useLoc:"📍 Use my current location", useLocAgain:"📍 Use my current location again", finding:"📍 Finding you…",
+  locFailed:"Couldn't get your location. Please confirm below — the shop will verify your address.", tryAgain:"📍 Try location again",
+  near:k=>`✅ You're about ${k} km away — home delivery available!`,
+  far:(k,m)=>`Sorry, this pin is about ${k} km away. We deliver within ${m} km only. Move the pin or choose Pickup.`,
+  noGps:"Couldn't get GPS. Tap the map or drag the pin to your home.", gpsAgain:"📍 Try GPS again",
+  addrFilled:"Address filled — add your house / flat no.", backExit:"Press back again to exit",
+  tMin:"Minimum ₹299 for delivery", tFar:"Outside 3 km delivery area", tName:"Please enter your name",
+  tPhone:"Enter a valid 10-digit mobile", tAddr:"Please enter full address", tSent:"Order sent to WhatsApp ✔"
+ },
+ gu:{
+  langBtn:"English", halal:"✔ 100% હલાલ · KGN",
+  pitch:"એવો ક્રંચ જે સંભળાય,<br>એવો સ્વાદ જે યાદ રહી જાય.",
+  tag:"WhatsApp પર ૩૦ સેકન્ડમાં ઓર્ડર કરો — ગરમાગરમ અને ક્રિસ્પી તમારા ઘરે 🔥",
+  pillDel:"🛵 ૩ કિમી સુધી ફ્રી ડિલિવરી · ₹૨૯૯ થી વધુ", pillSelf:"🍽️ સેલ્ફ સર્વિસ", pillParty:"🎉 પાર્ટી ઓર્ડર",
+  search:"પીઝા, બર્ગર, પોપકોર્ન શોધો…",
+  partyH:"શુભ પ્રસંગના ઓર્ડર લેવામાં આવે છે", partyEn:"લગ્ન, જન્મદિવસ, પાર્ટી અને દરેક પ્રસંગ માટે",
+  partySub:"પીઝા, બર્ગર, પોપકોર્ન અને વધુના મોટા ઓર્ડર — તારીખ અને માણસોની સંખ્યા જણાવો.",
+  partyBtn:"💬 WhatsApp પર પૂછો",
+  addrShop:"મીલ કમ્પાઉન્ડ, ગેટ નં. ૧, પ્રેયસ હાઈસ્કૂલ, શાહપુર, અમદાવાદ – ૧", directions:"📍 રસ્તો જુઓ",
+  photoNote:"ફોટા ફક્ત દર્શાવવા માટે છે; વાનગી થોડી અલગ હોઈ શકે.", raja:"રાજા ખાન", ordersLbl:"ઓર્ડર",
+  madeby:'<a href="https://ansarisaalim.github.io/qr-menu-demo/" target="_blank" rel="noopener">Zestro</a> દ્વારા ❤️ થી બનાવેલ',
+  viewCart:"કાર્ટ જુઓ →", yourOrder:"તમારો ઓર્ડર", orderType:"ઓર્ડરનો પ્રકાર",
+  homeDel:"🛵 હોમ ડિલિવરી", homeDelSub:"૩ કિમી સુધી · ઓછામાં ઓછા ₹૨૯૯", pickup:"🏃 પિકઅપ / અહીં જમો", pickupSub:"કાઉન્ટર પરથી લઈ જાઓ",
+  nameLbl:"તમારું નામ *", namePh:"દા.ત. અહમદ", phoneLbl:"મોબાઇલ નંબર *", phonePh:"૧૦ અંકનો મોબાઇલ નંબર",
+  addrLbl:"ડિલિવરીનું સરનામું *", addrPh:"ઘર નં., સોસાયટી, વિસ્તાર, નજીકની જગ્યા",
+  mapHint:"લાલ પિનને તમારા ઘરના દરવાજા સુધી ખસેડો · લાલ વર્તુળ = ૩ કિમી ડિલિવરી વિસ્તાર",
+  tick:"મારું સરનામું શાહપુર (મીલ કમ્પાઉન્ડ) થી ૩ કિમીની અંદર છે",
+  notesLbl:"રસોઈ માટે સૂચના (જરૂરી નથી)", notesPh:"દા.ત. વધારે તીખું, મેયોનીઝ વગર",
+  hint:"WhatsApp તમારા ઓર્ડર સાથે ખુલશે — ફક્ત <b>મોકલો (➤)</b> બટન દબાવો.",
+  waSend:"WhatsApp પર ઓર્ડર મોકલો", waCheck:"પહેલા ડિલિવરી વિસ્તાર ચેક કરો",
+  special:"સ્પેશિયલ", add:"ઉમેરો +", noMatch:q=>`“${q}” માટે કંઈ મળ્યું નહીં`, added:n=>`ઉમેર્યું: ${n}`,
+  items:n=>`${n} આઇટમ`, each:p=>`${p} એક નંગ`, itemsN:n=>`આઇટમ (${n})`,
+  delivery:"ડિલિવરી", free:"ફ્રી", total:"કુલ",
+  minNote:(m,s)=>`હોમ ડિલિવરી માટે ઓછામાં ઓછો ${m} નો ઓર્ડર જોઈએ. હજી <b>${s}</b> નું ઉમેરો, અથવા પિકઅપ પસંદ કરો.`,
+  qualifies:"🎉 તમારા ઓર્ડર પર ફ્રી હોમ ડિલિવરી મળશે", tapLoc:" — નીચે <b>📍 મારું હાલનું લોકેશન વાપરો</b> દબાવો.",
+  useLoc:"📍 મારું હાલનું લોકેશન વાપરો", useLocAgain:"📍 લોકેશન ફરીથી લો", finding:"📍 લોકેશન શોધી રહ્યા છીએ…",
+  locFailed:"તમારું લોકેશન મળ્યું નહીં. નીચે ખાતરી કરો — દુકાન તમારું સરનામું ચકાસશે.", tryAgain:"📍 ફરી પ્રયત્ન કરો",
+  near:k=>`✅ તમે લગભગ ${k} કિમી દૂર છો — હોમ ડિલિવરી મળશે!`,
+  far:(k,m)=>`માફ કરશો, આ પિન લગભગ ${k} કિમી દૂર છે. અમે ફક્ત ${m} કિમી સુધી ડિલિવરી કરીએ છીએ. પિન ખસેડો અથવા પિકઅપ પસંદ કરો.`,
+  noGps:"GPS મળ્યું નહીં. નકશા પર ટેપ કરો અથવા પિનને તમારા ઘર સુધી ખસેડો.", gpsAgain:"📍 GPS ફરી પ્રયત્ન કરો",
+  addrFilled:"સરનામું ભરાઈ ગયું — તમારો ઘર / ફ્લેટ નંબર ઉમેરો", backExit:"બહાર નીકળવા ફરી બેક દબાવો",
+  tMin:"ડિલિવરી માટે ઓછામાં ઓછા ₹૨૯૯", tFar:"૩ કિમી ડિલિવરી વિસ્તારની બહાર", tName:"કૃપા કરીને તમારું નામ લખો",
+  tPhone:"સાચો ૧૦ અંકનો મોબાઇલ નંબર લખો", tAddr:"કૃપા કરીને પૂરું સરનામું લખો", tSent:"ઓર્ડર WhatsApp પર મોકલાયો ✔"
+ }
+};
+const GU_DIGITS = "૦૧૨૩૪૫૬૭૮૯";
+const gd = x => lang==="gu" ? String(x).replace(/[0-9]/g, d=>GU_DIGITS[d]) : String(x);
+const t = (k,...a) => { const v = T[lang][k]; return typeof v==="function" ? v(...a) : v; };
+function applyLang(){
+  document.documentElement.lang = lang==="gu" ? "gu" : "en";
+  document.body.classList.toggle("gu", lang==="gu");
+  document.querySelectorAll("[data-i]").forEach(el=>el.innerHTML = t(el.dataset.i));
+  document.querySelectorAll("[data-ph]").forEach(el=>el.placeholder = t(el.dataset.ph));
+  document.getElementById("waTxt").textContent = t("waSend");
+  const lb=document.getElementById("locBtn"); lb.textContent = loc && !loc.failed ? t("useLocAgain") : (loc && loc.failed ? t("tryAgain") : t("useLoc"));
+}
+
 const CART_TTL = 30*60*1000;   // keep an unfinished cart for 30 minutes only
 try{
   const saved = JSON.parse(localStorage.getItem("lcc_cart")||"{}");
@@ -286,32 +372,31 @@ const save = ()=>{ try{
 try{ history.scrollRestoration = "manual"; }catch(e){}
 window.addEventListener("load", ()=>window.scrollTo(0,0));
 window.addEventListener("pageshow", e=>{ if(e.persisted) window.scrollTo(0,0); });
-const rs = n => "₹" + n.toLocaleString("en-IN");
+const rs = n => "₹" + gd(n.toLocaleString("en-IN"));
 const nm = it => lang==="gu" ? it.gu : it.en;
 
 function render(){
   const q = document.getElementById("q").value.trim().toLowerCase();
   let html = "", tabs = "", any = false;
   MENU.forEach(c=>{
-    const list = c.items.map(a=>ITEMS[a[0]]).filter(it=>!q || it.en.toLowerCase().includes(q) || it.gu.includes(q));
+    const list = c.items.map(a=>ITEMS[a[0]]).filter(it=>!q || it.en.toLowerCase().includes(q) || it.gu.includes(q) || c.en.toLowerCase().includes(q) || c.gu.includes(q));
     if(!list.length) return;
     any = true;
     tabs += `<button class="tab" data-c="${c.id}" onclick="jump('${c.id}')">${c.em} ${lang==="gu"?c.gu:c.en}</button>`;
-    html += `<section class="cat" id="c-${c.id}"><h2 class="cat-title"><span class="em">${c.em}</span>${lang==="gu"?c.gu:c.en}<span class="count">· ${list.length}</span></h2>`;
+    html += `<section class="cat" id="c-${c.id}"><h2 class="cat-title"><span class="em">${c.em}</span>${lang==="gu"?c.gu:c.en}<span class="count">· ${gd(list.length)}</span></h2>`;
     list.forEach(it=>{
       const qn = cart[it.id]||0;
       const u = imgUrl(it.id);
       html += `<div class="item">${u ? `<img class="thumb" src="${u}" alt="${it.en}" loading="lazy" onerror="this.outerHTML='<div class=&quot;thumb&quot;>${c.em}</div>'">` : `<div class="thumb">${c.em}</div>`}<div class="info">
-        <div class="item-name">${nm(it)}${it.sp?'<span class="badge">SPECIAL</span>':''}</div>
-        ${lang==="gu"?`<div class="item-sub">${it.en}</div>`:''}
+        <div class="item-name">${nm(it)}${it.sp?'<span class="badge">'+t("special")+'</span>':''}</div>
         <div class="price">${rs(it.price)}</div></div>
-        ${qn ? `<div class="qty"><button onclick="chg('${it.id}',-1)">−</button><span>${qn}</span><button onclick="chg('${it.id}',1)">+</button></div>`
-             : `<button class="add" onclick="chg('${it.id}',1)">ADD +</button>`}
+        ${qn ? `<div class="qty"><button onclick="chg('${it.id}',-1)">−</button><span>${gd(qn)}</span><button onclick="chg('${it.id}',1)">+</button></div>`
+             : `<button class="add" onclick="chg('${it.id}',1)">${t("add")}</button>`}
       </div>`;
     });
     html += `</section>`;
   });
-  document.getElementById("menu").innerHTML = any ? html : `<p class="empty">No items match “${q.replace(/</g,"&lt;")}”</p>`;
+  document.getElementById("menu").innerHTML = any ? html : `<p class="empty">${t("noMatch", q.replace(/</g,"&lt;"))}</p>`;
   document.getElementById("tabs").innerHTML = tabs;
   updateBar(); spy();
 }
@@ -319,7 +404,7 @@ function render(){
 function chg(id,d){
   cart[id] = (cart[id]||0) + d;
   if(cart[id] <= 0) delete cart[id];
-  if(d>0 && cart[id]===1) toast("Added " + nm(ITEMS[id]));
+  if(d>0 && cart[id]===1) toast(t("added", nm(ITEMS[id])));
   save(); render();
   if(document.getElementById("sheet").classList.contains("show")) renderSheet();
 }
@@ -332,7 +417,7 @@ function totals(){
 
 function updateBar(){
   const {count, sub} = totals();
-  document.getElementById("cbCount").textContent = count + (count===1?" item":" items");
+  document.getElementById("cbCount").textContent = gd(t("items", count));
   document.getElementById("cbTotal").textContent = rs(sub);
   document.getElementById("cartbar").classList.toggle("show", count>0);
 }
@@ -370,7 +455,7 @@ window.addEventListener("popstate", e => {
   if(e.state && e.state.base){
     if(Date.now() - lastBack < 2000){ history.back(); return; }
     lastBack = Date.now();
-    toast("Press back again to exit");
+    toast(t("backExit"));
     try{ history.pushState({guard:1}, ""); }catch(err){}
   }
 });
@@ -388,26 +473,26 @@ function renderSheet(){
   if(!count){ closeSheet(); return; }
   document.getElementById("lines").innerHTML = Object.keys(cart).map(id=>{
     const it = ITEMS[id];
-    return `<div class="line"><div class="n">${nm(it)}<div class="item-sub">${rs(it.price)} each</div></div>
-      <div class="qty"><button onclick="chg('${id}',-1)">−</button><span>${cart[id]}</span><button onclick="chg('${id}',1)">+</button></div>
+    return `<div class="line"><div class="n">${nm(it)}<div class="item-sub">${t("each", rs(it.price))}</div></div>
+      <div class="qty"><button onclick="chg('${id}',-1)">−</button><span>${gd(cart[id])}</span><button onclick="chg('${id}',1)">+</button></div>
       <div class="p">${rs(it.price*cart[id])}</div></div>`;
   }).join("");
   document.getElementById("totals").innerHTML =
-    `<div><span>Items (${count})</span><span>${rs(sub)}</span></div>
-     <div><span>Delivery</span><span>${orderType==="delivery" ? "FREE" : "—"}</span></div>
-     <div class="grand"><span>Total</span><span>${rs(sub)}</span></div>`;
+    `<div><span>${gd(t("itemsN",count))}</span><span>${rs(sub)}</span></div>
+     <div><span>${t("delivery")}</span><span>${orderType==="delivery" ? t("free") : "—"}</span></div>
+     <div class="grand"><span>${t("total")}</span><span>${rs(sub)}</span></div>`;
   const short = MIN_DELIVERY - sub;
   const far = orderType==="delivery" && loc && loc.km > MAX_KM;
   const unverified = orderType==="delivery" && (!loc || loc.failed) && !(loc && loc.failed && document.getElementById("tick").checked);
   const blocked = orderType==="delivery" && (short>0 || far || unverified);
   let mn = "";
   if(orderType==="delivery"){
-    if(short > 0) mn = `<div class="note err">Home delivery needs a minimum order of ${rs(MIN_DELIVERY)}. Add <b>${rs(short)}</b> more, or choose Pickup.</div>`;
-    else if(!far) mn = `<div class="note">🎉 Your order qualifies for FREE home delivery${unverified ? " — just tap <b>📍 Use my current location</b> below." : "!"}</div>`;
+    if(short > 0) mn = `<div class="note err">${t("minNote", rs(MIN_DELIVERY), rs(short))}</div>`;
+    else if(!far) mn = `<div class="note">${t("qualifies")}${unverified ? t("tapLoc") : "!"}</div>`;
   }
   document.getElementById("minNote").innerHTML = mn;
   document.getElementById("waBtn").disabled = blocked;
-  document.getElementById("waBtn").lastChild.textContent = (orderType==="delivery" && !far && short<=0 && unverified) ? " Check delivery area first" : " Send Order on WhatsApp";
+  document.getElementById("waTxt").textContent = (orderType==="delivery" && !far && short<=0 && unverified) ? t("waCheck") : t("waSend");
 }
 
 function distKm(a,b){
@@ -420,11 +505,11 @@ function showLoc(){
   const n=document.getElementById("locNote"), b=document.getElementById("locBtn");
   document.getElementById("tickWrap").style.display = (loc && loc.failed) ? "" : "none";
   if(!loc){ n.innerHTML=""; return; }
-  if(loc.failed){ n.innerHTML=`<div class="note">Couldn't get your location. Please confirm below — the shop will verify your address.</div>`; b.textContent="📍 Try location again"; return; }
-  b.textContent="📍 Use my current location again";
+  if(loc.failed){ n.innerHTML=`<div class="note">${t("locFailed")}</div>`; b.textContent=t("tryAgain"); return; }
+  b.textContent=t("useLocAgain");
   n.innerHTML = loc.km <= MAX_KM
-    ? `<div class="note ok">✅ You're about ${loc.km.toFixed(1)} km away — home delivery available!</div>`
-    : `<div class="note err">Sorry, this pin is about ${loc.km.toFixed(1)} km away. We deliver within ${MAX_KM} km only. Move the pin or choose Pickup.</div>`;
+    ? `<div class="note ok">${t("near", gd(loc.km.toFixed(1)))}</div>`
+    : `<div class="note err">${t("far", gd(loc.km.toFixed(1)), gd(MAX_KM))}</div>`;
 }
 function setPoint(lat,lng,src){
   loc = {lat, lng, km: distKm(SHOP,{lat,lng}), src};
@@ -441,7 +526,7 @@ function fillAddress(lat,lng){
       if(j && j.display_name){
         a.value = j.display_name.replace(/, \d{6}/,"").replace(/, India$/,"").split(", ").slice(0,5).join(", ");
         a.dataset.auto = "1";
-        toast("Address filled — add your house / flat no.");
+        toast(t("addrFilled"));
       }
     }catch(e){}
   }, 600);
@@ -464,7 +549,7 @@ function showMap(lat,lng){
 function checkLocation(){
   const b=document.getElementById("locBtn");
   if(!navigator.geolocation){ gpsFailed(); return; }
-  b.textContent="📍 Finding you…";
+  b.textContent=t("finding");
   navigator.geolocation.getCurrentPosition(p=>{
     showMap(p.coords.latitude,p.coords.longitude);
     setPoint(p.coords.latitude,p.coords.longitude,"gps");
@@ -474,24 +559,24 @@ function gpsFailed(){
   // No GPS: let them place the pin themselves, starting at the shop
   if(showMap(SHOP.lat,SHOP.lng)){
     loc=null; showLoc();
-    document.getElementById("locNote").innerHTML=`<div class="note">Couldn't get GPS. Tap the map or drag the pin to your home.</div>`;
-    document.getElementById("locBtn").textContent="📍 Try GPS again";
+    document.getElementById("locNote").innerHTML=`<div class="note">${t("noGps")}</div>`;
+    document.getElementById("locBtn").textContent=t("gpsAgain");
     renderSheet();
   } else { loc={failed:true}; showLoc(); renderSheet(); }
 }
 
 function sendOrder(){
   const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.replace(/\D/g,"");
+  const phone = document.getElementById("phone").value.replace(/[૦-૯]/g,d=>GU_DIGITS.indexOf(d)).replace(/\D/g,"");
   const addr = document.getElementById("addr").value.trim();
   const notes = document.getElementById("notes").value.trim();
   const {count, sub} = totals();
   if(!count) return;
-  if(orderType==="delivery" && sub < MIN_DELIVERY) return toast("Minimum ₹299 for delivery");
-  if(orderType==="delivery" && loc && loc.km > MAX_KM) return toast("Outside 3 km delivery area");
-  if(!name) return toast("Please enter your name"), document.getElementById("name").focus();
-  if(phone.length !== 10) return toast("Enter a valid 10-digit mobile"), document.getElementById("phone").focus();
-  if(orderType==="delivery" && addr.length < 8) return toast("Please enter full address"), document.getElementById("addr").focus();
+  if(orderType==="delivery" && sub < MIN_DELIVERY) return toast(t("tMin"));
+  if(orderType==="delivery" && loc && loc.km > MAX_KM) return toast(t("tFar"));
+  if(!name) return toast(t("tName")), document.getElementById("name").focus();
+  if(phone.length !== 10) return toast(t("tPhone")), document.getElementById("phone").focus();
+  if(orderType==="delivery" && addr.length < 8) return toast(t("tAddr")), document.getElementById("addr").focus();
 
   const d = new Date();
   const oid = "LCC" + String(d.getDate()).padStart(2,"0") + String(d.getHours()).padStart(2,"0") + String(d.getMinutes()).padStart(2,"0") + Math.floor(Math.random()*90+10);
@@ -512,7 +597,7 @@ function sendOrder(){
 
   window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
   cart = {}; save(); render(); closeSheet();
-  toast("Order sent to WhatsApp ✔");
+  toast(t("tSent"));
 }
 
 function partyEnquiry(){
@@ -522,14 +607,15 @@ function partyEnquiry(){
 
 function toggleLang(){
   lang = lang==="en" ? "gu" : "en";
-  document.body.classList.toggle("gu", lang==="gu");
-  document.getElementById("langBtn").textContent = lang==="en" ? "ગુજરાતી" : "English";
-  render();
+  try{ localStorage.setItem("lcc_lang", lang); }catch(e){}
+  applyLang(); render();
+  if(sheetOpen()){ renderSheet(); showLoc(); }
 }
 
 let tt;
-function toast(t){ const el=document.getElementById("toast"); el.textContent=t; el.classList.add("show"); clearTimeout(tt); tt=setTimeout(()=>el.classList.remove("show"),1600); }
+function toast(msg){ const el=document.getElementById("toast"); el.textContent=msg; el.classList.add("show"); clearTimeout(tt); tt=setTimeout(()=>el.classList.remove("show"),1600); }
 
+applyLang();
 render();
 </script>
 </body>
