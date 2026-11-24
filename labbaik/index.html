@@ -128,7 +128,25 @@ textarea.f{resize:vertical;min-height:64px}
 .mapbox.show{display:block}
 #map{height:220px;border-radius:14px;border:1.5px solid var(--line);overflow:hidden;z-index:0}
 .maphint{font-size:11.5px;color:var(--muted);margin-top:6px;text-align:center}
+.upi-card{margin-top:12px;border:1.5px solid #d8ecdf;background:#f4fbf6;border-radius:14px;padding:14px;text-align:center}
+.upi-amt{font-weight:700;font-size:15px}
+.upi-btn{width:100%;margin-top:10px;background:#5f259f;color:#fff;font-weight:700;font-size:16px;padding:14px;border-radius:12px}
+.upi-qr{margin:12px auto 4px;width:176px;height:176px;background:#fff;border-radius:12px;padding:8px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.upi-qr svg,.upi-qr img{width:100%;height:100%;display:block}
+.upi-id{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;font-size:13.5px}
+.upi-id code{background:#fff;border:1px solid #e2e2e2;border-radius:8px;padding:5px 9px;font-weight:600}
+.upi-id button{background:#fff;border:1px solid var(--red);color:var(--red);font-weight:700;font-size:12px;padding:5px 10px;border-radius:8px}
+.upi-card .tick{justify-content:center;margin-top:12px;font-weight:600}
+.ss-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:70;display:none;align-items:flex-end;justify-content:center}
+.ss-ov.show{display:flex}
+.ss-box{background:#fff;border-radius:22px 22px 0 0;max-width:720px;width:100%;padding:22px 18px calc(20px + env(safe-area-inset-bottom));text-align:center}
+.ss-box h3{font-size:19px;margin-bottom:8px}
+.ss-box p{font-size:14px;color:var(--muted);line-height:1.5}
+.ss-steps{text-align:left;background:#fff8ec;border-radius:12px;padding:10px 14px;margin:12px 0;font-size:13.5px;line-height:1.7}
+.ss-box .wa{margin-top:10px}
+.ss-sec{width:100%;margin-top:8px;background:#fff;border:1.5px solid #ddd;color:var(--ink);font-weight:600;font-size:15px;padding:12px;border-radius:12px}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script>
 </head>
@@ -204,6 +222,21 @@ textarea.f{resize:vertical;min-height:64px}
     <div id="locNote"></div>
     <label class="tick" id="tickWrap" style="display:none"><input type="checkbox" id="tick" onchange="renderSheet()"> <span data-i="tick"></span></label>
   </div>
+  <label data-i="payLbl"></label>
+  <div class="seg">
+    <button id="pUpi" class="on" onclick="setPay('upi')"><span data-i="payUpi"></span><small data-i="payUpiSub"></small></button>
+    <button id="pCash" onclick="setPay('cash')"><span data-i="payCash"></span><small data-i="payCashSub"></small></button>
+  </div>
+  <div id="upiBox">
+    <div class="upi-card">
+      <div class="upi-amt" id="upiAmt"></div>
+      <button type="button" class="upi-btn" id="upiBtn" onclick="payUpi()"></button>
+      <div class="upi-qr" id="upiQr"></div>
+      <div class="small-muted" style="font-size:12.5px;color:var(--muted)" data-i="upiScan"></div>
+      <div class="upi-id"><span data-i="upiIdLbl"></span><code id="upiId"></code><button type="button" onclick="copyUpi()" data-i="copy"></button></div>
+      <label class="tick"><input type="checkbox" id="paidTick" onchange="renderSheet()"> <span id="paidTxt"></span></label>
+    </div>
+  </div>
   <label for="notes" data-i="notesLbl"></label>
   <input class="f" id="notes" data-ph="notesPh">
 
@@ -214,6 +247,19 @@ textarea.f{resize:vertical;min-height:64px}
   <p class="hint" data-i="hint"></p>
 </section>
 
+<div class="ss-ov" id="ssOv">
+  <div class="ss-box">
+    <div style="font-size:40px">📸</div>
+    <h3 data-i="ssTitle"></h3>
+    <p id="ssText"></p>
+    <div class="ss-steps" data-i="ssSteps"></div>
+    <button class="wa" id="ssShareBtn" onclick="pickShot()"><span data-i="ssShare"></span></button>
+    <input type="file" id="ssFile" accept="image/*" hidden onchange="shareShot(this.files[0])">
+    <button class="ss-sec" onclick="openChat()" data-i="ssChat"></button>
+    <button class="ss-sec" onclick="closeSs()" data-i="ssDone"></button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -221,6 +267,9 @@ const WA_NUMBER = "919978625199";   // Order line from the menu card
 const MIN_DELIVERY = 299;
 const SHOP = {lat:23.0324611, lng:72.5806909};   // Labbaik Chicken Crunch, Shahpur
 const MAX_KM = 3;
+const UPI_ID = "9978625199@ybl";          // Labbaik's UPI ID (money goes straight to the shop)
+const UPI_NAME = "Labbaik Chicken Crunch";
+let payMode = "upi", lastOid = "";
 let loc = null;   // {lat,lng,km} or {failed:true}
 
 const MENU = [
@@ -307,7 +356,17 @@ const T = {
   noGps:"Couldn't get GPS. Tap the map or drag the pin to your home.", gpsAgain:"📍 Try GPS again",
   addrFilled:"Address filled — add your house / flat no.", backExit:"Press back again to exit",
   tMin:"Minimum ₹299 for delivery", tFar:"Outside 3 km delivery area", tName:"Please enter your name",
-  tPhone:"Enter a valid 10-digit mobile", tAddr:"Please enter full address", tSent:"Order sent to WhatsApp ✔"
+  tPhone:"Enter a valid 10-digit mobile", tAddr:"Please enter full address", tSent:"Order sent to WhatsApp ✔",
+  payLbl:"Payment *", payUpi:"📱 UPI", payUpiSub:"GPay, PhonePe, Paytm", payCash:"💵 Cash",
+  payCashSub:"On delivery / at counter",
+  upiAmt:a=>`Pay <b>${a}</b> to Labbaik Chicken Crunch`, upiBtn:a=>`Pay ${a} with UPI app`,
+  upiScan:"Or scan this QR with any UPI app", upiIdLbl:"UPI ID:", copy:"Copy", copied:"UPI ID copied",
+  paidTick:a=>`I have paid ${a}`, waPayFirst:"Pay first, then tick “I have paid”", tPaid:"Please pay by UPI and tick “I have paid”",
+  noUpiApp:"No UPI app opened? Scan the QR or pay to the UPI ID.",
+  ssTitle:"Last step: send your payment screenshot", ssText:o=>`Your order <b>${o}</b> is in WhatsApp. Now send the UPI payment screenshot in the same chat, so the shop can confirm it and start cooking.`,
+  ssSteps:"1. Send the order message in WhatsApp<br>2. Come back here and tap <b>Choose screenshot</b><br>3. Pick the payment screenshot and share it to <b>Labbaik Chicken Crunch</b>",
+  ssShare:"📎 Choose screenshot & send", ssChat:"Open WhatsApp chat", ssDone:"Done",
+  ssManual:"Opening the chat. Tap 📎 → Gallery and send your payment screenshot."
  },
  gu:{
   langBtn:"English", halal:"✔ 100% હલાલ · KGN",
@@ -342,7 +401,17 @@ const T = {
   noGps:"GPS મળ્યું નહીં. નકશા પર ટેપ કરો અથવા પિનને તમારા ઘર સુધી ખસેડો.", gpsAgain:"📍 GPS ફરી પ્રયત્ન કરો",
   addrFilled:"સરનામું ભરાઈ ગયું — તમારો ઘર / ફ્લેટ નંબર ઉમેરો", backExit:"બહાર નીકળવા ફરી બેક દબાવો",
   tMin:"ડિલિવરી માટે ઓછામાં ઓછા ₹૨૯૯", tFar:"૩ કિમી ડિલિવરી વિસ્તારની બહાર", tName:"કૃપા કરીને તમારું નામ લખો",
-  tPhone:"સાચો ૧૦ અંકનો મોબાઇલ નંબર લખો", tAddr:"કૃપા કરીને પૂરું સરનામું લખો", tSent:"ઓર્ડર WhatsApp પર મોકલાયો ✔"
+  tPhone:"સાચો ૧૦ અંકનો મોબાઇલ નંબર લખો", tAddr:"કૃપા કરીને પૂરું સરનામું લખો", tSent:"ઓર્ડર WhatsApp પર મોકલાયો ✔",
+  payLbl:"ચુકવણી *", payUpi:"📱 UPI", payUpiSub:"GPay, PhonePe, Paytm", payCash:"💵 રોકડ",
+  payCashSub:"ડિલિવરી વખતે / કાઉન્ટર પર",
+  upiAmt:a=>`Labbaik Chicken Crunch ને <b>${a}</b> ચૂકવો`, upiBtn:a=>`UPI એપથી ${a} ચૂકવો`,
+  upiScan:"અથવા કોઈપણ UPI એપથી આ QR સ્કેન કરો", upiIdLbl:"UPI ID:", copy:"કૉપિ", copied:"UPI ID કૉપિ થયું",
+  paidTick:a=>`મેં ${a} ચૂકવી દીધા છે`, waPayFirst:"પહેલા ચુકવણી કરો, પછી “મેં ચૂકવી દીધા છે” પર ટિક કરો", tPaid:"કૃપા કરીને UPI થી ચૂકવો અને “મેં ચૂકવી દીધા છે” પર ટિક કરો",
+  noUpiApp:"UPI એપ ન ખુલી? QR સ્કેન કરો અથવા UPI ID પર ચૂકવો.",
+  ssTitle:"છેલ્લું પગલું: ચુકવણીનો સ્ક્રીનશોટ મોકલો", ssText:o=>`તમારો ઓર્ડર <b>${o}</b> WhatsApp માં છે. હવે એ જ ચેટમાં UPI ચુકવણીનો સ્ક્રીનશોટ મોકલો, જેથી દુકાન ખાતરી કરીને રસોઈ શરૂ કરી શકે.`,
+  ssSteps:"૧. WhatsApp માં ઓર્ડરનો મેસેજ મોકલો<br>૨. અહીં પાછા આવીને <b>સ્ક્રીનશોટ પસંદ કરો</b> દબાવો<br>૩. ચુકવણીનો સ્ક્રીનશોટ પસંદ કરીને <b>Labbaik Chicken Crunch</b> ને મોકલો",
+  ssShare:"📎 સ્ક્રીનશોટ પસંદ કરો અને મોકલો", ssChat:"WhatsApp ચેટ ખોલો", ssDone:"થઈ ગયું",
+  ssManual:"ચેટ ખુલી રહી છે. 📎 → Gallery દબાવીને ચુકવણીનો સ્ક્રીનશોટ મોકલો."
  }
 };
 const GU_DIGITS = "૦૧૨૩૪૫૬૭૮૯";
@@ -460,6 +529,31 @@ window.addEventListener("popstate", e => {
   }
 });
 
+function setPay(m){
+  payMode = m;
+  document.getElementById("pUpi").classList.toggle("on", m==="upi");
+  document.getElementById("pCash").classList.toggle("on", m==="cash");
+  document.getElementById("upiBox").style.display = m==="upi" ? "" : "none";
+  renderSheet();
+}
+const upiLink = (amt, note) => `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${amt.toFixed(2)}&cu=INR&tn=${encodeURIComponent(note)}`;
+let qrFor = "";
+function drawQr(link){
+  if(qrFor===link) return; qrFor = link;
+  const box = document.getElementById("upiQr");
+  try{ const q = qrcode(0,"M"); q.addData(link); q.make(); box.innerHTML = q.createSvgTag({cellSize:4, margin:0, scalable:true}); box.style.display=""; }
+  catch(e){ box.style.display="none"; qrFor=""; }
+}
+function payUpi(){
+  const {sub} = totals();
+  window.location.href = upiLink(sub, "Labbaik order");
+  setTimeout(()=>toast(t("noUpiApp")), 2500);
+}
+function copyUpi(){
+  const done=()=>toast(t("copied"));
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(UPI_ID).then(done,done); else done();
+}
+
 function setType(t){
   orderType = t;
   document.getElementById("tDel").classList.toggle("on", t==="delivery");
@@ -491,8 +585,16 @@ function renderSheet(){
     else if(!far) mn = `<div class="note">${t("qualifies")}${unverified ? t("tapLoc") : "!"}</div>`;
   }
   document.getElementById("minNote").innerHTML = mn;
-  document.getElementById("waBtn").disabled = blocked;
-  document.getElementById("waTxt").textContent = (orderType==="delivery" && !far && short<=0 && unverified) ? t("waCheck") : t("waSend");
+  // UPI
+  document.getElementById("upiBox").style.display = payMode==="upi" ? "" : "none";
+  document.getElementById("upiAmt").innerHTML = t("upiAmt", rs(sub));
+  document.getElementById("upiBtn").textContent = t("upiBtn", rs(sub));
+  document.getElementById("paidTxt").textContent = t("paidTick", rs(sub));
+  document.getElementById("upiId").textContent = UPI_ID;
+  if(payMode==="upi") drawQr(upiLink(sub, "Labbaik order"));
+  const unpaid = payMode==="upi" && !document.getElementById("paidTick").checked;
+  document.getElementById("waBtn").disabled = blocked || unpaid;
+  document.getElementById("waTxt").textContent = (orderType==="delivery" && !far && short<=0 && unverified) ? t("waCheck") : unpaid && !blocked ? t("waPayFirst") : t("waSend");
 }
 
 function distKm(a,b){
@@ -577,6 +679,7 @@ function sendOrder(){
   if(!name) return toast(t("tName")), document.getElementById("name").focus();
   if(phone.length !== 10) return toast(t("tPhone")), document.getElementById("phone").focus();
   if(orderType==="delivery" && addr.length < 8) return toast(t("tAddr")), document.getElementById("addr").focus();
+  if(payMode==="upi" && !document.getElementById("paidTick").checked) return toast(t("tPaid"));
 
   const d = new Date();
   const oid = "LCC" + String(d.getDate()).padStart(2,"0") + String(d.getHours()).padStart(2,"0") + String(d.getMinutes()).padStart(2,"0") + Math.floor(Math.random()*90+10);
@@ -588,7 +691,8 @@ function sendOrder(){
     msg += `${i+1}. ${it.en} × ${cart[id]} = ₹${it.price*cart[id]}\n`;
   });
   msg += `\n*Total: ₹${sub}*${orderType==="delivery" ? " (Free delivery)" : ""}\n`;
-  msg += `Payment: Cash / UPI on ${orderType==="delivery" ? "delivery" : "pickup"}\n\n`;
+  if(payMode==="upi") msg += `💳 Payment: *UPI ₹${sub} – paid by customer*\nTo: ${UPI_ID}\n📸 Payment screenshot: sending next in this chat\n⚠️ Please check the screenshot / your UPI app before preparing.\n\n`;
+  else msg += `💵 Payment: *Cash on ${orderType==="delivery" ? "delivery" : "pickup"}*\n\n`;
   msg += `👤 ${name}\n📞 ${phone}\n`;
   if(orderType==="delivery") msg += `📍 ${addr}\n`;
   if(orderType==="delivery" && loc && !loc.failed) msg += `🗺️ ${loc.src==="pin"?"Pinned":"GPS"} location (${loc.km.toFixed(1)} km): https://maps.google.com/?q=${loc.lat.toFixed(6)},${loc.lng.toFixed(6)}\n`;
@@ -596,8 +700,35 @@ function sendOrder(){
   if(notes) msg += `📝 ${notes}\n`;
 
   window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+  const paidUpi = payMode==="upi";
   cart = {}; save(); render(); closeSheet();
+  document.getElementById("paidTick").checked = false;
   toast(t("tSent"));
+  if(paidUpi){ lastOid = oid; openSs(); }
+}
+
+/* After a UPI order: ask for the payment screenshot */
+function openSs(){
+  document.getElementById("ssText").innerHTML = t("ssText", lastOid);
+  document.getElementById("ssOv").classList.add("show");
+}
+function closeSs(){ document.getElementById("ssOv").classList.remove("show"); }
+function openChat(){
+  toast(t("ssManual"));
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("📸 Payment screenshot for order " + lastOid)}`, "_blank");
+}
+function pickShot(){
+  // Phones that can share files: pick the screenshot here and share it straight to WhatsApp.
+  const probe = typeof File!=="undefined" ? new File([""], "x.png", {type:"image/png"}) : null;
+  if(navigator.canShare && probe && navigator.canShare({files:[probe]})) document.getElementById("ssFile").click();
+  else openChat();
+}
+async function shareShot(file){
+  if(!file) return;
+  try{
+    await navigator.share({files:[file], text:"📸 Payment screenshot for order " + lastOid + " – Labbaik Chicken Crunch"});
+    closeSs();
+  }catch(e){ if(e && e.name!=="AbortError") openChat(); }
 }
 
 function partyEnquiry(){
