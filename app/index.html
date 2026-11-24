@@ -576,6 +576,26 @@ button.dname:hover { text-decoration: underline; text-underline-offset: 3px; }
 img.rlogo { object-fit: cover; background: #fff; display: block; }
 .vbadge { font-size: 10.5px; padding: 1px 7px; margin-left: 4px; vertical-align: 1px; display: inline-flex; gap: 3px; align-items: center; }
 .qs-list { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 6px; }
+/* Shared bill page (link sent on WhatsApp) */
+.billv { min-height: 100vh; background: var(--page); display: flex; justify-content: center; padding: 28px 14px 40px; }
+.billv-card { width: 100%; max-width: 420px; background: var(--app); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow-1); overflow: hidden; align-self: flex-start; }
+.billv-top { padding: 22px 20px 16px; text-align: center; background: var(--b-brand, var(--cta)); color: var(--on-cta); }
+.billv-top h1 { font-size: 22px; font-weight: 700; }
+.billv-top p { font-size: 13px; opacity: 0.85; margin-top: 2px; }
+.billv-body { padding: 16px 20px 8px; font-size: 14.5px; }
+.billv-meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; padding-bottom: 10px; border-bottom: 1px dashed var(--line); }
+.billv-row { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; }
+.billv-row small { display: block; color: var(--muted); font-size: 12px; }
+.billv-sum { border-top: 1px dashed var(--line); margin-top: 6px; padding-top: 6px; }
+.billv-sum .billv-row { padding: 3px 0; color: var(--muted); }
+.billv-total { display: flex; justify-content: space-between; font-size: 20px; font-weight: 750; padding: 12px 0 4px; border-top: 2px solid var(--ink); margin-top: 8px; }
+.billv-paid { text-align: center; margin: 10px 0 4px; font-weight: 650; color: var(--ok); }
+.billv-paid.due { color: var(--warn); }
+.billv-foot { text-align: center; font-size: 12px; color: var(--muted); padding: 12px 16px 18px; }
+.billv-foot b { color: var(--leaf); }
+.billv-msg { text-align: center; padding: 40px 24px; }
+.billv-msg h1 { font-size: 21px; margin: 10px 0 6px; }
+
 /* Restaurant theme: owner-picked colors on the diner menu */
 html.branded .topnav { box-shadow: inset 0 -3px 0 var(--leaf); }
 .rcover.rband { background: linear-gradient(135deg, var(--b-brand) 0%, var(--b-brand-2) 70%); }
@@ -3502,6 +3522,65 @@ function OwnerBilling({ s, d }) {
   </div>`;
 }
 
+/* ---------- Bill links: a bill page that works for a limited time ---------- */
+const BILL_LINK_MIN = 120;   // link stays valid for 2 hours
+const appBase = () => location.origin + location.pathname.replace(/index\.html$/, '');
+function billSnapshot(r, os, items, B, paid) {
+  const o0 = os[0];
+  return { r: { name: r.name, area: r.area || '', city: r.city || '', gstin: r.gstin || '', gst: r.gst || 0, svc: r.svc || 0, theme: r.theme && r.theme.brand ? { brand: r.theme.brand, accent: r.theme.accent } : null },
+    no: o0.no, t: o0.t, type: o0.type || 'dine', table: o0.table || null, guest: o0.name || '',
+    items: items.map((i) => ({ n: i.n, q: i.q, p: i.p, opt: i.opt || '' })),
+    B: { sub: B.sub, disc: B.disc || 0, svc: B.svc || 0, cgst: B.cgst || 0, sgst: B.sgst || 0, roundOff: B.roundOff || 0, total: B.total },
+    paid, method: paid ? (METHOD[o0.method] || 'Cash') : '' };
+}
+async function shareBillWa(r, os, items, B, paid) {
+  const o0 = os[0];
+  const ph = (o0.phone || '').replace(/\D/g, '').slice(-10);
+  const to = ph.length === 10 ? '91' + ph : '';
+  // Open the WhatsApp tab straight away (inside the tap), then fill it in once the link is ready
+  const w = window.open('', '_blank');
+  let text;
+  try {
+    if (!LIVE.session) throw new Error('offline demo');
+    const res = await api('z_bill_share', { p_token: LIVE.session.token, p_bill: billSnapshot(r, os, items, B, paid), p_minutes: BILL_LINK_MIN });
+    const until = new Date(res.expires_at).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit' });
+    text = 'Your bill from ' + r.name + ': ' + inr(B.total) + (paid ? ' · paid' : '') + '\n\nView your bill (valid until ' + until + '):\n' + appBase() + '#b=' + res.code + '\n\nThank you! – Zestro';
+  } catch (e) {
+    text = r.name + '\nBill #' + o0.no + ' · ' + new Date(o0.t).toLocaleDateString('en-IN') + '\n' + items.map((i) => i.q + ' x ' + i.n + ' ₹' + i.q * i.p).join('\n') + '\nTotal ₹' + B.total + (paid ? ' · paid by ' + (METHOD[o0.method] || 'cash') : '') + '\nThank you! Sent from Zestro';
+  }
+  const url = 'https://wa.me/' + to + '?text=' + encodeURIComponent(text);
+  if (w) w.location.href = url; else location.href = url;
+}
+function BillView({ code }) {
+  const [st, setSt] = useState({ load: true });
+  useEffect(() => { api('z_bill_view', { p_code: code }).then((v) => setSt({ v }), (e) => setSt({ err: e.message })); }, [code]);
+  const b = st.v && !st.v.expired ? st.v.bill : null;
+  useEffect(() => { applyBrand(b && b.r && b.r.theme ? b.r.theme : null); }, [b ? JSON.stringify(b.r.theme) : '']);
+  if (st.load) return html`<div className="billv"><div className="billv-card"><div className="billv-msg"><p className="muted">Opening your bill…</p></div></div></div>`;
+  if (st.err || st.v.expired) return html`<div className="billv"><div className="billv-card"><div className="billv-msg" id="bill-expired">
+    <div style=${{ fontSize: 40 }}>🧾</div><h1>${st.err ? 'Bill not found' : 'This bill link has expired'}</h1>
+    <p className="muted">${st.err ? 'Please check the link, or ask the restaurant to send it again.' : 'For your privacy, bill links work for a short time only. Ask ' + (st.v.name || 'the restaurant') + ' to send it again.'}</p>
+    <p className="billv-foot">Bills by <b>Zestro</b></p></div></div></div>`;
+  const B = b.B, r = b.r, until = new Date(st.v.expires_at).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit' });
+  return html`<div className="billv"><div className="billv-card" id="bill-view">
+    <div className="billv-top"><h1>${r.name}</h1><p>${[r.area, r.city].filter(Boolean).join(', ')}${r.gstin ? ' · GSTIN ' + r.gstin : ''}</p></div>
+    <div className="billv-body">
+      <div className="billv-meta"><span>Bill #${b.no} · ${b.type === 'takeaway' ? 'Parcel' : b.table ? 'Table ' + b.table : 'Counter'}</span><span>${new Date(b.t).toLocaleDateString('en-IN')} ${clock(b.t)}</span></div>
+      ${b.items.map((i, k) => html`<div className="billv-row" key=${k}><span>${i.q} × ${i.n}${i.opt ? html`<small>${i.opt}</small>` : null}</span><span>${inr(i.q * i.p)}</span></div>`)}
+      <div className="billv-sum">
+        <div className="billv-row"><span>Subtotal</span><span>₹${B.sub.toFixed(2)}</span></div>
+        ${B.disc ? html`<div className="billv-row"><span>Discount</span><span>−₹${B.disc.toFixed(2)}</span></div>` : null}
+        ${B.svc ? html`<div className="billv-row"><span>Service ${r.svc}%</span><span>₹${B.svc.toFixed(2)}</span></div>` : null}
+        ${r.gst ? html`<div className="billv-row"><span>CGST ${r.gst / 2}%</span><span>₹${B.cgst.toFixed(2)}</span></div><div className="billv-row"><span>SGST ${r.gst / 2}%</span><span>₹${B.sgst.toFixed(2)}</span></div>` : null}
+        ${B.roundOff ? html`<div className="billv-row"><span>Round off</span><span>₹${B.roundOff.toFixed(2)}</span></div>` : null}
+      </div>
+      <div className="billv-total"><span>Total</span><span>${inr(B.total)}</span></div>
+      <p className=${'billv-paid' + (b.paid ? '' : ' due')}>${b.paid ? '✓ Paid by ' + b.method : 'Not paid yet'}</p>
+    </div>
+    <div className="billv-foot">Thank you for dining with us!<br />This link works until ${until}. · Bills by <b>Zestro</b></div>
+  </div></div>`;
+}
+
 function BillSheet({ s, d }) {
   const r = R(s, OWNER_RID), sh = s.sheet;
   const os = s.orders.filter((o) => (sh.ids || [sh.id]).includes(o.id));
@@ -3524,7 +3603,7 @@ function BillSheet({ s, d }) {
       <div className="r big"><span>TOTAL</span><span>₹${B.total}</span></div>
       <div className="c">${paid ? 'PAID BY ' + (METHOD[o0.method] || 'CASH').toUpperCase() : 'NOT PAID YET'}</div><hr /><div className="c">THANK YOU · VISIT AGAIN</div></div>
     <p className="small muted" style=${{ textAlign: 'center' }}>${p.on ? 'Prints on your ' + (p.width || 80) + ' mm printer.' : 'No printer connected: send it on WhatsApp, show it on screen, or connect a printer in Settings.'}</p>
-    <div className="row" style=${{ flexWrap: 'nowrap' }}><a className="btn grow" target="_blank" rel="noopener" href=${'https://wa.me/' + ((o0.phone || '').replace(/\D/g, '').slice(-10).length === 10 ? '91' + (o0.phone || '').replace(/\D/g, '').slice(-10) : '') + '?text=' + encodeURIComponent(r.name + '\nBill #' + o0.no + ' · ' + new Date(o0.t).toLocaleDateString('en-IN') + '\n' + items.map((i) => i.q + ' x ' + i.n + ' ₹' + i.q * i.p).join('\n') + '\nTotal ₹' + B.total + (paid ? ' · paid by ' + (METHOD[o0.method] || 'cash') : '') + '\nThank you! Sent from Zestro')}>WhatsApp</a><button className="btn primary grow" onClick=${() => printOrToast(s, 'Bill')}>${I('print', 16)}Print</button></div>
+    <div className="row" style=${{ flexWrap: 'nowrap' }}><button className="btn grow" id="bill-wa" onClick=${() => shareBillWa(r, os, items, B, paid)}>${I('share', 16)}WhatsApp</button><button className="btn primary grow" onClick=${() => printOrToast(s, 'Bill')}>${I('print', 16)}Print</button></div>
   <//>`;
 }
 
@@ -4389,7 +4468,7 @@ async function livePoll(raw) {
     const data = {}; Object.keys(r.data || {}).forEach((k) => { if (!SYNC.pendingKeys.has(k)) data[k] = r.data[k]; });
     const infoChanged = JSON.stringify(r.restaurant) !== JSON.stringify(LIVE.info);
     if (infoChanged) { LIVE.info = r.restaurant; const sess = { ...LIVE.session, restaurant: r.restaurant }; LIVE.session = sess; lsSet(SESSION_KEY, sess); }
-    if (orders.length || (r.alerts || []).length || Object.keys(data).length || infoChanged) raw({ type: 'liveMerge', orders, alerts: r.alerts || [], data, info: infoChanged ? r.restaurant : null });
+    if (orders.length || (r.alerts || []).length || Object.keys(data).length || infoChanged) { raw({ type: 'liveMerge', orders, alerts: r.alerts || [], data, info: infoChanged ? r.restaurant : null }); if (orders.length || (r.alerts || []).length) LIVE.lastChange = Date.now(); }
     LIVE.offline = false;
   } catch (e) {
     if (e.code === '28000') { toast('Please log in again'); setTimeout(() => liveSignOut('#login'), 1200); }
@@ -4847,6 +4926,8 @@ function StaffAppCard({ s }) {
 /* ---------- App (live) ---------- */
 function liveRoute() {
   const h = location.hash, m = h.match(/^#t=([a-z0-9-]+)-(\d{1,3})$/);
+  const bm = h.match(/^#b=([A-Za-z0-9]{6,16})$/);
+  if (bm) return { mode: 'bill', code: bm[1] };
   if (m) return { mode: 'diner', rid: m[1], table: Number(m[2]) };
   if (h === '#team') return { mode: 'team' };
   if (h === '#account') return { mode: 'account' };
@@ -4877,8 +4958,24 @@ function App({ init }) {
   };
   useEffect(() => { if (LIVE.mode === 'owner') { liveDiff(prevRef.current, s, raw); } prevRef.current = s; }, [s]);
   useEffect(() => {
-    if (LIVE.mode === 'owner') { const t = setInterval(() => livePoll(raw), 3000); return () => clearInterval(t); }
-    if (LIVE.mode === 'diner') { const t = setInterval(() => dinerPoll(sRef.current, raw), 4000); return () => clearInterval(t); }
+    // Check fast when orders are moving, slower when it is quiet, and rarely when the screen is off
+    let stop = false, timer = null, gen = 0;
+    const busyNow = () => (sRef.current.orders || []).some((o) => o.status === 'new' || o.status === 'preparing' || o.status === 'ready');
+    const ownerGap = () => document.hidden ? 20000 : Date.now() - (LIVE.lastChange || 0) < 120000 ? 3000 : busyNow() ? 5000 : 10000;
+    const loop = async (fn, gap, g) => { if (stop || g !== gen) return; await fn(); if (!stop && g === gen) timer = setTimeout(() => loop(fn, gap, g), gap()); };
+    const kick = (fn, gap) => () => { if (!document.hidden && !stop) { clearTimeout(timer); gen += 1; loop(fn, gap, gen); } };
+    if (LIVE.mode === 'owner') {
+      const fn = () => livePoll(raw), k = kick(fn, ownerGap);
+      timer = setTimeout(() => loop(fn, ownerGap, gen), 3000);
+      document.addEventListener('visibilitychange', k); window.addEventListener('online', k);
+      return () => { stop = true; clearTimeout(timer); document.removeEventListener('visibilitychange', k); window.removeEventListener('online', k); };
+    }
+    if (LIVE.mode === 'diner') {
+      const dinerGap = () => document.hidden ? 30000 : 5000, fn = () => dinerPoll(sRef.current, raw), k = kick(fn, dinerGap);
+      timer = setTimeout(() => loop(fn, dinerGap, gen), 4000);
+      document.addEventListener('visibilitychange', k);
+      return () => { stop = true; clearTimeout(timer); document.removeEventListener('visibilitychange', k); };
+    }
     return undefined;
   }, []);
   useEffect(() => { if (LIVE.mode === 'diner') lsSet(mineKey(s.rid), { table: s.table, cart: s.cart, me: s.me, ver: s.ver, orders: s.orders.filter((o) => o.mine) }); }, [s.cart, s.orders, s.me, s.ver]);
@@ -4919,6 +5016,7 @@ async function boot() {
   const root = ReactDOM.createRoot(document.getElementById('root'));
   LIVE.session = lsGet(SESSION_KEY);
   const rt = liveRoute(); LIVE.mode = rt.mode;
+  if (rt.mode === 'bill') { root.render(html`<${BillView} code=${rt.code} />`); return; }
   let init = { ...freshState(), role: 'diner', screen: 'home', sheet: rt.sheet || null, tour: null, orders: [], alerts: [] };
   try {
     if (rt.mode === 'owner') {
