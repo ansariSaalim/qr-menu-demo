@@ -9,7 +9,7 @@
 <script>
   // Zestro lives at /app/. Old demo links land on the live website.
   var h = location.hash || '';
-  location.replace('app/' + (/^#(t=|login|signup|pricing|get-app|team|account|app)/.test(h) ? h : ''));
+  location.replace('app/' + (/^#(t=|o=|b=|login|signup|pricing|get-app|team|account|app)/.test(h) ? h : ''));
 </script>
 <style>body{font:16px/1.5 system-ui,sans-serif;background:#fff;color:#111;display:grid;place-items:center;min-height:100vh;margin:0}a{color:#0f766e}</style>
 </head>

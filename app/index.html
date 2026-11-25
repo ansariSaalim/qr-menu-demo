@@ -576,6 +576,95 @@ button.dname:hover { text-decoration: underline; text-underline-offset: 3px; }
 img.rlogo { object-fit: cover; background: #fff; display: block; }
 .vbadge { font-size: 10.5px; padding: 1px 7px; margin-left: 4px; vertical-align: 1px; display: inline-flex; gap: 3px; align-items: center; }
 .qs-list { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 6px; }
+/* ---------- Online ordering page (#o=restaurant) ---------- */
+.ol { background: var(--page); min-height: 100vh; padding-bottom: 110px; }
+.ol-hero { position: relative; background: linear-gradient(150deg, var(--b-brand, #0a7f62), var(--b-brand-2, #075c47)); color: #fff; padding: 18px 18px 24px; overflow: hidden; }
+.ol-hero::after { content: ''; position: absolute; right: -70px; top: -70px; width: 230px; height: 230px; border-radius: 50%; background: var(--b-accent, #f2a516); opacity: 0.22; }
+.ol-hero.has-cover { background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.65)), var(--ol-cover) center/cover; }
+.ol-hero > * { position: relative; z-index: 1; }
+.ol-top { display: flex; justify-content: space-between; align-items: center; }
+.ol-lang { background: rgba(255,255,255,.2); color: #fff; border: 0; font-weight: 650; font-size: 13px; padding: 7px 13px; border-radius: 20px; }
+.ol-id { display: flex; gap: 12px; align-items: center; margin-top: 14px; }
+.ol-id .rlogo { width: 58px; height: 58px; border-radius: 16px; box-shadow: 0 0 0 3px rgba(255,255,255,.9); flex: none; }
+.ol-id h1 { font-size: 25px; line-height: 1.15; font-weight: 800; }
+.ol-tag { margin-top: 10px; font-weight: 700; font-size: 17px; line-height: 1.3; color: var(--b-accent, #fff); }
+.ol-sub { font-size: 13px; opacity: .9; margin-top: 4px; }
+.ol-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.ol-pill { background: var(--b-accent, #f2a516); color: var(--on-sun, #222); font-size: 12.5px; font-weight: 650; padding: 6px 11px; border-radius: 20px; text-decoration: none; }
+.ol-pill.ghost { background: rgba(255,255,255,.18); color: #fff; }
+.ol-stick { position: sticky; top: 0; z-index: 20; background: var(--page); padding: 10px 0 8px; border-bottom: 1px solid var(--line); }
+.ol-search { margin: 0 14px 9px; display: flex; align-items: center; gap: 8px; background: var(--app); border: 1.5px solid var(--line); border-radius: 14px; padding: 0 12px; }
+.ol-search input { flex: 1; border: 0; outline: 0; background: transparent; padding: 11px 0; font: inherit; color: var(--ink); }
+.ol-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 0 14px; scrollbar-width: none; }
+.ol-tabs::-webkit-scrollbar { display: none; }
+.ol-tabs button { flex: none; background: var(--app); border: 1.5px solid var(--line); color: var(--ink); font-weight: 650; font-size: 13px; padding: 7px 13px; border-radius: 20px; }
+.ol-tabs button[aria-pressed="true"] { background: var(--cta); border-color: var(--cta); color: var(--on-cta); }
+.ol-main { max-width: 720px; margin: 0 auto; padding: 4px 14px; }
+.ol-cat { margin-top: 20px; scroll-margin-top: 120px; }
+.ol-cat h2 { font-size: 18px; font-weight: 750; margin-bottom: 8px; }
+.ol-item { display: flex; gap: 12px; align-items: center; background: var(--app); border-radius: 16px; padding: 12px; margin-bottom: 10px; box-shadow: var(--shadow-1); }
+.ol-item.out { opacity: .5; }
+.ol-item .plate { width: 76px; height: 76px; flex: none; border-radius: 14px; }
+.ol-info { flex: 1; min-width: 0; }
+.ol-info b { display: block; font-size: 15px; line-height: 1.3; }
+.ol-info small { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+.ol-price { color: var(--leaf); font-weight: 750; margin-top: 4px; }
+.ol-add { background: var(--app); color: var(--cta); border: 1.8px solid var(--cta); font-weight: 750; font-size: 13.5px; padding: 7px 14px; border-radius: 12px; min-width: 86px; }
+.ol-vars { display: flex; flex-direction: column; gap: 6px; }
+.ol-q { display: flex; align-items: center; justify-content: space-between; background: var(--cta); border-radius: 12px; min-width: 86px; }
+.ol-q button { background: transparent; border: 0; color: var(--on-cta); font-size: 19px; font-weight: 700; width: 30px; height: 36px; }
+.ol-q span { color: var(--on-cta); font-weight: 750; }
+.ol-vlab { font-size: 11px; color: var(--muted); text-align: center; }
+.ol-party { margin: 24px 0 0; background: linear-gradient(150deg, #ffd60a, #ffb703); border-radius: 20px; padding: 20px 16px; text-align: center; color: #3a2800; }
+.ol-party h3 { font-size: 19px; line-height: 1.35; color: #8a1220; }
+.ol-party p { font-size: 13px; margin-top: 6px; }
+.ol-party button { margin-top: 12px; background: #8a1220; color: #fff; border: 0; font-weight: 700; padding: 11px 20px; border-radius: 13px; }
+.ol-foot { text-align: center; font-size: 12px; color: var(--muted); padding: 26px 14px 10px; line-height: 1.7; }
+.ol-foot b { color: var(--ink); }
+.ol-cartbar { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); max-width: 696px; margin: 0 auto; background: var(--cta); color: var(--on-cta); border-radius: 16px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-2); z-index: 30; border: 0; font: inherit; width: auto; }
+.ol-cartbar b { font-size: 17px; }
+.ol-cartbar span.go { background: var(--b-accent, #fff); color: var(--on-sun, #111); font-weight: 750; padding: 10px 16px; border-radius: 12px; }
+.ol-ov { position: fixed; inset: 0; background: var(--scrim); z-index: 40; }
+.ol-sheet { position: fixed; left: 0; right: 0; bottom: 0; max-width: 720px; margin: 0 auto; background: var(--app); border-radius: 22px 22px 0 0; max-height: 92vh; overflow-y: auto; z-index: 50; padding: 10px 16px calc(18px + env(safe-area-inset-bottom)); }
+.ol-sheet h2 { display: flex; justify-content: space-between; align-items: center; font-size: 20px; margin: 6px 0 4px; }
+.ol-line { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+.ol-line .n { flex: 1; font-size: 14px; font-weight: 550; }
+.ol-tot { display: flex; justify-content: space-between; font-weight: 750; font-size: 18px; padding: 10px 0 2px; }
+.ol-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ol-seg button { background: var(--app-2); border: 1.8px solid transparent; border-radius: 12px; padding: 11px 6px; font-weight: 650; font-size: 14px; color: var(--ink); }
+.ol-seg button[aria-pressed="true"] { border-color: var(--cta); background: var(--leaf-soft); }
+.ol-seg small { display: block; font-weight: 400; font-size: 11px; color: var(--muted); margin-top: 2px; }
+.ol-sheet label.lab { display: block; font-size: 13px; font-weight: 650; margin: 13px 0 6px; }
+.ol-sheet .inp { width: 100%; }
+.ol-note { border-radius: 10px; padding: 9px 12px; font-size: 12.5px; margin-top: 10px; background: var(--sun-soft); color: var(--warn); }
+.ol-note.ok { background: var(--ok-soft); color: var(--ok); }
+.ol-note.err { background: var(--bad-soft); color: var(--bad); }
+.ol-locbtn { width: 100%; margin-top: 9px; background: var(--app); border: 1.8px dashed var(--cta); color: var(--cta); font-weight: 650; padding: 10px; border-radius: 12px; }
+#ol-map { height: 210px; border-radius: 14px; margin-top: 10px; border: 1px solid var(--line); z-index: 0; }
+.ol-upi { margin-top: 10px; border: 1.5px solid var(--line); background: var(--app-2); border-radius: 14px; padding: 13px; text-align: center; }
+.ol-upi .paybtn { width: 100%; margin-top: 9px; background: #5f259f; color: #fff; border: 0; font-weight: 750; font-size: 15.5px; padding: 13px; border-radius: 12px; }
+.ol-qr { margin: 11px auto 4px; width: 170px; height: 170px; background: #fff; border-radius: 12px; padding: 8px; }
+.ol-qr svg { width: 100%; height: 100%; display: block; }
+.ol-upi code { background: var(--app); border: 1px solid var(--line); border-radius: 8px; padding: 4px 8px; font-weight: 650; }
+.ol-tick { display: flex; gap: 8px; justify-content: center; align-items: center; margin-top: 11px; font-weight: 650; font-size: 14px; }
+.ol-tick input { width: 18px; height: 18px; accent-color: var(--cta); }
+.ol-send { width: 100%; margin-top: 16px; background: #25d366; color: #fff; border: 0; font-weight: 750; font-size: 16px; padding: 15px; border-radius: 14px; }
+.ol-send:disabled { background: #b8b8b8; }
+.ol-done { text-align: center; padding: 8px 4px 4px; }
+.ol-done .big { font-size: 44px; }
+.ol-steps { text-align: left; background: var(--sun-soft); border-radius: 12px; padding: 10px 14px; margin: 12px 0; font-size: 13.5px; line-height: 1.7; }
+.ol-sec { width: 100%; margin-top: 8px; background: var(--app); border: 1.5px solid var(--line); color: var(--ink); font-weight: 650; font-size: 15px; padding: 12px; border-radius: 12px; }
+.ol-status { margin: 14px 14px 0; background: var(--app); border: 1.5px solid var(--leaf); border-radius: 16px; padding: 12px 14px; display: flex; gap: 10px; align-items: center; box-shadow: var(--shadow-1); }
+.ol-status b { display: block; }
+.ol-status small { color: var(--muted); }
+.ol-off { text-align: center; padding: 60px 24px; }
+.web-link { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 6px 0 4px; }
+.web-link code { background: var(--app-2); border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px; font-size: 12.5px; word-break: break-all; }
+.web-qr { width: 120px; height: 120px; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 6px; }
+.web-qr svg { width: 100%; height: 100%; display: block; }
+.oc-web { margin-top: 8px; background: var(--info-soft); border-radius: 10px; padding: 8px 10px; font-size: 12.5px; line-height: 1.55; }
+.oc-web a { color: var(--info); font-weight: 650; }
+
 /* Shared bill page (link sent on WhatsApp) */
 .billv { min-height: 100vh; background: var(--page); display: flex; justify-content: center; padding: 28px 14px 40px; }
 .billv-card { width: 100%; max-width: 420px; background: var(--app); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow-1); overflow: hidden; align-self: flex-start; }
@@ -1444,9 +1533,14 @@ const PLANS = {
   basic: { name: 'Basic', total: { h: 3999, y: 6999 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Waiters with their own PIN and their own tables', 'Table QR ordering, diners pay after eating', 'Kitchen screen per station and a token board for a TV', 'Expense book with bill photos', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
   pro: { name: 'Pro', total: { h: 4999, y: 8999 }, perks: ['Everything in Basic', 'Monthly profit, partners and investor logins', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review link on every bill', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
 };
-PLANS.basic.price = Math.round(PLANS.basic.total.y / 12); PLANS.pro.price = Math.round(PLANS.pro.total.y / 12);
+PLANS.web = { name: 'Order Link', total: { h: 6499, y: 6499 }, renew: 1499, perks: ['Your own online ordering link: home delivery and pickup', 'Orders on the kitchen screen with a chime, and on WhatsApp', 'UPI payment with screenshot, cash on delivery', 'Delivery radius on a map, minimum order, Gujarati / English', 'Party and function orders box, your colours and logo', 'Menu and prices set and updated by the Zestro team', 'From the second year: ₹1,499 a year'] };
+PLANS.basic.price = Math.round(PLANS.basic.total.y / 12); PLANS.pro.price = Math.round(PLANS.pro.total.y / 12); PLANS.web.price = Math.round(PLANS.web.total.y / 12);
 const PLAN_KEYS = ['basic', 'pro'];
-const RANK = { basic: 1, pro: 2 };
+const RANK = { web: 1, basic: 1, pro: 2 };
+const webAllowed = (plan) => plan === 'pro' || plan === 'web';
+const ZESTRO_WA = '';   // Zestro's own WhatsApp number (91XXXXXXXXXX). Empty: WhatsApp asks whom to send it to.
+const isTeam = () => !!(LIVE.session && LIVE.session.team);
+const lockedMenu = (r) => r.plan === 'web' && !isTeam();
 const can = (plan, need) => (RANK[plan] || 1) >= (RANK[need] || 1);
 const SETUP = { onsite: 999, trial: 7 };
 const AGGREGATORS = false;
@@ -2803,6 +2897,7 @@ function OwnerOrders({ s, d }) {
       if (stageOf(o) === 'preparing') return ['Mark ready', () => { d({ type: 'stationReady', id: o.id, st: stn }); toast(stationName(s, stn) + ' part of #' + o.no + ' is ready'); }];
       return null;
     }
+    if (o.web && o.status === 'ready') return [o.mode === 'delivery' ? 'Delivered' : 'Picked up', () => { d({ type: 'advance', id: o.id }); toast('Order #' + o.no + (o.mode === 'delivery' ? ' delivered' : ' picked up')); }];
     if (o.online && o.status === 'ready') return ['Handed to rider', () => { d({ type: 'advance', id: o.id }); toast('Order #' + o.no + ' picked up by the ' + APPS[o.src] + ' rider'); }];
     return [nextLbl[o.status], () => { d({ type: 'advance', id: o.id }); toast(o.status === 'new' ? (o.online ? 'Accepted on ' + APPS[o.src] + '. Ticket sent to the kitchen.' : 'Accepted. Ticket sent to the kitchen.') : o.status === 'preparing' ? 'Order #' + o.no + ' is ready' + (o.online ? '. ' + APPS[o.src] + ' tells the rider.' : '') : 'Order #' + o.no + ' served'); }];
   };
@@ -2810,10 +2905,14 @@ function OwnerOrders({ s, d }) {
   const done = mine.filter((o) => (o.status === 'served' && o.pay === 'paid') || o.status === 'cancelled').sort((a, b) => b.no - a.no);
   const card = (o) => { const items = stn ? o.items.filter((i) => stationOfItem(s, i) === stn) : o.items, rest = o.items.length - items.length, w = o.type !== 'takeaway' ? waiterOf(s, o.table) : null, a = act(o); return html`<article key=${o.id} id=${'oc-' + o.id} className=${'oc' + (o.status === 'new' ? ' new' : '') + (s.fresh === o.id ? ' fresh' : '')}>
     <div className="oc-h"><span className="tno">${tlabel(o)}</span><b>#${o.no}</b><small>${ago(o.t)}</small></div>
-    <span className="oc-who">${o.name}${o.mine || o.qr ? ' · table QR' : ''}${o.online ? ' · ' + o.ref + ' · paid online' : ''}${w && !stn ? html` · <span className="oc-wt">${I('user', 11)}${w.name}</span>` : null}${o.ver ? html` <span className="pill ok vbadge" title=${'Verified ' + maskPhone(o.phone)}>${I('check', 11)}Verified</span>` : o.mine ? html` <span className="pill sun vbadge">Not verified</span>` : null}</span>
+    <span className="oc-who">${o.name}${o.web ? ' · online order' : ''}${o.mine || o.qr ? ' · table QR' : ''}${o.online ? ' · ' + o.ref + ' · paid online' : ''}${w && !stn ? html` · <span className="oc-wt">${I('user', 11)}${w.name}</span>` : null}${o.ver ? html` <span className="pill ok vbadge" title=${'Verified ' + maskPhone(o.phone)}>${I('check', 11)}Verified</span>` : o.mine ? html` <span className="pill sun vbadge">Not verified</span>` : null}</span>
     <ul>${items.map((i, k) => html`<li key=${k}><b>${i.q}×</b><span><${VegMark} veg=${i.veg} /> ${i.n}${i.opt ? html`<small>${i.opt}</small>` : null}</span></li>`)}</ul>
     ${rest ? html`<small className="muted oc-rest">+ ${rest} more for ${[...new Set(o.items.filter((i) => stationOfItem(s, i) !== stn).map((i) => stationName(s, stationOfItem(s, i))))].join(', ')}</small>` : null}
     ${o.note ? html`<div className="oc-note">Note: ${o.note}</div>` : null}
+    ${o.web ? html`<div className="oc-web">${o.mode === 'delivery' ? '🛵 Home delivery' : '🏃 Pickup'} · <a href=${'tel:+91' + o.phone}>${o.phone}</a>
+      ${o.addr ? html`<br />📍 ${o.addr}` : null}
+      ${o.loc ? html`<br /><a href=${'https://maps.google.com/?q=' + o.loc.lat + ',' + o.loc.lng} target="_blank" rel="noopener">Open on map (${o.loc.km} km)</a>` : o.locMissing ? html`<br /><span className="pill sun">Location not shared · check the address</span>` : null}
+      <br />${o.payMode === 'upi' ? (o.pay === 'paid' ? '✓ Paid by UPI' : '💳 UPI · customer says paid · check the screenshot on WhatsApp') : '💵 Cash on ' + (o.mode === 'delivery' ? 'delivery' : 'pickup')}</div>` : null}
     ${o.online && o.status !== 'served' && o.status !== 'cancelled' ? html`<div className="oc-rider">${I('clock', 13)}${o.status === 'new' ? 'Accept within 3 minutes or ' + APPS[o.src] + ' cancels it' : o.status === 'ready' ? 'Packed. Hand it to the ' + APPS[o.src] + ' rider' : 'Rider arrives in about ' + riderIn(o) + ' min'}</div>` : null}
     ${stn ? null : html`<${StationProgress} s=${s} o=${o} />`}
     <div className="oc-f"><strong>${inr(due(o, r))}</strong><div className="oc-btns">
@@ -2871,14 +2970,14 @@ function OwnerMenu({ s, d }) {
   const list = menu.filter((m) => (cat === 'all' || m.cat === cat) && (!needle || (m.name + ' ' + m.desc).toLowerCase().includes(needle)));
   const out = menu.filter((m) => !m.stock).length;
   const limit = null, full = false;
-  const role = roleOf(s), limited = role === 'Kitchen' || role === 'Waiter', viewOnly = role === 'Waiter';
+  const role = roleOf(s), fixed = lockedMenu(r), limited = fixed || role === 'Kitchen' || role === 'Waiter', viewOnly = role === 'Waiter';
   const editDish = (it) => { if (!limited) d({ type: 'sheet', sheet: { type: 'edit', dish: { ...it, price: String(it.price) } } }); };
   const newDish = () => d({ type: 'sheet', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: cat !== 'all' ? cat : cats[0] || 'Specials', name: '', price: '', veg: true, desc: '', tags: [], variants: [], addons: [], stock: true, img: null, c: ['#d98a3a', '#f1d7a6'] } } });
   return html`<div id="menu-mgr-wrap" style=${{ display: 'grid', gap: 16 }}>
     <div className="ph"><div><h1>Menu</h1><p className="muted">${menu.length} dishes · ${cats.length} categories${out ? ' · ' + out + ' sold out' : ''}. Every change shows on the tables instantly.</p></div>
       ${limited ? null : html`<div className="row"><button className="btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'cats' } })}>${I('menu', 16)}Categories</button>
       <button className="btn primary" id="add-dish-btn" disabled=${full} onClick=${newDish}>${I('plus')}Add dish</button></div>`}</div>
-    ${limited ? html`<div className="notice leaf">${viewOnly ? 'View only. Check what is available before taking an order.' : 'Mark a dish sold out the moment it runs out. Every table sees it at once.'}</div>` : null}
+    ${fixed ? html`<div className="notice leaf" id="fixed-menu">Your menu and prices are set by the Zestro team. You can mark a dish sold out here. To change a dish or a price, <a href=${'https://wa.me/' + ZESTRO_WA + '?text=' + encodeURIComponent('Hi Zestro, menu change for ' + r.name + ' (' + OWNER_RID + '):\n')} target="_blank" rel="noopener">send it to us on WhatsApp</a>. Want to edit it yourself any time? <a href="#account" onClick=${() => setTimeout(() => location.reload(), 30)}>Upgrade to Pro</a>.</div>` : limited ? html`<div className="notice leaf">${viewOnly ? 'View only. Check what is available before taking an order.' : 'Mark a dish sold out the moment it runs out. Every table sees it at once.'}</div>` : null}
     <div className="mtools">
       <label className="search" htmlFor="mm-q">${I('search', 16)}<input id="mm-q" type="search" placeholder="Search your dishes" value=${q} onChange=${(e) => setQ(e.target.value)} /></label>
       <div className="chips scroll" role="group" aria-label="Filter by category"><button className="chip" aria-pressed=${cat === 'all'} onClick=${() => setCat('all')}>All</button>${cats.map((c) => html`<button key=${c} className="chip" aria-pressed=${cat === c} onClick=${() => setCat(c)}>${c}</button>`)}</div>
@@ -2939,6 +3038,7 @@ function DishEditor({ s, d }) {
       <div className="photo-btns"><label className="btn sm">${I('camera', 16)}${busy ? 'Adding…' : x.img ? 'Change photo' : 'Add photo'}<input type="file" accept="image/*" hidden onChange=${onPhoto} /></label>
       ${x.img ? html`<button className="link danger small" onClick=${() => set('img', null)}>Remove photo</button>` : html`<small className="hint">A good photo sells more. Square works best; we crop and shrink it for you.</small>`}</div></div>
     <label className="field">Dish name<input id="de-name" value=${x.name} placeholder="e.g. Paneer Lababdar" onChange=${(e) => set('name', e.target.value)} /></label>
+    <label className="field">Gujarati name <small className="muted">(optional, shown on your online menu)</small><input id="de-gu" value=${x.gu || ''} placeholder="દા.ત. પનીર લબાબદાર" onChange=${(e) => set('gu', e.target.value)} /></label>
     <div className="fields2">
       <label className="field">Category<select value=${cats.includes(x.cat) ? x.cat : '__new'} onChange=${(e) => set('cat', e.target.value === '__new' ? (newCat || 'New category') : e.target.value)}>${cats.map((c) => html`<option key=${c} value=${c}>${c}</option>`)}<option value="__new">+ New category…</option></select>
         ${!cats.includes(x.cat) ? html`<input className="inp" placeholder="New category name" value=${x.cat === 'New category' ? newCat : x.cat} onChange=${(e) => { setNewCat(e.target.value); set('cat', e.target.value || 'New category'); }} />` : null}</label>
@@ -3365,6 +3465,29 @@ function TeamOverview({ s, d, rows }) {
   </div>`;
 }
 
+function OrderLinkSettings({ s, d }) {
+  const r = R(s, OWNER_RID), W = webOf(r), link = appBase() + '#o=' + OWNER_RID;
+  const ask = 'https://wa.me/' + ZESTRO_WA + '?text=' + encodeURIComponent('Hi Zestro, change for ' + r.name + ' (' + OWNER_RID + '):\n');
+  return html`
+    <div className="ph"><div><h1>Your Order Link</h1><p className="muted">Customers order from this link. Orders arrive in Orders with a chime and on WhatsApp.</p></div></div>
+    <${LiveSubCard} s=${s} />
+    <section className="card" id="web-orders"><div className="card-h"><h3>${I('share', 18)} Share your link</h3><span className="small muted">Put it on WhatsApp status, Instagram and Google Maps</span></div>
+      <div className="web-link"><code id="web-link">${link}</code><button className="btn sm" onClick=${() => { try { navigator.clipboard.writeText(link); } catch (e) {} toast('Link copied'); }}>Copy link</button>
+        <a className="btn sm" href=${'https://wa.me/?text=' + encodeURIComponent('Order online from ' + r.name + ': ' + link)} target="_blank" rel="noopener">Share on WhatsApp</a>
+        <a className="btn sm" href=${link} target="_blank" rel="noopener">${I('compass', 15)}Open it</a><div className="web-qr"><${QR} text=${link} size=${108} /></div></div>
+      <ul className="small muted qs-list">
+        <li>${W.delivery.on ? 'Home delivery within ' + W.delivery.km + ' km' + (W.delivery.min ? ', minimum order ' + inr(W.delivery.min) : '') : 'No home delivery'}${W.pickup.on ? ' · pickup from the shop' : ''}</li>
+        <li>Payment: ${r.upi ? 'UPI to ' + r.upi + (W.cash ? ', or cash' : '') : 'cash'}${W.wa ? ' · orders and screenshots to WhatsApp ' + W.wa : ''}</li>
+        <li>Use the switch at the top to pause orders when you are closed or too busy.</li>
+      </ul>
+    </section>
+    <section className="card" id="fixed-plan"><div className="card-h"><h3>${I('lock', 18)} Menu, prices and settings</h3></div>
+      <p className="small muted">The Zestro team sets these for you. Menu and price changes are included in your yearly plan. Mark a dish sold out yourself in Menu.</p>
+      <div className="row"><a className="btn primary" href=${ask} target="_blank" rel="noopener">${I('share', 16)}Send a change on WhatsApp</a><a className="btn" href="#account" onClick=${() => setTimeout(() => location.reload(), 30)}>Upgrade to Pro: edit it yourself</a></div>
+    </section>
+    <${PrinterSettings} s=${s} d=${d} />`;
+}
+
 function OwnerSettings({ s, d }) {
   const r = R(s, OWNER_RID);
   return html`
@@ -3387,6 +3510,7 @@ function OwnerSettings({ s, d }) {
     ${(() => { const used = 182 + s.orders.filter((o) => o.rid === OWNER_RID && o.pay === 'paid' && (o.mine || o.counter || o.staff)).length; const pct = Math.min(100, Math.round((used / WA.included) * 100)); return can(r.plan, 'pro') ? html`<section className="card" id="wa-usage"><div className="card-h"><h3>WhatsApp this month</h3><span className="small muted">${used} of ${WA.included} included messages used</span></div><div className="meter" role="img" aria-label=${used + ' of ' + WA.included + ' WhatsApp messages used'}><i style=${{ width: pct + '%' }}></i></div><p className="small muted">Bills, offers and your daily summary. After ${WA.included}, each message costs ₹${WA.extra.toFixed(2)}, added to your next payment. Resets on the 1st.</p></section>` : html`<section className="card" id="wa-usage"><div className="card-h"><h3>WhatsApp bills</h3><span className="pill">Pro</span></div><p className="small muted">On Pro, diners get bills on WhatsApp and you get a daily summary: ${WA.included} messages a month included.</p></section>`; })()}
     <section className="card help-card"><div className="grow"><h3>Help when you need it</h3><p className="small muted">WhatsApp support in Hindi, Gujarati and English on every plan${r.plan === 'pro' ? ', with priority replies from 9 am to 11 pm' : ''}. Export your menu and every bill whenever you like.</p></div>
       <div className="row"><button className="btn" onClick=${() => { downloadMenuCsv(s); toast('Menu downloaded as CSV'); }}>${I('download', 16)}Export menu</button><button className="btn" onClick=${() => toast('In the live product this opens WhatsApp support')}>${I('user', 16)}Chat with support</button></div></section>
+    <${WebOrderSettings} s=${s} d=${d} />
     <${ThemeSettings} r=${r} onChange=${(p) => d({ type: 'rest', rid: OWNER_RID, patch: p })} />
     <h2 className="sub-h">Compare every feature</h2>
     <${PlanCompare} current=${r.plan} billing=${s.billing || 'y'} />
@@ -3424,7 +3548,7 @@ function RejectSheet({ s, d }) {
 }
 
 /* ---------- Bills: GST split, discount, service charge ---------- */
-const tlabel = (o) => (o.type === 'online' ? APPS[o.src] || 'Online' : o.type === 'takeaway' ? 'Parcel' : 'T' + o.table);
+const tlabel = (o) => (o.web ? (o.mode === 'delivery' ? 'Delivery' : 'Pickup') : o.type === 'online' ? APPS[o.src] || 'Online' : o.type === 'takeaway' ? 'Parcel' : 'T' + o.table);
 const round2 = (n) => Math.round(n * 100) / 100;
 function billOf(lines, r, disc, dine) {
   const sub = lines.reduce((t, l) => t + l.q * l.p, 0);
@@ -3551,6 +3675,262 @@ async function shareBillWa(r, os, items, B, paid) {
   const url = 'https://wa.me/' + to + '?text=' + encodeURIComponent(text);
   if (w) w.location.href = url; else location.href = url;
 }
+/* ---------- Online ordering (Pro): delivery and pickup from the restaurant's own link (#o=rid) ---------- */
+const OL_T = {
+  en: { lang: 'ગુજરાતી', search: 'Search dishes', add: 'ADD', sold: 'Sold out', item: 'item', items: 'items', viewCart: 'View cart', cart: 'Your order', mode: 'How do you want it?',
+    delivery: 'Home delivery', pickup: 'Pickup', within: 'within {km} km', minOrd: 'Min ₹{min}', fromShop: 'from the shop', name: 'Your name', phone: 'Mobile number', addr: 'Full address',
+    addrPh: 'House no, building, street, landmark', note: 'Note for the kitchen (optional)', notePh: 'Less spicy, extra mayo…', myLoc: '📍 Use my current location', locWait: 'Finding your location…',
+    locOk: '✓ You are {km} km away. We deliver here.', locFar: 'You are {km} km away. We deliver within {max} km only. Please choose pickup.', locErr: 'Could not get your location. Type the full address, or drop a pin on the map.',
+    dragPin: 'Drag the pin to your door if it is not exact.', minNote: 'Add ₹{n} more for home delivery (minimum ₹{min}).', pay: 'Payment', cash: 'Cash', cashD: 'Cash on delivery', cashP: 'Pay at pickup',
+    upi: 'UPI', upiPay: 'Pay ₹{n} with UPI', scan: 'Or scan this QR from any UPI app', copy: 'Copy', copied: 'UPI ID copied', paid: 'I have paid ₹{n}', subtotal: 'Item total', gst: 'GST', total: 'To pay',
+    place: 'Place order', placing: 'Placing…', fill: 'Fill in your name, mobile number and address', fillP: 'Fill in your name and mobile number', tickPaid: 'Tick "I have paid" after paying by UPI',
+    done: 'Order #{no} placed!', doneSub: 'The restaurant has your order. You will get a call if anything is needed.', ss: 'One more step: send the payment screenshot', ss1: 'Take a screenshot of the UPI success screen', ss2: 'Tap the button below and attach it in WhatsApp',
+    ssBtn: 'Send screenshot on WhatsApp', waBtn: 'Send order on WhatsApp too', more: 'Order something else', call: 'Call', status: { new: 'Waiting for the restaurant to accept', preparing: 'Being prepared', ready: { delivery: 'Out for delivery', pickup: 'Ready, come and collect' }, served: { delivery: 'Delivered', pickup: 'Collected' }, cancelled: 'Not accepted. Please call the restaurant.' },
+    closed: 'Not taking online orders right now', closedSub: 'Please try again later, or call the restaurant.', made: 'Made with ❤ by', partyBtn: 'Enquire on WhatsApp', empty: 'No dishes match your search.' },
+  gu: { lang: 'English', search: 'વાનગી શોધો', add: 'ઉમેરો', sold: 'ખતમ', item: 'વસ્તુ', items: 'વસ્તુ', viewCart: 'ઓર્ડર જુઓ', cart: 'તમારો ઓર્ડર', mode: 'કેવી રીતે જોઈએ?',
+    delivery: 'હોમ ડિલિવરી', pickup: 'જાતે લઈ જશો', within: '{km} કિમી સુધી', minOrd: 'ઓછામાં ઓછું ₹{min}', fromShop: 'દુકાનથી', name: 'તમારું નામ', phone: 'મોબાઇલ નંબર', addr: 'પૂરું સરનામું',
+    addrPh: 'મકાન નં, બિલ્ડિંગ, શેરી, નજીકની જગ્યા', note: 'રસોડા માટે નોંધ (જરૂરી નથી)', notePh: 'ઓછું તીખું, વધારે મેયો…', myLoc: '📍 મારું હાલનું સ્થાન લો', locWait: 'તમારું સ્થાન શોધીએ છીએ…',
+    locOk: '✓ તમે {km} કિમી દૂર છો. અહીં ડિલિવરી મળશે.', locFar: 'તમે {km} કિમી દૂર છો. અમે ફક્ત {max} કિમી સુધી ડિલિવરી આપીએ છીએ. કૃપા કરી જાતે લઈ જવાનું પસંદ કરો.', locErr: 'તમારું સ્થાન મળ્યું નહીં. પૂરું સરનામું લખો અથવા નકશા પર પિન મૂકો.',
+    dragPin: 'પિન બરાબર ન હોય તો તમારા દરવાજા સુધી ખસેડો.', minNote: 'હોમ ડિલિવરી માટે ₹{n} નું વધુ ઉમેરો (ઓછામાં ઓછું ₹{min}).', pay: 'ચુકવણી', cash: 'રોકડા', cashD: 'ડિલિવરી વખતે રોકડા', cashP: 'લેતી વખતે ચૂકવો',
+    upi: 'UPI', upiPay: 'UPI થી ₹{n} ચૂકવો', scan: 'અથવા કોઈ પણ UPI એપથી આ QR સ્કેન કરો', copy: 'કૉપિ', copied: 'UPI ID કૉપિ થયું', paid: 'મેં ₹{n} ચૂકવી દીધા', subtotal: 'વસ્તુઓ', gst: 'GST', total: 'કુલ ચૂકવવાના',
+    place: 'ઓર્ડર આપો', placing: 'મોકલીએ છીએ…', fill: 'નામ, મોબાઇલ નંબર અને સરનામું ભરો', fillP: 'નામ અને મોબાઇલ નંબર ભરો', tickPaid: 'UPI થી ચૂકવ્યા પછી "મેં ચૂકવી દીધા" પર ટિક કરો',
+    done: 'ઓર્ડર #{no} મળી ગયો!', doneSub: 'રેસ્ટોરન્ટ પાસે તમારો ઓર્ડર પહોંચી ગયો છે. જરૂર પડશે તો ફોન આવશે.', ss: 'એક છેલ્લું પગલું: ચુકવણીનો સ્ક્રીનશૉટ મોકલો', ss1: 'UPI સફળ થયાની સ્ક્રીનનો સ્ક્રીનશૉટ લો', ss2: 'નીચેનું બટન દબાવો અને WhatsApp માં જોડો',
+    ssBtn: 'WhatsApp પર સ્ક્રીનશૉટ મોકલો', waBtn: 'ઓર્ડર WhatsApp પર પણ મોકલો', more: 'બીજું કંઈ મંગાવો', call: 'ફોન કરો', status: { new: 'રેસ્ટોરન્ટ સ્વીકારે તેની રાહ', preparing: 'બની રહ્યું છે', ready: { delivery: 'ડિલિવરી માટે નીકળ્યું', pickup: 'તૈયાર છે, લઈ જાઓ' }, served: { delivery: 'પહોંચી ગયું', pickup: 'લઈ લીધું' }, cancelled: 'સ્વીકાર્યો નથી. કૃપા કરી રેસ્ટોરન્ટને ફોન કરો.' },
+    closed: 'હાલ ઓનલાઇન ઓર્ડર બંધ છે', closedSub: 'થોડી વાર પછી પ્રયત્ન કરો અથવા રેસ્ટોરન્ટને ફોન કરો.', made: 'પ્રેમથી બનાવ્યું', partyBtn: 'WhatsApp પર પૂછો', empty: 'કોઈ વાનગી મળી નહીં.' },
+};
+const GU_DIGITS = '૦૧૨૩૪૫૬૭૮૯';
+const olKm = (a, b) => { const R0 = 6371, r = (x) => (x * Math.PI) / 180, dLa = r(b.lat - a.lat), dLo = r(b.lng - a.lng); const h = Math.sin(dLa / 2) ** 2 + Math.cos(r(a.lat)) * Math.cos(r(b.lat)) * Math.sin(dLo / 2) ** 2; return 2 * R0 * Math.asin(Math.sqrt(h)); };
+const waDigits = (n) => { const x = String(n || '').replace(/\D/g, ''); return x.length === 10 ? '91' + x : x; };
+const upiLinkOf = (upi, name, amt, note) => 'upi://pay?pa=' + upi + '&pn=' + encodeURIComponent(name) + '&am=' + amt + '&cu=INR&tn=' + encodeURIComponent(note);
+function loadLeaflet() {
+  if (window.L) return Promise.resolve(window.L);
+  if (loadLeaflet.p) return loadLeaflet.p;
+  return (loadLeaflet.p = new Promise((ok, bad) => {
+    const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'; document.head.appendChild(css);
+    const js = document.createElement('script'); js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'; js.onload = () => ok(window.L); js.onerror = () => { loadLeaflet.p = null; bad(new Error('map')); }; document.head.appendChild(js);
+  }));
+}
+const webOf = (r) => { const w = r.web || {}; return { on: !!w.on, delivery: { on: !!(w.delivery && w.delivery.on), km: Number(w.delivery && w.delivery.km) || 3, min: Number(w.delivery && w.delivery.min) || 0 }, pickup: { on: !w.pickup || w.pickup.on !== false }, lat: w.lat, lng: w.lng, wa: w.wa || '', cash: w.cash !== false, party: { on: !!(w.party && w.party.on), text: (w.party && w.party.text) || '', gu: (w.party && w.party.gu) || '' }, catGu: w.catGu || {}, taglineGu: w.taglineGu || '', gu: w.gu !== false, address: w.address || '' }; };
+
+function OnlineShop({ pub }) {
+  const rest = pub.rest || {}, r = { ...rest, name: rest.name || pub.name, area: pub.area || rest.area || '', city: pub.city || rest.city || '' }, W = webOf(rest);
+  const live = webAllowed(pub.plan) && W.on && (pub.state === 'trial' || pub.state === 'active') && rest.open !== false;
+  const shop = W.lat != null && W.lng != null ? { lat: Number(W.lat), lng: Number(W.lng) } : null;
+  const KEY = 'zo-' + pub.id;
+  const saved = (() => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } })();
+  const [lang, setLang] = useState(W.gu && saved.lang === 'gu' ? 'gu' : 'en');
+  const T = OL_T[lang], t = (k, v) => { let x = T[k]; Object.entries(v || {}).forEach(([a, b]) => { x = x.split('{' + a + '}').join(num(b)); }); return x; };
+  const num = (n) => (lang === 'gu' ? String(n).replace(/\d/g, (c) => GU_DIGITS[c]) : String(n));
+  const money = (n) => '₹' + num(Math.round(Number(n) || 0).toLocaleString('en-IN'));
+  const [cart, setCart] = useState(saved.cart || {});
+  const [q, setQ] = useState('');
+  const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState(W.delivery.on ? (saved.mode === 'pickup' && W.pickup.on ? 'pickup' : 'delivery') : 'pickup');
+  const [me, setMe] = useState(saved.me || { name: '', phone: '', addr: '' });
+  const [note, setNote] = useState('');
+  const [loc, setLoc] = useState(null); const [locSt, setLocSt] = useState('');
+  const [payMode, setPayMode] = useState(r.upi ? 'upi' : 'cash'); const [paidTick, setPaidTick] = useState(false);
+  const [busy, setBusy] = useState(false); const [err, setErr] = useState('');
+  const [done, setDone] = useState(null);
+  const [mine, setMine] = useState((saved.mine || []).filter((o) => Date.now() - o.t < 12 * 3600000));
+  const [active, setActive] = useState('');
+  const mapEl = useRef(null), mapObj = useRef(null);
+  useEffect(() => { applyBrand(rest.theme && rest.theme.brand ? rest.theme : null); document.title = r.name + ' · Order online'; }, []);
+  useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify({ lang, cart, mode, me, mine })); } catch (e) {} }, [lang, cart, mode, me, mine]);
+  useEffect(() => { document.documentElement.lang = lang === 'gu' ? 'gu' : 'en'; }, [lang]);
+  // Live status of this phone's recent orders
+  useEffect(() => {
+    if (!mine.length) return undefined;
+    let stop = false;
+    const tick = () => api('z_my_orders', { p_rid: pub.id, p_ids: mine.map((o) => o.id) }).then((list) => { if (!stop && Array.isArray(list)) setMine((m) => m.map((o) => { const x = list.find((y) => y.id === o.id); return x ? { ...o, status: x.status, pay: x.pay } : o; })); }, () => {});
+    tick(); const id = setInterval(() => { if (!document.hidden) tick(); }, 15000);
+    return () => { stop = true; clearInterval(id); };
+  }, [mine.map((o) => o.id).join()]);
+  // Android back button closes the cart instead of leaving the page
+  useEffect(() => {
+    if (!open) return undefined;
+    history.pushState({ olcart: 1 }, '');
+    const onPop = () => setOpen(false);
+    window.addEventListener('popstate', onPop);
+    return () => { window.removeEventListener('popstate', onPop); if (history.state && history.state.olcart) history.back(); };
+  }, [open]);
+
+  const menu = (pub.menu || []).filter((m) => m && m.name);
+  const nameOf = (m) => (lang === 'gu' && m.gu ? m.gu : m.name);
+  const catOf = (c) => (lang === 'gu' && W.catGu[c] ? W.catGu[c] : c);
+  const ql = q.trim().toLowerCase();
+  const shown = menu.filter((m) => !ql || m.name.toLowerCase().includes(ql) || (m.gu || '').includes(q.trim()));
+  const order = [...(pub.cats || []), ...CATS_OF(menu)].filter((c, i, a) => a.indexOf(c) === i);
+  const cats = order.filter((c) => shown.some((m) => m.cat === c));
+  const keyOf = (m, v) => m.id + '|' + (v || '');
+  const priceOf = (m, v) => (v ? ((m.variants || []).find((x) => x[0] === v) || [0, m.price])[1] : m.price);
+  const lines = Object.entries(cart).map(([k, n]) => { const [id, v] = k.split('|'); const m = menu.find((x) => x.id === id); return m && n > 0 ? { k, m, v, q: n, p: priceOf(m, v) } : null; }).filter(Boolean);
+  const count = lines.reduce((a, l) => a + l.q, 0), sub = lines.reduce((a, l) => a + l.q * l.p, 0);
+  const B = billOf(lines.map((l) => ({ q: l.q, p: l.p })), { gst: Number(rest.gst) || 0 }, 0, false);
+  const bump = (k, d) => setCart((c) => { const n = Math.max(0, (c[k] || 0) + d), x = { ...c }; if (n) x[k] = n; else delete x[k]; return x; });
+  const short = mode === 'delivery' ? Math.max(0, W.delivery.min - sub) : 0;
+  const km = loc && shop ? olKm(shop, loc) : null, far = km != null && km > W.delivery.km + 0.05;
+  const phone10 = me.phone.replace(/\D/g, '').slice(-10);
+  const formOk = me.name.trim() && phone10.length === 10 && (mode === 'pickup' || me.addr.trim().length >= 8);
+  const canSend = count && formOk && !short && !(mode === 'delivery' && far) && (payMode !== 'upi' || paidTick) && !busy;
+  const upiNote = 'Order ' + r.name;
+  const telOf = (W.wa || '').replace(/\D/g, '').slice(-10);
+
+  const setPin = (p, src) => { setLoc({ ...p, src }); if (shop) { const k = olKm(shop, p); setLocSt(k > W.delivery.km + 0.05 ? 'far' : 'ok'); } else setLocSt('ok'); };
+  const showMap = (p) => loadLeaflet().then((L) => {
+    if (!mapEl.current) return;
+    if (!mapObj.current) {
+      const m = L.map(mapEl.current, { zoomControl: true }).setView([p.lat, p.lng], 16);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(m);
+      if (shop) L.circle([shop.lat, shop.lng], { radius: W.delivery.km * 1000, color: '#16a34a', weight: 1, fillOpacity: 0.05 }).addTo(m);
+      const mk = L.marker([p.lat, p.lng], { draggable: true }).addTo(m);
+      mk.on('dragend', () => { const ll = mk.getLatLng(); setPin({ lat: ll.lat, lng: ll.lng }, 'pin'); });
+      m.on('click', (e) => { mk.setLatLng(e.latlng); setPin({ lat: e.latlng.lat, lng: e.latlng.lng }, 'pin'); });
+      mapObj.current = { m, mk };
+    } else { mapObj.current.mk.setLatLng([p.lat, p.lng]); mapObj.current.m.setView([p.lat, p.lng], 16); }
+    setTimeout(() => mapObj.current && mapObj.current.m.invalidateSize(), 200);
+  }, () => {});
+  const findMe = () => {
+    if (!navigator.geolocation) { setLocSt('err'); return; }
+    setLocSt('wait');
+    navigator.geolocation.getCurrentPosition((pos) => { const p = { lat: pos.coords.latitude, lng: pos.coords.longitude }; setPin(p, 'gps'); showMap(p); },
+      () => { setLocSt('err'); if (shop) showMap(shop); }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 });
+  };
+  useEffect(() => { if (!open) { mapObj.current && mapObj.current.m.remove(); mapObj.current = null; } }, [open]);
+
+  const waText = (o) => {
+    const L1 = ['*New order #' + o.no + '* · ' + r.name, (o.mode === 'delivery' ? '🛵 Home delivery' : '🏃 Pickup'), ''];
+    o.items.forEach((i) => L1.push(i.q + ' × ' + i.n + (i.opt ? ' (' + i.opt + ')' : '') + ' = ₹' + i.q * i.p));
+    L1.push('', '*Total: ₹' + B.total + '*' + (B.cgst ? ' (incl. GST)' : ''), '', '👤 ' + o.name + ' · ' + o.phone);
+    if (o.mode === 'delivery') { L1.push('📍 ' + o.addr); if (o.loc) L1.push('Map: https://maps.google.com/?q=' + o.loc.lat + ',' + o.loc.lng + ' (' + o.loc.km + ' km)'); }
+    if (o.note) L1.push('📝 ' + o.note);
+    L1.push('', o.payMode === 'upi' ? '💳 Paid by UPI to ' + r.upi + '. Screenshot attached.' : '💵 Cash on ' + (o.mode === 'delivery' ? 'delivery' : 'pickup'));
+    return L1.join('\n');
+  };
+  const waUrl = (o) => 'https://wa.me/' + waDigits(W.wa) + '?text=' + encodeURIComponent(waText(o));
+  const send = async () => {
+    if (!canSend) { setErr(!formOk ? t(mode === 'delivery' ? 'fill' : 'fillP') : payMode === 'upi' && !paidTick ? t('tickPaid') : ''); return; }
+    setBusy(true); setErr('');
+    // Open the WhatsApp window now (a tap is needed for pop-ups), fill it in once the order is saved
+    const win = W.wa && payMode !== 'upi' ? window.open('', '_blank') : null;
+    try {
+      const o = await api('z_place_web_order', { p_rid: pub.id, p_order: { mode, name: me.name.trim(), phone: phone10, addr: mode === 'delivery' ? me.addr.trim() : '', loc: mode === 'delivery' && loc ? loc : null, note: note.trim(), payMode, items: lines.map((l) => ({ id: l.m.id, v: l.v || '', q: l.q })) } });
+      if (win) { try { win.location.href = waUrl(o); } catch (e) {} }
+      setDone(o); setMine((m) => [{ id: o.id, no: o.no, t: o.t, mode: o.mode, status: o.status, pay: o.pay }, ...m].slice(0, 10)); setCart({}); setNote(''); setPaidTick(false); chime();
+    } catch (e) { if (win) win.close(); setErr(e.message); }
+    setBusy(false);
+  };
+
+  const jump = (c) => { setActive(c); const el = document.getElementById('olc-' + c.replace(/\W+/g, '-')); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 112, behavior: 'smooth' }); };
+  const stTxt = (o) => { const x = T.status[o.status] || ''; return typeof x === 'string' ? x : x[o.mode] || ''; };
+  const addBtn = (m, v) => { const k = keyOf(m, v), n = cart[k] || 0; return n ? html`<div className="ol-q"><button onClick=${() => bump(k, -1)} aria-label="−">−</button><span>${num(n)}</span><button onClick=${() => bump(k, 1)} aria-label="+">+</button></div>` : html`<button className="ol-add" onClick=${() => bump(k, 1)}>${t('add')}</button>`; };
+  const tagline = lang === 'gu' && W.taglineGu ? W.taglineGu : rest.theme && rest.theme.tagline ? rest.theme.tagline : '';
+
+  if (!live) return html`<div className="ol"><div className="ol-hero"><div className="ol-id">${rest.logo ? html`<img className="rlogo img" src=${rest.logo} alt="" />` : null}<h1>${r.name}</h1></div></div>
+    <div className="ol-off"><div style=${{ fontSize: 44 }}>🕒</div><h2>${t('closed')}</h2><p className="muted">${t('closedSub')}</p>${telOf ? html`<p><a className="btn" href=${'tel:+91' + telOf}>📞 ${t('call')}</a></p>` : null}</div>
+    <div className="ol-foot">${t('made')} <b>Zestro</b></div></div>`;
+
+  const sheet = !open ? null : done ? html`<div className="ol-done" id="ol-done">
+      <div className="big">✅</div><h2 style=${{ justifyContent: 'center' }}>${t('done', { no: done.no })}</h2><p className="muted">${t('doneSub')}</p>
+      ${done.payMode === 'upi' && W.wa ? html`<div className="ol-steps"><b>${t('ss')}</b><br />1. ${t('ss1')}<br />2. ${t('ss2')}</div>
+        <a className="ol-send" style=${{ display: 'block', textDecoration: 'none' }} id="ol-ss" href=${waUrl(done)} target="_blank" rel="noopener">${t('ssBtn')}</a>` : W.wa ? html`<a className="ol-sec" style=${{ display: 'block', textDecoration: 'none' }} href=${waUrl(done)} target="_blank" rel="noopener">${t('waBtn')}</a>` : null}
+      <button className="ol-sec" onClick=${() => { setDone(null); setOpen(false); }}>${t('more')}</button></div>`
+    : html`<div>
+      <h2>${t('cart')}<button className="btn sm icon" onClick=${() => setOpen(false)} aria-label="Close">${I('x')}</button></h2>
+      ${lines.map((l) => html`<div className="ol-line" key=${l.k}><${VegMark} veg=${l.m.veg} /><span className="n">${nameOf(l.m)}${l.v ? ' (' + l.v + ')' : ''}<br /><small className="muted">${money(l.p)}</small></span>${addBtn(l.m, l.v)}</div>`)}
+      <label className="lab">${t('mode')}</label>
+      <div className="ol-seg">
+        ${W.delivery.on ? html`<button aria-pressed=${mode === 'delivery'} id="ol-delivery" onClick=${() => setMode('delivery')}>🛵 ${t('delivery')}<small>${t('within', { km: W.delivery.km })}${W.delivery.min ? ' · ' + t('minOrd', { min: W.delivery.min }) : ''}</small></button>` : null}
+        ${W.pickup.on ? html`<button aria-pressed=${mode === 'pickup'} id="ol-pickup" onClick=${() => setMode('pickup')}>🏃 ${t('pickup')}<small>${t('fromShop')}</small></button>` : null}
+      </div>
+      ${short ? html`<div className="ol-note" id="ol-min">${t('minNote', { n: short, min: W.delivery.min })}</div>` : null}
+      <label className="lab" htmlFor="ol-name">${t('name')}</label><input className="inp" id="ol-name" value=${me.name} autoComplete="name" onChange=${(e) => setMe({ ...me, name: e.target.value })} />
+      <label className="lab" htmlFor="ol-phone">${t('phone')}</label><input className="inp" id="ol-phone" type="tel" inputMode="numeric" maxLength="14" value=${me.phone} autoComplete="tel" onChange=${(e) => setMe({ ...me, phone: e.target.value })} />
+      ${mode === 'delivery' ? html`<label className="lab" htmlFor="ol-addr">${t('addr')}</label><textarea className="inp" id="ol-addr" rows="2" placeholder=${t('addrPh')} value=${me.addr} onChange=${(e) => setMe({ ...me, addr: e.target.value })}></textarea>
+        <button className="ol-locbtn" id="ol-loc" onClick=${findMe}>${locSt === 'wait' ? t('locWait') : t('myLoc')}</button>
+        ${locSt === 'ok' && km != null ? html`<div className="ol-note ok">${t('locOk', { km: km.toFixed(1) })}</div>` : locSt === 'far' ? html`<div className="ol-note err" id="ol-far">${t('locFar', { km: km.toFixed(1), max: W.delivery.km })}</div>` : locSt === 'err' ? html`<div className="ol-note">${t('locErr')}</div>` : null}
+        <div id="ol-map" ref=${mapEl} style=${{ display: loc || locSt === 'err' ? 'block' : 'none' }}></div>${loc ? html`<small className="muted">${t('dragPin')}</small>` : null}` : null}
+      <label className="lab" htmlFor="ol-note">${t('note')}</label><input className="inp" id="ol-note" placeholder=${t('notePh')} value=${note} onChange=${(e) => setNote(e.target.value)} />
+      <div className="bill" style=${{ marginTop: 14 }}><div><span>${t('subtotal')}</span><span>${money(B.sub)}</span></div>${B.cgst ? html`<div><span>${t('gst')} ${num(rest.gst)}%</span><span>${money(B.cgst + B.sgst)}</span></div>` : null}<div className="tot"><span>${t('total')}</span><span id="ol-total">${money(B.total)}</span></div></div>
+      ${r.upi ? html`<label className="lab">${t('pay')}</label>
+        <div className="ol-seg">${W.cash ? html`<button aria-pressed=${payMode === 'cash'} id="ol-cash" onClick=${() => setPayMode('cash')}>💵 ${t('cash')}<small>${mode === 'delivery' ? t('cashD') : t('cashP')}</small></button>` : null}<button aria-pressed=${payMode === 'upi'} id="ol-upi" onClick=${() => setPayMode('upi')}>📱 ${t('upi')}<small>GPay · PhonePe · Paytm</small></button></div>
+        ${payMode === 'upi' ? html`<div className="ol-upi" id="ol-upibox">
+          <a className="paybtn" style=${{ display: 'block', textDecoration: 'none' }} href=${upiLinkOf(r.upi, r.name, B.total, upiNote)}>${t('upiPay', { n: B.total.toLocaleString('en-IN') })}</a>
+          <p className="small muted" style=${{ marginTop: 10 }}>${t('scan')}</p>
+          <div className="ol-qr"><img src=${qrUrl(upiLinkOf(r.upi, r.name, B.total, upiNote), 340)} width="154" height="154" alt="UPI QR" /></div>
+          <p className="small"><code>${r.upi}</code> <button className="btn sm" onClick=${() => { try { navigator.clipboard.writeText(r.upi); } catch (e) {} toast(t('copied')); }}>${t('copy')}</button></p>
+          <label className="ol-tick"><input type="checkbox" id="ol-paid" checked=${paidTick} onChange=${(e) => { setPaidTick(e.target.checked); setErr(''); }} />${t('paid', { n: B.total.toLocaleString('en-IN') })}</label></div>` : null}` : null}
+      ${err ? html`<div className="ol-note err" id="ol-err">${err}</div>` : null}
+      <button className="ol-send" id="ol-place" disabled=${busy} onClick=${send}>${busy ? t('placing') : t('place') + ' · ' + money(B.total)}</button>
+    </div>`;
+
+  return html`<div className="ol" id="ol-page">
+    <header className=${'ol-hero' + (rest.cover ? ' has-cover' : '')} style=${rest.cover ? { '--ol-cover': 'url("' + rest.cover + '")' } : null}>
+      <div className="ol-top"><span></span>${W.gu ? html`<button className="ol-lang" id="ol-lang" onClick=${() => setLang(lang === 'en' ? 'gu' : 'en')}>${t('lang')}</button>` : null}</div>
+      <div className="ol-id">${rest.logo ? html`<img className="rlogo img" src=${rest.logo} alt="" />` : null}<div><h1>${r.name}</h1><div className="ol-sub">${[r.area, r.city].filter(Boolean).join(', ')}</div></div></div>
+      ${tagline ? html`<div className="ol-tag">${tagline}</div>` : null}
+      <div className="ol-pills">${W.delivery.on ? html`<span className="ol-pill">🛵 ${t('delivery')} · ${t('within', { km: W.delivery.km })}</span>` : null}${W.delivery.on && W.delivery.min ? html`<span className="ol-pill">${t('minOrd', { min: W.delivery.min })}</span>` : null}${W.pickup.on ? html`<span className="ol-pill ghost">🏃 ${t('pickup')}</span>` : null}${telOf ? html`<a className="ol-pill ghost" href=${'tel:+91' + telOf}>📞 ${t('call')}</a>` : null}</div>
+    </header>
+    ${mine.filter((o) => o.status !== 'served' && o.status !== 'cancelled' || Date.now() - o.t < 30 * 60000).slice(0, 2).map((o) => html`<div className="ol-status" key=${o.id} id="ol-status"><span style=${{ fontSize: 26 }}>${o.status === 'cancelled' ? '⚠️' : o.status === 'served' ? '✅' : o.status === 'ready' ? (o.mode === 'delivery' ? '🛵' : '🛍️') : '👨‍🍳'}</span><span><b>#${num(o.no)} · ${stTxt(o)}</b><small>${o.mode === 'delivery' ? t('delivery') : t('pickup')}</small></span></div>`)}
+    <div className="ol-stick">
+      <label className="ol-search">${I('search', 17)}<input id="ol-q" type="search" placeholder=${t('search')} value=${q} onChange=${(e) => setQ(e.target.value)} /></label>
+      <nav className="ol-tabs">${cats.map((c) => html`<button key=${c} aria-pressed=${active === c} onClick=${() => jump(c)}>${catOf(c)}</button>`)}</nav>
+    </div>
+    <main className="ol-main">
+      ${cats.map((c) => html`<section className="ol-cat" key=${c} id=${'olc-' + c.replace(/\W+/g, '-')}><h2>${catOf(c)}</h2>
+        ${shown.filter((m) => m.cat === c).map((m) => html`<div className=${'ol-item' + (m.stock === false ? ' out' : '')} key=${m.id}>
+          ${m.img ? html`<${Plate} c=${m.c || ['#ddd', '#eee']} img=${m.img} alt=${m.name} />` : null}
+          <div className="ol-info"><b><${VegMark} veg=${m.veg} /> ${nameOf(m)}</b>${lang === 'gu' && m.gu ? html`<small>${m.name}</small>` : m.desc ? html`<small>${m.desc}</small>` : null}
+            ${(m.variants || []).length ? null : html`<div className="ol-price">${money(m.price)}</div>`}</div>
+          ${m.stock === false ? html`<span className="muted small">${t('sold')}</span>` : (m.variants || []).length ? html`<div className="ol-vars">${m.variants.map((v) => html`<div key=${v[0]}><div className="ol-vlab">${v[0]} · ${money(v[1])}</div>${addBtn(m, v[0])}</div>`)}</div>` : addBtn(m, '')}
+        </div>`)}</section>`)}
+      ${!cats.length ? html`<p className="muted" style=${{ textAlign: 'center', padding: 30 }}>${t('empty')}</p>` : null}
+      ${W.party.on && W.wa ? html`<section className="ol-party" id="ol-party"><h3>${lang === 'gu' && W.party.gu ? W.party.gu : W.party.text || 'Party or function? We take big orders too!'}</h3>
+        <button onClick=${() => window.open('https://wa.me/' + waDigits(W.wa) + '?text=' + encodeURIComponent('Hi ' + r.name + ', I want to place a party / function order.\nDate:\nNumber of people:\nItems:'), '_blank')}>${t('partyBtn')}</button></section>` : null}
+      <div className="ol-foot">${r.name}${r.area ? ' · ' + r.area : ''}<br />${t('made')} <b>Zestro</b></div>
+    </main>
+    ${count && !open ? html`<button className="ol-cartbar" id="ol-cartbar" onClick=${() => { setDone(null); setOpen(true); }}><span><small>${num(count)} ${count === 1 ? t('item') : t('items')}</small><br /><b>${money(B.total)}</b></span><span className="go">${t('viewCart')} →</span></button>` : null}
+    ${open ? html`<div className="ol-ov" onClick=${() => setOpen(false)}></div><div className="ol-sheet" role="dialog" aria-modal="true" id="ol-sheet">${sheet}</div>` : null}
+  </div>`;
+}
+
+function WebOrderSettings({ s, d }) {
+  const r = R(s, OWNER_RID), W = webOf(r), pro = webAllowed(r.plan);
+  const raw = r.web || {};
+  const set = (patch) => d({ type: 'rest', rid: OWNER_RID, patch: { web: { ...raw, ...patch } } });
+  const link = appBase() + '#o=' + OWNER_RID;
+  const [gps, setGps] = useState('');
+  const here = () => { if (!navigator.geolocation) { setGps('This phone cannot share its location.'); return; } setGps('Finding the shop…');
+    navigator.geolocation.getCurrentPosition((p) => { set({ lat: +p.coords.latitude.toFixed(6), lng: +p.coords.longitude.toFixed(6) }); setGps('Saved. Customers are measured from this spot.'); }, () => setGps('Location was blocked. Allow location for this site and try again.'), { enableHighAccuracy: true, timeout: 15000 }); };
+  const sw = (id, on, fn, label) => html`<label className="row" style=${{ gap: 10, fontWeight: 650, flexWrap: 'nowrap', margin: '6px 0' }}><button className="switch" role="switch" id=${id} aria-checked=${on} onClick=${fn}></button>${label}</label>`;
+  const cats = catsOf(s, OWNER_RID);
+  if (!pro) return html`<section className="card" id="web-orders"><div className="card-h"><h3>${I('share', 18)} Online ordering</h3><span className="pill sun">Pro</span></div>
+    <p className="small muted">Your own ordering link for home delivery and pickup. Orders land on the kitchen screen and on your WhatsApp. UPI payment, delivery radius on a map, Gujarati menu. No commission. Available on the Pro plan.</p></section>`;
+  return html`<section className="card" id="web-orders"><div className="card-h"><h3>${I('share', 18)} Online ordering</h3><span className="small muted">Delivery and pickup from your own link. No commission.</span></div>
+    ${sw('web-on', W.on, () => set({ on: !W.on }), 'Take online orders')}
+    ${W.on ? html`<div className="web-link"><code id="web-link">${link}</code><button className="btn sm" onClick=${() => { try { navigator.clipboard.writeText(link); } catch (e) {} toast('Link copied. Share it on WhatsApp, Instagram and Google.'); }}>Copy link</button>
+      <a className="btn sm" href=${'https://wa.me/?text=' + encodeURIComponent('Order online from ' + r.name + ': ' + link)} target="_blank" rel="noopener">Share on WhatsApp</a><div className="web-qr"><${QR} text=${link} size=${108} /></div></div>` : null}
+    <div className="fields2">
+      <label className="field">WhatsApp number for orders<input id="web-wa" type="tel" value=${raw.wa || ''} placeholder="98xxxxxxxx" onChange=${(e) => set({ wa: e.target.value.replace(/[^\d+ ]/g, '') })} /><small>A copy of each order and the UPI screenshot come here.</small></label>
+      <label className="field">UPI ID<input value=${r.upi || ''} placeholder="name@bank" onChange=${(e) => d({ type: 'rest', rid: OWNER_RID, patch: { upi: e.target.value.trim() } })} /><small>Same UPI ID as your table bills. Leave empty for cash only.</small></label>
+    </div>
+    ${sw('web-del', W.delivery.on, () => set({ delivery: { ...(raw.delivery || {}), on: !W.delivery.on } }), 'Home delivery')}
+    ${W.delivery.on ? html`<div className="fields2"><label className="field">Deliver within (km)<input id="web-km" type="number" min="0.5" max="25" step="0.5" value=${W.delivery.km} onChange=${(e) => set({ delivery: { ...(raw.delivery || {}), on: true, km: Math.max(0.5, Math.min(25, Number(e.target.value) || 3)) } })} /></label>
+      <label className="field">Minimum order for delivery (₹)<input id="web-min" type="number" min="0" step="10" value=${W.delivery.min} onChange=${(e) => set({ delivery: { ...(raw.delivery || {}), on: true, min: Math.max(0, Number(e.target.value) || 0) } })} /></label></div>
+      <div className="row" style=${{ gap: 8 }}><button className="btn sm" id="web-here" onClick=${here}>${I('pin', 15)}I am at the shop: use this phone's location</button><span className="small muted">${gps || (W.lat != null ? 'Shop location saved (' + Number(W.lat).toFixed(4) + ', ' + Number(W.lng).toFixed(4) + ').' : 'Not set yet: the km limit is checked only once you set it.')}</span></div>` : null}
+    ${sw('web-pick', W.pickup.on, () => set({ pickup: { on: !W.pickup.on } }), 'Pickup from the shop')}
+    ${r.upi ? sw('web-cash', W.cash, () => set({ cash: !W.cash }), 'Allow cash (on delivery or at pickup)') : null}
+    ${sw('web-gu', W.gu, () => set({ gu: !W.gu }), 'Gujarati / English button on the menu')}
+    ${W.gu ? html`<details className="small" style=${{ margin: '4px 0 8px' }}><summary>Gujarati names for your sections</summary><p className="muted">Dish names in Gujarati are set in Menu, on each dish.</p>
+      <label className="field">Tagline in Gujarati<input value=${W.taglineGu} placeholder="એવો ક્રંચ જે સંભળાય…" onChange=${(e) => set({ taglineGu: e.target.value })} /></label>
+      ${cats.map((c) => html`<label className="field" key=${c}>${c}<input value=${W.catGu[c] || ''} placeholder="ગુજરાતી નામ" onChange=${(e) => set({ catGu: { ...W.catGu, [c]: e.target.value } })} /></label>`)}</details>` : null}
+    ${sw('web-party', W.party.on, () => set({ party: { ...W.party, on: !W.party.on } }), 'Party and function orders box')}
+    ${W.party.on ? html`<div className="fields2"><label className="field">Text<input value=${W.party.text} placeholder="Party or function? We take big orders too!" onChange=${(e) => set({ party: { ...W.party, text: e.target.value } })} /></label>
+      <label className="field">In Gujarati<input value=${W.party.gu} placeholder="પાર્ટી કે પ્રસંગ? મોટા ઓર્ડર પણ લઈએ છીએ!" onChange=${(e) => set({ party: { ...W.party, gu: e.target.value } })} /></label></div>` : null}
+    <p className="small muted">Orders come to Orders with a chime, marked <b>Delivery</b> or <b>Pickup</b>, with the address, a map link and how they paid. Pausing orders (the Open switch) pauses online orders too.</p>
+  </section>`;
+}
+
 function BillView({ code }) {
   const [st, setSt] = useState({ load: true });
   useEffect(() => { api('z_bill_view', { p_code: code }).then((v) => setSt({ v }), (e) => setSt({ err: e.message })); }, [code]);
@@ -4242,9 +4622,9 @@ function Owner({ s, d }) {
   const dueN = (s.customers || CUSTOMERS0).filter((c) => c.due).length;
   const tabs = [['orders', 'Orders', 'orders', newN], ['billing', 'Billing', 'receipt'], ['floor', 'Tables', 'table', busyTables], ['menu', 'Menu', 'menu'], ['inventory', 'Inventory', 'box'], ['customers', 'Customers & khata', 'people', dueN], ['expenses', 'Expenses', 'wallet'], ['profit', 'Profit & partners', 'pie'], ['tables', 'QR codes', 'qr'], ['reports', 'Reports', 'chart'], ['settings', 'Plan & settings', 'gear']];
   const role = roleOf(s), allow = ROLE_ACCESS[role];
-  const myTabs = (allow ? tabs.filter((t) => allow.includes(t[0])) : tabs).filter((t) => t[0] !== 'inventory');
+  const myTabs = (allow ? tabs.filter((t) => allow.includes(t[0])) : tabs).filter((t) => t[0] !== 'inventory' && (r.plan !== 'web' || ['orders', 'menu', 'settings'].includes(t[0])));
   const cur = s.ownerTab === 'more' && myTabs.length > 5 ? 'more' : myTabs.some((t) => t[0] === s.ownerTab) ? s.ownerTab : myTabs[0][0];
-  const Body = { orders: OwnerOrders, billing: OwnerBilling, floor: OwnerFloor, menu: OwnerMenu, inventory: OwnerInventory, customers: OwnerCustomers, expenses: OwnerExpenses, profit: OwnerProfit, tables: OwnerTables, reports: OwnerReports, settings: OwnerSettings }[cur];
+  const Body = { orders: OwnerOrders, billing: OwnerBilling, floor: OwnerFloor, menu: OwnerMenu, inventory: OwnerInventory, customers: OwnerCustomers, expenses: OwnerExpenses, profit: OwnerProfit, tables: OwnerTables, reports: OwnerReports, settings: lockedMenu(r) ? OrderLinkSettings : OwnerSettings }[cur];
   const mobileTabs = myTabs.length <= 5 ? myTabs : [...myTabs.slice(0, 4), ['more', 'More', 'grid']];
   const moreIds = myTabs.length <= 5 ? [] : [...myTabs.slice(4).map((t) => t[0]), 'more'];
   return html`<div className="oshell">
@@ -4264,6 +4644,7 @@ function Owner({ s, d }) {
       </header>
       ${role !== 'Owner' ? html`<div className="role-bar"><span className="pill info">${(s.me2 || {}).name} · ${role}</span><span className="small muted">${ROLE_NOTE[role]}${myTables(s) ? ' Your tables: ' + rangeLabel(myTables(s)) + '.' : ''}${myStation(s) ? ' Your station: ' + stationName(s, myStation(s)) + '.' : ''}</span></div>` : null}
       <${LiveBanner} s=${s} d=${d} />
+      ${isTeam() ? html`<div className="notice" id="team-bar" style=${{ margin: '10px 16px 0' }}><b>Zestro team</b> editing ${r.name}. Changes save for the restaurant. <button className="link" onClick=${() => liveSignOut('#team')}>Done, log out</button></div>` : null}
       <main className="obody">${cur === 'more' ? html`<${OwnerMore} s=${s} d=${d} tabs=${myTabs.slice(4)} />` : html`<${Body || OwnerOrders} s=${s} d=${d} />`}</main>
     </div>
     <${Tabbar} cur=${moreIds.includes(cur) ? 'more' : cur} tabs=${mobileTabs.map(([id, label, icon, badge]) => [id, label.split(' ')[0], icon, badge])} onGo=${(id) => d({ type: 'set', k: 'ownerTab', v: id })} />
@@ -4330,7 +4711,7 @@ function Admin({ s, d }) {
 /* ---------- Live: database connection ---------- */
 const LIVE = { url: 'https://tnffprnunuaukqzpbufy.supabase.co', key: 'sb_publishable_8ggGtGEjhVYMWbGpwyM8SQ_GNlk3uDH', mode: 'site', session: null, info: null, since: null, orders: [], r: null };
 const SESSION_KEY = 'zestro-session', LAST_RID_KEY = 'zestro-last-rid';
-const APP_VER = '1.4';   // shown on our team page next to each phone
+const APP_VER = '1.5';   // shown on our team page next to each phone
 function deviceName() {
   const u = navigator.userAgent;
   const os = /iPad/.test(u) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) ? 'iPad' : /iPhone/.test(u) ? 'iPhone' : /Android/.test(u) ? (/Mobile/.test(u) ? 'Android phone' : 'Android tablet') : /Windows/.test(u) ? 'Windows computer' : /Mac/.test(u) ? 'Mac' : /Linux/.test(u) ? 'Linux computer' : 'Device';
@@ -4350,7 +4731,7 @@ async function api(fn, args) {
   return j;
 }
 function liveSignIn(r) {
-  lsSet(SESSION_KEY, { token: r.token, rid: r.rid, role: r.role, name: r.name, staff_id: r.staff_id, restaurant: r.restaurant, demo: !!r.demo });
+  lsSet(SESSION_KEY, { token: r.token, rid: r.rid, role: r.role, name: r.name, staff_id: r.staff_id || r.staff, restaurant: r.restaurant, demo: !!r.demo, team: !!r.team });
   try { localStorage.setItem(LAST_RID_KEY, JSON.stringify(r.rid)); } catch (e) { /* ignore */ }
   location.hash = '#app'; location.reload();
 }
@@ -4614,6 +4995,7 @@ function LiveAccount({ s, d }) {
   if (!sess || sess.role !== 'Owner') return html`<div className="container acct"><section className="card"><h2>Your Zestro account</h2><p className="muted">Log in as the restaurant owner to see your plan and pay for the year.</p><button className="btn primary" onClick=${() => d({ type: 'sheet', sheet: { type: 'login' } })}>Restaurant log in</button></section></div>`;
   if (!info) return null;
   const st = info.state;
+  const yearPrice = (k) => (info.prices && info.prices[k]) || PLANS[k].total.y;
   return html`<div className="container acct" id="account">
     <div className="ph"><div><h1>${info.name}</h1><p className="muted">Restaurant code <b className="num">${info.id}</b> · owner ${info.owner_name || ''} · +91 ${info.owner_phone}</p></div>
       <div className="row"><a className="btn" href="#app" onClick=${() => setTimeout(() => location.reload(), 30)}>${I('store', 16)}Open my restaurant</a><button className="btn" onClick=${() => liveSignOut('#site')}>Log out</button></div></div>
@@ -4624,19 +5006,19 @@ function LiveAccount({ s, d }) {
       <div className="tile"><span>Tables</span><b>${info.tables}</b><small className="m">${st === 'trial' ? 'QR ordering on 1–' + info.trial.tables + ' during the trial' : 'all with QR ordering'}</small></div>
     </div></section>
     <section className="card"><div className="card-h"><h3>${st === 'active' ? 'Renew or change plan' : 'Pay for the year'}</h3><span className="small muted">One yearly price per outlet. ${st === 'trial' ? 'Paying now keeps your free days: the year starts when the trial ends.' : ''}</span></div>
-      <div className="paypick two" role="radiogroup" aria-label="Plan">${PLAN_KEYS.map((k) => html`<button key=${k} role="radio" aria-checked=${plan === k} onClick=${() => setPlan(k)}><b>${PLANS[k].name}</b><span>${inr(PLANS[k].total.y)}</span><small>about ${inr(planCost(k, 'y').per)} a month</small></button>`)}</div>
+      <div className="paypick two" role="radiogroup" aria-label="Plan">${(info.plan === 'web' ? ['web', 'pro'] : PLAN_KEYS).map((k) => html`<button key=${k} role="radio" aria-checked=${plan === k} onClick=${() => setPlan(k)}><b>${PLANS[k].name}${k === 'pro' && info.plan === 'web' ? ' · edit it yourself' : ''}</b><span>${inr(yearPrice(k))}</span><small>${k === 'web' ? (yearPrice(k) === PLANS.web.renew ? 'yearly renewal, menu updates included' : 'first year, then ' + inr(PLANS.web.renew) + ' a year') : 'about ' + inr(planCost(k, 'y').per) + ' a month'}</small></button>`)}</div>
       <ul className="small muted acct-perks">${PLANS[plan].perks.slice(0, 6).map((p) => html`<li key=${p}>${I('check', 14)}${p}</li>`)}</ul>
-      <button className="btn primary lg" id="acct-pay" onClick=${() => setSheet(true)}>Pay ${inr(PLANS[plan].total.y)} for ${PLANS[plan].name}</button></section>
+      <button className="btn primary lg" id="acct-pay" onClick=${() => setSheet(true)}>Pay ${inr(yearPrice(plan))} for ${PLANS[plan].name}</button></section>
     <section className="card"><div className="card-h"><h3>Payments</h3></div>${pays.length ? pays.map((p, i) => html`<div key=${i} className="payrow"><span className="tno">${dateIN(p.at)}</span><span><b>${PLANS[p.plan] ? PLANS[p.plan].name : p.plan} · 1 year</b><br /><small className="muted">${p.method}${p.ref ? ' · ' + p.ref : ''}</small></span><strong className="num">${inr(p.amount)}</strong></div>`) : html`<p className="small muted">No payments yet.</p>`}</section>
-    ${sheet ? html`<${PayPlanSheet} plan=${plan} onClose=${() => setSheet(false)} onPaid=${(x) => { setInfo(x); setSheet(false); load(); }} />` : null}
+    ${sheet ? html`<${PayPlanSheet} plan=${plan} amt=${yearPrice(plan)} onClose=${() => setSheet(false)} onPaid=${(x) => { setInfo(x); setSheet(false); load(); }} />` : null}
   </div>`;
 }
-function PayPlanSheet({ plan, onClose, onPaid }) {
+function PayPlanSheet({ plan, amt: amt0, onClose, onPaid }) {
   const [method, setMethod] = useState('upi');
   const [code] = useState(() => String(100000 + Math.floor(Math.random() * 900000)));
   const [typed, setTyped] = useState('');
   const [busy, setBusy] = useState(false); const [err, setErr] = useState('');
-  const amt = PLANS[plan].total.y;
+  const amt = amt0 || PLANS[plan].total.y;
   const pay = async () => {
     if (typed !== code) { setErr('Enter the demo payment code shown above.'); return; }
     setBusy(true); setErr('');
@@ -4722,7 +5104,7 @@ function LiveAdmin() {
         <td>${tag(x)}<br /><small className="muted">${PLANS[x.plan].name}</small></td>
         <td><button className="link" onClick=${() => setOpen(open === x.id ? null : x.id)}>${(x.devices || []).length} device${(x.devices || []).length === 1 ? '' : 's'}</button><br /><small className="muted">${how(x.devices || [])}${old ? html` · <b className="bad-t">${old} on an old version</b>` : ''}</small></td>
         <td>${seenAgo(x.last_active)}</td><td className="r">${x.orders_today}</td><td className="r">${inr(x.sales_30)}</td>
-        <td>${x.demo ? null : html`<div className="row" style=${{ flexWrap: 'nowrap', justifyContent: 'flex-end' }}><button className="btn sm" onClick=${() => upd(x.id, { extend_days: 7 }, 'Trial extended by 7 days')}>+7 days</button><button className="btn sm ghost" onClick=${() => upd(x.id, { status: x.state === 'blocked' ? 'trial' : 'blocked' }, x.state === 'blocked' ? 'Released' : 'Put on hold')}>${x.state === 'blocked' ? 'Release' : 'Hold'}</button></div>`}</td></tr>
+        <td>${x.demo ? null : html`<div className="row" style=${{ flexWrap: 'nowrap', justifyContent: 'flex-end' }}><select className="inp sm" aria-label=${'Plan for ' + x.name} value=${x.plan} onChange=${(e) => upd(x.id, { plan: e.target.value }, x.name + ' moved to ' + PLANS[e.target.value].name)}>${['web', 'basic', 'pro'].map((k) => html`<option key=${k} value=${k}>${PLANS[k].name}</option>`)}</select><button className="btn sm" title="Open this restaurant as the Zestro team to change its menu" onClick=${async () => { try { liveSignIn(await api('z_admin_open', { p_token: tok, p_rid: x.id })); } catch (e) { toast(e.message); } }}>${I('edit', 14)}Edit menu</button><button className="btn sm" onClick=${() => upd(x.id, { extend_days: 7 }, 'Trial extended by 7 days')}>+7 days</button><button className="btn sm ghost" onClick=${() => upd(x.id, { status: x.state === 'blocked' ? 'trial' : 'blocked' }, x.state === 'blocked' ? 'Released' : 'Put on hold')}>${x.state === 'blocked' ? 'Release' : 'Hold'}</button></div>`}</td></tr>
         ${open === x.id ? html`<tr key=${x.id + '-d'} className="adm-devs"><td colSpan="8">${(x.devices || []).length ? html`<table className="tbl"><thead><tr><th>Who</th><th>Device</th><th>App or browser</th><th>Version</th><th>Last seen</th></tr></thead><tbody>${x.devices.map((v, i) => html`<tr key=${i}><td>${v.demo ? 'Demo visitor' : v.name + ' · ' + v.role}</td><td>${v.device || '—'}</td><td>${v.mode === 'app' ? html`<span className="pill ok">Installed app</span>` : html`<span className="pill">Browser</span>`}</td><td>${v.ver || 'before 1.4'}${v.ver && v.ver !== APP_VER ? html` <small className="bad-t">old</small>` : null}</td><td>${seenAgo(v.seen)}</td></tr>`)}</tbody></table>` : html`<p className="small muted">No phone has opened this restaurant since device tracking started.</p>`}</td></tr>` : null}`; })}</tbody></table></div></section>
   </div>`;
 }
@@ -4928,6 +5310,8 @@ function liveRoute() {
   const h = location.hash, m = h.match(/^#t=([a-z0-9-]+)-(\d{1,3})$/);
   const bm = h.match(/^#b=([A-Za-z0-9]{6,16})$/);
   if (bm) return { mode: 'bill', code: bm[1] };
+  const om = h.match(/^#o=([a-z0-9-]+)$/);
+  if (om) return { mode: 'online', rid: om[1] };
   if (m) return { mode: 'diner', rid: m[1], table: Number(m[2]) };
   if (h === '#team') return { mode: 'team' };
   if (h === '#account') return { mode: 'account' };
@@ -5017,6 +5401,11 @@ async function boot() {
   LIVE.session = lsGet(SESSION_KEY);
   const rt = liveRoute(); LIVE.mode = rt.mode;
   if (rt.mode === 'bill') { root.render(html`<${BillView} code=${rt.code} />`); return; }
+  if (rt.mode === 'online') {
+    try { const pub = await api('z_public', { p_rid: rt.rid }); root.render(html`<${OnlineShop} pub=${pub} />`); }
+    catch (e) { root.render(html`<${BootError} msg=${e.message} retry=${!e.code} />`); }
+    return;
+  }
   let init = { ...freshState(), role: 'diner', screen: 'home', sheet: rt.sheet || null, tour: null, orders: [], alerts: [] };
   try {
     if (rt.mode === 'owner') {
