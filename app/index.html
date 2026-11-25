@@ -2528,7 +2528,7 @@ const FEATURES = [
   ['One-time setup at your restaurant: menu typed, photos, QR stands, staff trained', ['₹' + SETUP.onsite, '₹' + SETUP.onsite]],
   ['WhatsApp support in Hindi, Gujarati, English', ['y', 'Priority']],
 ];
-const FOR = { web: 'Takeaway and delivery outlets like fried chicken, pizza, snacks and tiffin', basic: 'Cafés, dhabas, family restaurants, quick service', pro: 'Busy restaurants, bakeries, cloud kitchens, chains' };
+const FOR = { web: 'Takeaway and delivery outlets like fried chicken, pizza, snacks and tiffin', basic: 'Cafés', pro: 'Family restaurants, busy kitchens and chains' };
 function BillingSwitch() {
   return null;
 }
@@ -2599,14 +2599,14 @@ function ModuleBuilder({ s, d, onPick }) {
 }
 const SIZES = [
   ['Small and local', 'One counter or a few tables. Start with Billing or Table QR ordering alone, on the phone you have.'],
-  ['Mid-size restaurants', 'Basic or Pro: tables, waiters, kitchen screen and inventory for busy service.'],
+  ['Cafés and family restaurants', 'Basic for cafés. Pro for family restaurants: tables, waiters, kitchen screen, inventory and online orders.'],
   ['Multiple outlets', 'One owner login for every outlet, each on the plan it needs, ' + OUTLET_OFF + '% off from the third outlet.'],
 ];
 
 const USES = [
   { id: 'stall', label: 'Small & local', title: 'No hardware. Just the phone in your pocket.', points: ['Bill, take payment and send orders to the kitchen from one phone', 'No printer? Send the bill on WhatsApp or show it on screen', 'Paper menu to digital menu in a day: we type it in for you'], plan: 'basic' },
   { id: 'cafe', label: 'Cafés', title: 'Counter billing and table orders in one place', points: ['Fast billing with GST, offers and cash/UPI split', 'Diners order from the table QR, you see it live', 'Kitchen screen on any old phone or tablet'], plan: 'basic' },
-  { id: 'family', label: 'Family restaurants', title: 'Every table, every bill, on one screen', points: ['Running bills per table, move and merge tables', 'Diners order more rounds from the QR and pay after eating', 'Day-end report and Excel export for your CA'], plan: 'basic' },
+  { id: 'family', label: 'Family restaurants', title: 'Every table, every bill, on one screen', points: ['Running bills per table, move and merge tables', 'Diners order more rounds from the QR and pay after eating', 'Day-end report and Excel export for your CA'], plan: 'pro' },
   { id: 'fine', label: 'Busy kitchens & chains', title: 'Stock, staff and profit under control', points: ['Inventory: every bill uses up stock from your recipes', 'Monthly profit, split between partners, with investor logins', 'Waiter sections, kitchen stations and a staff report'], plan: 'pro' },
 ];
 const FEATS = [
