@@ -1227,6 +1227,11 @@ button.pos-it:hover:not(:disabled) { border-color: var(--ink); }
 .mod-foot { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: end; padding-top: 12px; border-top: 1px solid var(--line); }
 .mod-total { display: grid; justify-items: end; text-align: right; }
 .mod-total b { font-size: 28px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.olink-card { max-width: 900px; margin: 22px auto 0; border: 1.5px dashed var(--line); border-radius: 20px; padding: 18px 20px; background: var(--app); display: flex; gap: 16px; align-items: center; }
+.olink-card h3 { margin: 8px 0 4px; font-size: 19px; }
+.olink-card p { margin-top: 4px; }
+.olink-card .btn { flex: none; }
+@media (max-width: 640px) { .olink-card { flex-direction: column; align-items: stretch; } }
 .sizes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: 900px; margin: 14px auto 0; }
 .size { border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px; background: var(--app); display: grid; gap: 4px; align-content: start; }
 @media (max-width: 1000px) { .pos { grid-template-columns: minmax(0, 1fr); } .pos-bill { position: static; } .pos-items { max-height: none; } }
@@ -1531,7 +1536,7 @@ const I = (name, size) => html`<svg className="ic" width=${size || 18} height=${
 /* Two plans, paid for 6 or 12 months ahead. Every plan starts with a 7-day free trial. */
 const PLANS = {
   basic: { name: 'Basic', total: { h: 3999, y: 6999 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Waiters with their own PIN and their own tables', 'Table QR ordering, diners pay after eating', 'Kitchen screen per station and a token board for a TV', 'Expense book with bill photos', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
-  pro: { name: 'Pro', total: { h: 4999, y: 8999 }, perks: ['Everything in Basic', 'Monthly profit, partners and investor logins', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review link on every bill', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
+  pro: { name: 'Pro', total: { h: 4999, y: 8999 }, perks: ['Everything in Basic', 'Online ordering from your own link: home delivery and pickup, no commission', 'Monthly profit, partners and investor logins', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review link on every bill', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
 };
 PLANS.web = { name: 'Order Link', total: { h: 6499, y: 6499 }, renew: 1499, perks: ['Your own online ordering link: home delivery and pickup', 'Orders on the kitchen screen with a chime, and on WhatsApp', 'UPI payment with screenshot, cash on delivery', 'Delivery radius on a map, minimum order, Gujarati / English', 'Party and function orders box, your colours and logo', 'Menu and prices set and updated by the Zestro team', 'From the second year: ₹1,499 a year'] };
 PLANS.basic.price = Math.round(PLANS.basic.total.y / 12); PLANS.pro.price = Math.round(PLANS.pro.total.y / 12); PLANS.web.price = Math.round(PLANS.web.total.y / 12);
@@ -2509,6 +2514,7 @@ const FEATURES = [
   ['Waiter phones with their own PIN and their own tables', ['y', 'y']],
   ['Kitchen stations: a screen each for tandoor, main kitchen, drinks', ['y', 'y']],
   ['Staff report: orders and sales per waiter, cash per cashier', ['n', 'y']],
+  ['Online ordering link: home delivery within your km, pickup, UPI, Gujarati menu', ['n', 'y']],
   ['Loyalty points and bills on WhatsApp', ['n', 'y']],
   ['WhatsApp messages included', ['–', WA.included + ' a month, then ₹' + WA.extra.toFixed(2) + ' each']],
   ['Google review link on every bill', ['n', 'y']],
@@ -2525,6 +2531,15 @@ function BillingSwitch() {
 function TrialBox({ compact }) {
   return html`<div className=${'trial-box' + (compact ? ' compact' : '')} id=${compact ? undefined : 'trial'}><b>${I('sparkle', 16)} What the ${TRIAL.days}-day free trial includes</b>
     <ul>${TRIAL_LIMITS.map((x) => html`<li key=${x}>${I('check', 14)}${x}</li>`)}</ul></div>`;
+}
+function OrderLinkCard() {
+  const msg = 'Hi Zestro, I want the Order Link (online ordering) for my restaurant.\nRestaurant name:\nArea:\nI will send my menu photo.';
+  return html`<div className="olink-card" id="order-link-card">
+    <div className="grow"><span className="pill sun">Only want online orders?</span><h3>Order Link · ${inr(PLANS.web.total.y)} first year</h3>
+      <p className="small muted">Your own ordering link and QR for home delivery and pickup. Orders come to your phone with a chime and on WhatsApp. UPI or cash, delivery radius on a map, Gujarati / English. <b>We set up your menu, photos and prices, and keep them updated.</b> No commission.</p>
+      <p className="small"><b>From the second year: ${inr(PLANS.web.renew)} a year</b>, menu and price changes included. Want to change the menu yourself any time? Take Pro.</p></div>
+    <a className="btn primary" href=${'https://wa.me/' + ZESTRO_WA + '?text=' + encodeURIComponent(msg)} target="_blank" rel="noopener">${I('share', 16)}Get it set up on WhatsApp</a>
+  </div>`;
 }
 function PlanCompare({ current, billing }) {
   return html`<div className="twrap"><table className="tbl cmp"><thead><tr><th>What you get</th>${PLAN_KEYS.map((k) => html`<th key=${k} className=${k === current ? 'cur' : ''}>${PLANS[k].name}<small>${inr(planCost(k, billing).total)} ${BILLING[BILLING[billing] ? billing : 'y'].per}</small></th>`)}</tr></thead>
@@ -2689,6 +2704,7 @@ function ForRestaurants({ s, d }) {
       <${BillingSwitch} s=${s} d=${d} />
       <${TrialBox} />
       <${PlanCards} current=${null} billing=${b} onPick=${(k) => signup(k)} label=${(k) => 'Try ' + PLANS[k].name + ' free'} />
+      <${OrderLinkCard} />
       <div style=${{ maxWidth: 900, margin: '22px auto 0' }}><${ModuleBuilder} s=${s} d=${d} onPick=${(k) => signup(k)} /></div>
       <div className="sizes">${SIZES.map(([t, x]) => html`<div key=${t} className="size"><b>${t}</b><p className="small muted">${x}</p></div>`)}</div>
       <h3 className="sub-h" style=${{ margin: '34px 0 14px', textAlign: 'center' }}>Compare every feature</h3>
