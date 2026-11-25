@@ -8,12 +8,14 @@ DCFG=dict(ls=17.5,lsp=0.08,gap=42,ts=41,tsp=-0.03,tlh=41,tm=12,bs=20.5,blh=29.2,
 MCFG=dict(ls=19,lsp=0.06,gap=36,ts=43.4,tsp=-0.03,tlh=46,tm=10,bs=21.6,blh=30.5,bm=26)
 caps={
  's26':('STEP 26 / 28','THE RESTAURANT',['Online orders,','no commission'],['Online orders, no commission'],"Your own link for delivery and pickup. Distance checked on a map, UPI or cash. Orders ring on the kitchen screen."),
+ 's18':('STEP 18 / 28','THE RESTAURANT',['Stock that counts','itself'],['Stock that counts itself'],"Every bill uses up stock from the dish’s recipe, and low-stock alerts tell you what to buy. (Restaurant plan)"),
+ 's25':('STEP 25 / 28','THE RESTAURANT',['Profit, worked out','monthly'],['Profit, worked out monthly'],"Sales from every bill, food cost from your recipes, and the expense book make the month’s profit and loss. (Restaurant plan)"),
  's27':('STEP 27 / 28','THE RESTAURANT',['Your menu in','their language'],['Your menu in their language'],"Hindi, Gujarati, Tamil and 6 more. One tap switches the whole ordering page, dish names too."),
 }
-PLANS=[('Order Link','₹6,499 first year, then ₹1,499','small outlets: online orders, menu set up by us'),
-       ('Basic','₹6,999 a year','cafés: billing, tables, QR ordering, kitchen screen'),
-       ('Pro','₹8,999 a year','family restaurants: + online orders, stock, profit')]
-END=dict(days=7, plans=PLANS, setup_line='No hardware &nbsp;·&nbsp; no commission &nbsp;·&nbsp; ₹999 setup on Basic and Pro', url='ansarisaalim.github.io/qr-menu-demo')
+PLANS=[('Basic','small outlets like Labbaik','your own ordering link, menu and colours set up by us'),
+       ('Café','small cafés','billing, tables, QR ordering, kitchen screen'),
+       ('Restaurant','full restaurants','an app for every staff member, attendance, salary, custom build')]
+END=dict(days=7, plans=PLANS, setup_line='No hardware &nbsp;·&nbsp; no commission &nbsp;·&nbsp; ask us for the price on WhatsApp', url='ansarisaalim.github.io/qr-menu-demo')
 with sync_playwright() as p:
     b=p.chromium.launch()
     pg=b.new_page(viewport={'width':1280,'height':720})

@@ -9,13 +9,13 @@ OUT=f"/tmp/vid2/out_{O}.mp4"
 A='/tmp/vid2/assets/'
 def rgba(p):
     a=np.array(Image.open(p).convert('RGBA')).astype(np.float32); return a[:,:,[2,1,0]], a[:,:,3:4]/255.0
-caps={k:rgba(A+f'cap_{k}_{O}.png') for k in ('s26','s27')}
+caps={k:rgba(A+f'cap_{k}_{O}.png') for k in ('s18','s25','s26','s27')}
 scr={k:rgba(A+f'scr_{k}_{O}.png') for k in ('s26a','s26b','s27a','s27b')}
 endp=rgba(A+f'end_{O}.png')
 if O=='d': CAP=(40,168,505,445); SCR=(512,112); END=(95,206,848,706); BGPT=(20,160)
 else:      CAP=(25,70,705,300); SCR=(144,408); END=(28,452,702,1010); BGPT=(15,60)
 T26,T27,T28,TE=161.75,167.72,173.72,179.75
-ev_cap=[('s26',T26,T27+0.03),('s27',T27,T28)]
+ev_cap=[('s18',113.72,119.72),('s25',155.72,T26+0.03),('s26',T26,T27+0.03),('s27',T27,T28)]
 ev_scr=[('s26a',T26,T26+3.0),('s26b',T26+2.85,T27+0.03),('s27a',T27,T27+3.0),('s27b',T27+2.85,T28)]
 def ramp(t,t0,t1,r=0.12):
     if t<t0 or t>t1: return 0.0
@@ -30,7 +30,7 @@ while True:
     ok,fr=cap.read()
     if not ok: break
     t=i/30.0
-    if t>=T26-0.2:
+    if t>=113.5:
         f=fr.astype(np.float32)
         for k,t0,t1 in ev_cap:
             al=ramp(t,t0,t1)
