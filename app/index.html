@@ -743,6 +743,8 @@ html[data-theme="dark"] .ol-upi { background: var(--app-2); border-color: var(--
 @media (min-width: 760px) { .ol-hero > *, .ol-search, .ol-tabs, .ol-status, .ol-closed { max-width: 688px; margin-left: auto; margin-right: auto; } .ol-hero { padding: 26px 24px 30px; } .ol-search { margin-bottom: 10px; } .ol-tabs { padding: 0; } }
 .ol-sec { display: block; width: 100%; text-align: center; text-decoration: none; margin-top: 10px; background: var(--app); border: 1.5px solid var(--line); color: var(--ink); font-weight: 650; font-size: 15px; padding: 12px; border-radius: 12px; }
 .more-me { flex-wrap: wrap; }
+.adm-pay { gap: 8px; align-items: center; } .adm-pay .money { max-width: 140px; }
+.adm-acts { flex-wrap: wrap; gap: 6px; max-width: 300px; margin-left: auto; }
 .more-me .grow { flex: 1 1 100%; }
 @media (min-width: 600px) { .more-me .grow { flex: 1 1 auto; } }
 .btn.sound-need { border-color: var(--sun); background: var(--sun-soft); color: var(--warn); animation: sound-pulse 1.8s ease-in-out infinite; }
@@ -2672,7 +2674,7 @@ function PlanCards({ current, currentBilling, billing, onPick, label, withLink }
     <div className="price"><b>${inr(PLANS.web.total.y)}</b><span>first year</span></div>
     <p className="bill-line"><b>Then ${inr(PLANS.web.renew)} a year</b>, menu and price changes included</p>
     <ul>${PLANS.web.perks.slice(0, 7).map((p) => html`<li key=${p}>${I('check', 15)}${p}</li>`)}<li className="no">${I('x', 15)}No billing counter, tables or table QR</li></ul>
-    <p className="small muted">We set up your menu, photos and prices for you. Ready in a day.</p>
+    <p className="small muted">We set up your menu, photos and prices for you, with no setup charge. Ready in a day.</p>
     <a className="btn block primary" href=${LINK_ASK} target="_blank" rel="noopener">${I('share', 16)}Get it set up on WhatsApp</a>
   </div>` : null;
   return html`<div className=${'plans ' + (withLink ? 'three-plans' : 'two-plans')}>${linkCard}${PLAN_KEYS.map((k) => {
@@ -2750,7 +2752,7 @@ const FAQS = [
   ['billing', 'Plans', [
     ['How do I pay for Zestro?', 'Once a year, per outlet: ' + inr(PLANS.basic.total.y) + ' for Basic or ' + inr(PLANS.pro.total.y) + ' for Pro. There is no monthly or 6-month plan. Try it free for ' + TRIAL.days + ' days first and pay only if you keep it. Order Link, for takeaway and delivery outlets, is ' + inr(PLANS.web.total.y) + ' for the first year and ' + inr(PLANS.web.renew) + ' a year after that.'],
     ['Is there a free trial?', 'Yes, ' + TRIAL.days + ' days with every feature of the plan and no payment details. During the trial you get up to ' + TRIAL.tables + ' table QR codes, ' + TRIAL.orders + ' orders and ' + TRIAL.wa + ' WhatsApp messages, one trial per restaurant.'],
-    ['Is there a setup charge?', 'Yes, ' + inr(SETUP.onsite) + ' once, on every plan. We visit your restaurant, type in your menu, add photos, set up the table QR stands and train your staff.'],
+    ['Is there a setup charge?', 'On Basic and Pro, yes: ' + inr(SETUP.onsite) + ' once. We visit your restaurant, type in your menu, add photos, set up the table QR stands and train your staff. Order Link has no setup charge: setting up your menu is part of the plan.'],
     ['Do you take a commission on orders?', 'No. You pay the plan price only. Diners pay straight to your UPI ID, and every rupee is yours.'],
     ['Can I get Swiggy and Zomato orders here?', 'Not yet. Keep their partner apps for their orders. For delivery without commission, share your own Zestro ordering link (Order Link or Pro) with your regular customers.'],
   ]],
@@ -2763,8 +2765,8 @@ const FAQS = [
 ];
 /* ---------- Full demo videos: desktop and mobile versions ---------- */
 const DEMO_VIDS = {
-  desktop: { src: '../videos/demo-desktop.mp4?v=3', poster: '../videos/demo-desktop.jpg', label: 'Desktop', note: 'The restaurant screens as they look on a laptop, plus the diner’s phone.' },
-  mobile: { src: '../videos/demo-mobile.mp4?v=3', poster: '../videos/demo-mobile.jpg', label: 'Mobile', note: 'Everything on a phone, the way owners, staff and diners use it.' },
+  desktop: { src: '../videos/demo-desktop.mp4?v=4', poster: '../videos/demo-desktop.jpg', label: 'Desktop', note: 'The restaurant screens as they look on a laptop, plus the diner’s phone.' },
+  mobile: { src: '../videos/demo-mobile.mp4?v=4', poster: '../videos/demo-mobile.jpg', label: 'Mobile', note: 'Everything on a phone, the way owners, staff and diners use it.' },
 };
 function DemoVideo() {
   const [kind, setKind] = useState(() => { try { return window.matchMedia('(max-width: 700px)').matches ? 'mobile' : 'desktop'; } catch (e) { return 'desktop'; } });
@@ -5671,8 +5673,8 @@ function LiveBanner({ s, d }) {
 function LiveSubCard({ s }) {
   const info = (s.live && s.live.info) || LIVE.info; if (!info || info.demo) return null;
   return html`<section className="card sub-now" id="live-sub"><div className="grow"><span className="small muted">Your subscription</span>
-      <b>${PLANS[info.plan].name} · ${info.state === 'active' ? 'paid until ' + dateIN(info.paid_until) : info.state === 'trial' ? 'free trial, ' + daysLeft(info.trial_ends) + ' days left' : 'ended'}</b>
-      <span className="small muted">${inr(info.price)} a year · restaurant code <b className="num">${info.id}</b></span></div>
+      <b>${PLANS[info.plan].name} · ${info.due ? inr(info.due) + ' due' : info.state === 'active' ? 'paid until ' + dateIN(info.paid_until) : info.state === 'trial' ? 'free trial, ' + daysLeft(info.trial_ends) + ' days left' : 'ended'}</b>
+      <span className="small muted">${info.due ? (info.plan === 'web' ? 'Pay the Zestro team by UPI or cash. Your link keeps working.' : 'Pay for the year to keep going.') : inr(info.price) + ' a year'} · restaurant code <b className="num">${info.id}</b></span></div>
     <a className="btn primary" href="#account" onClick=${() => setTimeout(() => location.reload(), 30)}>${info.state === 'active' ? 'Plan and payments' : 'Pay for the year'}</a></section>`;
 }
 
@@ -5695,14 +5697,16 @@ function LiveAccount({ s, d }) {
       <div className="row"><a className="btn" href="#app" onClick=${() => setTimeout(() => location.reload(), 30)}>${I('store', 16)}Open my restaurant</a><button className="btn" onClick=${() => liveSignOut('#site')}>Log out</button></div></div>
     <section className="card acct-now"><div className="tiles">
       <div className="tile"><span>Plan</span><b>${PLANS[info.plan].name}</b><small className="m">${inr(info.price)} a year</small></div>
-      <div className="tile"><span>Status</span><b className=${st === 'expired' || st === 'blocked' ? 'neg' : ''}>${st === 'active' ? 'Paid' : st === 'trial' ? 'Free trial' : st === 'blocked' ? 'On hold' : 'Ended'}</b><small className="m">${st === 'active' ? 'until ' + dateIN(info.paid_until) : st === 'trial' ? daysLeft(info.trial_ends) + ' days left, ends ' + dateIN(info.trial_ends) : 'renew to take orders'}</small></div>
+      <div className="tile"><span>Status</span><b className=${st === 'expired' || st === 'blocked' ? 'neg' : ''}>${info.due ? 'Payment due' : st === 'active' ? 'Paid' : st === 'trial' ? 'Free trial' : st === 'blocked' ? 'On hold' : 'Ended'}</b><small className="m">${info.due ? inr(info.due) + ' to the Zestro team' : st === 'active' ? 'until ' + dateIN(info.paid_until) : st === 'trial' ? daysLeft(info.trial_ends) + ' days left, ends ' + dateIN(info.trial_ends) : 'renew to take orders'}</small></div>
       <div className="tile"><span>Orders so far</span><b>${info.orders_total}</b><small className="m">${st === 'trial' ? 'trial limit ' + info.trial.orders : 'unlimited'}</small></div>
-      <div className="tile"><span>Tables</span><b>${info.tables}</b><small className="m">${st === 'trial' ? 'QR ordering on 1–' + info.trial.tables + ' during the trial' : 'all with QR ordering'}</small></div>
+      ${info.plan === 'web' ? null : html`<div className="tile"><span>Tables</span><b>${info.tables}</b><small className="m">${st === 'trial' ? 'QR ordering on 1–' + info.trial.tables + ' during the trial' : 'all with QR ordering'}</small></div>`}
     </div></section>
     <section className="card"><div className="card-h"><h3>${st === 'active' ? 'Renew or change plan' : 'Pay for the year'}</h3><span className="small muted">One yearly price per outlet. ${st === 'trial' ? 'Paying now keeps your free days: the year starts when the trial ends.' : ''}</span></div>
       <div className="paypick two" role="radiogroup" aria-label="Plan">${(info.plan === 'web' ? ['web', 'pro'] : PLAN_KEYS).map((k) => html`<button key=${k} role="radio" aria-checked=${plan === k} onClick=${() => setPlan(k)}><b>${PLANS[k].name}${k === 'pro' && info.plan === 'web' ? ' · edit it yourself' : ''}</b><span>${inr(yearPrice(k))}</span><small>${k === 'web' ? (yearPrice(k) === PLANS.web.renew ? 'yearly renewal, menu updates included' : 'first year, then ' + inr(PLANS.web.renew) + ' a year') : 'about ' + inr(planCost(k, 'y').per) + ' a month'}</small></button>`)}</div>
       <ul className="small muted acct-perks">${PLANS[plan].perks.slice(0, 6).map((p) => html`<li key=${p}>${I('check', 14)}${p}</li>`)}</ul>
-      <button className="btn primary lg" id="acct-pay" onClick=${() => setSheet(true)}>Pay ${inr(yearPrice(plan))} for ${PLANS[plan].name}</button></section>
+      ${plan === 'web' ? html`<p className="notice" id="acct-web-pay">Order Link is paid to the Zestro team by UPI or cash${info.due ? ': ' + inr(info.due) + ' is due' : ''}. They mark it paid here, and your link keeps working.</p>
+      <a className="btn primary lg" id="acct-pay" href=${'https://wa.me/' + ZESTRO_WA + '?text=' + encodeURIComponent('Hi Zestro, about the Order Link payment for ' + info.name + ' (' + info.id + ').')} target="_blank" rel="noopener">${I('share', 16)}Message the Zestro team</a>`
+      : html`<button className="btn primary lg" id="acct-pay" onClick=${() => setSheet(true)}>Pay ${inr(yearPrice(plan))} for ${PLANS[plan].name}</button>`}</section>
     <section className="card"><div className="card-h"><h3>Payments</h3></div>${pays.length ? pays.map((p, i) => html`<div key=${i} className="payrow"><span className="tno">${dateIN(p.at)}</span><span><b>${PLANS[p.plan] ? PLANS[p.plan].name : p.plan} · 1 year</b><br /><small className="muted">${p.method}${p.ref ? ' · ' + p.ref : ''}</small></span><strong className="num">${inr(p.amount)}</strong></div>`) : html`<p className="small muted">No payments yet.</p>`}</section>
     ${sheet ? html`<${PayPlanSheet} plan=${plan} amt=${yearPrice(plan)} onClose=${() => setSheet(false)} onPaid=${(x) => { setInfo(x); setSheet(false); load(); }} />` : null}
   </div>`;
@@ -5772,6 +5776,8 @@ function LiveAdmin() {
   const [tok, setTok] = useState(() => { const t = lsGet('zestro-admin'); return t && t.exp > Date.now() ? t.token : null; });
   const [pass, setPass] = useState(''); const [data, setData] = useState(null); const [err, setErr] = useState('');
   const [open, setOpen] = useState(null); const [adding, setAdding] = useState(false);
+  const [payFor, setPayFor] = useState(null); const [payAmt, setPayAmt] = useState(''); const [payHow, setPayHow] = useState('cash');
+  const markPaid = async (x) => { try { await api('z_admin_paid', { p_token: tok, p_rid: x.id, p_amount: Number(payAmt) || null, p_method: payHow }); toast(inr(Number(payAmt) || x.due) + ' from ' + x.name + ' recorded', 'ok'); setPayFor(null); load(); } catch (e) { toast(e.message); } };
   const load = async (t) => { try { setData(await api('z_admin_list', { p_token: t || tok })); } catch (e) { setErr(e.message); if (e.code === '28000') { lsSet('zestro-admin', null); setTok(null); } } };
   useEffect(() => { if (tok) load(tok); }, [tok]);
   useEffect(() => { if (!tok) return undefined; const t = setInterval(() => load(), 30000); return () => clearInterval(t); }, [tok]);
@@ -5781,16 +5787,16 @@ function LiveAdmin() {
     <label className="field">Password<input id="adm-pass" type="password" value=${pass} onChange=${(e) => setPass(e.target.value)} onKeyDown=${(e) => e.key === 'Enter' && login()} /></label>
     ${err ? html`<p className="notice bad-n">${err}</p>` : null}<button className="btn primary block" id="adm-go" onClick=${login}>Log in</button></section></div>`;
   if (!data) return html`<div className="container acct"><p className="muted">Loading…</p></div>`;
-  const rs = data.restaurants, real = rs.filter((x) => !x.demo), paid = real.filter((x) => x.state === 'active'), trial = real.filter((x) => x.state === 'trial');
+  const rs = data.restaurants, real = rs.filter((x) => !x.demo), paid = real.filter((x) => x.state === 'active' && !x.due), trial = real.filter((x) => x.state === 'trial'), dueN = real.filter((x) => x.due);
   const year = data.payments.reduce((t, p) => t + p.amount, 0);
   const devs = rs.flatMap((x) => (x.devices || []).filter((v) => !v.demo));
-  const tag = (x) => x.demo ? html`<span className="pill leaf">Demo</span>` : html`<span className=${'pill ' + (x.state === 'active' ? 'ok' : x.state === 'trial' ? 'sun' : 'bad')}>${x.state === 'active' ? 'Paid · to ' + dateIN(x.paid_until) : x.state === 'trial' ? 'Trial · ' + daysLeft(x.trial_ends) + ' days left' : x.state === 'blocked' ? 'On hold' : 'Ended'}</span>`;
+  const tag = (x) => x.demo ? html`<span className="pill leaf">Demo</span>` : x.due ? html`<span className="pill sun">Payment due · ${inr(x.due)}</span>` : html`<span className=${'pill ' + (x.state === 'active' ? 'ok' : x.state === 'trial' ? 'sun' : 'bad')}>${x.state === 'active' ? 'Paid · to ' + dateIN(x.paid_until) : x.state === 'trial' ? 'Trial · ' + daysLeft(x.trial_ends) + ' days left' : x.state === 'blocked' ? 'On hold' : 'Ended'}</span>`;
   const how = (list) => { const a = list.filter((v) => v.mode === 'app').length, b = list.filter((v) => v.mode !== 'app').length; return [a ? a + ' app' : null, b ? b + ' browser' : null].filter(Boolean).join(' · ') || 'no devices yet'; };
   return html`<div className="container acct" id="admin-live">
     <div className="ph"><div><h1>Zestro team</h1><p className="muted">Every restaurant on the live app. Updates every 30 seconds. Latest app version ${APP_VER}.</p></div><div className="row"><button className="btn primary" id="adm-add-btn" onClick=${() => setAdding(!adding)}>${I('plus', 15)}Add restaurant</button><button className="btn" onClick=${() => load()}>${I('reset', 15)}Refresh</button><button className="btn" onClick=${() => { lsSet('zestro-admin', null); setTok(null); }}>Log out</button></div></div>
     ${adding ? html`<${AdminAdd} tok=${tok} onDone=${() => load()} />` : null}
-    <div className="tiles"><div className="tile"><span>Restaurants</span><b>${real.length}</b><small className="m">${trial.length} on trial · plus Demo Kitchen</small></div><div className="tile"><span>Paying</span><b>${paid.length}</b><small className="m">${paid.filter((x) => x.plan === 'pro').length} on Pro</small></div>
-      <div className="tile"><span>Collected</span><b>${inr(year)}</b><small className="m">${data.payments.length} payments</small></div><div className="tile"><span>Devices, 30 days</span><b>${devs.length}</b><small className="m">${how(devs)}</small></div></div>
+    <div className="tiles"><div className="tile"><span>Restaurants</span><b>${real.length}</b><small className="m">${trial.length} on trial · plus Demo Kitchen</small></div><div className="tile"><span>Paying</span><b>${paid.length}</b><small className="m">${paid.filter((x) => x.plan === 'pro').length} on Pro${dueN.length ? ' · ' + dueN.length + ' payment' + (dueN.length > 1 ? 's' : '') + ' due' : ''}</small></div>
+      <div className="tile"><span>Collected</span><b>${inr(year)}</b><small className="m">${data.payments.length} payment${data.payments.length === 1 ? '' : 's'}</small></div><div className="tile"><span>Devices, 30 days</span><b>${devs.length}</b><small className="m">${how(devs)}</small></div></div>
     <section className="card"><div className="twrap"><table className="tbl adm-tbl"><thead><tr><th>Restaurant</th><th>Owner</th><th>Status</th><th>Using</th><th>Last active</th><th className="r">Orders today</th><th className="r">Sales, 30 days</th><th></th></tr></thead>
       <tbody>${rs.map((x) => { const old = (x.devices || []).filter((v) => v.ver && v.ver !== APP_VER).length; return html`
         <tr key=${x.id}><td><b>${x.name}</b><br /><small className="muted num">${x.id}${x.area ? ' · ' + x.area : ''}</small></td>
@@ -5798,7 +5804,8 @@ function LiveAdmin() {
         <td>${tag(x)}<br /><small className="muted">${PLANS[x.plan].name}</small></td>
         <td><button className="link" onClick=${() => setOpen(open === x.id ? null : x.id)}>${(x.devices || []).length} device${(x.devices || []).length === 1 ? '' : 's'}</button><br /><small className="muted">${how(x.devices || [])}${old ? html` · <b className="bad-t">${old} on an old version</b>` : ''}</small></td>
         <td>${seenAgo(x.last_active)}</td><td className="r">${x.orders_today}</td><td className="r">${inr(x.sales_30)}</td>
-        <td>${x.demo ? null : html`<div className="row" style=${{ flexWrap: 'nowrap', justifyContent: 'flex-end' }}><select className="inp sm" aria-label=${'Plan for ' + x.name} value=${x.plan} onChange=${(e) => upd(x.id, { plan: e.target.value }, x.name + ' moved to ' + PLANS[e.target.value].name)}>${['web', 'basic', 'pro'].map((k) => html`<option key=${k} value=${k}>${PLANS[k].name}</option>`)}</select><button className="btn sm" title="Open this restaurant as the Zestro team to change its menu" onClick=${async () => { try { liveSignIn(await api('z_admin_open', { p_token: tok, p_rid: x.id })); } catch (e) { toast(e.message); } }}>${I('edit', 14)}Edit menu</button><button className="btn sm" onClick=${() => upd(x.id, { extend_days: 7 }, 'Trial extended by 7 days')}>+7 days</button><button className="btn sm ghost" onClick=${() => upd(x.id, { status: x.state === 'blocked' ? 'trial' : 'blocked' }, x.state === 'blocked' ? 'Released' : 'Put on hold')}>${x.state === 'blocked' ? 'Release' : 'Hold'}</button></div>`}</td></tr>
+        <td>${x.demo ? null : html`<div className="row adm-acts" style=${{ justifyContent: 'flex-end' }}>${x.due ? html`<button className="btn sm primary" id=${'adm-paid-' + x.id} onClick=${() => { setPayFor(payFor === x.id ? null : x.id); setPayAmt(String(x.due)); setPayHow('cash'); }}>${I('rupee', 14)}Mark paid</button>` : null}<select className="inp sm" aria-label=${'Plan for ' + x.name} value=${x.plan} onChange=${(e) => upd(x.id, { plan: e.target.value }, x.name + ' moved to ' + PLANS[e.target.value].name)}>${['web', 'basic', 'pro'].map((k) => html`<option key=${k} value=${k}>${PLANS[k].name}</option>`)}</select><button className="btn sm" title="Open this restaurant as the Zestro team to change its menu" onClick=${async () => { try { liveSignIn(await api('z_admin_open', { p_token: tok, p_rid: x.id })); } catch (e) { toast(e.message); } }}>${I('edit', 14)}Edit menu</button><button className="btn sm" onClick=${() => upd(x.id, { extend_days: 7 }, 'Trial extended by 7 days')}>+7 days</button><button className="btn sm ghost" onClick=${() => upd(x.id, { status: x.state === 'blocked' ? 'trial' : 'blocked' }, x.state === 'blocked' ? 'Released' : 'Put on hold')}>${x.state === 'blocked' ? 'Release' : 'Hold'}</button></div>`}</td></tr>
+        ${payFor === x.id ? html`<tr key=${x.id + '-p'} className="adm-devs"><td colSpan="8"><div className="row adm-pay"><b>${x.name} paid</b><div className="money"><span>₹</span><input className="inp sm" id="adm-pay-amt" type="number" min="1" inputMode="numeric" value=${payAmt} onChange=${(e) => setPayAmt(e.target.value)} /></div><select className="inp sm" id="adm-pay-how" value=${payHow} onChange=${(e) => setPayHow(e.target.value)}><option value="cash">Cash</option><option value="upi">UPI</option><option value="bank">Bank transfer</option></select><button className="btn sm primary" id="adm-pay-save" onClick=${() => markPaid(x)}>Save payment</button><button className="btn sm" onClick=${() => setPayFor(null)}>Cancel</button></div></td></tr>` : null}
         ${open === x.id ? html`<tr key=${x.id + '-d'} className="adm-devs"><td colSpan="8">${(x.devices || []).length ? html`<table className="tbl"><thead><tr><th>Who</th><th>Device</th><th>App or browser</th><th>Version</th><th>Last seen</th></tr></thead><tbody>${x.devices.map((v, i) => html`<tr key=${i}><td>${v.demo ? 'Demo visitor' : v.name + ' · ' + v.role}</td><td>${v.device || '—'}</td><td>${v.mode === 'app' ? html`<span className="pill ok">Installed app</span>` : html`<span className="pill">Browser</span>`}</td><td>${v.ver || 'before 1.4'}${v.ver && v.ver !== APP_VER ? html` <small className="bad-t">old</small>` : null}</td><td>${seenAgo(v.seen)}</td></tr>`)}</tbody></table>` : html`<p className="small muted">No phone has opened this restaurant since device tracking started.</p>`}</td></tr>` : null}`; })}</tbody></table></div></section>
   </div>`;
 }

@@ -13,7 +13,7 @@ caps={
 PLANS=[('Order Link','₹6,499 first year, then ₹1,499','small outlets: online orders, menu set up by us'),
        ('Basic','₹6,999 a year','cafés: billing, tables, QR ordering, kitchen screen'),
        ('Pro','₹8,999 a year','family restaurants: + online orders, stock, profit')]
-END=dict(days=7, plans=PLANS, setup_line='No hardware &nbsp;·&nbsp; no commission &nbsp;·&nbsp; on-site setup ₹999', url='ansarisaalim.github.io/qr-menu-demo')
+END=dict(days=7, plans=PLANS, setup_line='No hardware &nbsp;·&nbsp; no commission &nbsp;·&nbsp; ₹999 setup on Basic and Pro', url='ansarisaalim.github.io/qr-menu-demo')
 with sync_playwright() as p:
     b=p.chromium.launch()
     pg=b.new_page(viewport={'width':1280,'height':720})

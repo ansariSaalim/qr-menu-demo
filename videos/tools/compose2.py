@@ -2,7 +2,9 @@
 import cv2, numpy as np, subprocess, sys
 from PIL import Image
 O=sys.argv[1]  # 'd' or 'm'
-SRC=f"/home/claude/qr-menu-demo/videos/demo-{'desktop' if O=='d' else 'mobile'}.mp4"
+# Patch the videos as they were before this update (git show 1699159:videos/demo-desktop.mp4 > /tmp/vid2/src_d.mp4),
+# so a re-run never encodes the same scenes twice
+SRC=f"/tmp/vid2/src_{O}.mp4"
 OUT=f"/tmp/vid2/out_{O}.mp4"
 A='/tmp/vid2/assets/'
 def rgba(p):
