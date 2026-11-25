@@ -3686,7 +3686,7 @@ const OL_T = {
     place: 'Place order', placing: 'Placing…', fill: 'Fill in your name, mobile number and address', fillP: 'Fill in your name and mobile number', tickPaid: 'Tick "I have paid" after paying by UPI',
     done: 'Order #{no} placed!', doneSub: 'The restaurant has your order. You will get a call if anything is needed.', ss: 'One more step: send the payment screenshot', ss1: 'Take a screenshot of the UPI success screen', ss2: 'Tap the button below and attach it in WhatsApp',
     ssBtn: 'Send screenshot on WhatsApp', waBtn: 'Send order on WhatsApp too', more: 'Order something else', call: 'Call', status: { new: 'Waiting for the restaurant to accept', preparing: 'Being prepared', ready: { delivery: 'Out for delivery', pickup: 'Ready, come and collect' }, served: { delivery: 'Delivered', pickup: 'Collected' }, cancelled: 'Not accepted. Please call the restaurant.' },
-    closed: 'Not taking online orders right now', closedSub: 'Please try again later, or call the restaurant.', made: 'Made with ❤ by', partyBtn: 'Enquire on WhatsApp', empty: 'No dishes match your search.' },
+    closed: 'Not taking online orders right now', closedSub: 'Please try again later, or call the restaurant.', made: 'Made with ❤ by', partyBtn: 'Enquire on WhatsApp', empty: 'No dishes match your search.', soldCart: '{n} just sold out. Remove it to place the order.' },
   gu: { lang: 'English', search: 'વાનગી શોધો', add: 'ઉમેરો', sold: 'ખતમ', item: 'વસ્તુ', items: 'વસ્તુ', viewCart: 'ઓર્ડર જુઓ', cart: 'તમારો ઓર્ડર', mode: 'કેવી રીતે જોઈએ?',
     delivery: 'હોમ ડિલિવરી', pickup: 'જાતે લઈ જશો', within: '{km} કિમી સુધી', minOrd: 'ઓછામાં ઓછું ₹{min}', fromShop: 'દુકાનથી', name: 'તમારું નામ', phone: 'મોબાઇલ નંબર', addr: 'પૂરું સરનામું',
     addrPh: 'મકાન નં, બિલ્ડિંગ, શેરી, નજીકની જગ્યા', note: 'રસોડા માટે નોંધ (જરૂરી નથી)', notePh: 'ઓછું તીખું, વધારે મેયો…', myLoc: '📍 મારું હાલનું સ્થાન લો', locWait: 'તમારું સ્થાન શોધીએ છીએ…',
@@ -3696,7 +3696,7 @@ const OL_T = {
     place: 'ઓર્ડર આપો', placing: 'મોકલીએ છીએ…', fill: 'નામ, મોબાઇલ નંબર અને સરનામું ભરો', fillP: 'નામ અને મોબાઇલ નંબર ભરો', tickPaid: 'UPI થી ચૂકવ્યા પછી "મેં ચૂકવી દીધા" પર ટિક કરો',
     done: 'ઓર્ડર #{no} મળી ગયો!', doneSub: 'રેસ્ટોરન્ટ પાસે તમારો ઓર્ડર પહોંચી ગયો છે. જરૂર પડશે તો ફોન આવશે.', ss: 'એક છેલ્લું પગલું: ચુકવણીનો સ્ક્રીનશૉટ મોકલો', ss1: 'UPI સફળ થયાની સ્ક્રીનનો સ્ક્રીનશૉટ લો', ss2: 'નીચેનું બટન દબાવો અને WhatsApp માં જોડો',
     ssBtn: 'WhatsApp પર સ્ક્રીનશૉટ મોકલો', waBtn: 'ઓર્ડર WhatsApp પર પણ મોકલો', more: 'બીજું કંઈ મંગાવો', call: 'ફોન કરો', status: { new: 'રેસ્ટોરન્ટ સ્વીકારે તેની રાહ', preparing: 'બની રહ્યું છે', ready: { delivery: 'ડિલિવરી માટે નીકળ્યું', pickup: 'તૈયાર છે, લઈ જાઓ' }, served: { delivery: 'પહોંચી ગયું', pickup: 'લઈ લીધું' }, cancelled: 'સ્વીકાર્યો નથી. કૃપા કરી રેસ્ટોરન્ટને ફોન કરો.' },
-    closed: 'હાલ ઓનલાઇન ઓર્ડર બંધ છે', closedSub: 'થોડી વાર પછી પ્રયત્ન કરો અથવા રેસ્ટોરન્ટને ફોન કરો.', made: 'પ્રેમથી બનાવ્યું', partyBtn: 'WhatsApp પર પૂછો', empty: 'કોઈ વાનગી મળી નહીં.' },
+    closed: 'હાલ ઓનલાઇન ઓર્ડર બંધ છે', closedSub: 'થોડી વાર પછી પ્રયત્ન કરો અથવા રેસ્ટોરન્ટને ફોન કરો.', made: 'પ્રેમથી બનાવ્યું', partyBtn: 'WhatsApp પર પૂછો', empty: 'કોઈ વાનગી મળી નહીં.', soldCart: '{n} હમણાં જ ખતમ થઈ ગયું. ઓર્ડર આપવા તેને કાઢી નાખો.' },
 };
 const GU_DIGITS = '૦૧૨૩૪૫૬૭૮૯';
 const olKm = (a, b) => { const R0 = 6371, r = (x) => (x * Math.PI) / 180, dLa = r(b.lat - a.lat), dLo = r(b.lng - a.lng); const h = Math.sin(dLa / 2) ** 2 + Math.cos(r(a.lat)) * Math.cos(r(b.lat)) * Math.sin(dLo / 2) ** 2; return 2 * R0 * Math.asin(Math.sqrt(h)); };
@@ -3712,7 +3712,17 @@ function loadLeaflet() {
 }
 const webOf = (r) => { const w = r.web || {}; return { on: !!w.on, delivery: { on: !!(w.delivery && w.delivery.on), km: Number(w.delivery && w.delivery.km) || 3, min: Number(w.delivery && w.delivery.min) || 0 }, pickup: { on: !w.pickup || w.pickup.on !== false }, lat: w.lat, lng: w.lng, wa: w.wa || '', cash: w.cash !== false, party: { on: !!(w.party && w.party.on), text: (w.party && w.party.text) || '', gu: (w.party && w.party.gu) || '' }, catGu: w.catGu || {}, taglineGu: w.taglineGu || '', gu: w.gu !== false, address: w.address || '' }; };
 
-function OnlineShop({ pub }) {
+function OnlineShop({ pub: pub0 }) {
+  const [pub, setPub] = useState(pub0);
+  // Follow the owner's Open/Paused switch and sold-out dishes while the page stays open
+  useEffect(() => {
+    let stop = false, last = Date.now();
+    const pull = () => { last = Date.now(); api('z_public', { p_rid: pub0.id }).then((x) => { if (!stop && x && x.id) setPub(x); }, () => {}); };
+    const id = setInterval(() => { if (!document.hidden) pull(); }, 20000);
+    const onVis = () => { if (!document.hidden && Date.now() - last > 5000) pull(); };
+    document.addEventListener('visibilitychange', onVis); window.addEventListener('focus', onVis);
+    return () => { stop = true; clearInterval(id); document.removeEventListener('visibilitychange', onVis); window.removeEventListener('focus', onVis); };
+  }, []);
   const rest = pub.rest || {}, r = { ...rest, name: rest.name || pub.name, area: pub.area || rest.area || '', city: pub.city || rest.city || '' }, W = webOf(rest);
   const live = webAllowed(pub.plan) && W.on && (pub.state === 'trial' || pub.state === 'active') && rest.open !== false;
   const shop = W.lat != null && W.lng != null ? { lat: Number(W.lat), lng: Number(W.lng) } : null;
@@ -3772,7 +3782,8 @@ function OnlineShop({ pub }) {
   const km = loc && shop ? olKm(shop, loc) : null, far = km != null && km > W.delivery.km + 0.05;
   const phone10 = me.phone.replace(/\D/g, '').slice(-10);
   const formOk = me.name.trim() && phone10.length === 10 && (mode === 'pickup' || me.addr.trim().length >= 8);
-  const canSend = count && formOk && !short && !(mode === 'delivery' && far) && (payMode !== 'upi' || paidTick) && !busy;
+  const soldOut = lines.filter((l) => l.m.stock === false);
+  const canSend = count && !soldOut.length && formOk && !short && !(mode === 'delivery' && far) && (payMode !== 'upi' || paidTick) && !busy;
   const upiNote = 'Order ' + r.name;
   const telOf = (W.wa || '').replace(/\D/g, '').slice(-10);
 
@@ -3809,7 +3820,7 @@ function OnlineShop({ pub }) {
   };
   const waUrl = (o) => 'https://wa.me/' + waDigits(W.wa) + '?text=' + encodeURIComponent(waText(o));
   const send = async () => {
-    if (!canSend) { setErr(!formOk ? t(mode === 'delivery' ? 'fill' : 'fillP') : payMode === 'upi' && !paidTick ? t('tickPaid') : ''); return; }
+    if (!canSend) { setErr(soldOut.length ? t('soldCart', { n: soldOut.map((l) => nameOf(l.m)).join(', ') }) : !formOk ? t(mode === 'delivery' ? 'fill' : 'fillP') : payMode === 'upi' && !paidTick ? t('tickPaid') : ''); return; }
     setBusy(true); setErr('');
     // Open the WhatsApp window now (a tap is needed for pop-ups), fill it in once the order is saved
     const win = W.wa && payMode !== 'upi' ? window.open('', '_blank') : null;
@@ -3837,7 +3848,7 @@ function OnlineShop({ pub }) {
       <button className="ol-sec" onClick=${() => { setDone(null); setOpen(false); }}>${t('more')}</button></div>`
     : html`<div>
       <h2>${t('cart')}<button className="btn sm icon" onClick=${() => setOpen(false)} aria-label="Close">${I('x')}</button></h2>
-      ${lines.map((l) => html`<div className="ol-line" key=${l.k}><${VegMark} veg=${l.m.veg} /><span className="n">${nameOf(l.m)}${l.v ? ' (' + l.v + ')' : ''}<br /><small className="muted">${money(l.p)}</small></span>${addBtn(l.m, l.v)}</div>`)}
+      ${lines.map((l) => html`<div className="ol-line" key=${l.k}><${VegMark} veg=${l.m.veg} /><span className="n">${nameOf(l.m)}${l.v ? ' (' + l.v + ')' : ''}<br /><small className=${l.m.stock === false ? 'bad-t' : 'muted'}>${l.m.stock === false ? t('sold') : money(l.p)}</small></span>${l.m.stock === false ? html`<button className="btn sm" onClick=${() => bump(l.k, -l.q)}>✕</button>` : addBtn(l.m, l.v)}</div>`)}
       <label className="lab">${t('mode')}</label>
       <div className="ol-seg">
         ${W.delivery.on ? html`<button aria-pressed=${mode === 'delivery'} id="ol-delivery" onClick=${() => setMode('delivery')}>🛵 ${t('delivery')}<small>${t('within', { km: W.delivery.km })}${W.delivery.min ? ' · ' + t('minOrd', { min: W.delivery.min }) : ''}</small></button>` : null}
