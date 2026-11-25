@@ -492,6 +492,10 @@ p { margin: 0; }
 /* Plans */
 .plans { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .plans.two-plans { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 900px; margin-inline: auto; width: 100%; }
+.plans.three-plans { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 1180px; margin-inline: auto; width: 100%; }
+.plan-link { border-style: dashed; }
+.plan li.no { color: var(--muted); }
+.plan li.no .ic { color: var(--muted); }
 .plan { background: var(--app); border: 1px solid var(--line); border-radius: var(--r-card); padding: 22px 18px 18px; display: grid; gap: 10px; align-content: start; position: relative; text-align: left; }
 .plan[aria-pressed="true"] { border: 2px solid var(--leaf); background: var(--leaf-soft); }
 .plan h3 { font-size: 19px; }
@@ -1293,7 +1297,7 @@ input.otp { letter-spacing: 0.5em; font-family: var(--f-mono); font-size: 20px; 
   .mcards { display: grid; gap: 8px; }
   .mcard { background: var(--app); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: grid; gap: 6px; }
   .mc-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .plans.two-plans { grid-template-columns: minmax(0, 1fr); }
+  .plans.two-plans, .plans.three-plans { grid-template-columns: minmax(0, 1fr); }
   .signup .grow { flex: 1 1 100%; }
   .pos-items { grid-template-columns: minmax(0, 1fr); gap: 6px; }
   .pos-it { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 48px; padding: 8px 12px; }
@@ -2524,7 +2528,7 @@ const FEATURES = [
   ['One-time setup at your restaurant: menu typed, photos, QR stands, staff trained', ['₹' + SETUP.onsite, '₹' + SETUP.onsite]],
   ['WhatsApp support in Hindi, Gujarati, English', ['y', 'Priority']],
 ];
-const FOR = { basic: 'Cafés, dhabas, family restaurants, quick service', pro: 'Busy restaurants, bakeries, cloud kitchens, chains' };
+const FOR = { web: 'Takeaway and delivery outlets like fried chicken, pizza, snacks and tiffin', basic: 'Cafés, dhabas, family restaurants, quick service', pro: 'Busy restaurants, bakeries, cloud kitchens, chains' };
 function BillingSwitch() {
   return null;
 }
@@ -2532,22 +2536,23 @@ function TrialBox({ compact }) {
   return html`<div className=${'trial-box' + (compact ? ' compact' : '')} id=${compact ? undefined : 'trial'}><b>${I('sparkle', 16)} What the ${TRIAL.days}-day free trial includes</b>
     <ul>${TRIAL_LIMITS.map((x) => html`<li key=${x}>${I('check', 14)}${x}</li>`)}</ul></div>`;
 }
-function OrderLinkCard() {
-  const msg = 'Hi Zestro, I want the Order Link (online ordering) for my restaurant.\nRestaurant name:\nArea:\nI will send my menu photo.';
-  return html`<div className="olink-card" id="order-link-card">
-    <div className="grow"><span className="pill sun">Only want online orders?</span><h3>Order Link · ${inr(PLANS.web.total.y)} first year</h3>
-      <p className="small muted">Your own ordering link and QR for home delivery and pickup. Orders come to your phone with a chime and on WhatsApp. UPI or cash, delivery radius on a map, Gujarati / English. <b>We set up your menu, photos and prices, and keep them updated.</b> No commission.</p>
-      <p className="small"><b>From the second year: ${inr(PLANS.web.renew)} a year</b>, menu and price changes included. Want to change the menu yourself any time? Take Pro.</p></div>
-    <a className="btn primary" href=${'https://wa.me/' + ZESTRO_WA + '?text=' + encodeURIComponent(msg)} target="_blank" rel="noopener">${I('share', 16)}Get it set up on WhatsApp</a>
-  </div>`;
-}
 function PlanCompare({ current, billing }) {
   return html`<div className="twrap"><table className="tbl cmp"><thead><tr><th>What you get</th>${PLAN_KEYS.map((k) => html`<th key=${k} className=${k === current ? 'cur' : ''}>${PLANS[k].name}<small>${inr(planCost(k, billing).total)} ${BILLING[BILLING[billing] ? billing : 'y'].per}</small></th>`)}</tr></thead>
     <tbody>${FEATURES.map(([f, v]) => html`<tr key=${f}><td>${f}</td>${v.map((x, i) => html`<td key=${i} className=${(PLAN_KEYS[i] === current ? 'cur ' : '') + (x === 'y' ? 'yes' : x === 'n' ? 'no' : '')}>${x === 'y' ? I('check', 18) : x === 'n' ? '–' : x}</td>`)}</tr>`)}</tbody></table></div>`;
 }
-function PlanCards({ current, currentBilling, billing, onPick, label }) {
+function PlanCards({ current, currentBilling, billing, onPick, label, withLink }) {
   const bk = BILLING[billing] ? billing : 'y';
-  return html`<div className="plans two-plans">${PLAN_KEYS.map((k) => {
+  const linkMsg = 'Hi Zestro, I want the Order Link (online ordering) for my outlet.\nOutlet name:\nArea:\nI will send my menu photo.';
+  const linkCard = withLink ? html`<div key="web" className="plan plan-link" id="order-link-card">
+    <span className="pill info cur">Small outlets</span>
+    <h3>${PLANS.web.name}</h3><p className="small muted">${FOR.web}</p>
+    <div className="price"><b>${inr(PLANS.web.total.y)}</b><span>first year</span></div>
+    <p className="bill-line"><b>Then ${inr(PLANS.web.renew)} a year</b>, menu and price changes included</p>
+    <ul>${PLANS.web.perks.slice(0, 6).map((p) => html`<li key=${p}>${I('check', 15)}${p}</li>`)}<li className="no">${I('x', 15)}No billing counter, tables or table QR</li></ul>
+    <p className="small muted">We set up your menu, photos and prices for you. Ready in a day.</p>
+    <a className="btn block primary" href=${'https://wa.me/' + ZESTRO_WA + '?text=' + encodeURIComponent(linkMsg)} target="_blank" rel="noopener">${I('share', 16)}Get it set up on WhatsApp</a>
+  </div>` : null;
+  return html`<div className=${'plans ' + (withLink ? 'three-plans' : 'two-plans')}>${linkCard}${PLAN_KEYS.map((k) => {
     const c = planCost(k, bk);
     const same = k === current && (currentBilling || 'y') === bk;
     return html`<div key=${k} className=${'plan' + (k === current ? ' on' : '') + (k === 'pro' ? ' rec' : '')}>
@@ -2700,11 +2705,10 @@ function ForRestaurants({ s, d }) {
     <${WhySwitch} s=${s} />
 
     <section className="sx" id="pricing"><div className="container"><div className="sx-glow">
-      <div className="sx-h"><h2>Two plans. No commission. No hardware.</h2><p>Unlimited bills and orders. One yearly price per outlet, with a ${TRIAL.days}-day free trial first. Prices shown are what you pay.</p></div>
+      <div className="sx-h"><h2>Three plans. No commission. No hardware.</h2><p>Unlimited bills and orders. One yearly price per outlet, with a ${TRIAL.days}-day free trial first. Prices shown are what you pay.</p></div>
       <${BillingSwitch} s=${s} d=${d} />
       <${TrialBox} />
-      <${PlanCards} current=${null} billing=${b} onPick=${(k) => signup(k)} label=${(k) => 'Try ' + PLANS[k].name + ' free'} />
-      <${OrderLinkCard} />
+      <${PlanCards} current=${null} billing=${b} withLink=${true} onPick=${(k) => signup(k)} label=${(k) => 'Try ' + PLANS[k].name + ' free'} />
       <div style=${{ maxWidth: 900, margin: '22px auto 0' }}><${ModuleBuilder} s=${s} d=${d} onPick=${(k) => signup(k)} /></div>
       <div className="sizes">${SIZES.map(([t, x]) => html`<div key=${t} className="size"><b>${t}</b><p className="small muted">${x}</p></div>`)}</div>
       <h3 className="sub-h" style=${{ margin: '34px 0 14px', textAlign: 'center' }}>Compare every feature</h3>
