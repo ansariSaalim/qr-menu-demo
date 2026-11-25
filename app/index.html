@@ -2942,13 +2942,13 @@ function OwnerOrders({ s, d }) {
     ${o.status === 'new' ? html`<button className="link danger small" style=${{ justifySelf: 'start' }} onClick=${() => d({ type: 'sheet', sheet: { type: 'reject', id: o.id } })}>Reject order</button>` : null}
   </article>`; };
   return html`
-    <div className="ph"><div><h1>${stn ? 'Kitchen · ' + stationName(s, stn) : 'Live orders'}</h1><p className="muted">${stn ? 'Only ' + stationName(s, stn) + ' dishes: ' + ((stationsOf(s).find((x) => x.id === stn) || { cats: [] }).cats.join(', ') || 'none yet') + '. Mark your part ready; the order turns Ready when every station is done.' : mt && scope === 'mine' ? 'Orders and calls from your tables, ' + rangeLabel(mt) + '.' : 'QR, waiter and counter orders in one kitchen queue. This screen works as the kitchen screen on any phone or tablet.'}</p></div>
+    <div className="ph"><div><h1>${stn ? 'Kitchen · ' + stationName(s, stn) : 'Live orders'}</h1><p className="muted">${stn ? 'Only ' + stationName(s, stn) + ' dishes: ' + ((stationsOf(s).find((x) => x.id === stn) || { cats: [] }).cats.join(', ') || 'none yet') + '. Mark your part ready; the order turns Ready when every station is done.' : mt && scope === 'mine' ? 'Orders and calls from your tables, ' + rangeLabel(mt) + '.' : (R(s, OWNER_RID).plan === 'web' ? 'Online delivery and pickup orders. Keep this screen open: new orders chime.' : 'QR, waiter and counter orders in one kitchen queue. This screen works as the kitchen screen on any phone or tablet.')}</p></div>
       <div className="row">${mt ? html`<div className="seg" role="group" aria-label="Which orders"><button aria-pressed=${scope === 'mine'} onClick=${() => setScope('mine')}>My tables</button><button aria-pressed=${scope === 'all'} onClick=${() => setScope('all')}>All</button></div>` : null}<button className="btn" id="token-btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'tokens' } })}>${I('grid', 16)}Token board</button>${roleOf(s) === 'Kitchen' ? null : html`<button className="btn primary" id="take-order" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder' } })}>${I('plus', 17)}Take an order</button>`}<button className=${'btn' + (s.sound ? ' on' : '')} onClick=${() => { d({ type: 'set', k: 'sound', v: !s.sound }); if (!s.sound) chime(); }} aria-pressed=${s.sound}>${I(s.sound ? 'sound' : 'mute')}${s.sound ? 'Sound on' : 'Sound off'}</button></div></div>
     ${AGGREGATORS && !stn && roleOf(s) !== 'Waiter' ? html`<${OnlineBar} s=${s} d=${d} />` : null}
     ${alerts.length ? html`<div className="reqs">${alerts.map((a) => html`<div key=${a.id} className=${'req' + (a.kind === 'paid' ? ' pay' : '')}>${I(a.kind === 'paid' ? 'check' : 'bell')}<span><b>Table ${a.table}</b> ${REQ_TEXT[a.kind]}${a.amount ? ' · ' + inr(a.amount) : ''}${a.kind === 'waiter' ? (waiterOf(s, a.table) ? ' → ' + waiterOf(s, a.table).name : ' → every waiter') : ''}</span><small>${ago(a.t)}</small><button className="btn sm" onClick=${() => d({ type: 'alertDone', id: a.id })}>Done</button></div>`)}</div>` : null}
     <div className="seg full colswitch" role="group" aria-label="Order stage">${cols.map(([k, l]) => html`<button key=${k} aria-pressed=${s.ownerCol === k} onClick=${() => d({ type: 'set', k: 'ownerCol', v: k })}>${l.split(' ')[0]}${col(k).length ? html`<span className="badge">${col(k).length}</span>` : null}</button>`)}</div>
     <div className="kanban" id="board" data-col=${s.ownerCol}>${cols.map(([k, l, tone]) => html`<section key=${k} className="col" data-stage=${k}><div className="col-h"><i className=${'dot ' + tone}></i>${l}<span>${col(k).length}</span></div>
-      ${col(k).length ? col(k).map(card) : html`<div className="col-empty">${k === 'new' ? 'No new orders. QR and waiter orders appear here by themselves.' : 'Nothing here.'}</div>`}</section>`)}</div>
+      ${col(k).length ? col(k).map(card) : html`<div className="col-empty">${k === 'new' ? (R(s, OWNER_RID).plan === 'web' ? 'No new orders. Online orders appear here by themselves, with a chime.' : 'No new orders. QR and waiter orders appear here by themselves.') : 'Nothing here.'}</div>`}</section>`)}</div>
     ${waiting.length && roleOf(s) !== 'Kitchen' ? html`<section className="card"><h3>Waiting for payment</h3><div>${waiting.map((o) => html`<div key=${o.id} className="payrow"><span className="tno">${tlabel(o)}</span><span><b>#${o.no}</b> · ${o.name}<br /><small className="muted">${o.method === 'counter' ? 'Paying at the counter' : 'Not paid yet'}</small></span><strong className="num">${inr(due(o, r))}</strong>
       ${canPay(s) ? html`<div className="row">${['cash', 'upi', 'card'].map((m) => html`<button key=${m} className="btn sm" onClick=${() => { d({ type: 'markPaid', id: o.id, method: m, by: meName(s) }); toast('Order #' + o.no + ' marked paid'); }}>${m === 'upi' ? 'UPI' : m[0].toUpperCase() + m.slice(1)}</button>`)}</div>` : html`<span className="small muted">Cashier settles</span>`}</div>`)}</div></section>` : null}
     ${done.length ? html`<section className="card"><h3>Done today <span className="muted small">${done.length} orders</span></h3><div className="donechips">${done.map((o) => html`<span key=${o.id} className="donechip"><b>#${o.no}</b>${tlabel(o)} · ${inr(due(o, r))} ${o.status === 'cancelled' ? html`<span className="pill bad">Rejected</span>` : html`<span className="pill ok">Paid</span>`}</span>`)}</div></section>` : null}
@@ -3505,8 +3505,10 @@ function OrderLinkSettings({ s, d }) {
       <p className="small muted">The Zestro team sets these for you. Menu and price changes are included in your yearly plan. Mark a dish sold out yourself in Menu.</p>
       <div className="row"><a className="btn primary" href=${ask} target="_blank" rel="noopener">${I('share', 16)}Send a change on WhatsApp</a><a className="btn" href="#account" onClick=${() => setTimeout(() => location.reload(), 30)}>Upgrade to Pro: edit it yourself</a></div>
     </section>
-    <${PrinterSettings} s=${s} d=${d} />`;
+    <${PrinterSettings} s=${s} d=${d} />
+    <${LogoutCard} />`;
 }
+const LogoutCard = () => (LIVE.session ? html`<section className="card row" id="logout-card" style=${{ justifyContent: 'space-between' }}><span className="small muted">Signed in as <b>${LIVE.session.name || 'Owner'}</b> on this phone</span><button className="btn" id="logout-btn" onClick=${() => liveSignOut('#site')}>Log out</button></section>` : null);
 
 function OwnerSettings({ s, d }) {
   const r = R(s, OWNER_RID);
@@ -3534,6 +3536,7 @@ function OwnerSettings({ s, d }) {
     <${ThemeSettings} r=${r} onChange=${(p) => d({ type: 'rest', rid: OWNER_RID, patch: p })} />
     <h2 className="sub-h">Compare every feature</h2>
     <${PlanCompare} current=${r.plan} billing=${s.billing || 'y'} />
+    <${LogoutCard} />
     <section className="card" id="rest-card"><h3>Restaurant</h3>
       <${BrandPhotos} id="brand-photos" r=${r} logo=${r.logo} cover=${r.cover} onChange=${(p) => d({ type: 'rest', rid: OWNER_RID, patch: p })} />
       <div className="fields2"><label className="field">Name<input value=${r.name} onChange=${(e) => d({ type: 'rest', rid: OWNER_RID, patch: { name: e.target.value } })} /></label>
