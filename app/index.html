@@ -230,7 +230,7 @@ p { margin: 0; }
 .logo-mark { width: 36px; height: 36px; border-radius: 11px; background: var(--grad); color: #ffffff; box-shadow: 0 4px 12px rgba(22, 191, 166, 0.3); display: grid; place-items: center; flex: none; }
 
 /* Diner top nav */
-.topnav { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--page) 86%, transparent); backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+.topnav { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--page) 94%, transparent); backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
 .nav-inner { display: flex; align-items: center; gap: 18px; min-height: 70px; }
 .nav-inner .search { flex: 1; max-width: 520px; }
 .nav-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
@@ -337,6 +337,9 @@ p { margin: 0; }
 .act2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .payopt { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 12px; align-items: center; border: 1px solid var(--line); border-radius: 14px; padding: 14px; text-align: left; background: var(--app); width: 100%; }
 .payopt[aria-pressed="true"] { border-color: var(--leaf); box-shadow: 0 0 0 2px var(--leaf); }
+.upi-pay { display: grid; gap: 10px; text-align: center; }
+.upi-id { display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.upi-id code { background: var(--app); border: 1px solid var(--line); border-radius: 8px; padding: 3px 8px; }
 .payopt .rad { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--line); }
 .payopt[aria-pressed="true"] .rad { border: 6px solid var(--leaf); }
 .payopt b { display: block; }
@@ -739,7 +742,11 @@ html[data-theme="dark"] .ol-upi { background: var(--app-2); border-color: var(--
 .ol-steps ol { margin: 4px 0 0 18px; padding: 0; }
 @media (min-width: 760px) { .ol-hero > *, .ol-search, .ol-tabs, .ol-status, .ol-closed { max-width: 688px; margin-left: auto; margin-right: auto; } .ol-hero { padding: 26px 24px 30px; } .ol-search { margin-bottom: 10px; } .ol-tabs { padding: 0; } }
 .ol-sec { display: block; width: 100%; text-align: center; text-decoration: none; margin-top: 10px; background: var(--app); border: 1.5px solid var(--line); color: var(--ink); font-weight: 650; font-size: 15px; padding: 12px; border-radius: 12px; }
-.sound-hint { display: flex; gap: 8px; align-items: center; width: 100%; text-align: left; border: 0; cursor: pointer; font: inherit; font-size: 13.5px; font-weight: 650; padding: 9px 12px; }
+.more-me { flex-wrap: wrap; }
+.more-me .grow { flex: 1 1 100%; }
+@media (min-width: 600px) { .more-me .grow { flex: 1 1 auto; } }
+.btn.sound-need { border-color: var(--sun); background: var(--sun-soft); color: var(--warn); animation: sound-pulse 1.8s ease-in-out infinite; }
+@keyframes sound-pulse { 50% { box-shadow: 0 0 0 6px rgba(242, 165, 22, 0.2); } }
 .web-sw { gap: 10px; font-weight: 650; flex-wrap: nowrap; margin: 8px 0; align-items: flex-start; }
 .web-sw .switch { flex: none; margin-top: 1px; }
 .web-sw small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
@@ -827,6 +834,11 @@ html.branded .topnav { box-shadow: inset 0 -3px 0 var(--leaf); }
 .plan .btn { margin-top: auto; }
 .plan { grid-template-rows: auto auto auto auto 1fr auto; }
 .cmp { min-width: 720px; }
+@media (max-width: 640px) { .cmp { min-width: 0; table-layout: fixed; } .cmp th:not(:first-child), .cmp td:not(:first-child) { width: 70px; padding-left: 4px; padding-right: 4px; } .cmp td:first-child { font-size: 13.5px; padding-right: 8px; } .cmp th small { font-size: 10.5px; } }
+.mods-open { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; background: var(--app); border: 1px dashed var(--line-2, var(--line)); border-radius: 18px; padding: 16px 18px; cursor: pointer; font: inherit; color: inherit; }
+.mods-open span { display: grid; gap: 2px; }
+.mods-open small { color: var(--muted); font-size: 13.5px; }
+.mods-open:hover { border-color: var(--leaf); }
 .cmp th { text-align: center; vertical-align: bottom; }
 .cmp th:first-child, .cmp td:first-child { text-align: left; }
 .cmp th small { display: block; font-family: var(--f-body); font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; margin-top: 2px; }
@@ -971,6 +983,7 @@ html.branded .topnav { box-shadow: inset 0 -3px 0 var(--leaf); }
 .uc-r { background: var(--glow); display: grid; place-items: center; padding: 28px; min-height: 320px; }
 .center-tabs { display: flex; justify-content: center; margin-bottom: 22px; }
 .center-tabs .seg { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+@media (max-width: 560px) { .center-tabs .seg { flex-wrap: wrap; justify-content: center; overflow: visible; border-radius: 20px; } .center-tabs .seg button { flex: 1 1 auto; } .center-tabs .seg.kinds { display: grid; grid-template-columns: 1fr 1fr; width: 100%; } .center-tabs .seg.kinds button { text-align: center; justify-content: center; } }
 .feat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .feat { background: var(--app); border: 1px solid var(--line); border-radius: 26px; padding: 26px; display: grid; gap: 10px; align-content: start; transition: transform 0.15s, box-shadow 0.15s; }
 .feat:hover { transform: translateY(-3px); box-shadow: var(--shadow-1); }
@@ -1263,9 +1276,9 @@ button.pos-it:hover:not(:disabled) { border-color: var(--ink); }
 .bl.tot { font-weight: 700; font-size: 18px; border-top: 1px solid var(--line); padding-top: 8px; margin-top: 2px; }
 .paym { gap: 6px; }
 .paym .chip { padding: 8px 13px; }
-.pos-btns { display: grid; grid-template-columns: 1fr 1.6fr; gap: 8px; }
+.pos-btns { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; }
 .pos-btns .btn:only-child { grid-column: 1 / -1; }
-.pos-btns .btn { min-width: 0; white-space: normal; }
+.pos-btns .btn { min-width: 0; white-space: nowrap; padding-left: 14px; padding-right: 14px; }
 @media (max-width: 520px) { .pos-btns { grid-template-columns: minmax(0, 1fr); } }
 .pos-jump { display: none; }
 .net-pill { border: 1px solid var(--line); background: var(--app); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; color: var(--ok); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
@@ -1629,12 +1642,12 @@ const P = {
 const I = (name, size) => html`<svg className="ic" width=${size || 18} height=${size || 18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d=${P[name]} /></svg>`;
 
 /* ---------- Sample data ---------- */
-/* Two plans, paid for 6 or 12 months ahead. Every plan starts with a 7-day free trial. */
+/* Basic and Pro, paid yearly with a 7-day free trial; Order Link (web) is set up by the Zestro team. */
 const PLANS = {
   basic: { name: 'Basic', total: { h: 3999, y: 6999 }, perks: ['Billing counter: GST bill, discounts, cash/UPI split', 'Bills and kitchen tickets on any 58/80 mm printer', 'Tables: running bills, move and merge, takeaway', 'Waiters with their own PIN and their own tables', 'Table QR ordering, diners pay after eating', 'Kitchen screen per station and a token board for a TV', 'Expense book with bill photos', 'Customers and khata (credit)', 'Sales reports for any dates, Excel export', 'Keeps billing when the internet drops'] },
   pro: { name: 'Pro', total: { h: 4999, y: 8999 }, perks: ['Everything in Basic', 'Online ordering from your own link: home delivery and pickup, no commission', 'Monthly profit, partners and investor logins', 'Inventory: recipes, stock, purchases, wastage', 'Loyalty points and bills on WhatsApp, 300 messages a month included', 'Google review link on every bill', 'Busy hours, repeat diners, dish profit', 'Owner view across outlets, your own branding'] },
 };
-PLANS.web = { name: 'Order Link', total: { h: 6499, y: 6499 }, renew: 1499, perks: ['Your own online ordering link: home delivery and pickup', 'Orders on the kitchen screen with a chime, and on WhatsApp', 'UPI payment with screenshot, cash on delivery', 'Delivery radius on a map, minimum order, Gujarati / English', 'Party and function orders box, your colours and logo', 'Menu and prices set and updated by the Zestro team', 'From the second year: ₹1,499 a year'] };
+PLANS.web = { name: 'Order Link', total: { h: 6499, y: 6499 }, renew: 1499, perks: ['Your own online ordering link: home delivery and pickup', 'Orders on the kitchen screen with a chime, and on WhatsApp', 'UPI payment with screenshot, cash on delivery', 'Delivery radius on a map and a minimum order', 'Your menu in Hindi, Gujarati, Tamil and 7 more languages', 'Party and function orders box, your colours and logo', 'Menu and prices set and updated by the Zestro team', 'From the second year: ₹1,499 a year'] };
 PLANS.basic.price = Math.round(PLANS.basic.total.y / 12); PLANS.pro.price = Math.round(PLANS.pro.total.y / 12); PLANS.web.price = Math.round(PLANS.web.total.y / 12);
 const PLAN_KEYS = ['basic', 'pro'];
 const RANK = { web: 1, basic: 1, pro: 2 };
@@ -1936,6 +1949,7 @@ function qrUrl(text, size) {
   return (qrCache[k] = c.toDataURL('image/png'));
 }
 const QR = ({ text, size }) => html`<img className="qr-img" src=${qrUrl(text, size * 2)} width=${size} height=${size} alt=${'QR code: ' + text} />`;
+const placeOf = (r) => { const a = (r.area || '').trim(), c = (r.city || '').trim(); return a && c && a.toLowerCase().includes(c.toLowerCase()) ? a : [a, c].filter(Boolean).join(', '); };
 const tableLink = (rid, t) => location.origin + location.pathname.replace(/phone\/?(index\.html)?$/, '') + '#t=' + rid + '-' + t;
 function standeeCanvas(r, t, branded) {
   const W = 900, H = 1300, c = document.createElement('canvas'); c.width = W; c.height = H;
@@ -1955,7 +1969,8 @@ function standeeCanvas(r, t, branded) {
 }
 let audioCtx = null;
 // Phones only play sound after a first tap on the page, so the first tap anywhere wakes the sound up
-function unlockAudio() { try { audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); if (audioCtx.state === 'suspended') audioCtx.resume(); } catch (e) { /* no audio */ } }
+let audioTapAt = 0;   // when a tap last woke the sound up (browsers keep it silent until the first tap)
+function unlockAudio() { try { const was = audioCtx && audioCtx.state === 'running'; audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); if (audioCtx.state === 'suspended') audioCtx.resume(); if (!was) audioTapAt = Date.now(); } catch (e) { /* no audio */ } }
 const audioReady = () => !!(audioCtx && audioCtx.state === 'running');
 function chime() {
   try {
@@ -2022,6 +2037,8 @@ function addLineTo(s, rid, it, variant, addons, q) {
 /* Table QR safety: a diner verifies their mobile with a one-time code before the first order of a visit */
 const VERIFY_HOURS = 3;
 const isVerified = (s) => !!(s.ver && s.ver.rid === s.rid && s.ver.table === s.table && Date.now() - s.ver.at < VERIFY_HOURS * 3600000);
+// A real restaurant's table link (not the sample Demo Kitchen): no demo codes, no pretend payments
+const realRest = (rid) => LIVE.mode === 'diner' && rid !== 'demo-kitchen';
 const needsOtp = (s) => R(s, s.rid).qrOtp === true && !isVerified(s);
 const maskPhone = (p) => { const x = String(p || '').replace(/\D/g, '').slice(-10); return x.length === 10 ? '+91 ' + x.slice(0, 2) + 'xxx x' + x.slice(6) : ''; };
 function placeOrderIn(s) {
@@ -2156,7 +2173,7 @@ const TOUR = [
   { t: 'One QR per table', d: 'Download a print-ready standee for each table. Scan one with your own phone: it opens this demo at that table.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'tables', qrTable: 5, sheet: null }), hl: '#standee' },
   { t: 'Reports for your CA and for you', d: 'Basic shows sales for any dates with an Excel export and a day-end report. Pro adds busy hours, repeat diners, stock and profit per dish.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'reports', sheet: null }), hl: '#reports-main' },
   { t: 'Add dishes with photos', d: 'Name, price, a photo from the phone, Half/Full portions and add-ons. It shows on every table the moment it is saved.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'menu', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: 'Main Course', name: 'Paneer Lababdar', price: '290', veg: true, desc: 'Paneer in a rich onion-tomato gravy with cream.', tags: ['New'], variants: [], addons: [['Extra butter', 30]], stock: true, img: null, c: ['#d9722e', '#f7e4c3'] } } }), hl: '#dish-editor' },
-  { t: 'Two plans, or pick modules', d: 'Basic is ₹6,999 for 12 months: billing, tables, waiters, table QR ordering and the kitchen screen. Pro adds inventory, profit and partners, loyalty, Google reviews and dish profit. One yearly price, after a 7-day free trial.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
+  { t: 'Three plans', d: 'Order Link is ' + inr(PLANS.web.total.y) + ' for small takeaway and delivery outlets. Basic is ' + inr(PLANS.basic.total.y) + ' a year for cafés: billing, tables, table QR and the kitchen screen. Pro adds online orders, inventory, profit and partners for family restaurants. Basic and Pro start with a 7-day free trial.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'settings', sheet: null }), hl: '#plans' },
   { t: 'Each waiter gets their own tables', d: 'Suresh looks after T1–T6 and Vijay T7–T12. A waiter’s phone opens on their tables, and a call from a table goes to that waiter.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'floor', me2: { name: 'Suresh', role: 'Waiter', id: 'st4' }, sheet: null }), hl: '#floor' },
   { t: 'One screen per kitchen station', d: 'The tandoor screen shows only starters and breads. Each station marks its part ready, and the order turns Ready when every part is done.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'orders', ownerCol: 'preparing', me2: { name: 'Ravi', role: 'Kitchen', id: 'st7' }, sheet: null }), hl: '#board' },
   { t: 'Expenses with a photo of the bill', d: 'The cashier or manager adds every expense as it happens: gas, salaries, repairs. Cash paid out today is checked at day end.', apply: (s) => ({ ...s, role: 'owner', ownerTab: 'expenses', sheet: null }), hl: '#exp-add' },
@@ -2312,7 +2329,7 @@ function Home({ s, d }) {
         <div className="rbody">
           <h3><span>${r.name}</span><span className="rating">${r.rating}${I('star', 11)}</span></h3>
           <span className="rline">${r.cuisine} · ${inr(r.two)} for two</span>
-          <span className="rline">${r.area}, ${r.city}</span>
+          <span className="rline">${placeOf(r)}</span>
           <div className="rfoot">${can(r.plan, 'basic') ? html`<span className="pill leaf">${I('qr', 12)}Order at table</span>` : html`<span className="pill">Menu only</span>`}${r.upi ? html`<span className="pill info">UPI at table</span>` : null}</div>
         </div>
       </button>`)}
@@ -2344,9 +2361,9 @@ function CartBody({ s, d, r, compact }) {
       <div className="cr"><div className="stepper sm"><button onClick=${() => d({ type: 'qty', key: l.key, d: -1 })} aria-label=${'One less ' + l.n}>−</button><span>${l.q}</span><button onClick=${() => d({ type: 'qty', key: l.key, d: 1 })} aria-label=${'One more ' + l.n}>+</button></div><span className="num small">${inr(l.p * l.q)}</span></div></div>`)}
     ${compact ? null : html`<label className="field">Note for the kitchen <textarea id="note" rows="2" value=${s.note} placeholder="Less spicy, no onion…" onChange=${(e) => d({ type: 'set', k: 'note', v: e.target.value })}></textarea></label>
       <div className="fields2"><label className="field">Your name<input id="me-name" value=${s.me.name} onChange=${(e) => d({ type: 'me', patch: { name: e.target.value } })} /></label><label className="field">Mobile <input id="me-phone" inputMode="tel" value=${s.me.phone} onChange=${(e) => d({ type: 'me', patch: { phone: e.target.value } })} /></label></div>`}
-    <div className="bill"><div><span>Item total</span><span>${inr(sub)}</span></div><div><span>GST ${r.gst}%</span><span>₹${tax.toFixed(2)}</span></div><div className="tot"><span>To pay</span><span>${inr(sub + tax)}</span></div></div>
-    <button className="btn primary lg block" id="place-btn" style=${{ whiteSpace: 'normal' }} onClick=${() => { if (needsOtp(s)) { d({ type: 'sheet', sheet: { type: 'otp' } }); return; } d({ type: 'place' }); chime(); toast('Order sent to the kitchen', 'ok'); }} disabled=${!canOrder(s)}>${needsOtp(s) ? 'Verify & place order' : 'Place order'} · ${inr(sub + tax)}</button>
-    <p className="small muted" style=${{ textAlign: 'center' }}>${isVerified(s) ? html`${I('check', 13)} ${maskPhone(s.ver.phone)} verified for Table ${s.table}. ` : needsOtp(s) ? 'One quick code on your first order, so the kitchen knows it is really you at the table. ' : ''}You pay after your meal.</p>
+    <div className="bill"><div><span>Item total</span><span>${inr(sub)}</span></div>${r.gst ? html`<div><span>GST ${r.gst}%</span><span>₹${tax.toFixed(2)}</span></div>` : null}<div className="tot"><span>To pay</span><span>${inr(sub + tax)}</span></div></div>
+    <button className="btn primary lg block" id="place-btn" style=${{ whiteSpace: 'normal' }} onClick=${() => { if (needsOtp(s) && !realRest(s.rid)) { d({ type: 'sheet', sheet: { type: 'otp' } }); return; } if (needsOtp(s)) { const ph = String(s.me.phone || '').replace(/\D/g, '').slice(-10), bad = !String(s.me.name || '').trim() ? 'me-name' : !/^[6-9]\d{9}$/.test(ph) ? 'me-phone' : ''; if (bad) { toast(bad === 'me-name' ? 'Add your name, so the staff know whose order it is' : 'Enter your 10-digit mobile number'); const el = document.getElementById(bad); if (el) el.focus(); return; } } d({ type: 'place' }); chime(); toast('Order sent to the kitchen', 'ok'); }} disabled=${!canOrder(s)}>${needsOtp(s) && !realRest(s.rid) ? 'Verify & place order' : 'Place order'} · ${inr(sub + tax)}</button>
+    <p className="small muted" style=${{ textAlign: 'center' }}>${isVerified(s) ? html`${I('check', 13)} ${maskPhone(s.ver.phone)} verified for Table ${s.table}. ` : needsOtp(s) ? (realRest(s.rid) ? 'Your name and mobile go with the order, so the staff know whose it is. ' : 'One quick code on your first order, so the kitchen knows it is really you at the table. ') : ''}You pay after your meal.</p>
   </div>`;
 }
 
@@ -2440,7 +2457,7 @@ function Track({ s, d }) {
     })}
     ${open.length ? html`<div className="act2"><button className="btn" onClick=${() => d({ type: 'go', screen: 'menu' })}>Order more</button><button className="btn" onClick=${() => { d({ type: 'request', kind: 'waiter' }); toast('A waiter is on the way'); }}>${I('bell', 16)}Call waiter</button></div>
       ${due > 0 ? html`<button className="btn primary lg block" onClick=${() => d({ type: 'go', screen: 'pay' })}>Pay bill · ${inr(due)}</button>` : html`<div className="notice leaf">Staff know you will pay at the counter.</div>`}
-      <p className="small muted" style=${{ textAlign: 'center' }}>Status updates when the restaurant moves your order. Try it: switch "View as" to Restaurant.</p>` : null}
+      <p className="small muted" style=${{ textAlign: 'center' }}>Status updates when the restaurant moves your order.${LIVE.mode === 'site' ? ' Try it: switch "View as" to Restaurant.' : ''}</p>` : null}
   </div></main>`;
 }
 
@@ -2448,37 +2465,44 @@ function Pay({ s, d }) {
   const r = R(s, s.rid);
   const unpaid = myOpen(s).filter((o) => o.pay === 'unpaid');
   const due = unpaid.reduce((t, o) => t + withGst(orderTotal(o), r.gst), 0);
-  const upiOk = !!r.upi;
-  const method = !upiOk && s.pay !== 'counter' ? 'counter' : s.pay;
+  const upiOk = !!r.upi, real = realRest(s.rid);
+  const method = (!upiOk && s.pay !== 'counter') || (real && s.pay === 'card') ? 'counter' : s.pay;
+  const send = (m) => { d({ type: 'set', k: 'pay', v: m }); setTimeout(() => d({ type: 'pay' }), 0); chime(); };
+  const copyUpi = () => { try { navigator.clipboard.writeText(r.upi); toast('UPI ID copied', 'ok'); } catch (e) { toast(r.upi); } };
   if (!unpaid.length) return html`<main className="container"><div className="narrow"><div className="empty card"><p>Nothing to pay right now.</p><button className="btn primary" onClick=${() => d({ type: 'go', screen: 'menu' })}>Back to menu</button></div></div></main>`;
   const opt = (id, title, sub, ok) => html`<button className="payopt" aria-pressed=${method === id} disabled=${!ok} onClick=${() => d({ type: 'set', k: 'pay', v: id })}><span className="rad"></span><span><b>${title}</b><small>${sub}</small></span>${ok ? null : html`<span className="pill">Not set up here</span>`}</button>`;
   return html`<main className="container"><div className="narrow" id="pay-main">
     <div className="page-title"><button className="btn icon" onClick=${() => d({ type: 'go', screen: 'track' })} aria-label="Back">${I('back')}</button><h1>Pay bill</h1><span className="table-pill">Table ${s.table}</span></div>
     <div className="bill">${unpaid.map((o) => html`<div key=${o.id}><span>Order #${o.no}</span><span>${inr(withGst(orderTotal(o), r.gst))}</span></div>`)}<div className="tot"><span>Amount due</span><span>${inr(due)}</span></div></div>
     <span className="eyebrow">How would you like to pay?</span>
-    ${opt('upi', 'UPI', 'Google Pay, PhonePe, Paytm, BHIM', upiOk)}
-    ${opt('card', 'Debit or credit card', 'Visa, Mastercard, RuPay', upiOk)}
+    ${opt('upi', 'UPI', real ? 'Pay ' + r.name + ' from Google Pay, PhonePe, Paytm or BHIM' : 'Google Pay, PhonePe, Paytm, BHIM', upiOk)}
+    ${real ? null : opt('card', 'Debit or credit card', 'Visa, Mastercard, RuPay', upiOk)}
     ${opt('counter', 'Pay at the counter', 'Cash, card or UPI when you leave', true)}
-    <button className="btn primary lg block" onClick=${() => { d({ type: 'set', k: 'pay', v: method }); setTimeout(() => d({ type: 'pay' }), 0); chime(); }}>${method === 'counter' ? 'I will pay at the counter' : 'Pay ' + inr(due)}</button>
-    <p className="small muted" style=${{ textAlign: 'center' }}>${method === 'counter' ? 'The restaurant sees your total right away.' : 'Demo only: no money moves. The live app opens your UPI app.'}</p>
+    ${real && method === 'upi' ? html`<div className="upi-pay" id="upi-pay">
+      <a className="btn primary lg block" id="upi-open" href=${upiLinkOf(r.upi, r.name, due, 'Table ' + s.table + ' bill')}>${I('rupee', 18)}Pay ${inr(due)} in a UPI app</a>
+      <div className="upi-id small">UPI ID <code>${r.upi}</code><button className="link small" onClick=${copyUpi}>Copy</button></div>
+      <button className="btn lg block" id="upi-done" onClick=${() => send('upi')}>${I('check', 17)}I have paid ${inr(due)}</button>
+      <p className="small muted">The staff check it on their UPI app and close your bill.</p></div>`
+    : html`<button className="btn primary lg block" id="pay-go" onClick=${() => send(method)}>${method === 'counter' ? 'I will pay at the counter' : 'Pay ' + inr(due)}</button>
+    <p className="small muted" style=${{ textAlign: 'center' }}>${method === 'counter' ? 'The restaurant sees your total right away.' : 'Demo only: no money moves. The live app opens your UPI app.'}</p>`}
   </div></main>`;
 }
 
 function Paid({ s, d }) {
-  const r = R(s, s.rid), lp = s.lastPaid || { amount: 0, method: 'upi' }, counter = lp.method === 'counter';
+  const r = R(s, s.rid), lp = s.lastPaid || { amount: 0, method: 'upi' }, counter = lp.method === 'counter', real = realRest(s.rid);
   return html`<main className="container"><div className="narrow" style=${{ textAlign: 'center', paddingTop: 40 }}>
     <div className="done-mark">${I('check', 36)}</div>
-    <h1 style=${{ fontSize: 26 }}>${counter ? 'Staff will bring your bill' : 'Paid ' + inr(lp.amount)}</h1>
-    <p className="muted">${r.name} · Table ${s.table}${counter ? ' · ' + inr(lp.amount) + ' due at the counter' : ' · by ' + (lp.method === 'upi' ? 'UPI' : 'card')}</p>
-    ${!counter && can(r.plan, 'pro') ? html`<div className="wa" id="wa-bill" aria-label="WhatsApp bill preview">
+    <h1 style=${{ fontSize: 26 }}>${counter ? 'Staff will bring your bill' : real ? 'Payment sent' : 'Paid ' + inr(lp.amount)}</h1>
+    <p className="muted">${r.name} · Table ${s.table}${counter ? ' · ' + inr(lp.amount) + ' due at the counter' : real ? ' · ' + inr(lp.amount) + ' by UPI. The staff will confirm it on their phone.' : ' · by ' + (lp.method === 'upi' ? 'UPI' : 'card')}</p>
+    ${!counter && !real && can(r.plan, 'pro') ? html`<div className="wa" id="wa-bill" aria-label="WhatsApp bill preview">
       <div className="wa-h"><span className="wa-av">${r.short}</span><span><b>${r.name}</b><small>via Zestro · verified business</small></span></div>
       <div className="wa-msg"><p>Hi ${(s.me.name || 'there').split(' ')[0]}, thank you for dining at <b>${r.name}</b>!</p>
         <p>Amount: <b>${inr(lp.amount)}</b><br />Date: ${new Date().toLocaleDateString('en-IN')} ${clock(Date.now())}<br />Invoice: <span className="wa-link">View bill #${(s.orders.filter((o) => o.mine).slice(-1)[0] || { no: 0 }).no}</span></p>
         <p>How was your meal?</p><small className="wa-t">${clock(Date.now())}</small></div>
       <div className="wa-btns">${['Loved it!', 'Okay', 'Needs improvement'].map((x) => html`<button key=${x} onClick=${() => toast(x === 'Needs improvement' ? 'Sent privately to the owner. They can reply on WhatsApp.' : 'Thanks! The owner sees this in Reports.')}>${x}</button>`)}<button onClick=${() => toast('In the live app this opens ' + r.name + ' on Google Maps to post a review')}>Review us on Google</button></div>
       <p className="small muted wa-note">Demo of the WhatsApp bill sent to ${s.me.phone}.</p></div>` : null}
-    ${can(r.plan, 'pro') && lp.amount ? html`<div className="notice" id="loyalty-note"><b>+${Math.floor(lp.amount / 10)} loyalty points</b> at ${r.name}. You have ${Math.floor(lp.amount / 10) + 120} points; 500 points take ₹50 off a future bill.</div>` : null}
-    ${can(r.plan, 'pro') ? html`<div className="card"><b>How was your meal?</b><div className="stars">${[1, 2, 3, 4, 5].map((n) => html`<button key=${n} className=${n <= s.rating ? 'on' : ''} onClick=${() => d({ type: 'set', k: 'rating', v: n })} aria-label=${n + ' stars'}>${I('star', 30)}</button>`)}</div>${s.rating ? html`<p className="small muted">Thanks! ${s.rating >= 4 ? '+' + Math.floor(lp.amount / 20) + ' bonus points for rating. Share it on Google too?' : 'The owner will see your feedback. You can also post it on Google.'}</p>` : null}${s.rating ? html`<button className="btn primary" id="g-review" onClick=${() => toast('In the live app this opens ' + r.name + ' on Google Maps to post a review')}>${I('star', 16)}Share it on Google</button>` : null}</div>` : null}
+    ${!real && can(r.plan, 'pro') && lp.amount ? html`<div className="notice" id="loyalty-note"><b>+${Math.floor(lp.amount / 10)} loyalty points</b> at ${r.name}. You have ${Math.floor(lp.amount / 10) + 120} points; 500 points take ₹50 off a future bill.</div>` : null}
+    ${!real && can(r.plan, 'pro') ? html`<div className="card"><b>How was your meal?</b><div className="stars">${[1, 2, 3, 4, 5].map((n) => html`<button key=${n} className=${n <= s.rating ? 'on' : ''} onClick=${() => d({ type: 'set', k: 'rating', v: n })} aria-label=${n + ' stars'}>${I('star', 30)}</button>`)}</div>${s.rating ? html`<p className="small muted">Thanks! ${s.rating >= 4 ? '+' + Math.floor(lp.amount / 20) + ' bonus points for rating. Share it on Google too?' : 'The owner will see your feedback. You can also post it on Google.'}</p>` : null}${s.rating ? html`<button className="btn primary" id="g-review" onClick=${() => toast('In the live app this opens ' + r.name + ' on Google Maps to post a review')}>${I('star', 16)}Share it on Google</button>` : null}</div>` : null}
     <button className="btn block" onClick=${() => d({ type: 'go', screen: 'menu' })}>Back to the menu</button>
     <button className="link" style=${{ justifySelf: 'center' }} onClick=${() => d({ type: 'go', screen: 'orders' })}>Orders from this phone</button>
   </div></main>`;
@@ -2532,11 +2556,12 @@ function OtpSheet({ s, d }) {
   const r = R(s, s.rid);
   const [name, setName] = useState(s.me.name || '');
   const [phone, setPhone] = useState(s.me.phone || '');
-  const [step, setStep] = useState(1);
+  const ready0 = !!(s.me.name || '').trim() && /^[6-9]\d{9}$/.test((s.me.phone || '').replace(/\D/g, '').slice(-10));
+  const [step, setStep] = useState(ready0 ? 2 : 1);
   const [code, setCode] = useState('');
-  const [sent, setSent] = useState('');
+  const [sent, setSent] = useState(() => (ready0 ? String(1000 + Math.floor(Math.random() * 9000)) : ''));
   const [tries, setTries] = useState(0);
-  const [wait, setWait] = useState(0);
+  const [wait, setWait] = useState(ready0 ? 30 : 0);
   const [err, setErr] = useState('');
   useEffect(() => { if (!wait) return; const t = setTimeout(() => setWait(wait - 1), 1000); return () => clearTimeout(t); }, [wait]);
   const close = () => d({ type: 'sheet', sheet: null });
@@ -2616,7 +2641,7 @@ const FEATURES = [
   ['Waiter phones with their own PIN and their own tables', ['y', 'y']],
   ['Kitchen stations: a screen each for tandoor, main kitchen, drinks', ['y', 'y']],
   ['Staff report: orders and sales per waiter, cash per cashier', ['n', 'y']],
-  ['Online ordering link: home delivery within your km, pickup, UPI, Gujarati menu', ['n', 'y']],
+  ['Online ordering link: delivery within your km, pickup, UPI, menu in 10 languages', ['n', 'y']],
   ['Loyalty points and bills on WhatsApp', ['n', 'y']],
   ['WhatsApp messages included', ['–', WA.included + ' a month, then ₹' + WA.extra.toFixed(2) + ' each']],
   ['Google review link on every bill', ['n', 'y']],
@@ -2626,6 +2651,7 @@ const FEATURES = [
   ['One-time setup at your restaurant: menu typed, photos, QR stands, staff trained', ['₹' + SETUP.onsite, '₹' + SETUP.onsite]],
   ['WhatsApp support in Hindi, Gujarati, English', ['y', 'Priority']],
 ];
+const LINK_ASK = 'https://wa.me/' + ZESTRO_WA + '?text=' + encodeURIComponent('Hi Zestro, I want the Order Link (online ordering) for my outlet.\nOutlet name:\nArea:\nI will send my menu photo.');
 const FOR = { web: 'Takeaway and delivery outlets like fried chicken, pizza, snacks and tiffin', basic: 'Cafés', pro: 'Family restaurants, busy kitchens and chains' };
 function BillingSwitch() {
   return null;
@@ -2640,15 +2666,14 @@ function PlanCompare({ current, billing }) {
 }
 function PlanCards({ current, currentBilling, billing, onPick, label, withLink }) {
   const bk = BILLING[billing] ? billing : 'y';
-  const linkMsg = 'Hi Zestro, I want the Order Link (online ordering) for my outlet.\nOutlet name:\nArea:\nI will send my menu photo.';
   const linkCard = withLink ? html`<div key="web" className="plan plan-link" id="order-link-card">
     <span className="pill info cur">Small outlets</span>
     <h3>${PLANS.web.name}</h3><p className="small muted">${FOR.web}</p>
     <div className="price"><b>${inr(PLANS.web.total.y)}</b><span>first year</span></div>
     <p className="bill-line"><b>Then ${inr(PLANS.web.renew)} a year</b>, menu and price changes included</p>
-    <ul>${PLANS.web.perks.slice(0, 6).map((p) => html`<li key=${p}>${I('check', 15)}${p}</li>`)}<li className="no">${I('x', 15)}No billing counter, tables or table QR</li></ul>
+    <ul>${PLANS.web.perks.slice(0, 7).map((p) => html`<li key=${p}>${I('check', 15)}${p}</li>`)}<li className="no">${I('x', 15)}No billing counter, tables or table QR</li></ul>
     <p className="small muted">We set up your menu, photos and prices for you. Ready in a day.</p>
-    <a className="btn block primary" href=${'https://wa.me/' + ZESTRO_WA + '?text=' + encodeURIComponent(linkMsg)} target="_blank" rel="noopener">${I('share', 16)}Get it set up on WhatsApp</a>
+    <a className="btn block primary" href=${LINK_ASK} target="_blank" rel="noopener">${I('share', 16)}Get it set up on WhatsApp</a>
   </div>` : null;
   return html`<div className=${'plans ' + (withLink ? 'three-plans' : 'two-plans')}>${linkCard}${PLAN_KEYS.map((k) => {
     const c = planCost(k, bk);
@@ -2696,16 +2721,16 @@ function ModuleBuilder({ s, d, onPick }) {
   </section>`;
 }
 const SIZES = [
-  ['Small and local', 'One counter or a few tables. Start with Billing or Table QR ordering alone, on the phone you have.'],
+  ['Small outlets', 'Takeaway and delivery only? Order Link gives you your own ordering link, set up by us, from ' + inr(PLANS.web.total.y) + '.'],
   ['Cafés and family restaurants', 'Basic for cafés. Pro for family restaurants: tables, waiters, kitchen screen, inventory and online orders.'],
   ['Multiple outlets', 'One owner login for every outlet, each on the plan it needs, ' + OUTLET_OFF + '% off from the third outlet.'],
 ];
 
 const USES = [
-  { id: 'stall', label: 'Small & local', title: 'No hardware. Just the phone in your pocket.', points: ['Bill, take payment and send orders to the kitchen from one phone', 'No printer? Send the bill on WhatsApp or show it on screen', 'Paper menu to digital menu in a day: we type it in for you'], plan: 'basic' },
+  { id: 'link', label: 'Small outlets', title: 'Takeaway and delivery from your own link', points: ['Customers order delivery or pickup from your link, in their own language', 'Orders ring on your phone and come on WhatsApp, with the address on a map', 'We set up your menu, photos and prices. No commission on any order'], plan: 'web' },
   { id: 'cafe', label: 'Cafés', title: 'Counter billing and table orders in one place', points: ['Fast billing with GST, offers and cash/UPI split', 'Diners order from the table QR, you see it live', 'Kitchen screen on any old phone or tablet'], plan: 'basic' },
   { id: 'family', label: 'Family restaurants', title: 'Every table, every bill, on one screen', points: ['Running bills per table, move and merge tables', 'Diners order more rounds from the QR and pay after eating', 'Day-end report and Excel export for your CA'], plan: 'pro' },
-  { id: 'fine', label: 'Busy kitchens & chains', title: 'Stock, staff and profit under control', points: ['Inventory: every bill uses up stock from your recipes', 'Monthly profit, split between partners, with investor logins', 'Waiter sections, kitchen stations and a staff report'], plan: 'pro' },
+  { id: 'fine', label: 'Busy kitchens', title: 'Stock, staff and profit under control', points: ['Inventory: every bill uses up stock from your recipes', 'Monthly profit, split between partners, with investor logins', 'Waiter sections, kitchen stations and a staff report'], plan: 'pro' },
 ];
 const FEATS = [
   ['store', 'Zero hardware', 'Runs on the phone or tablet you already have. A printer is optional, not required.'],
@@ -2722,18 +2747,18 @@ const FAQS = [
     ['How long does it take to set up?', 'Under an hour. Or we come to you: we type your menu, take dish photos, put up the table QR codes and train your staff.'],
     ['What if the internet goes down?', 'Counter billing keeps working and saves on the phone. Bills upload when the internet is back. Table QR ordering needs internet.'],
   ]],
-  ['billing', 'Plans & billing', [
-    ['How do I pay for Zestro?', 'Once a year, per outlet: ' + inr(PLANS.basic.total.y) + ' for Basic or ' + inr(PLANS.pro.total.y) + ' for Pro. There is no monthly or 6-month plan. Try it free for ' + TRIAL.days + ' days first and pay only if you keep it.'],
+  ['billing', 'Plans', [
+    ['How do I pay for Zestro?', 'Once a year, per outlet: ' + inr(PLANS.basic.total.y) + ' for Basic or ' + inr(PLANS.pro.total.y) + ' for Pro. There is no monthly or 6-month plan. Try it free for ' + TRIAL.days + ' days first and pay only if you keep it. Order Link, for takeaway and delivery outlets, is ' + inr(PLANS.web.total.y) + ' for the first year and ' + inr(PLANS.web.renew) + ' a year after that.'],
     ['Is there a free trial?', 'Yes, ' + TRIAL.days + ' days with every feature of the plan and no payment details. During the trial you get up to ' + TRIAL.tables + ' table QR codes, ' + TRIAL.orders + ' orders and ' + TRIAL.wa + ' WhatsApp messages, one trial per restaurant.'],
     ['Is there a setup charge?', 'Yes, ' + inr(SETUP.onsite) + ' once, on every plan. We visit your restaurant, type in your menu, add photos, set up the table QR stands and train your staff.'],
     ['Do you take a commission on orders?', 'No. You pay the plan price only. Diners pay straight to your UPI ID, and every rupee is yours.'],
-    ['Can I get Swiggy and Zomato orders here?', 'Not yet. Keep using the Swiggy and Zomato partner apps for delivery orders. We will tell you as soon as app orders can come into Zestro.'],
+    ['Can I get Swiggy and Zomato orders here?', 'Not yet. Keep their partner apps for their orders. For delivery without commission, share your own Zestro ordering link (Order Link or Pro) with your regular customers.'],
   ]],
-  ['diners', 'Diners & payments', [
+  ['diners', 'Diners', [
     ['How many WhatsApp messages are included?', 'Pro includes ' + WA.included + ' WhatsApp messages a month for bills, offers and your daily summary. Extra messages cost ₹' + WA.extra.toFixed(2) + ' each, added to your next payment. You can see the count in Plan & settings.'],
-    ['How do diners pay?', 'By UPI straight to your UPI ID, by cash or card at the counter, or on khata for regulars.'],
+    ['How do diners pay?', 'By UPI straight to your UPI ID, by cash or card at the counter, or on khata for regulars. Online orders are paid by UPI (with a screenshot) or in cash on delivery.'],
     ['What happens when a dish runs out?', 'Tap Sold out. Diners see it greyed out at once and cannot order it.'],
-    ['Can someone order without being at a table?', 'Anyone can browse the menu, but ordering needs the QR on the table, and you accept each order before the kitchen sees it.'],
+    ['Can someone order without being at a table?', 'Table orders need the QR on the table. Online orders come from your own ordering link, with the customer’s number and address. Either way you accept each order before the kitchen starts.'],
   ]],
 ];
 /* ---------- Full demo videos: desktop and mobile versions ---------- */
@@ -2754,6 +2779,7 @@ function DemoVideo() {
 
 function ForRestaurants({ s, d }) {
   const [uc, setUc] = useState('family');
+  const [mods, setMods] = useState(false);
   const [fq, setFq] = useState('start');
   const b = s.billing || 'y';
   const owner = (tab) => startDemo(tab);
@@ -2774,9 +2800,9 @@ function ForRestaurants({ s, d }) {
   return html`<main id="biz-main">
     <section className="fx"><div className="container">
       <div className="fx-panel">
-        <span className="fx-badge"><i>${I('store', 14)}</i>Zero hardware · runs on your phone or tablet</span>
+        <span className="fx-badge"><i>${I('store', 14)}</i>No hardware · runs on your phone</span>
         <h1 className="fx-h1">Billing, tables and QR ordering. <em>All on the phone you already have.</em></h1>
-        <p className="fx-sub">GST bills, kitchen tickets, running tables and orders from the table QR, in one app. No computer, no printer required, no commission. Built for small and local restaurants.</p>
+        <p className="fx-sub">GST bills, kitchen tickets, running tables, table QR orders and your own online ordering link, in one app. No computer, no printer required, no commission. Built for small and local restaurants.</p>
         <div className="fx-ctas"><button className="btn primary lg" onClick=${() => signup('basic')}>Register your restaurant<${Arr} /></button><button className="btn lg" id="try-demo" onClick=${() => startDemo()}>${I('sparkle', 18)}Try Demo Kitchen</button><button className="btn lg ghost" id="watch-btn" onClick=${() => { const el = document.getElementById('watch'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>${I('play', 18)}Watch the demo</button></div>
         <span className="fx-proof"><span className="feat-ic" style=${{ width: 44, height: 44 }}>${I('sparkle', 20)}</span><span>${SETUP.trial}-day free trial<small>From ${inr(planCost('basic', 'y').total)} for 12 months, about ${inr(planCost('basic', 'y').per)} a month</small></span></span>
       </div>
@@ -2792,11 +2818,11 @@ function ForRestaurants({ s, d }) {
 
     <section className="sx"><div className="container"><div className="sx-panel">
       <div className="sx-h"><h2>Made for every kind of kitchen</h2><p>From a small local restaurant to a busy kitchen, pick the plan that fits how you serve.</p></div>
-      <div className="center-tabs"><div className="seg" role="group" aria-label="Kind of restaurant">${USES.map((x) => html`<button key=${x.id} aria-pressed=${uc === x.id} onClick=${() => setUc(x.id)}>${x.label}</button>`)}</div></div>
+      <div className="center-tabs"><div className="seg kinds" role="group" aria-label="Kind of restaurant">${USES.map((x) => html`<button key=${x.id} aria-pressed=${uc === x.id} onClick=${() => setUc(x.id)}>${x.label}</button>`)}</div></div>
       <div className="uc">
         <div className="uc-l"><h3>${u.title}</h3><ul>${u.points.map((p) => html`<li key=${p}>${I('check', 17)}${p}</li>`)}</ul>
-          <div className="uc-plan"><button className="btn primary" onClick=${() => signup(u.plan)}>${'Try ' + PLANS[u.plan].name + ' free'}<${Arr} /></button><span className="small muted">Best fit: <b>${PLANS[u.plan].name}</b></span></div></div>
-        <div className="uc-r"><div className="mk-pay"><span className="pill leaf">Best fit</span><b style=${{ fontSize: 22 }}>${PLANS[u.plan].name}</b><span className="amt">${inr(uCost.total)}<small className="small muted" style=${{ fontSize: 14, letterSpacing: 0 }}> ${BILLING[BILLING[b] ? b : 'y'].per}</small></span><span className="small muted">About ${inr(uCost.per)} a month · ${SETUP.trial}-day free trial</span><span className="small">${FOR[u.plan]}</span></div></div>
+          <div className="uc-plan">${u.plan === 'web' ? html`<a className="btn primary" href=${LINK_ASK} target="_blank" rel="noopener">${I('share', 16)}Get it set up on WhatsApp</a>` : html`<button className="btn primary" onClick=${() => signup(u.plan)}>${'Try ' + PLANS[u.plan].name + ' free'}<${Arr} /></button>`}<span className="small muted">Best fit: <b>${PLANS[u.plan].name}</b></span></div></div>
+        <div className="uc-r"><div className="mk-pay"><span className="pill leaf">Best fit</span><b style=${{ fontSize: 22 }}>${PLANS[u.plan].name}</b><span className="amt">${inr(uCost.total)}<small className="small muted" style=${{ fontSize: 14, letterSpacing: 0 }}> ${u.plan === 'web' ? 'first year' : BILLING[BILLING[b] ? b : 'y'].per}</small></span><span className="small muted">${u.plan === 'web' ? 'Then ' + inr(PLANS.web.renew) + ' a year · menu set up by us' : 'About ' + inr(uCost.per) + ' a month · ' + SETUP.trial + '-day free trial'}</span><span className="small">${FOR[u.plan]}</span></div></div>
       </div>
     </div></div></section>
 
@@ -2805,9 +2831,9 @@ function ForRestaurants({ s, d }) {
     <section className="sx" id="pricing"><div className="container"><div className="sx-glow">
       <div className="sx-h"><h2>Three plans. No commission. No hardware.</h2><p>Unlimited bills and orders. One yearly price per outlet, with a ${TRIAL.days}-day free trial first. Prices shown are what you pay.</p></div>
       <${BillingSwitch} s=${s} d=${d} />
-      <${TrialBox} />
       <${PlanCards} current=${null} billing=${b} withLink=${true} onPick=${(k) => signup(k)} label=${(k) => 'Try ' + PLANS[k].name + ' free'} />
-      <div style=${{ maxWidth: 900, margin: '22px auto 0' }}><${ModuleBuilder} s=${s} d=${d} onPick=${(k) => signup(k)} /></div>
+      <div style=${{ maxWidth: 900, margin: '22px auto 0' }}><${TrialBox} /></div>
+      <div style=${{ maxWidth: 900, margin: '18px auto 0' }}>${mods ? html`<${ModuleBuilder} s=${s} d=${d} onPick=${(k) => signup(k)} />` : html`<button className="mods-open" id="mods-open" onClick=${() => setMods(true)}><span><b>Need only billing, or only table QR?</b><small>Build your own plan from single modules, from ${inr(Math.min(...MODULES.map((m) => m.y)))} a year.</small></span>${I('arrow', 18)}</button>`}</div>
       <div className="sizes">${SIZES.map(([t, x]) => html`<div key=${t} className="size"><b>${t}</b><p className="small muted">${x}</p></div>`)}</div>
       <h3 className="sub-h" style=${{ margin: '34px 0 14px', textAlign: 'center' }}>Compare every feature</h3>
       <${PlanCompare} current=${null} billing=${b} />
@@ -2997,7 +3023,7 @@ function Diner({ s, d }) {
 }
 
 /* ---------- Restaurant (owner) ---------- */
-const REQ_TEXT = { waiter: 'is calling a waiter', bill: 'asked for the bill', counter: 'will pay at the counter', paid: 'paid by UPI' };
+const REQ_TEXT = { waiter: 'is calling a waiter', bill: 'asked for the bill', counter: 'will pay at the counter', paid: 'says they paid by UPI · check your UPI app' };
 function OwnerOrders({ s, d }) {
   const r = R(s, OWNER_RID);
   const mt = myTables(s), stn = myStation(s), [scope, setScope] = useState(mt ? 'mine' : 'all');
@@ -3041,8 +3067,7 @@ function OwnerOrders({ s, d }) {
   </article>`; };
   return html`
     <div className=${'ph ph-orders' + (R(s, OWNER_RID).plan === 'web' ? '' : ' long')}><div><h1>${stn ? 'Kitchen · ' + stationName(s, stn) : 'Live orders'}</h1><p className="muted">${stn ? 'Only ' + stationName(s, stn) + ' dishes: ' + ((stationsOf(s).find((x) => x.id === stn) || { cats: [] }).cats.join(', ') || 'none yet') + '. Mark your part ready; the order turns Ready when every station is done.' : mt && scope === 'mine' ? 'Orders and calls from your tables, ' + rangeLabel(mt) + '.' : (R(s, OWNER_RID).plan === 'web' ? 'Online delivery and pickup orders. Keep this screen open: new orders chime.' : 'QR, waiter and counter orders in one kitchen queue. This screen works as the kitchen screen on any phone or tablet.')}</p></div>
-      <div className="row">${mt ? html`<div className="seg" role="group" aria-label="Which orders"><button aria-pressed=${scope === 'mine'} onClick=${() => setScope('mine')}>My tables</button><button aria-pressed=${scope === 'all'} onClick=${() => setScope('all')}>All</button></div>` : null}${R(s, OWNER_RID).plan === 'web' ? null : html`<button className="btn" id="token-btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'tokens' } })}>${I('grid', 16)}Token board</button>`}${roleOf(s) === 'Kitchen' ? null : html`<button className="btn primary" id="take-order" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder' } })}>${I('plus', 17)}${R(s, OWNER_RID).plan === 'web' ? 'Phone order' : 'Take an order'}</button>`}<button className=${'btn' + (s.sound ? ' on' : '')} onClick=${() => { d({ type: 'set', k: 'sound', v: !s.sound }); if (!s.sound) chime(); }} aria-pressed=${s.sound}>${I(s.sound ? 'sound' : 'mute')}${s.sound ? 'Sound on' : 'Sound off'}</button></div></div>
-    ${s.sound && !audioReady() && roleOf(s) !== 'Investor' ? html`<button className="notice sound-hint" id="sound-hint" onClick=${() => { unlockAudio(); chime(); }}>${I('sound', 16)} Tap here once so new orders can ring on this phone.</button>` : null}
+      <div className="row">${mt ? html`<div className="seg" role="group" aria-label="Which orders"><button aria-pressed=${scope === 'mine'} onClick=${() => setScope('mine')}>My tables</button><button aria-pressed=${scope === 'all'} onClick=${() => setScope('all')}>All</button></div>` : null}${R(s, OWNER_RID).plan === 'web' ? null : html`<button className="btn" id="token-btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'tokens' } })}>${I('grid', 16)}Token board</button>`}${roleOf(s) === 'Kitchen' ? null : html`<button className="btn primary" id="take-order" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder' } })}>${I('plus', 17)}${R(s, OWNER_RID).plan === 'web' ? 'Phone order' : 'Take an order'}</button>`}${(() => { const needTap = s.sound && !audioReady(); return html`<button className=${'btn' + (needTap ? ' sound-need' : s.sound ? ' on' : '')} id="sound-btn" onClick=${() => { if (needTap || (s.sound && Date.now() - audioTapAt < 1500)) { unlockAudio(); chime(); toast('Sound is on. New orders will ring on this device.', 'ok'); return; } d({ type: 'set', k: 'sound', v: !s.sound }); if (!s.sound) { unlockAudio(); chime(); } }} aria-pressed=${s.sound && !needTap} title=${needTap ? 'Browsers keep sound off until you tap once' : ''}>${I(s.sound ? 'sound' : 'mute')}${needTap ? 'Tap to turn on sound' : s.sound ? 'Sound on' : 'Sound off'}</button>`; })()}</div></div>
     ${AGGREGATORS && !stn && roleOf(s) !== 'Waiter' ? html`<${OnlineBar} s=${s} d=${d} />` : null}
     ${alerts.length ? html`<div className="reqs">${alerts.map((a) => html`<div key=${a.id} className=${'req' + (a.kind === 'paid' ? ' pay' : '')}>${I(a.kind === 'paid' ? 'check' : 'bell')}<span><b>Table ${a.table}</b> ${REQ_TEXT[a.kind]}${a.amount ? ' · ' + inr(a.amount) : ''}${a.kind === 'waiter' ? (waiterOf(s, a.table) ? ' → ' + waiterOf(s, a.table).name : ' → every waiter') : ''}</span><small>${ago(a.t)}</small><button className="btn sm" onClick=${() => d({ type: 'alertDone', id: a.id })}>Done</button></div>`)}</div>` : null}
     <div className="seg full colswitch" role="group" aria-label="Order stage">${cols.map(([k, l]) => html`<button key=${k} aria-pressed=${s.ownerCol === k} onClick=${() => d({ type: 'set', k: 'ownerCol', v: k })}>${l.split(' ')[0]}${col(k).length ? html`<span className="badge">${col(k).length}</span>` : null}</button>`)}</div>
@@ -3293,7 +3318,7 @@ function summarize(rid, n, extra) {
   return { n, c, p, cur, prev, dishes, cats, tables, hourly, heat: A.heat, r: A.r };
 }
 const pct = (a, b) => (b ? ((a - b) / b) * 100 : 0);
-const Delta = ({ a, b, label, invert }) => { const v = pct(a, b), up = v >= 0, good = invert ? !up : up; return html`<small className=${good ? '' : 'bad'}>${up ? '↑' : '↓'} ${Math.abs(v).toFixed(0)}% ${label}</small>`; };
+const Delta = ({ a, b, label, invert }) => { if (!b) return html`<small className="m">${a ? 'No data for ' + label.replace(/^vs /, '') : 'Nothing yet'}</small>`; const v = pct(a, b); if (Math.abs(v) < 0.5) return html`<small className="m">Same as ${label.replace(/^vs /, '')}</small>`; const up = v > 0, good = invert ? !up : up; return html`<small className=${good ? '' : 'bad'}>${up ? '↑' : '↓'} ${Math.abs(v).toFixed(0)}% ${label}</small>`; };
 function useWidth() {
   const ref = useRef(null); const [w, setW] = useState(0);
   useEffect(() => { const el = ref.current; if (!el) return; setW(Math.max(240, Math.round(el.clientWidth || 560))); if (typeof ResizeObserver === 'undefined') return; const ro = new ResizeObserver(([e]) => setW(Math.max(240, Math.round(e.contentRect.width)))); ro.observe(el); return () => ro.disconnect(); }, []);
@@ -3469,13 +3494,12 @@ function Analytics({ s, d, rid, team }) {
   const vs = range === 1 ? 'vs last ' + WDAY[(new Date().getDay() + 6) % 7] : 'vs previous ' + range + ' days';
   const ranges = [[1, 'Today'], [7, '7 days'], [30, '30 days']];
   const rangeOk = () => true;
-  const tier = team ? 'All sections · team view' : { basic: 'Sales and reports', pro: 'Everything + diners and profit' }[plan] || 'Sales and reports';
   const salesRows = range === 1 ? S.hourly.map((x) => ({ k: hrLabel(x.h).replace(' ', ''), full: hrLabel(x.h), v: x.sales })) : S.cur.map((x, i) => ({ k: fmtDay(x.dt, range), full: x.dt.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }), v: x.sales, prev: S.prev[i] ? S.prev[i].sales : null }));
   const slow = S.dishes.slice(-4).reverse();
   const reviews = Math.round(S.c.orders * 0.16), rating = r.rating;
   const dist = [5, 4, 3, 2, 1].map((st) => ({ label: st + ' ★', v: Math.round(reviews * { 5: 0.58 + (rating - 4.3) * 0.4, 4: 0.26, 3: 0.09, 2: 0.04, 1: 0.03 - (rating - 4.3) * 0.02 }[st]) }));
   return html`<div id="reports-main" className="ana">
-    <div className="ph"><div><h1>Analytics</h1><p className="muted">${r.name} · <span className="pill leaf">${tier}</span> · ${r.live ? 'from your orders' : 'sample history plus orders placed in this demo'}</p></div>
+    <div className="ph"><div><h1>Analytics</h1><p className="muted">${r.live ? 'Sales, orders and dishes from your bills' : 'Sample history plus orders placed in this demo'}${team ? ' · team view' : ''}.</p></div>
       <div className="row">
         <div className="seg" role="group" aria-label="Date range">${ranges.map(([n, l]) => html`<button key=${n} aria-pressed=${range === n} disabled=${!rangeOk(n)} title= onClick=${() => d({ type: 'set', k: 'anaRange', v: n })}>${!rangeOk(n) ? I('lock', 13) : null}${l}</button>`)}</div>
         <button className="btn sm" onClick=${() => { downloadCsv(S); toast('Downloaded ' + S.cur.length + ' days for Excel'); }}>${I('download', 15)}Export to Excel</button>
@@ -3498,7 +3522,7 @@ function Analytics({ s, d, rid, team }) {
         <div className="tile"><span>Kitchen time</span><b>${S.c.prep.toFixed(0)} min</b><${Delta} a=${S.c.prep} b=${S.p.prep} label=${vs} invert=${true} /></div>
       </div>
     <div className="two">
-        <section className="card"><div className="card-h"><h3>${range === 1 ? 'Sales by hour' : 'Sales by day'}</h3><span className="small muted">${range === 1 ? 'Today, estimated from your usual pattern' : 'Last ' + range + ' days'}</span></div>
+        <section className="card"><div className="card-h"><h3>${range === 1 ? 'Sales by hour' : 'Sales by day'}</h3><span className="small muted">${range === 1 ? (RMAP[rid] && RMAP[rid].live ? 'Today, from your bills' : 'Today, estimated from your usual pattern') : 'Last ' + range + ' days'}</span></div>
           <${BarsChart} rows=${salesRows} fmt=${inr} axisFmt=${short} label="This period" prevLabel="Previous period" /></section>
         <section className="card"><div className="card-h"><h3>Top dishes</h3><span className="small muted">Plates sold</span></div>
           <${HBars} rows=${S.dishes.slice(0, range === 1 ? 5 : 7).map((x) => ({ label: x.n, v: x.q, veg: x.veg }))} fmt=${(v) => v} /></section>
@@ -3507,7 +3531,7 @@ function Analytics({ s, d, rid, team }) {
         <${Stack} parts=${[{ label: 'UPI', v: S.c.upi }, { label: 'Cash', v: S.c.cash }, { label: 'Card', v: S.c.card }]} fmt=${(v) => v + ' orders'} /></section>
     </div><//>
 
-    ${rid === OWNER_RID ? html`<h2 className="sub-h">Sales by channel ${!team && !can(plan, 'pro') ? html`<span className="pill">Pro</span>` : null}</h2>
+    ${rid === OWNER_RID ? html`${!team && !can(plan, 'pro') ? html`<h2 className="sub-h">Sales by channel <span className="pill">Pro</span></h2>` : null}
     <${Gate} need="pro" plan=${plan} d=${d} team=${team} title="Sales by channel and app commission are on Pro"><${ChannelReport} s=${s} S=${S} /><//>` : null}
 
     <h2 className="sub-h">Trends and patterns ${!team && !can(plan, 'pro') ? html`<span className="pill">Pro</span>` : null}</h2>
@@ -3621,12 +3645,16 @@ function OwnerSettings({ s, d }) {
     <${LiveSubCard} s=${s} />
     <${StaffAppCard} s=${s} />
     <section className="card" id="qr-safety"><div className="card-h"><h3>${I('shield', 18)} Table QR safety</h3></div>
-      <label className="row" style=${{ gap: 10, fontWeight: 650, flexWrap: 'nowrap' }}><button className="switch" role="switch" id="qr-otp" aria-checked=${r.qrOtp === true} onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { qrOtp: r.qrOtp !== true } }); toast(r.qrOtp !== true ? 'Diners verify their mobile on the first order' : 'Mobile code turned off'); }} aria-label="Ask for a mobile code on the first order"><i></i></button>Ask for a mobile code on each table’s first order</label>
-      <ul className="small muted qs-list">
+      <label className="row" style=${{ gap: 10, fontWeight: 650, flexWrap: 'nowrap' }}><button className="switch" role="switch" id="qr-otp" aria-checked=${r.qrOtp === true} onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { qrOtp: r.qrOtp !== true } }); toast(r.qrOtp !== true ? 'Diners verify their mobile on the first order' : 'Mobile code turned off'); }} aria-label="Ask for a mobile code on the first order"><i></i></button>${r.live && OWNER_RID !== 'demo-kitchen' ? 'Ask for name and mobile number on every QR order' : 'Ask for a mobile code on each table’s first order'}</label>
+      ${r.live && OWNER_RID !== 'demo-kitchen' ? html`<ul className="small muted qs-list">
+        <li>Diners give their name and a 10-digit mobile number before the order goes in. You see both on the kitchen card.</li>
+        <li>Every QR order still waits for your <b>Accept</b>, so you can call the number if an order looks wrong.</li>
+        <li>WhatsApp codes switch on once Zestro’s WhatsApp number is connected.</li>
+      </ul>` : html`<ul className="small muted qs-list">
         <li>The diner gets a 4-digit code on WhatsApp once per visit. Later orders from the same phone and table go straight through for ${VERIFY_HOURS} hours.</li>
         <li>Every QR order still waits for your <b>Accept</b> on the kitchen screen, marked <b>Verified</b> with the mobile number.</li>
         <li>If someone orders from a photo of the QR, they cannot get past the code without a real number, and you can see whose number it is.</li>
-      </ul>
+      </ul>`}
       ${r.qrOtp !== true ? html`<p className="notice">Code is off: anyone with a photo of your table QR can send an order. Keep checking new orders before you accept them.</p>` : null}
     </section>
     <${PrinterSettings} s=${s} d=${d} />
@@ -3689,10 +3717,15 @@ function billOf(lines, r, disc, dine) {
 }
 const due = (o, r) => billOf(o.items, r, o.disc, o.type !== 'takeaway' && o.type !== 'online' && !o.counter).total;
 const METHOD = { cash: 'Cash', upi: 'UPI', card: 'Card', split: 'Cash + UPI', khata: 'Khata', counter: 'At the counter' };
+const realOwner = () => LIVE.mode === 'owner' && !!LIVE.session && !LIVE.session.demo;
 function printOrToast(s, what) {
   const p = s.printer || {};
-  if (p.on) { toast(what + ' sent to the ' + (p.width || 80) + ' mm ' + { bt: 'Bluetooth', usb: 'USB', lan: 'Wi-Fi' }[p.type || 'bt'] + ' printer'); return; }
+  // The sample restaurant pretends to print; a real restaurant gets the phone's print window, sized for the thermal roll
+  if (p.on && !realOwner()) { toast(what + ' sent to the ' + (p.width || 80) + ' mm ' + { bt: 'Bluetooth', usb: 'USB', lan: 'Wi-Fi' }[p.type || 'bt'] + ' printer'); return; }
+  let st = null;
+  if (p.on) { st = document.createElement('style'); st.textContent = '@media print { @page { size: ' + (p.width || 80) + 'mm auto; margin: 2mm; } }'; document.head.appendChild(st); }
   window.print();
+  if (st) setTimeout(() => st.remove(), 1500);
 }
 
 /* ---------- Billing counter (POS) ---------- */
@@ -4631,7 +4664,7 @@ function BillSheet({ s, d }) {
   const paid = os.every((o) => o.pay === 'paid');
   return html`<${Modal} id="bill-sheet" onClose=${() => d({ type: 'sheet', sheet: null })}>
     <div className="modal-h"><h2>${paid ? 'Bill' : 'Bill to settle'}</h2><button className="btn sm icon" onClick=${() => d({ type: 'sheet', sheet: null })} aria-label="Close">${I('x')}</button></div>
-    <div className=${'kot kot-print' + ((p.width || 80) === 58 ? ' w58' : '')} id="bill-print"><div className="c big">${r.name.toUpperCase()}</div><div className="c">${r.area.toUpperCase()}, ${r.city.toUpperCase()}</div>${r.gstin ? html`<div className="c">GSTIN ${r.gstin}</div>` : null}<hr />
+    <div className=${'kot kot-print' + ((p.width || 80) === 58 ? ' w58' : '')} id="bill-print"><div className="c big">${r.name.toUpperCase()}</div><div className="c">${placeOf(r).toUpperCase()}</div>${r.gstin ? html`<div className="c">GSTIN ${r.gstin}</div>` : null}<hr />
       <div className="r"><span>BILL #${o0.no}</span><span>${new Date(o0.t).toLocaleDateString('en-IN')} ${clock(o0.t)}</span></div>
       <div className="r"><span>${o0.web ? (o0.mode === 'delivery' ? 'DELIVERY' : 'PICKUP') : o0.type === 'takeaway' ? 'PARCEL' : 'TABLE ' + o0.table}</span><span>${(o0.name || 'GUEST').toUpperCase().slice(0, 18)}</span></div><hr />
       ${items.map((i, k) => html`<div key=${k} className="r"><span>${i.q} x ${i.n.toUpperCase()}${i.opt ? ' (' + i.opt.toUpperCase() + ')' : ''}</span><span>${(i.q * i.p).toFixed(2)}</span></div>`)}<hr />
@@ -4685,7 +4718,7 @@ function OwnerFloor({ s, d }) {
     const os = open.filter((o) => o.type !== 'takeaway' && o.table === t);
     const alert = s.alerts.find((a) => a.rid === OWNER_RID && a.table === t && a.kind !== 'paid');
     const total = os.reduce((x, o) => x + due(o, r), 0);
-    const st = !os.length ? ['free', 'Free'] : alert && (alert.kind === 'bill' || alert.kind === 'counter') ? ['bill', 'Wants the bill'] : os.some((o) => o.status !== 'served') ? ['cook', 'Food on the way'] : ['eat', 'Eating'];
+    const st = !os.length ? ['free', 'Free'] : alert && alert.kind === 'paid' ? ['bill', 'Says paid · check UPI'] : alert && (alert.kind === 'bill' || alert.kind === 'counter') ? ['bill', 'Wants the bill'] : os.some((o) => o.status !== 'served') ? ['cook', 'Food on the way'] : ['eat', 'Eating'];
     return { t, os, total, st, since: os.length ? Math.min(...os.map((o) => o.t)) : null, alert };
   });
   const parcels = open.filter((o) => o.type === 'takeaway');
@@ -4708,7 +4741,7 @@ function OwnerFloor({ s, d }) {
       <span className="ft-h"><b>T${x.t}</b>${x.alert ? html`<span className="ft-bell">${I('bell', 14)}</span>` : null}</span>
       <span className="ft-s">${x.st[1]}</span>
       ${x.os.length ? html`<span className="ft-t num">${inr(x.total)}</span><small>${x.os.length} order${x.os.length > 1 ? 's' : ''} · ${ago(x.since)}</small>` : html`<small>Tap to start</small>`}
-      ${!mt || view === 'all' ? html`<span className="ft-w">${I('user', 12)}${w ? w.name : 'No waiter'}</span>` : null}
+      ${(!mt || view === 'all') && waiters.length ? html`<span className="ft-w">${I('user', 12)}${w ? w.name : 'No waiter'}</span>` : null}
     </button>`; })}</div>
     <div className="floor-key small muted"><span><i className="k free"></i>Free</span><span><i className="k cook"></i>Food on the way</span><span><i className="k eat"></i>Eating</span><span><i className="k bill"></i>Wants the bill</span>${!mt && waiters.length ? html`<span className="sections">Sections: ${waiters.map((w) => w.name + ' ' + rangeLabel(w.tables)).join(' · ')}${roleOf(s) === 'Owner' ? html` · <button className="link small" onClick=${() => { d({ type: 'set', k: 'ownerTab', v: 'settings' }); setTimeout(() => { const el = document.getElementById('staff'); if (el) el.scrollIntoView({ block: 'start' }); }, 60); }}>Change</button>` : null}</span>` : null}</div>
     <section className="card"><div className="card-h"><h3>Takeaway and parcels</h3><span className="small muted">${parcels.length ? parcels.length + ' waiting' : 'None waiting'}</span></div>
@@ -4737,6 +4770,7 @@ function TableBillSheet({ s, d }) {
       <div className="row tb-acts"><button className="btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder', table: t } })}>${I('plus', 16)}Add items</button><button className="btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'bill', ids: os.map((o) => o.id) } })}>${I('print', 16)}Print bill</button><button className="btn" aria-pressed=${mode === 'move'} onClick=${() => { setMode(mode === 'move' ? null : 'move'); setTo(''); }}>Move</button><button className="btn" aria-pressed=${mode === 'merge'} disabled=${!busy.length} onClick=${() => { setMode(mode === 'merge' ? null : 'merge'); setTo(''); }}>Merge</button></div>
       ${mode ? html`<div className="rows-line two-col"><select className="inp" id="tb-to" aria-label=${mode === 'move' ? 'Move to table' : 'Merge with table'} value=${to} onChange=${(e) => setTo(e.target.value)}><option value="">${mode === 'move' ? 'Move to a free table…' : 'Bring in the bill of table…'}</option>${(mode === 'move' ? free : busy).map((x) => html`<option key=${x} value=${x}>Table ${x}</option>`)}</select>
         <button className="btn primary" disabled=${!to} onClick=${() => { if (mode === 'move') { d({ type: 'moveTable', from: t, to: Number(to) }); toast('Table ' + t + ' moved to Table ' + to); } else { d({ type: 'moveTable', from: Number(to), to: t }); toast('Table ' + to + ' merged into Table ' + t); setMode(null); } }}>${mode === 'move' ? 'Move' : 'Merge'}</button></div>` : null}
+      ${(() => { const c = os.find((o) => o.payClaim); return c ? html`<p className="notice leaf" id="tb-claim">The diner says they paid ${inr(B.total)} by UPI${c.claimAt ? ' at ' + clock(c.claimAt) : ''}. Check your UPI app, then settle by UPI.</p>` : null; })()}
       ${canPay(s) ? html`<b className="small">Settle the bill</b>
       <div className="chips paym">${['cash', 'upi', 'card', 'khata'].map((k) => html`<button key=${k} className="chip" onClick=${() => { d({ type: 'settleTable', table: t, method: k, by: meName(s) }); toast('Table ' + t + ' settled · ' + inr(B.total) + ' by ' + METHOD[k], 'ok'); }}>${METHOD[k]}</button>`)}</div>` : html`<p className="small muted">The cashier settles the bill. Print it and take it to the table.</p>`}`}
   <//>`;
@@ -4845,10 +4879,10 @@ function OwnerCustomers({ s, d }) {
       <div className="chips"><button className="chip" aria-pressed=${!onlyDue} onClick=${() => setOnlyDue(false)}>Everyone</button><button className="chip" aria-pressed=${onlyDue} onClick=${() => setOnlyDue(true)}>Khata due</button></div></div>
     <div className="twrap hide-m"><table className="tbl"><thead><tr><th>Customer</th><th>Mobile</th><th className="r">Visits</th><th className="r">Spent</th><th>Last visit</th><th className="r">Khata due</th>${can(r.plan, 'pro') ? html`<th className="r">Points</th>` : null}<th></th></tr></thead>
       <tbody>${list.map((c) => html`<tr key=${c.phone}><td><b>${c.name || 'Guest'}</b>${c.visits >= 5 ? html` <span className="pill leaf">Regular</span>` : null}</td><td className="small num">${c.phone}</td><td className="r">${c.visits}</td><td className="r">${inr(c.spent)}</td><td className="small">${lastTxt(c.last)}</td><td className=${'r ' + (c.due ? 'neg' : '')}>${c.due ? inr(c.due) : '–'}</td>${can(r.plan, 'pro') ? html`<td className="r">${c.pts.toLocaleString('en-IN')}</td>` : null}
-        <td><div className="row" style=${{ flexWrap: 'nowrap', justifyContent: 'flex-end' }}>${c.due ? html`<button className="btn sm primary" onClick=${() => { d({ type: 'khataPay', phone: c.phone }); toast(inr(c.due) + ' collected from ' + c.name); }}>Collect ${inr(c.due)}</button>` : null}<button className="btn sm" onClick=${() => toast('In the live app this opens WhatsApp to ' + c.phone)}>WhatsApp</button></div></td></tr>`)}</tbody></table></div>
+        <td><div className="row" style=${{ flexWrap: 'nowrap', justifyContent: 'flex-end' }}>${c.due ? html`<button className="btn sm primary" onClick=${() => { d({ type: 'khataPay', phone: c.phone }); toast(inr(c.due) + ' collected from ' + c.name); }}>Collect ${inr(c.due)}</button>` : null}<button className="btn sm" onClick=${() => (realOwner() ? window.open('https://wa.me/91' + String(c.phone).replace(/\D/g, '').slice(-10), '_blank', 'noopener') : toast('In the live app this opens WhatsApp to ' + c.phone))}>WhatsApp</button></div></td></tr>`)}</tbody></table></div>
     <div className="mcards">${list.map((c) => html`<div key=${c.phone} className="mcard"><div className="mc-top"><b>${c.name || 'Guest'}</b>${c.visits >= 5 ? html`<span className="pill leaf">Regular</span>` : null}<span className="grow"></span>${c.due ? html`<span className="pill bad">Due ${inr(c.due)}</span>` : null}</div>
       <span className="small muted">${c.phone} · ${c.visits} visits · ${inr(c.spent)} spent · ${lastTxt(c.last)}${can(r.plan, 'pro') ? ' · ' + c.pts.toLocaleString('en-IN') + ' points' : ''}</span>
-      <div className="row">${c.due ? html`<button className="btn sm primary" onClick=${() => { d({ type: 'khataPay', phone: c.phone }); toast(inr(c.due) + ' collected from ' + c.name); }}>Collect ${inr(c.due)}</button>` : null}<button className="btn sm" onClick=${() => toast('In the live app this opens WhatsApp to ' + c.phone)}>WhatsApp</button></div></div>`)}</div>
+      <div className="row">${c.due ? html`<button className="btn sm primary" onClick=${() => { d({ type: 'khataPay', phone: c.phone }); toast(inr(c.due) + ' collected from ' + c.name); }}>Collect ${inr(c.due)}</button>` : null}<button className="btn sm" onClick=${() => (realOwner() ? window.open('https://wa.me/91' + String(c.phone).replace(/\D/g, '').slice(-10), '_blank', 'noopener') : toast('In the live app this opens WhatsApp to ' + c.phone))}>WhatsApp</button></div></div>`)}</div>
     ${!list.length ? html`<div className="empty card"><p>No customers match.</p></div>` : null}
   </div>`;
 }
@@ -4858,14 +4892,14 @@ function PrinterSettings({ s, d }) {
   const p = { on: false, type: 'bt', width: 80, autoKot: true, autoBill: false, ...(s.printer || {}) };
   const set = (patch) => d({ type: 'set', k: 'printer', v: { ...p, ...patch } });
   return html`<section className="card" id="printer"><div className="card-h"><h3>${I('print', 18)} Printer</h3><span className="small muted">Optional</span></div>
-    <label className="row" style=${{ gap: 10, fontWeight: 600 }}><button className="switch" role="switch" id="printer-on" aria-checked=${p.on} onClick=${() => { set({ on: !p.on }); toast(p.on ? 'Printer removed. Bills go on WhatsApp or the screen.' : 'Printer connected (demo)'); }} aria-label="Use a printer"><i></i></button>${p.on ? 'Printer connected' : 'No printer: bills go on WhatsApp or show on screen, tickets go to the kitchen screen'}</label>
+    <label className="row" style=${{ gap: 10, fontWeight: 600 }}><button className="switch" role="switch" id="printer-on" aria-checked=${p.on} onClick=${() => { set({ on: !p.on }); toast(p.on ? 'Printer removed. Bills go on WhatsApp or the screen.' : realOwner() ? 'Printer on. Print opens the print window: pick your printer there.' : 'Printer connected (demo)'); }} aria-label="Use a printer"><i></i></button>${p.on ? 'Printer connected' : 'No printer: bills go on WhatsApp or show on screen, tickets go to the kitchen screen'}</label>
     ${p.on ? html`<div className="fields2">
         <div className="field"><span>Connection</span><div className="seg full" role="group" aria-label="Connection">${[['bt', 'Bluetooth'], ['usb', 'USB'], ['lan', 'Wi-Fi']].map(([k, l]) => html`<button key=${k} aria-pressed=${p.type === k} onClick=${() => set({ type: k })}>${l}</button>`)}</div></div>
         <div className="field"><span>Paper width</span><div className="seg full" role="group" aria-label="Paper width">${[58, 80].map((w) => html`<button key=${w} aria-pressed=${p.width === w} onClick=${() => set({ width: w })}>${w} mm</button>`)}</div></div></div>
       <div className="row" style=${{ gap: 18 }}>
         <label className="row" style=${{ gap: 8 }}><button className="switch" role="switch" aria-checked=${p.autoKot} onClick=${() => set({ autoKot: !p.autoKot })} aria-label="Print kitchen tickets automatically"><i></i></button>Kitchen ticket when an order is accepted</label>
         <label className="row" style=${{ gap: 8 }}><button className="switch" role="switch" aria-checked=${p.autoBill} onClick=${() => set({ autoBill: !p.autoBill })} aria-label="Print bills automatically"><i></i></button>Bill when it is paid</label></div>
-      <div className="row"><button className="btn" onClick=${() => toast('Test page sent to the ' + p.width + ' mm printer (demo)')}>Print a test page</button><span className="small muted">${p.type === 'bt' ? 'Pair the printer in your phone’s Bluetooth settings first.' : p.type === 'usb' ? 'Plug the printer into the tablet or laptop.' : 'The printer and this device must be on the same Wi-Fi.'}</span></div>` : html`<p className="small muted">Any 58 or 80 mm thermal printer works when you want one. Nothing to fix in the restaurant; connect or remove it here any time.</p>`}
+      <div className="row"><button className="btn" onClick=${() => toast(realOwner() ? 'Open any bill or kitchen ticket and tap Print, then pick your printer in the print window.' : 'Test page sent to the ' + p.width + ' mm printer (demo)')}>Print a test page</button><span className="small muted">${p.type === 'bt' ? 'Pair the printer in your phone’s Bluetooth settings first.' : p.type === 'usb' ? 'Plug the printer into the tablet or laptop.' : 'The printer and this device must be on the same Wi-Fi.'}</span></div>` : html`<p className="small muted">Any 58 or 80 mm thermal printer works when you want one. Nothing to fix in the restaurant; connect or remove it here any time.</p>`}
   </section>`;
 }
 const STAFF0 = [
@@ -5271,7 +5305,7 @@ function StatementSheet({ s, d }) {
 function OwnerMore({ s, d, tabs }) {
   return html`<div style=${{ display: 'grid', gap: 14 }}><div className="ph"><div><h1>More</h1></div></div>
     <div className="more-grid">${tabs.map(([id, label, icon, badge]) => html`<button key=${id} className="more-it" onClick=${() => d({ type: 'set', k: 'ownerTab', v: id })}>${I(icon, 22)}<b>${label}</b>${badge ? html`<span className="badge">${badge}</span>` : null}</button>`)}</div>
-    <section className="card help-card"><div className="grow"><b>${(s.me2 || { name: 'Kunal Shah' }).name}</b><p className="small muted">${(s.me2 || { role: 'Owner' }).role} at ${R(s, OWNER_RID).name}</p></div><button className="btn" onClick=${() => (R(s, OWNER_RID).plan === 'web' ? window.open(appBase() + '#o=' + OWNER_RID, '_blank') : d({ type: 'open', rid: OWNER_RID, table: 1 }))}>${I('compass', 16)}View my menu</button><button className="btn" id="logout-m" onClick=${() => { d({ type: 'logout' }); toast('Logged out'); }}>Log out</button></section></div>`;
+    <section className="card help-card more-me"><div className="grow"><b>${(s.me2 || { name: 'Kunal Shah' }).name}</b><p className="small muted">${(s.me2 || { role: 'Owner' }).role} at ${R(s, OWNER_RID).name}</p></div><button className="btn" onClick=${() => (R(s, OWNER_RID).plan === 'web' ? window.open(appBase() + '#o=' + OWNER_RID, '_blank') : d({ type: 'open', rid: OWNER_RID, table: 1 }))}>${I('compass', 16)}View my menu</button><button className="btn" id="logout-m" onClick=${() => { d({ type: 'logout' }); toast('Logged out'); }}>Log out</button></section></div>`;
 }
 
 function Owner({ s, d }) {
@@ -5290,7 +5324,7 @@ function Owner({ s, d }) {
   return html`<div className="oshell">
     <aside className="oside">
       <${Logo} d=${d} />
-      <div className="orest"><div className="row" style=${{ flexWrap: 'nowrap' }}><${RLogo} r=${r} /><div className="grow"><b>${r.name}</b><div className="small muted">${r.area}, ${r.city}</div></div></div><span className="pill leaf">${PLANS[r.plan].name} plan</span></div>
+      <div className="orest"><div className="row" style=${{ flexWrap: 'nowrap' }}><${RLogo} r=${r} /><div className="grow"><b>${r.name}</b><div className="small muted">${placeOf(r)}</div></div></div><span className="pill leaf">${PLANS[r.plan].name} plan</span></div>
       <nav className="onav" aria-label="Restaurant dashboard">${myTabs.map(([id, label, icon, badge]) => html`<button key=${id} aria-current=${cur === id ? 'page' : undefined} onClick=${() => d({ type: 'set', k: 'ownerTab', v: id })}>${I(icon)}${label}${badge ? html`<span className="badge">${badge}</span>` : null}</button>`)}</nav>
       <div className="oside-foot"><button className="btn block" onClick=${() => (R(s, OWNER_RID).plan === 'web' ? window.open(appBase() + '#o=' + OWNER_RID, '_blank') : d({ type: 'open', rid: OWNER_RID, table: 1 }))}>${I('compass', 16)}View my menu</button><p className="small muted">Signed in as ${(s.me2 || { name: 'Kunal Shah' }).name}, ${((s.me2 || { role: 'Owner' }).role).toLowerCase()} · <button className="link small" id="logout" onClick=${() => { d({ type: 'logout' }); toast('Logged out'); }}>Log out</button></p></div>
     </aside>
@@ -5326,7 +5360,7 @@ function Owner({ s, d }) {
 /* ---------- Our team (admin) ---------- */
 function Admin({ s, d }) {
   const rows = [
-    ...RESTAURANTS.map((r) => { const x = R(s, r.id); return { id: r.id, name: x.name, area: x.area + ', ' + x.city, plan: x.plan, billing: x.billing || 'y', tables: x.tables, ordersToday: r.id === OWNER_RID ? BASE.orders + s.orders.filter((o) => o.rid === r.id && o.mine).length : Math.round(r.reviews / 40) + s.orders.filter((o) => o.rid === r.id && o.mine).length, joined: { spice: 'Aug 2026', rasoi: 'Jul 2026', leaf: 'Sep 2026', pav: 'Sep 2026', nawab: 'Aug 2026', bowl: 'Oct 2026' }[r.id], live: true }; }),
+    ...RESTAURANTS.map((r) => { const x = R(s, r.id); return { id: r.id, name: x.name, area: placeOf(x), plan: x.plan, billing: x.billing || 'y', tables: x.tables, ordersToday: r.id === OWNER_RID ? BASE.orders + s.orders.filter((o) => o.rid === r.id && o.mine).length : Math.round(r.reviews / 40) + s.orders.filter((o) => o.rid === r.id && o.mine).length, joined: { spice: 'Aug 2026', rasoi: 'Jul 2026', leaf: 'Sep 2026', pav: 'Sep 2026', nawab: 'Aug 2026', bowl: 'Oct 2026' }[r.id], live: true }; }),
     ...EXTRA_RESTAURANTS,
     ...s.approved.map((a) => ({ ...a, ordersToday: 0, isNew: true })),
   ];
@@ -5371,7 +5405,7 @@ function Admin({ s, d }) {
 /* ---------- Live: database connection ---------- */
 const LIVE = { url: 'https://tnffprnunuaukqzpbufy.supabase.co', key: 'sb_publishable_8ggGtGEjhVYMWbGpwyM8SQ_GNlk3uDH', mode: 'site', session: null, info: null, since: null, orders: [], r: null };
 const SESSION_KEY = 'zestro-session', LAST_RID_KEY = 'zestro-last-rid';
-const APP_VER = '1.5';   // shown on our team page next to each phone
+const APP_VER = '1.6';   // shown on our team page next to each phone
 function deviceName() {
   const u = navigator.userAgent;
   const os = /iPad/.test(u) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) ? 'iPad' : /iPhone/.test(u) ? 'iPhone' : /Android/.test(u) ? (/Mobile/.test(u) ? 'Android phone' : 'Android tablet') : /Windows/.test(u) ? 'Windows computer' : /Mac/.test(u) ? 'Mac' : /Linux/.test(u) ? 'Linux computer' : 'Device';
