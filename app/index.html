@@ -3706,8 +3706,8 @@ function loadLeaflet() {
   if (window.L) return Promise.resolve(window.L);
   if (loadLeaflet.p) return loadLeaflet.p;
   return (loadLeaflet.p = new Promise((ok, bad) => {
-    const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'; document.head.appendChild(css);
-    const js = document.createElement('script'); js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'; js.onload = () => ok(window.L); js.onerror = () => { loadLeaflet.p = null; bad(new Error('map')); }; document.head.appendChild(js);
+    const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'; document.head.appendChild(css);
+    const js = document.createElement('script'); js.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'; js.onload = () => ok(window.L); js.onerror = () => { loadLeaflet.p = null; bad(new Error('map')); }; document.head.appendChild(js);
   }));
 }
 const webOf = (r) => { const w = r.web || {}; return { on: !!w.on, delivery: { on: !!(w.delivery && w.delivery.on), km: Number(w.delivery && w.delivery.km) || 3, min: Number(w.delivery && w.delivery.min) || 0 }, pickup: { on: !w.pickup || w.pickup.on !== false }, lat: w.lat, lng: w.lng, wa: w.wa || '', cash: w.cash !== false, party: { on: !!(w.party && w.party.on), text: (w.party && w.party.text) || '', gu: (w.party && w.party.gu) || '' }, catGu: w.catGu || {}, taglineGu: w.taglineGu || '', gu: w.gu !== false, address: w.address || '' }; };
@@ -3796,7 +3796,7 @@ function OnlineShop({ pub }) {
     navigator.geolocation.getCurrentPosition((pos) => { const p = { lat: pos.coords.latitude, lng: pos.coords.longitude }; setPin(p, 'gps'); showMap(p); },
       () => { setLocSt('err'); if (shop) showMap(shop); }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 });
   };
-  useEffect(() => { if (!open) { mapObj.current && mapObj.current.m.remove(); mapObj.current = null; } }, [open]);
+  useEffect(() => { if (!open || mode !== 'delivery') { if (mapObj.current) { try { mapObj.current.m.remove(); } catch (e) {} } mapObj.current = null; } else if (loc && !mapObj.current) showMap(loc); }, [open, mode]);
 
   const waText = (o) => {
     const L1 = ['*New order #' + o.no + '* · ' + r.name, (o.mode === 'delivery' ? '🛵 Home delivery' : '🏃 Pickup'), ''];
@@ -4611,7 +4611,7 @@ function StatementSheet({ s, d }) {
 function OwnerMore({ s, d, tabs }) {
   return html`<div style=${{ display: 'grid', gap: 14 }}><div className="ph"><div><h1>More</h1></div></div>
     <div className="more-grid">${tabs.map(([id, label, icon, badge]) => html`<button key=${id} className="more-it" onClick=${() => d({ type: 'set', k: 'ownerTab', v: id })}>${I(icon, 22)}<b>${label}</b>${badge ? html`<span className="badge">${badge}</span>` : null}</button>`)}</div>
-    <section className="card help-card"><div className="grow"><b>${(s.me2 || { name: 'Kunal Shah' }).name}</b><p className="small muted">${(s.me2 || { role: 'Owner' }).role} at ${R(s, OWNER_RID).name}</p></div><button className="btn" onClick=${() => d({ type: 'open', rid: OWNER_RID, table: 1 })}>${I('compass', 16)}View my menu</button><button className="btn" id="logout-m" onClick=${() => { d({ type: 'logout' }); toast('Logged out'); }}>Log out</button></section></div>`;
+    <section className="card help-card"><div className="grow"><b>${(s.me2 || { name: 'Kunal Shah' }).name}</b><p className="small muted">${(s.me2 || { role: 'Owner' }).role} at ${R(s, OWNER_RID).name}</p></div><button className="btn" onClick=${() => (R(s, OWNER_RID).plan === 'web' ? window.open(appBase() + '#o=' + OWNER_RID, '_blank') : d({ type: 'open', rid: OWNER_RID, table: 1 }))}>${I('compass', 16)}View my menu</button><button className="btn" id="logout-m" onClick=${() => { d({ type: 'logout' }); toast('Logged out'); }}>Log out</button></section></div>`;
 }
 
 function Owner({ s, d }) {
@@ -4632,15 +4632,15 @@ function Owner({ s, d }) {
       <${Logo} d=${d} />
       <div className="orest"><div className="row" style=${{ flexWrap: 'nowrap' }}><${RLogo} r=${r} /><div className="grow"><b>${r.name}</b><div className="small muted">${r.area}, ${r.city}</div></div></div><span className="pill leaf">${PLANS[r.plan].name} plan</span></div>
       <nav className="onav" aria-label="Restaurant dashboard">${myTabs.map(([id, label, icon, badge]) => html`<button key=${id} aria-current=${cur === id ? 'page' : undefined} onClick=${() => d({ type: 'set', k: 'ownerTab', v: id })}>${I(icon)}${label}${badge ? html`<span className="badge">${badge}</span>` : null}</button>`)}</nav>
-      <div className="oside-foot"><button className="btn block" onClick=${() => d({ type: 'open', rid: OWNER_RID, table: 1 })}>${I('compass', 16)}View my menu</button><p className="small muted">Signed in as ${(s.me2 || { name: 'Kunal Shah' }).name}, ${((s.me2 || { role: 'Owner' }).role).toLowerCase()} · <button className="link small" id="logout" onClick=${() => { d({ type: 'logout' }); toast('Logged out'); }}>Log out</button></p></div>
+      <div className="oside-foot"><button className="btn block" onClick=${() => (R(s, OWNER_RID).plan === 'web' ? window.open(appBase() + '#o=' + OWNER_RID, '_blank') : d({ type: 'open', rid: OWNER_RID, table: 1 }))}>${I('compass', 16)}View my menu</button><p className="small muted">Signed in as ${(s.me2 || { name: 'Kunal Shah' }).name}, ${((s.me2 || { role: 'Owner' }).role).toLowerCase()} · <button className="link small" id="logout" onClick=${() => { d({ type: 'logout' }); toast('Logged out'); }}>Log out</button></p></div>
     </aside>
     <div className="omain">
       <header className=${'otop' + (role !== 'Owner' ? ' staff' : '')}>
         <div className="otop-name"><b>${r.name}</b><span className="pill leaf">${PLANS[r.plan].name}</span></div>
         <span className="spacer"></span>
         ${role !== 'Owner' ? html`<button className="btn sm staff-out" onClick=${() => { d({ type: 'logout' }); toast('Logged out'); }}>Log out</button>` : null}
-        ${role === 'Investor' || r.live ? null : html`<button className=${'net-pill' + (s.offline ? ' off' : '')} id="net-pill" onClick=${() => { if (s.offline) toast((s.pending ? s.pending + ' bill' + (s.pending > 1 ? 's' : '') + ' uploaded. ' : '') + 'Back online.', 'ok'); else toast('Offline (demo): billing keeps working and saves on this device'); d({ type: 'offline' }); }} title="Try offline billing">${s.offline ? 'Offline' + (s.pending ? ' · ' + s.pending + ' to upload' : '') : 'Online'}</button>
-        <button className=${'open-toggle' + (r.open ? ' on' : '')} role="switch" aria-checked=${r.open} onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { open: !r.open } }); toast(r.open ? 'Ordering paused. Diners can still see the menu.' : 'Taking orders again'); }}><i></i><span className="ot-l">${r.open ? 'Taking orders' : 'Orders paused'}</span><span className="ot-s">${r.open ? 'Open' : 'Paused'}</span></button>`}
+        ${role === 'Investor' || r.live ? null : html`<button className=${'net-pill' + (s.offline ? ' off' : '')} id="net-pill" onClick=${() => { if (s.offline) toast((s.pending ? s.pending + ' bill' + (s.pending > 1 ? 's' : '') + ' uploaded. ' : '') + 'Back online.', 'ok'); else toast('Offline (demo): billing keeps working and saves on this device'); d({ type: 'offline' }); }} title="Try offline billing">${s.offline ? 'Offline' + (s.pending ? ' · ' + s.pending + ' to upload' : '') : 'Online'}</button>`}
+        ${role === 'Investor' ? null : html`<button className=${'open-toggle' + (r.open ? ' on' : '')} role="switch" aria-checked=${r.open} onClick=${() => { d({ type: 'rest', rid: OWNER_RID, patch: { open: !r.open } }); toast(r.open ? 'Ordering paused. Diners can still see the menu.' : 'Taking orders again'); }}><i></i><span className="ot-l">${r.open ? 'Taking orders' : 'Orders paused'}</span><span className="ot-s">${r.open ? 'Open' : 'Paused'}</span></button>`}
       </header>
       ${role !== 'Owner' ? html`<div className="role-bar"><span className="pill info">${(s.me2 || {}).name} · ${role}</span><span className="small muted">${ROLE_NOTE[role]}${myTables(s) ? ' Your tables: ' + rangeLabel(myTables(s)) + '.' : ''}${myStation(s) ? ' Your station: ' + stationName(s, myStation(s)) + '.' : ''}</span></div>` : null}
       <${LiveBanner} s=${s} d=${d} />
@@ -5415,6 +5415,7 @@ async function boot() {
       init = liveOwnerState(sync, sess); liveRecord(init);
     } else if (rt.mode === 'diner') {
       const pub = await api('z_public', { p_rid: rt.rid });
+      if (pub.plan === 'web') { history.replaceState(null, '', '#o=' + pub.id); root.render(html`<${OnlineShop} pub=${pub} />`); return; }   // Order Link has no table QR
       init = liveDinerState(pub, rt.table);
     }
   } catch (e) {
