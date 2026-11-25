@@ -5078,7 +5078,7 @@ function AdminAdd({ tok, onDone }) {
       <label className="field">Owner name<input id="aa-owner" value=${f.owner} onChange=${set('owner')} /></label>
       <label className="field">Owner mobile<div className="money"><span>+91</span><input id="aa-phone" inputMode="tel" value=${f.phone} onChange=${set('phone')} placeholder="98xxx xxxxx" /></div></label>
       <label className="field">Owner PIN (4 digits)<input id="aa-pin" inputMode="numeric" maxLength="4" value=${f.pin} onChange=${(e) => setF({ ...f, pin: e.target.value.replace(/\D/g, '').slice(0, 4) })} /></label>
-      <label className="field">Plan<select id="aa-plan" value=${f.plan} onChange=${set('plan')}><option value="basic">Basic</option><option value="pro">Pro</option></select></label>
+      <label className="field">Plan<select id="aa-plan" value=${f.plan} onChange=${set('plan')}><option value="basic">Basic</option><option value="pro">Pro</option><option value="web">Order Link (₹6,499, fixed menu)</option></select></label>
       <label className="field">Tables<input id="aa-tables" type="number" min="1" max="200" value=${f.tables} onChange=${set('tables')} /></label>
       <label className="field">Free trial (days)<input id="aa-trial" type="number" min="1" max="60" value=${f.trial_days} onChange=${set('trial_days')} /></label>
     </div>
