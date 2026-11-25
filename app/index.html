@@ -391,6 +391,7 @@ p { margin: 0; }
 .omain { min-width: 0; display: flex; flex-direction: column; }
 .otop { position: sticky; top: 0; z-index: 15; display: flex; align-items: center; gap: 12px; padding: 10px var(--gutter); background: color-mix(in srgb, var(--page) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 .otop-name { display: none; align-items: center; gap: 8px; min-width: 0; margin-right: auto; }
+@media (max-width: 480px) { .otop-name .pill { display: none; } }
 .otop-name b { font-family: var(--f-display); font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .otop .spacer { margin-left: auto; }
 .open-toggle { display: inline-flex; align-items: center; gap: 9px; border: 1px solid var(--line); background: var(--app); border-radius: 999px; padding: 5px 14px 5px 5px; font-weight: 650; font-size: 13.5px; color: var(--muted); }
@@ -581,87 +582,174 @@ img.rlogo { object-fit: cover; background: #fff; display: block; }
 .vbadge { font-size: 10.5px; padding: 1px 7px; margin-left: 4px; vertical-align: 1px; display: inline-flex; gap: 3px; align-items: center; }
 .qs-list { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 6px; }
 /* ---------- Online ordering page (#o=restaurant) ---------- */
-.ol { background: var(--page); min-height: 100vh; padding-bottom: 110px; }
-.ol-hero { position: relative; background: linear-gradient(150deg, var(--b-brand, #0a7f62), var(--b-brand-2, #075c47)); color: #fff; padding: 18px 18px 24px; overflow: hidden; }
-.ol-hero::after { content: ''; position: absolute; right: -70px; top: -70px; width: 230px; height: 230px; border-radius: 50%; background: var(--b-accent, #f2a516); opacity: 0.22; }
-.ol-hero.has-cover { background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.65)), var(--ol-cover) center/cover; }
+.ol-body .toasts { top: calc(12px + env(safe-area-inset-top, 0px)); bottom: auto; }
+.ol { --ol-b: var(--b-brand, #0f766e); --ol-b2: var(--b-brand-2, #0b4f4a); --ol-a: var(--b-accent, #f2a516); --ol-bg: #fffaf2; --ol-tint: #ffefc7;
+  background: var(--ol-bg); min-height: 100vh; padding-bottom: 120px; color: var(--ink); -webkit-tap-highlight-color: transparent; }
+@supports (background: color-mix(in srgb, red 10%, white)) { .ol { --ol-bg: color-mix(in srgb, var(--ol-a) 6%, #ffffff); --ol-tint: color-mix(in srgb, var(--ol-a) 26%, #ffffff); } }
+html[data-theme="dark"] .ol { --ol-bg: var(--page); --ol-tint: var(--app-2); }
+.ol button, .ol input, .ol textarea { font-family: inherit; }
+.ol-hero { position: relative; overflow: hidden; background: linear-gradient(160deg, var(--ol-b), var(--ol-b2)); color: #fff; padding: 16px 18px 24px; }
+.ol-hero::after { content: ''; position: absolute; right: -64px; top: -64px; width: 230px; height: 230px; border-radius: 50%; background: var(--ol-a); opacity: 0.18; pointer-events: none; }
+.ol-hero.has-cover { background: linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.74)), var(--ol-cover) center / cover; }
 .ol-hero > * { position: relative; z-index: 1; }
-.ol-top { display: flex; justify-content: space-between; align-items: center; }
-.ol-lang { background: rgba(255,255,255,.2); color: #fff; border: 0; font-weight: 650; font-size: 13px; padding: 7px 13px; border-radius: 20px; }
-.ol-id { display: flex; gap: 12px; align-items: center; margin-top: 14px; }
-.ol-id .rlogo { width: 58px; height: 58px; border-radius: 16px; box-shadow: 0 0 0 3px rgba(255,255,255,.9); flex: none; }
-.ol-id h1 { font-size: 25px; line-height: 1.15; font-weight: 800; }
-.ol-tag { margin-top: 10px; font-weight: 700; font-size: 17px; line-height: 1.3; color: var(--b-accent, #fff); }
-.ol-sub { font-size: 13px; opacity: .9; margin-top: 4px; }
+.ol-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 30px; z-index: 3; }
+.ol-badge-h { background: #fff; color: #0a7a3a; font-weight: 750; font-size: 11px; letter-spacing: 0.4px; padding: 4px 10px; border-radius: 20px; }
+.ol-lang { background: rgba(255, 255, 255, 0.2); color: #fff; border: 0; font-weight: 650; font-size: 13px; padding: 7px 12px; border-radius: 20px; white-space: nowrap; }
+.ol-langw { position: relative; }
+.ol-langmenu { position: absolute; right: 0; top: calc(100% + 6px); background: var(--app); color: var(--ink); border-radius: 14px; box-shadow: var(--shadow-2); padding: 6px; display: grid; min-width: 170px; z-index: 30; }
+.ol-langmenu button { background: none; border: 0; text-align: left; padding: 9px 12px; border-radius: 10px; font-size: 15px; font-weight: 600; color: var(--ink); display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.ol-langmenu button small { color: var(--muted); font-weight: 500; font-size: 11.5px; }
+.ol-langmenu button[aria-checked="true"] { background: var(--ol-tint); }
+.ol-id { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+.ol-logo { width: 56px; height: 56px; border-radius: 16px; object-fit: cover; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9); flex: none; background: #fff; }
+.ol-brand { font-family: var(--f-display); font-size: 31px; line-height: 1.06; font-weight: 800; letter-spacing: -0.02em; color: var(--ol-a); text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.22); overflow-wrap: anywhere; }
+.ol-pitch { margin-top: 12px; font-weight: 750; font-size: 21px; line-height: 1.25; }
+.ol-tagl { margin-top: 8px; font-size: 13.5px; line-height: 1.45; opacity: 0.93; }
 .ol-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
-.ol-pill { background: var(--b-accent, #f2a516); color: var(--on-sun, #222); font-size: 12.5px; font-weight: 650; padding: 6px 11px; border-radius: 20px; text-decoration: none; }
-.ol-pill.ghost { background: rgba(255,255,255,.18); color: #fff; }
-.ol-stick { position: sticky; top: 0; z-index: 20; background: var(--page); padding: 10px 0 8px; border-bottom: 1px solid var(--line); }
-.ol-search { margin: 0 14px 9px; display: flex; align-items: center; gap: 8px; background: var(--app); border: 1.5px solid var(--line); border-radius: 14px; padding: 0 12px; }
-.ol-search input { flex: 1; border: 0; outline: 0; background: transparent; padding: 11px 0; font: inherit; color: var(--ink); }
-.ol-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 0 14px; scrollbar-width: none; }
+.ol-pill { background: var(--ol-a); color: var(--on-sun, #1d1d1f); font-size: 12.5px; font-weight: 650; padding: 6px 11px; border-radius: 20px; text-decoration: none; border: 0; line-height: 1.35; }
+.ol-pill.ghost { background: rgba(255, 255, 255, 0.17); color: #fff; }
+.ol-closed { margin: 14px 16px 0; background: #fff1f1; border: 1.5px solid #f3b7b7; color: #8a1c1c; border-radius: 16px; padding: 13px 14px; display: grid; gap: 4px; }
+.ol-closed span { font-size: 13px; color: #6b2a2a; }
+.ol-callbtn { justify-self: start; margin-top: 8px; background: var(--ol-b); color: #fff; text-decoration: none; font-weight: 700; padding: 10px 16px; border-radius: 12px; display: inline-block; }
+.ol-off { text-align: center; padding: 48px 24px 10px; display: grid; gap: 12px; justify-items: center; }
+.ol-off .big { font-size: 44px; }
+.ol-status { margin: 14px 16px 0; background: var(--app); border: 1.5px solid var(--ol-b); border-radius: 16px; padding: 12px 14px; box-shadow: var(--shadow-1); }
+.ol-status-h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.ol-status-h small { color: var(--muted); font-size: 12px; }
+.ol-track { list-style: none; margin: 10px 0 2px; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+.ol-track li { display: grid; justify-items: center; text-align: center; gap: 5px; font-size: 11px; line-height: 1.25; color: var(--muted); position: relative; }
+.ol-track li i { width: 14px; height: 14px; border-radius: 50%; background: var(--line); display: block; position: relative; z-index: 1; }
+.ol-track li + li::before { content: ''; position: absolute; top: 6px; right: 50%; width: 100%; height: 2px; background: var(--line); }
+.ol-track li.done i, .ol-track li.now i { background: #16a34a; }
+.ol-track li.done + li::before, .ol-track li.now::before { background: #16a34a; }
+.ol-track li.now { color: var(--ink); font-weight: 700; }
+.ol-track li.now i { box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.22); animation: ol-pulse 1.6s ease-in-out infinite; }
+.ol-track li.done { color: var(--ink); }
+@keyframes ol-pulse { 50% { box-shadow: 0 0 0 7px rgba(22, 163, 74, 0.08); } }
+.ol-stick { position: sticky; top: 0; z-index: 20; background: var(--ol-bg); padding: 12px 0 8px; border-bottom: 1px solid rgba(0, 0, 0, 0.06); }
+.ol-search { margin: 0 16px 10px; display: flex; align-items: center; gap: 8px; background: var(--app); border: 1.5px solid var(--line); border-radius: 14px; padding: 0 6px 0 12px; color: var(--muted); }
+.ol-search:focus-within { border-color: var(--ol-b); }
+.ol-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; padding: 11px 0; font-size: 16px; color: var(--ink); }
+.ol-search input::-webkit-search-cancel-button { display: none; }
+.ol-clear { background: var(--app-2); border: 0; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: var(--ink); flex: none; }
+.ol-tabs { position: relative; display: flex; gap: 8px; overflow-x: auto; padding: 0 16px; scrollbar-width: none; }
 .ol-tabs::-webkit-scrollbar { display: none; }
-.ol-tabs button { flex: none; background: var(--app); border: 1.5px solid var(--line); color: var(--ink); font-weight: 650; font-size: 13px; padding: 7px 13px; border-radius: 20px; }
-.ol-tabs button[aria-pressed="true"] { background: var(--cta); border-color: var(--cta); color: var(--on-cta); }
-.ol-main { max-width: 720px; margin: 0 auto; padding: 4px 14px; }
-.ol-cat { margin-top: 20px; scroll-margin-top: 120px; }
-.ol-cat h2 { font-size: 18px; font-weight: 750; margin-bottom: 8px; }
-.ol-item { display: flex; gap: 12px; align-items: center; background: var(--app); border-radius: 16px; padding: 12px; margin-bottom: 10px; box-shadow: var(--shadow-1); }
-.ol-item.out { opacity: .5; }
-.ol-item .plate { width: 76px; height: 76px; flex: none; border-radius: 14px; }
+.ol-tabs button { flex: none; background: var(--app); border: 1.5px solid var(--line); color: var(--ink); font-weight: 650; font-size: 13px; padding: 7px 13px; border-radius: 22px; white-space: nowrap; }
+.ol-tabs button[aria-pressed="true"] { background: var(--ol-b); border-color: var(--ol-b); color: #fff; }
+.ol-main { max-width: 720px; margin: 0 auto; padding: 4px 16px; }
+.ol-cat { margin-top: 22px; }
+.ol-cat h2 { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 750; margin-bottom: 10px; }
+.ol-cat h2 .em { font-size: 22px; line-height: 1; }
+.ol-cat h2 .n { font-size: 12px; font-weight: 500; color: var(--muted); }
+.ol-item { background: var(--app); border-radius: 16px; padding: 12px; display: flex; align-items: center; gap: 12px; margin-bottom: 10px; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 4px 14px rgba(0, 0, 0, 0.05); }
+.ol-item.out { opacity: 0.55; }
+.ol-thumb { width: 76px; height: 76px; flex: 0 0 76px; border-radius: 14px; object-fit: cover; background: var(--ol-tint); }
+.ol-thumb.em { display: grid; place-items: center; font-size: 32px; }
+@media (max-width: 360px) { .ol-thumb { width: 64px; height: 64px; flex-basis: 64px; } .ol-add, .ol-q { min-width: 84px; } }
 .ol-info { flex: 1; min-width: 0; }
-.ol-info b { display: block; font-size: 15px; line-height: 1.3; }
-.ol-info small { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
-.ol-price { color: var(--leaf); font-weight: 750; margin-top: 4px; }
-.ol-add { background: var(--app); color: var(--cta); border: 1.8px solid var(--cta); font-weight: 750; font-size: 13.5px; padding: 7px 14px; border-radius: 12px; min-width: 86px; }
-.ol-vars { display: flex; flex-direction: column; gap: 6px; }
-.ol-q { display: flex; align-items: center; justify-content: space-between; background: var(--cta); border-radius: 12px; min-width: 86px; }
-.ol-q button { background: transparent; border: 0; color: var(--on-cta); font-size: 19px; font-weight: 700; width: 30px; height: 36px; }
-.ol-q span { color: var(--on-cta); font-weight: 750; }
-.ol-vlab { font-size: 11px; color: var(--muted); text-align: center; }
-.ol-party { margin: 24px 0 0; background: linear-gradient(150deg, #ffd60a, #ffb703); border-radius: 20px; padding: 20px 16px; text-align: center; color: #3a2800; }
-.ol-party h3 { font-size: 19px; line-height: 1.35; color: #8a1220; }
-.ol-party p { font-size: 13px; margin-top: 6px; }
-.ol-party button { margin-top: 12px; background: #8a1220; color: #fff; border: 0; font-weight: 700; padding: 11px 20px; border-radius: 13px; }
-.ol-foot { text-align: center; font-size: 12px; color: var(--muted); padding: 26px 14px 10px; line-height: 1.7; }
-.ol-foot b { color: var(--ink); }
-.ol-cartbar { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); max-width: 696px; margin: 0 auto; background: var(--cta); color: var(--on-cta); border-radius: 16px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-2); z-index: 30; border: 0; font: inherit; width: auto; }
+.ol-name { font-size: 15px; font-weight: 650; line-height: 1.32; overflow-wrap: anywhere; }
+.ol-name .vm { vertical-align: -1px; }
+.ol-badge { display: inline-block; background: var(--ol-a); color: var(--on-sun, #1d1d1f); font-size: 10px; font-weight: 750; padding: 2px 7px; border-radius: 6px; margin-left: 6px; vertical-align: 2px; letter-spacing: 0.3px; line-height: 1.4; }
+.ol-desc { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ol-price { font-size: 15px; font-weight: 750; color: var(--leaf); margin-top: 4px; }
+.ol-add { flex: none; background: var(--app); color: var(--leaf); border: 1.8px solid currentColor; font-weight: 750; font-size: 14px; padding: 8px 12px; border-radius: 12px; min-width: 92px; white-space: nowrap; }
+.ol-add:active, .ol-q button:active { transform: scale(0.95); }
+.ol-q { flex: none; display: flex; align-items: center; justify-content: space-between; background: var(--cta); border-radius: 12px; min-width: 92px; }
+.ol-q button { background: transparent; border: 0; color: var(--on-cta); font-size: 20px; font-weight: 700; width: 32px; height: 38px; }
+.ol-q span { color: var(--on-cta); font-weight: 750; min-width: 18px; text-align: center; }
+.ol-vars { display: grid; gap: 6px; margin-top: 6px; }
+.ol-var { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; }
+.ol-var b { color: var(--leaf); }
+.ol-var .ol-add, .ol-var .ol-q { min-width: 80px; }
+.ol-sold { flex: none; font-size: 12px; font-weight: 700; color: var(--bad); background: var(--bad-soft); padding: 5px 9px; border-radius: 9px; }
+.ol-empty { text-align: center; color: var(--muted); padding: 40px 0; }
+.ol-party { margin: 28px 0 0; background: linear-gradient(150deg, #ffd60a, #ffb703); border-radius: 20px; padding: 22px 18px; text-align: center; color: #3a2800; box-shadow: 0 6px 20px rgba(244, 180, 0, 0.28); }
+.ol-party-em { font-size: 34px; }
+.ol-party h3 { font-size: 20px; line-height: 1.35; color: #8a1220; margin-top: 4px; }
+.ol-party-en { font-weight: 700; font-size: 14.5px; margin-top: 6px; }
+.ol-party-sub { font-size: 12.5px; color: #5a4500; margin-top: 6px; }
+.ol-party button { margin-top: 14px; background: #c8102e; color: #fff; border: 0; font-weight: 700; font-size: 15px; padding: 12px 22px; border-radius: 14px; }
+.ol-foot { max-width: 720px; margin: 28px auto 0; padding: 18px 16px; text-align: center; font-size: 12.5px; color: var(--muted); line-height: 1.75; }
+.ol-foot b { color: var(--ink); font-size: 13.5px; }
+.ol-foot a { color: var(--leaf); font-weight: 600; }
+.ol-pnote { font-size: 11px; margin-top: 4px; }
+.ol-made { margin-top: 12px; }
+.ol-made a { color: var(--ol-b); font-weight: 750; text-decoration: none; }
+.ol-cartbar { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); max-width: 696px; margin: 0 auto; background: var(--ol-b); color: #fff; border-radius: 16px; padding: 10px 10px 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28); z-index: 30; border: 0; text-align: left; animation: ol-in 0.22s ease-out; }
+.ol-cartbar small { display: block; font-size: 12px; opacity: 0.9; }
 .ol-cartbar b { font-size: 17px; }
-.ol-cartbar span.go { background: var(--b-accent, #fff); color: var(--on-sun, #111); font-weight: 750; padding: 10px 16px; border-radius: 12px; }
-.ol-ov { position: fixed; inset: 0; background: var(--scrim); z-index: 40; }
-.ol-sheet { position: fixed; left: 0; right: 0; bottom: 0; max-width: 720px; margin: 0 auto; background: var(--app); border-radius: 22px 22px 0 0; max-height: 92vh; overflow-y: auto; z-index: 50; padding: 10px 16px calc(18px + env(safe-area-inset-bottom)); }
-.ol-sheet h2 { display: flex; justify-content: space-between; align-items: center; font-size: 20px; margin: 6px 0 4px; }
-.ol-line { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
-.ol-line .n { flex: 1; font-size: 14px; font-weight: 550; }
-.ol-tot { display: flex; justify-content: space-between; font-weight: 750; font-size: 18px; padding: 10px 0 2px; }
+.ol-cartbar .go { background: var(--ol-a); color: var(--on-sun, #1d1d1f); font-weight: 750; font-size: 15px; padding: 11px 16px; border-radius: 12px; }
+@keyframes ol-in { from { transform: translateY(140%); } }
+.ol-ov { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.45); z-index: 40; animation: ol-fade 0.2s ease-out; }
+@keyframes ol-fade { from { opacity: 0; } }
+.ol-sheet { position: fixed; left: 0; right: 0; bottom: 0; max-width: 720px; margin: 0 auto; background: var(--app); border-radius: 22px 22px 0 0; max-height: 92vh; overflow-y: auto; overscroll-behavior: contain; z-index: 50; padding: 6px 18px calc(18px + env(safe-area-inset-bottom)); animation: ol-up 0.26s ease-out; }
+@keyframes ol-up { from { transform: translateY(100%); } }
+.ol-grab { width: 44px; height: 5px; background: var(--line); border-radius: 4px; margin: 6px auto 10px; }
+.ol-sheet h2 { display: flex; justify-content: space-between; align-items: center; font-size: 20px; margin-bottom: 4px; }
+.ol-x { background: var(--app-2); border: 0; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: var(--ink); }
+.ol-line { display: flex; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px dashed var(--line); }
+.ol-line .n { flex: 1; font-size: 14px; font-weight: 550; line-height: 1.3; min-width: 0; }
+.ol-line .n small { display: block; font-size: 12px; color: var(--muted); font-weight: 400; margin-top: 2px; }
+.ol-line .n small.bad-t { color: var(--bad); font-weight: 650; }
+.ol-line .p { font-size: 14px; font-weight: 700; min-width: 58px; text-align: right; }
+.ol-line .ol-q { min-width: 86px; }
+.ol-line .ol-q button { height: 32px; }
+.ol-line .ol-add { min-width: 86px; padding: 6px 10px; }
+.ol-rm { background: var(--bad-soft); color: var(--bad); border: 0; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; }
+.ol-tot { margin: 12px 0 4px; font-size: 14px; }
+.ol-tot div { display: flex; justify-content: space-between; padding: 3px 0; }
+.ol-tot .grand { font-size: 18px; font-weight: 750; border-top: 2px solid var(--ink); margin-top: 6px; padding-top: 8px; }
+.ok-t { color: #16a34a; }
+.ol-lab { display: block; font-size: 13px; font-weight: 650; margin: 14px 0 6px; }
+.ol-inp { width: 100%; border: 1.5px solid var(--line); border-radius: 12px; padding: 12px; font-size: 16px; outline: none; background: var(--app); color: var(--ink); }
+.ol-inp:focus { border-color: var(--ol-b); }
+textarea.ol-inp { resize: vertical; min-height: 64px; }
 .ol-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.ol-seg button { background: var(--app-2); border: 1.8px solid transparent; border-radius: 12px; padding: 11px 6px; font-weight: 650; font-size: 14px; color: var(--ink); }
-.ol-seg button[aria-pressed="true"] { border-color: var(--cta); background: var(--leaf-soft); }
+.ol-seg button { background: var(--app-2); border: 1.8px solid transparent; border-radius: 12px; padding: 11px 8px; font-weight: 650; font-size: 14px; color: var(--ink); line-height: 1.3; }
+.ol-seg button[aria-pressed="true"] { border-color: var(--ol-b); background: var(--ol-tint); }
 .ol-seg small { display: block; font-weight: 400; font-size: 11px; color: var(--muted); margin-top: 2px; }
-.ol-sheet label.lab { display: block; font-size: 13px; font-weight: 650; margin: 13px 0 6px; }
-.ol-sheet .inp { width: 100%; }
-.ol-note { border-radius: 10px; padding: 9px 12px; font-size: 12.5px; margin-top: 10px; background: var(--sun-soft); color: var(--warn); }
-.ol-note.ok { background: var(--ok-soft); color: var(--ok); }
-.ol-note.err { background: var(--bad-soft); color: var(--bad); }
-.ol-locbtn { width: 100%; margin-top: 9px; background: var(--app); border: 1.8px dashed var(--cta); color: var(--cta); font-weight: 650; padding: 10px; border-radius: 12px; }
-#ol-map { height: 210px; border-radius: 14px; margin-top: 10px; border: 1px solid var(--line); z-index: 0; }
-.ol-upi { margin-top: 10px; border: 1.5px solid var(--line); background: var(--app-2); border-radius: 14px; padding: 13px; text-align: center; }
-.ol-upi .paybtn { width: 100%; margin-top: 9px; background: #5f259f; color: #fff; border: 0; font-weight: 750; font-size: 15.5px; padding: 13px; border-radius: 12px; }
-.ol-qr { margin: 11px auto 4px; width: 170px; height: 170px; background: #fff; border-radius: 12px; padding: 8px; }
-.ol-qr svg { width: 100%; height: 100%; display: block; }
-.ol-upi code { background: var(--app); border: 1px solid var(--line); border-radius: 8px; padding: 4px 8px; font-weight: 650; }
-.ol-tick { display: flex; gap: 8px; justify-content: center; align-items: center; margin-top: 11px; font-weight: 650; font-size: 14px; }
-.ol-tick input { width: 18px; height: 18px; accent-color: var(--cta); }
-.ol-send { width: 100%; margin-top: 16px; background: #25d366; color: #fff; border: 0; font-weight: 750; font-size: 16px; padding: 15px; border-radius: 14px; }
-.ol-send:disabled { background: #b8b8b8; }
-.ol-done { text-align: center; padding: 8px 4px 4px; }
-.ol-done .big { font-size: 44px; }
-.ol-steps { text-align: left; background: var(--sun-soft); border-radius: 12px; padding: 10px 14px; margin: 12px 0; font-size: 13.5px; line-height: 1.7; }
-.ol-sec { width: 100%; margin-top: 8px; background: var(--app); border: 1.5px solid var(--line); color: var(--ink); font-weight: 650; font-size: 15px; padding: 12px; border-radius: 12px; }
-.ol-status { margin: 14px 14px 0; background: var(--app); border: 1.5px solid var(--leaf); border-radius: 16px; padding: 12px 14px; display: flex; gap: 10px; align-items: center; box-shadow: var(--shadow-1); }
-.ol-status b { display: block; }
-.ol-status small { color: var(--muted); }
-.ol-off { text-align: center; padding: 60px 24px; }
+.ol-note { border-radius: 10px; padding: 9px 12px; font-size: 12.5px; line-height: 1.45; margin-top: 10px; background: #fff6d6; border: 1px solid #ffe58a; color: #6a5200; }
+.ol-note.ok { background: #e8f8ee; border-color: #a8e2bd; color: #0a6b33; }
+.ol-note.err { background: #ffe9ec; border-color: #ffb8c3; color: #9b0c23; }
+.ol-locbtn { width: 100%; margin-top: 10px; background: var(--app); border: 1.8px dashed var(--ol-b); color: var(--leaf); font-weight: 650; font-size: 14px; padding: 11px; border-radius: 12px; }
+#ol-map { height: 220px; border-radius: 14px; margin-top: 10px; border: 1.5px solid var(--line); z-index: 0; overflow: hidden; }
+.ol-maphint { font-size: 11.5px; color: var(--muted); margin-top: 6px; text-align: center; }
+.ol-tick { display: flex; gap: 9px; align-items: flex-start; font-weight: 600; font-size: 13.5px; margin-top: 10px; line-height: 1.4; }
+.ol-tick.c { justify-content: center; align-items: center; margin-top: 12px; }
+.ol-tick input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--ol-b); flex: none; }
+.ol-upi { margin-top: 12px; border: 1.5px solid #d8ecdf; background: #f4fbf6; border-radius: 14px; padding: 14px; text-align: center; }
+html[data-theme="dark"] .ol-upi { background: var(--app-2); border-color: var(--line); }
+.ol-upi-amt { font-weight: 700; font-size: 15px; }
+.ol-paybtn { display: block; text-decoration: none; margin-top: 10px; background: #5f259f; color: #fff; font-weight: 750; font-size: 16px; padding: 14px; border-radius: 12px; }
+.ol-small { font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+.ol-qr { margin: 10px auto 4px; width: 176px; height: 176px; background: #fff; border-radius: 12px; padding: 10px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08); }
+.ol-qr img { width: 100%; height: 100%; display: block; }
+.ol-upi-id { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 8px; font-size: 13px; flex-wrap: wrap; }
+.ol-upi-id code { background: var(--app); border: 1px solid var(--line); border-radius: 8px; padding: 5px 9px; font-weight: 650; }
+.ol-upi-id button { background: var(--app); border: 1px solid var(--ol-b); color: var(--leaf); font-weight: 700; font-size: 12px; padding: 5px 10px; border-radius: 8px; }
+.ol-send { display: block; width: 100%; text-align: center; text-decoration: none; margin-top: 18px; background: #16a34a; color: #fff; border: 0; font-weight: 750; font-size: 16px; padding: 15px; border-radius: 14px; box-shadow: 0 6px 16px rgba(22, 163, 74, 0.28); }
+.ol-send:disabled { background: #9ca3af; box-shadow: none; }
+.ol-hint { text-align: center; font-size: 11.5px; color: var(--muted); margin-top: 8px; }
+.ol-done { text-align: center; padding-bottom: 4px; }
+.ol-done .big { font-size: 46px; line-height: 1.1; }
+.ol-done h2 { justify-content: center; margin-top: 4px; }
+.ol-muted { color: var(--muted); font-size: 14px; margin-top: 2px; }
+.ol-done .ol-track { margin: 16px 0 6px; }
+.ol-steps { text-align: left; background: var(--ol-tint); border-radius: 12px; padding: 11px 14px; margin: 14px 0 0; font-size: 13.5px; line-height: 1.6; }
+.ol-steps ol { margin: 4px 0 0 18px; padding: 0; }
+@media (min-width: 760px) { .ol-hero > *, .ol-search, .ol-tabs, .ol-status, .ol-closed { max-width: 688px; margin-left: auto; margin-right: auto; } .ol-hero { padding: 26px 24px 30px; } .ol-search { margin-bottom: 10px; } .ol-tabs { padding: 0; } }
+.ol-sec { display: block; width: 100%; text-align: center; text-decoration: none; margin-top: 10px; background: var(--app); border: 1.5px solid var(--line); color: var(--ink); font-weight: 650; font-size: 15px; padding: 12px; border-radius: 12px; }
+.sound-hint { display: flex; gap: 8px; align-items: center; width: 100%; text-align: left; border: 0; cursor: pointer; font: inherit; font-size: 13.5px; font-weight: 650; padding: 9px 12px; }
+.web-sw { gap: 10px; font-weight: 650; flex-wrap: nowrap; margin: 8px 0; align-items: flex-start; }
+.web-sw .switch { flex: none; margin-top: 1px; }
+.web-sw small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
+.web-grp { border-top: 1px solid var(--line); padding: 10px 0 4px; margin-top: 8px; }
+.web-grp > summary { cursor: pointer; font-weight: 700; padding: 4px 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.web-grp > summary .pill { font-weight: 600; }
+.web-sub { background: var(--app-2); border-radius: 12px; padding: 8px 12px; margin-top: 10px; }
+.web-sub > summary { cursor: pointer; font-weight: 650; font-size: 14px; }
+.web-grp .chips { margin: 8px 0; }
+.web-grp .chip small { font-weight: 500; margin-left: 4px; }
 .web-link { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 6px 0 4px; }
 .web-link code { background: var(--app-2); border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px; font-size: 12.5px; word-break: break-all; }
 .web-qr { width: 120px; height: 120px; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 6px; }
@@ -1422,6 +1510,10 @@ input.otp { letter-spacing: 0.5em; font-family: var(--f-mono); font-size: 20px; 
 .live-bn { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 10px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--app); font-size: 14px; }
 .live-bn > span { flex: 1; min-width: 220px; display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .live-bn.trial { background: var(--leaf-soft); border-color: var(--leaf); }
+#install-bn { flex-wrap: nowrap; padding: 8px 8px 8px 14px; }
+#install-bn > span { min-width: 0; flex-wrap: nowrap; }
+#install-bn > span b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 560px) { #install-bn small { display: none; } .ph-orders.long p.muted { display: none; } }
 .live-bn.bad { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); }
 .adm-form { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px 14px; margin: 6px 0 12px; }
 .adm-form select { width: 100%; }
@@ -1767,7 +1859,10 @@ const BASE = { sales: 18420, orders: 46, top: { 'Butter Naan': 412, 'Paneer Butt
 const inr = (n) => '₹' + Math.round(Number(n) || 0).toLocaleString('en-IN');
 const clock = (t) => new Date(t).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit' });
 const ago = (t) => { const m = Math.max(0, Math.round((Date.now() - t) / 60000)); return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : Math.floor(m / 60) + ' h ago'; };
-const VegMark = ({ veg }) => html`<span className=${'vm ' + (veg ? 'veg' : 'nv')} role="img" aria-label=${veg ? 'Veg' : 'Non-veg'}></span>`;
+// Veg / non-veg marks only mean something when a menu has both; an all non-veg (or all veg) menu hides them
+const VEG = { off: false };
+const mixedMenu = (menu) => (menu || []).some((m) => m.veg) && (menu || []).some((m) => !m.veg);
+const VegMark = ({ veg, force }) => (VEG.off && !force ? null : html`<span className=${'vm ' + (veg ? 'veg' : 'nv')} role="img" aria-label=${veg ? 'Veg' : 'Non-veg'}></span>`);
 /* ---------- Restaurant theme (look only: brand colour, accent colour, tagline) ---------- */
 const THEMES = [
   { id: 'zestro', name: 'Zestro (default)', brand: null, accent: null },
@@ -1859,9 +1954,12 @@ function standeeCanvas(r, t, branded) {
   return c;
 }
 let audioCtx = null;
+// Phones only play sound after a first tap on the page, so the first tap anywhere wakes the sound up
+function unlockAudio() { try { audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); if (audioCtx.state === 'suspended') audioCtx.resume(); } catch (e) { /* no audio */ } }
+const audioReady = () => !!(audioCtx && audioCtx.state === 'running');
 function chime() {
   try {
-    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    unlockAudio();
     const t0 = audioCtx.currentTime;
     [880, 1175, 1568].forEach((f, i) => { const o = audioCtx.createOscillator(), g = audioCtx.createGain(), t = t0 + i * 0.15; o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.22, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.2); o.connect(g).connect(audioCtx.destination); o.start(t); o.stop(t + 0.24); });
   } catch (e) { /* no audio */ }
@@ -1956,7 +2054,7 @@ function reducer(s, a) {
     case 'qty': return { ...s, cart: s.cart.map((l) => (l.key === a.key ? { ...l, q: l.q + a.d } : l)).filter((l) => l.q > 0) };
     case 'place': return placeOrderIn(s);
     case 'verified': return { ...s, me: { ...s.me, name: a.name, phone: a.phone }, ver: { rid: s.rid, table: s.table, phone: a.phone, at: Date.now() }, sheet: null };
-    case 'staffOrder': { const no = s.nextNo[OWNER_RID] || 101; const o = { id: 'o' + OWNER_RID + no + '-' + Date.now(), rid: OWNER_RID, no, table: a.table, type: 'dine', name: 'Taken by ' + (a.by || 'the waiter'), by: a.by, items: a.items, note: (a.note || '').trim(), status: 'preparing', pay: 'unpaid', t: Date.now(), staff: true }; return { ...s, orders: [...s.orders, o], nextNo: { ...s.nextNo, [OWNER_RID]: no + 1 }, fresh: o.id, ownerCol: 'preparing', sheet: null }; }
+    case 'staffOrder': { const no = s.nextNo[OWNER_RID] || 101; const o = a.parcel ? { id: 'o' + OWNER_RID + no + '-' + Date.now(), rid: OWNER_RID, no, table: 0, type: 'takeaway', web: true, phoneOrder: true, mode: a.mode === 'delivery' ? 'delivery' : 'pickup', name: a.name || 'Phone order', phone: a.phone || '', addr: a.mode === 'delivery' ? a.addr || '' : '', loc: null, payMode: 'cash', by: a.by, items: a.items, note: (a.note || '').trim(), status: 'preparing', pay: 'unpaid', t: Date.now(), staff: true } : { id: 'o' + OWNER_RID + no + '-' + Date.now(), rid: OWNER_RID, no, table: a.table, type: 'dine', name: 'Taken by ' + (a.by || 'the waiter'), by: a.by, items: a.items, note: (a.note || '').trim(), status: 'preparing', pay: 'unpaid', t: Date.now(), staff: true }; return { ...s, orders: [...s.orders, o], nextNo: { ...s.nextNo, [OWNER_RID]: no + 1 }, fresh: o.id, ownerCol: 'preparing', sheet: null }; }
     case 'counterBill': {
       const no = s.nextNo[OWNER_RID] || 101, r = R(s, OWNER_RID), now = Date.now();
       const take = a.otype === 'takeaway', paid = a.mode === 'pay';
@@ -2208,7 +2306,7 @@ function Home({ s, d }) {
       <div className="rgrid" id="rgrid">${list.map((r) => html`<button key=${r.id} className="rcard" onClick=${() => d({ type: 'open', rid: r.id })} aria-label=${'Open ' + r.name + ' menu'}>
         <div className="rban" style=${{ '--b1': r.b[0], '--b2': r.b[1], '--c1': r.c[0], '--c2': r.c[1] }}>
           <div className="plate"></div>
-          <div className="rb-tl">${r.pureVeg ? html`<span className="pill">${html`<${VegMark} veg=${true} />`} Pure veg</span>` : null}${!r.open ? html`<span className="pill">Closed</span>` : null}</div>
+          <div className="rb-tl">${r.pureVeg ? html`<span className="pill">${html`<${VegMark} veg=${true} force=${true} />`} Pure veg</span>` : null}${!r.open ? html`<span className="pill">Closed</span>` : null}</div>
           <span className="rb-br pill">${I('clock', 13)}${r.eta}</span>
         </div>
         <div className="rbody">
@@ -2942,15 +3040,16 @@ function OwnerOrders({ s, d }) {
     ${o.status === 'new' ? html`<button className="link danger small" style=${{ justifySelf: 'start' }} onClick=${() => d({ type: 'sheet', sheet: { type: 'reject', id: o.id } })}>Reject order</button>` : null}
   </article>`; };
   return html`
-    <div className="ph"><div><h1>${stn ? 'Kitchen · ' + stationName(s, stn) : 'Live orders'}</h1><p className="muted">${stn ? 'Only ' + stationName(s, stn) + ' dishes: ' + ((stationsOf(s).find((x) => x.id === stn) || { cats: [] }).cats.join(', ') || 'none yet') + '. Mark your part ready; the order turns Ready when every station is done.' : mt && scope === 'mine' ? 'Orders and calls from your tables, ' + rangeLabel(mt) + '.' : (R(s, OWNER_RID).plan === 'web' ? 'Online delivery and pickup orders. Keep this screen open: new orders chime.' : 'QR, waiter and counter orders in one kitchen queue. This screen works as the kitchen screen on any phone or tablet.')}</p></div>
-      <div className="row">${mt ? html`<div className="seg" role="group" aria-label="Which orders"><button aria-pressed=${scope === 'mine'} onClick=${() => setScope('mine')}>My tables</button><button aria-pressed=${scope === 'all'} onClick=${() => setScope('all')}>All</button></div>` : null}<button className="btn" id="token-btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'tokens' } })}>${I('grid', 16)}Token board</button>${roleOf(s) === 'Kitchen' ? null : html`<button className="btn primary" id="take-order" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder' } })}>${I('plus', 17)}Take an order</button>`}<button className=${'btn' + (s.sound ? ' on' : '')} onClick=${() => { d({ type: 'set', k: 'sound', v: !s.sound }); if (!s.sound) chime(); }} aria-pressed=${s.sound}>${I(s.sound ? 'sound' : 'mute')}${s.sound ? 'Sound on' : 'Sound off'}</button></div></div>
+    <div className=${'ph ph-orders' + (R(s, OWNER_RID).plan === 'web' ? '' : ' long')}><div><h1>${stn ? 'Kitchen · ' + stationName(s, stn) : 'Live orders'}</h1><p className="muted">${stn ? 'Only ' + stationName(s, stn) + ' dishes: ' + ((stationsOf(s).find((x) => x.id === stn) || { cats: [] }).cats.join(', ') || 'none yet') + '. Mark your part ready; the order turns Ready when every station is done.' : mt && scope === 'mine' ? 'Orders and calls from your tables, ' + rangeLabel(mt) + '.' : (R(s, OWNER_RID).plan === 'web' ? 'Online delivery and pickup orders. Keep this screen open: new orders chime.' : 'QR, waiter and counter orders in one kitchen queue. This screen works as the kitchen screen on any phone or tablet.')}</p></div>
+      <div className="row">${mt ? html`<div className="seg" role="group" aria-label="Which orders"><button aria-pressed=${scope === 'mine'} onClick=${() => setScope('mine')}>My tables</button><button aria-pressed=${scope === 'all'} onClick=${() => setScope('all')}>All</button></div>` : null}${R(s, OWNER_RID).plan === 'web' ? null : html`<button className="btn" id="token-btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'tokens' } })}>${I('grid', 16)}Token board</button>`}${roleOf(s) === 'Kitchen' ? null : html`<button className="btn primary" id="take-order" onClick=${() => d({ type: 'sheet', sheet: { type: 'staffOrder' } })}>${I('plus', 17)}${R(s, OWNER_RID).plan === 'web' ? 'Phone order' : 'Take an order'}</button>`}<button className=${'btn' + (s.sound ? ' on' : '')} onClick=${() => { d({ type: 'set', k: 'sound', v: !s.sound }); if (!s.sound) chime(); }} aria-pressed=${s.sound}>${I(s.sound ? 'sound' : 'mute')}${s.sound ? 'Sound on' : 'Sound off'}</button></div></div>
+    ${s.sound && !audioReady() && roleOf(s) !== 'Investor' ? html`<button className="notice sound-hint" id="sound-hint" onClick=${() => { unlockAudio(); chime(); }}>${I('sound', 16)} Tap here once so new orders can ring on this phone.</button>` : null}
     ${AGGREGATORS && !stn && roleOf(s) !== 'Waiter' ? html`<${OnlineBar} s=${s} d=${d} />` : null}
     ${alerts.length ? html`<div className="reqs">${alerts.map((a) => html`<div key=${a.id} className=${'req' + (a.kind === 'paid' ? ' pay' : '')}>${I(a.kind === 'paid' ? 'check' : 'bell')}<span><b>Table ${a.table}</b> ${REQ_TEXT[a.kind]}${a.amount ? ' · ' + inr(a.amount) : ''}${a.kind === 'waiter' ? (waiterOf(s, a.table) ? ' → ' + waiterOf(s, a.table).name : ' → every waiter') : ''}</span><small>${ago(a.t)}</small><button className="btn sm" onClick=${() => d({ type: 'alertDone', id: a.id })}>Done</button></div>`)}</div>` : null}
     <div className="seg full colswitch" role="group" aria-label="Order stage">${cols.map(([k, l]) => html`<button key=${k} aria-pressed=${s.ownerCol === k} onClick=${() => d({ type: 'set', k: 'ownerCol', v: k })}>${l.split(' ')[0]}${col(k).length ? html`<span className="badge">${col(k).length}</span>` : null}</button>`)}</div>
     <div className="kanban" id="board" data-col=${s.ownerCol}>${cols.map(([k, l, tone]) => html`<section key=${k} className="col" data-stage=${k}><div className="col-h"><i className=${'dot ' + tone}></i>${l}<span>${col(k).length}</span></div>
       ${col(k).length ? col(k).map(card) : html`<div className="col-empty">${k === 'new' ? (R(s, OWNER_RID).plan === 'web' ? 'No new orders. Online orders appear here by themselves, with a chime.' : 'No new orders. QR and waiter orders appear here by themselves.') : 'Nothing here.'}</div>`}</section>`)}</div>
-    ${waiting.length && roleOf(s) !== 'Kitchen' ? html`<section className="card"><h3>Waiting for payment</h3><div>${waiting.map((o) => html`<div key=${o.id} className="payrow"><span className="tno">${tlabel(o)}</span><span><b>#${o.no}</b> · ${o.name}<br /><small className="muted">${o.method === 'counter' ? 'Paying at the counter' : 'Not paid yet'}</small></span><strong className="num">${inr(due(o, r))}</strong>
-      ${canPay(s) ? html`<div className="row">${['cash', 'upi', 'card'].map((m) => html`<button key=${m} className="btn sm" onClick=${() => { d({ type: 'markPaid', id: o.id, method: m, by: meName(s) }); toast('Order #' + o.no + ' marked paid'); }}>${m === 'upi' ? 'UPI' : m[0].toUpperCase() + m.slice(1)}</button>`)}</div>` : html`<span className="small muted">Cashier settles</span>`}</div>`)}</div></section>` : null}
+    ${waiting.length && roleOf(s) !== 'Kitchen' ? html`<section className="card"><h3>Waiting for payment</h3><div>${waiting.map((o) => html`<div key=${o.id} className="payrow"><span className="tno">${tlabel(o)}</span><span><b>#${o.no}</b> · ${o.name}<br /><small className="muted">${o.web ? (o.payMode === 'upi' ? 'Customer paid by UPI · check the screenshot' : 'Cash on ' + (o.mode === 'delivery' ? 'delivery' : 'pickup')) : o.method === 'counter' ? 'Paying at the counter' : 'Not paid yet'}</small></span><strong className="num">${inr(due(o, r))}</strong>
+      ${canPay(s) ? html`<div className="row">${['cash', 'upi', 'card'].map((m) => html`<button key=${m} className=${'btn sm' + (o.web && m === (o.payMode === 'upi' ? 'upi' : 'cash') ? ' primary' : '')} onClick=${() => { d({ type: 'markPaid', id: o.id, method: m, by: meName(s) }); toast('Order #' + o.no + ' marked paid'); }}>${m === 'upi' ? 'UPI' : m[0].toUpperCase() + m.slice(1)}</button>`)}</div>` : html`<span className="small muted">Cashier settles</span>`}</div>`)}</div></section>` : null}
     ${done.length ? html`<section className="card"><h3>Done today <span className="muted small">${done.length} orders</span></h3><div className="donechips">${done.map((o) => html`<span key=${o.id} className="donechip"><b>#${o.no}</b>${tlabel(o)} · ${inr(due(o, r))} ${o.status === 'cancelled' ? html`<span className="pill bad">Rejected</span>` : html`<span className="pill ok">Paid</span>`}</span>`)}</div></section>` : null}
   `;
 }
@@ -2994,7 +3093,7 @@ function OwnerMenu({ s, d }) {
   const editDish = (it) => { if (!limited) d({ type: 'sheet', sheet: { type: 'edit', dish: { ...it, price: String(it.price) } } }); };
   const newDish = () => d({ type: 'sheet', sheet: { type: 'edit', isNew: true, dish: { id: 'n' + Date.now(), cat: cat !== 'all' ? cat : cats[0] || 'Specials', name: '', price: '', veg: true, desc: '', tags: [], variants: [], addons: [], stock: true, img: null, c: ['#d98a3a', '#f1d7a6'] } } });
   return html`<div id="menu-mgr-wrap" style=${{ display: 'grid', gap: 16 }}>
-    <div className="ph"><div><h1>Menu</h1><p className="muted">${menu.length} dishes · ${cats.length} categories${out ? ' · ' + out + ' sold out' : ''}. Every change shows on the tables instantly.</p></div>
+    <div className="ph"><div><h1>Menu</h1><p className="muted">${menu.length} dishes · ${cats.length} categories${out ? ' · ' + out + ' sold out' : ''}. ${r.plan === 'web' ? 'Sold-out dishes show on your ordering page within seconds.' : 'Every change shows on the tables instantly.'}</p></div>
       ${limited ? null : html`<div className="row"><button className="btn" onClick=${() => d({ type: 'sheet', sheet: { type: 'cats' } })}>${I('menu', 16)}Categories</button>
       <button className="btn primary" id="add-dish-btn" disabled=${full} onClick=${newDish}>${I('plus')}Add dish</button></div>`}</div>
     ${fixed ? html`<div className="notice leaf" id="fixed-menu">Your menu and prices are set by the Zestro team. You can mark a dish sold out here. To change a dish or a price, <a href=${'https://wa.me/' + ZESTRO_WA + '?text=' + encodeURIComponent('Hi Zestro, menu change for ' + r.name + ' (' + OWNER_RID + '):\n')} target="_blank" rel="noopener">send it to us on WhatsApp</a>. Want to edit it yourself any time? <a href="#account" onClick=${() => setTimeout(() => location.reload(), 30)}>Upgrade to Pro</a>.</div>` : limited ? html`<div className="notice leaf">${viewOnly ? 'View only. Check what is available before taking an order.' : 'Mark a dish sold out the moment it runs out. Every table sees it at once.'}</div>` : null}
@@ -3058,11 +3157,11 @@ function DishEditor({ s, d }) {
       <div className="photo-btns"><label className="btn sm">${I('camera', 16)}${busy ? 'Adding…' : x.img ? 'Change photo' : 'Add photo'}<input type="file" accept="image/*" hidden onChange=${onPhoto} /></label>
       ${x.img ? html`<button className="link danger small" onClick=${() => set('img', null)}>Remove photo</button>` : html`<small className="hint">A good photo sells more. Square works best; we crop and shrink it for you.</small>`}</div></div>
     <label className="field">Dish name<input id="de-name" value=${x.name} placeholder="e.g. Paneer Lababdar" onChange=${(e) => set('name', e.target.value)} /></label>
-    <label className="field">Gujarati name <small className="muted">(optional, shown on your online menu)</small><input id="de-gu" value=${x.gu || ''} placeholder="દા.ત. પનીર લબાબદાર" onChange=${(e) => set('gu', e.target.value)} /></label>
+    ${webOf(R(s, OWNER_RID)).langs.map((k) => html`<label className="field" key=${k}>Name in ${OL_LANGS[k].name} <small className="muted">(${OL_LANGS[k].nat}, for your online menu)</small><input id=${'de-tr-' + k} value=${(x.tr && x.tr[k]) || (k === 'gu' ? x.gu || '' : '')} placeholder=${'e.g. ' + OL_LANGS[k].ex} onChange=${(e) => set('tr', { ...(x.tr || {}), [k]: e.target.value })} /></label>`)}
     <div className="fields2">
       <label className="field">Category<select value=${cats.includes(x.cat) ? x.cat : '__new'} onChange=${(e) => set('cat', e.target.value === '__new' ? (newCat || 'New category') : e.target.value)}>${cats.map((c) => html`<option key=${c} value=${c}>${c}</option>`)}<option value="__new">+ New category…</option></select>
         ${!cats.includes(x.cat) ? html`<input className="inp" placeholder="New category name" value=${x.cat === 'New category' ? newCat : x.cat} onChange=${(e) => { setNewCat(e.target.value); set('cat', e.target.value || 'New category'); }} />` : null}</label>
-      <div className="field"><span>Type</span><div className="seg full" role="group" aria-label="Veg or non-veg"><button aria-pressed=${x.veg} onClick=${() => set('veg', true)}><${VegMark} veg=${true} /> Veg</button><button aria-pressed=${!x.veg} onClick=${() => set('veg', false)}><${VegMark} veg=${false} /> Non-veg</button></div></div>
+      <div className="field"><span>Type</span><div className="seg full" role="group" aria-label="Veg or non-veg"><button aria-pressed=${x.veg} onClick=${() => set('veg', true)}><${VegMark} veg=${true} force=${true} /> Veg</button><button aria-pressed=${!x.veg} onClick=${() => set('veg', false)}><${VegMark} veg=${false} force=${true} /> Non-veg</button></div></div>
     </div>
     ${!x.variants.length ? html`<label className="field">Price<div className="money"><span>₹</span><input id="de-price" type="number" min="0" inputMode="numeric" value=${x.price} onChange=${(e) => set('price', e.target.value)} /></div></label>` : null}
     ${rows('variants', 'Portions (optional)', 'e.g. Half', 'Half / Full or Small / Large, each with its own price.')}
@@ -3266,8 +3365,9 @@ function downloadCsv(S) {
 
 /* ---------- Waiter mode: staff take an order for a table (diners without a phone) ---------- */
 function StaffOrderSheet({ s, d }) {
-  const r = R(s, OWNER_RID), max = r.tables;
-  const [t, setT] = useState(s.sheet.table || (myTables(s) || [3])[0]);
+  const r = R(s, OWNER_RID), max = Math.max(1, r.tables || 1), phoneMode = r.plan === 'web', W = webOf(r);
+  const [t, setT] = useState(Math.min(max, s.sheet.table || (myTables(s) || [1])[0] || 1));
+  const [cust, setCust] = useState({ name: '', phone: '', addr: '', mode: W.delivery.on ? 'delivery' : 'pickup' });
   const [q, setQ] = useState({});
   const [note, setNote] = useState('');
   const menu = s.menus[OWNER_RID].filter((m) => m.stock);
@@ -3278,13 +3378,17 @@ function StaffOrderSheet({ s, d }) {
   const bump = (id, k) => setQ((o) => ({ ...o, [id]: Math.max(0, (o[id] || 0) + k) }));
   const close = () => d({ type: 'sheet', sheet: null });
   return html`<${Modal} id="staff-order" wide=${true} onClose=${close}>
-    <div className="modal-h"><h2>${I('user', 22)}Take an order</h2><button className="btn sm icon" onClick=${close} aria-label="Close">${I('x')}</button></div>
-    <p className="small muted">For guests without a phone, or who would rather tell the waiter. It goes to the kitchen like a scanned order and joins the table's running bill.</p>
-    <div className="field"><span>Table</span><div className="table-grid" role="group" aria-label="Table">${Array.from({ length: max }, (_, i) => i + 1).map((n) => html`<button key=${n} aria-pressed=${t === n} onClick=${() => setT(n)}>${n}</button>`)}</div></div>
+    <div className="modal-h"><h2>${I('user', 22)}${phoneMode ? 'Phone order' : 'Take an order'}</h2><button className="btn sm icon" onClick=${close} aria-label="Close">${I('x')}</button></div>
+    ${phoneMode ? html`<p className="small muted">An order a customer gives you on the phone or at the counter. It joins your online orders on this screen.</p>
+      <div className="seg" role="group" aria-label="Order type">${W.delivery.on ? html`<button aria-pressed=${cust.mode === 'delivery'} onClick=${() => setCust({ ...cust, mode: 'delivery' })}>Delivery</button>` : null}<button aria-pressed=${cust.mode === 'pickup'} onClick=${() => setCust({ ...cust, mode: 'pickup' })}>Pickup</button></div>
+      <div className="fields2"><label className="field">Customer name<input id="so-name" value=${cust.name} placeholder="Optional" onChange=${(e) => setCust({ ...cust, name: e.target.value })} /></label><label className="field">Mobile<input id="so-phone" type="tel" value=${cust.phone} placeholder="Optional" onChange=${(e) => setCust({ ...cust, phone: e.target.value })} /></label></div>
+      ${cust.mode === 'delivery' ? html`<label className="field">Delivery address<input id="so-addr" value=${cust.addr} placeholder="House no., area, landmark" onChange=${(e) => setCust({ ...cust, addr: e.target.value })} /></label>` : null}`
+    : html`<p className="small muted">For guests without a phone, or who would rather tell the waiter. It goes to the kitchen like a scanned order and joins the table's running bill.</p>`}
+    ${phoneMode ? null : html`<div className="field"><span>Table</span><div className="table-grid" role="group" aria-label="Table">${Array.from({ length: max }, (_, i) => i + 1).map((n) => html`<button key=${n} aria-pressed=${t === n} onClick=${() => setT(n)}>${n}</button>`)}</div></div>`}
     <div className="so-list">${cats.map((c) => html`<div key=${c} className="so-cat"><b className="small muted">${c}</b>${menu.filter((m) => m.cat === c).map((m) => html`<div key=${m.id} className="so-row"><${VegMark} veg=${m.veg} /><span className="grow">${m.name}${unit(m)[0] ? html` <small className="muted">${unit(m)[0]}</small>` : null}</span><span className="num small">${inr(unit(m)[1])}</span>
       ${q[m.id] ? html`<div className="stepper sm"><button onClick=${() => bump(m.id, -1)} aria-label=${'One less ' + m.name}>−</button><span>${q[m.id]}</span><button onClick=${() => bump(m.id, 1)} aria-label=${'One more ' + m.name}>+</button></div>` : html`<button className="btn sm" onClick=${() => bump(m.id, 1)} aria-label=${'Add ' + m.name}>Add</button>`}</div>`)}</div>`)}</div>
     <label className="field">Note for the kitchen<input id="so-note" value=${note} placeholder="e.g. less spicy" onChange=${(e) => setNote(e.target.value)} /></label>
-    <button className="btn primary lg block" id="so-send" disabled=${!count} onClick=${() => { d({ type: 'staffOrder', table: t, items: lines, note, by: meName(s) }); toast('Order for Table ' + t + ' sent to the kitchen', 'ok'); }}>Send to kitchen${count ? ' · ' + count + ' item' + (count > 1 ? 's' : '') + ' · ' + inr(total) : ''}</button>
+    <button className="btn primary lg block" id="so-send" disabled=${!count} onClick=${() => { if (phoneMode) { d({ type: 'staffOrder', parcel: true, mode: cust.mode, name: cust.name.trim(), phone: tel10(cust.phone), addr: cust.addr.trim(), items: lines, note, by: meName(s) }); toast((cust.mode === 'delivery' ? 'Delivery' : 'Pickup') + ' order sent to the kitchen', 'ok'); return; } d({ type: 'staffOrder', table: t, items: lines, note, by: meName(s) }); toast('Order for Table ' + t + ' sent to the kitchen', 'ok'); }}>Send to kitchen${count ? ' · ' + count + ' item' + (count > 1 ? 's' : '') + ' · ' + inr(total) : ''}</button>
   <//>`;
 }
 function downloadMenuCsv(s) {
@@ -3554,7 +3658,8 @@ function KotSheet({ s, d }) {
   return html`<${Modal} onClose=${() => d({ type: 'sheet', sheet: null })}>
     <div className="modal-h"><h2>Kitchen ticket</h2><button className="btn sm icon" onClick=${() => d({ type: 'sheet', sheet: null })} aria-label="Close">${I('x')}</button></div>
     <div className="kot kot-print" id="kot"><div className="c big">KOT #${o.no}</div><div className="c">${r.name.toUpperCase()}</div><hr />
-      <div className="r"><span>${o.type === 'takeaway' ? 'PARCEL' : 'TABLE ' + o.table}</span><span>${clock(o.t)}</span></div><div className="r"><span>${o.type === 'takeaway' ? 'TAKEAWAY' : 'DINE-IN'}</span><span>${o.name.toUpperCase().slice(0, 18)}</span></div><hr />
+      <div className="r"><span>${o.web ? (o.mode === 'delivery' ? 'DELIVERY' : 'PICKUP') : o.type === 'takeaway' ? 'PARCEL' : 'TABLE ' + o.table}</span><span>${clock(o.t)}</span></div><div className="r"><span>${o.web ? (o.phoneOrder ? 'PHONE ORDER' : 'ONLINE') : o.type === 'takeaway' ? 'TAKEAWAY' : 'DINE-IN'}</span><span>${o.name.toUpperCase().slice(0, 18)}</span></div>
+      ${o.web && o.phone ? html`<div className="r"><span>PHONE</span><span>${o.phone}</span></div>` : null}${o.web && o.addr ? html`<div>${o.addr.toUpperCase()}</div>` : null}<hr />
       ${o.items.map((i, k) => html`<div key=${k}><div>${i.q} x ${i.n.toUpperCase()}</div>${i.opt ? html`<div className="sub">${i.opt}</div>` : null}</div>`)}
       ${o.note ? html`<hr /><div>NOTE: ${o.note.toUpperCase()}</div>` : null}<hr /><div className="c">ITEMS: ${o.items.reduce((t, i) => t + i.q, 0)}</div></div>
     <p className="small muted" style=${{ textAlign: 'center' }}>${(s.printer || {}).on ? 'Prints on the kitchen printer when the order is accepted.' : 'No printer connected: the kitchen sees this on the kitchen screen.'}</p>
@@ -3675,7 +3780,7 @@ const appBase = () => location.origin + location.pathname.replace(/index\.html$/
 function billSnapshot(r, os, items, B, paid) {
   const o0 = os[0];
   return { r: { name: r.name, area: r.area || '', city: r.city || '', gstin: r.gstin || '', gst: r.gst || 0, svc: r.svc || 0, theme: r.theme && r.theme.brand ? { brand: r.theme.brand, accent: r.theme.accent } : null },
-    no: o0.no, t: o0.t, type: o0.type || 'dine', table: o0.table || null, guest: o0.name || '',
+    no: o0.no, t: o0.t, type: o0.type || 'dine', mode: o0.web ? o0.mode : undefined, table: o0.table || null, guest: o0.name || '',
     items: items.map((i) => ({ n: i.n, q: i.q, p: i.p, opt: i.opt || '' })),
     B: { sub: B.sub, disc: B.disc || 0, svc: B.svc || 0, cgst: B.cgst || 0, sgst: B.sgst || 0, roundOff: B.roundOff || 0, total: B.total },
     paid, method: paid ? (METHOD[o0.method] || 'Cash') : '' };
@@ -3698,233 +3803,732 @@ async function shareBillWa(r, os, items, B, paid) {
   const url = 'https://wa.me/' + to + '?text=' + encodeURIComponent(text);
   if (w) w.location.href = url; else location.href = url;
 }
-/* ---------- Online ordering (Pro): delivery and pickup from the restaurant's own link (#o=rid) ---------- */
-const OL_T = {
-  en: { lang: 'ગુજરાતી', search: 'Search dishes', add: 'ADD', sold: 'Sold out', item: 'item', items: 'items', viewCart: 'View cart', cart: 'Your order', mode: 'How do you want it?',
-    delivery: 'Home delivery', pickup: 'Pickup', within: 'within {km} km', minOrd: 'Min ₹{min}', fromShop: 'from the shop', name: 'Your name', phone: 'Mobile number', addr: 'Full address',
-    addrPh: 'House no, building, street, landmark', note: 'Note for the kitchen (optional)', notePh: 'Less spicy, extra mayo…', myLoc: '📍 Use my current location', locWait: 'Finding your location…',
-    locOk: '✓ You are {km} km away. We deliver here.', locFar: 'You are {km} km away. We deliver within {max} km only. Please choose pickup.', locErr: 'Could not get your location. Type the full address, or drop a pin on the map.',
-    dragPin: 'Drag the pin to your door if it is not exact.', minNote: 'Add ₹{n} more for home delivery (minimum ₹{min}).', pay: 'Payment', cash: 'Cash', cashD: 'Cash on delivery', cashP: 'Pay at pickup',
-    upi: 'UPI', upiPay: 'Pay ₹{n} with UPI', scan: 'Or scan this QR from any UPI app', copy: 'Copy', copied: 'UPI ID copied', paid: 'I have paid ₹{n}', subtotal: 'Item total', gst: 'GST', total: 'To pay',
-    place: 'Place order', placing: 'Placing…', fill: 'Fill in your name, mobile number and address', fillP: 'Fill in your name and mobile number', tickPaid: 'Tick "I have paid" after paying by UPI',
-    done: 'Order #{no} placed!', doneSub: 'The restaurant has your order. You will get a call if anything is needed.', ss: 'One more step: send the payment screenshot', ss1: 'Take a screenshot of the UPI success screen', ss2: 'Tap the button below and attach it in WhatsApp',
-    ssBtn: 'Send screenshot on WhatsApp', waBtn: 'Send order on WhatsApp too', more: 'Order something else', call: 'Call', status: { new: 'Waiting for the restaurant to accept', preparing: 'Being prepared', ready: { delivery: 'Out for delivery', pickup: 'Ready, come and collect' }, served: { delivery: 'Delivered', pickup: 'Collected' }, cancelled: 'Not accepted. Please call the restaurant.' },
-    closed: 'Not taking online orders right now', closedSub: 'Please try again later, or call the restaurant.', made: 'Made with ❤ by', partyBtn: 'Enquire on WhatsApp', empty: 'No dishes match your search.', soldCart: '{n} just sold out. Remove it to place the order.' },
-  gu: { lang: 'English', search: 'વાનગી શોધો', add: 'ઉમેરો', sold: 'ખતમ', item: 'વસ્તુ', items: 'વસ્તુ', viewCart: 'ઓર્ડર જુઓ', cart: 'તમારો ઓર્ડર', mode: 'કેવી રીતે જોઈએ?',
-    delivery: 'હોમ ડિલિવરી', pickup: 'જાતે લઈ જશો', within: '{km} કિમી સુધી', minOrd: 'ઓછામાં ઓછું ₹{min}', fromShop: 'દુકાનથી', name: 'તમારું નામ', phone: 'મોબાઇલ નંબર', addr: 'પૂરું સરનામું',
-    addrPh: 'મકાન નં, બિલ્ડિંગ, શેરી, નજીકની જગ્યા', note: 'રસોડા માટે નોંધ (જરૂરી નથી)', notePh: 'ઓછું તીખું, વધારે મેયો…', myLoc: '📍 મારું હાલનું સ્થાન લો', locWait: 'તમારું સ્થાન શોધીએ છીએ…',
-    locOk: '✓ તમે {km} કિમી દૂર છો. અહીં ડિલિવરી મળશે.', locFar: 'તમે {km} કિમી દૂર છો. અમે ફક્ત {max} કિમી સુધી ડિલિવરી આપીએ છીએ. કૃપા કરી જાતે લઈ જવાનું પસંદ કરો.', locErr: 'તમારું સ્થાન મળ્યું નહીં. પૂરું સરનામું લખો અથવા નકશા પર પિન મૂકો.',
-    dragPin: 'પિન બરાબર ન હોય તો તમારા દરવાજા સુધી ખસેડો.', minNote: 'હોમ ડિલિવરી માટે ₹{n} નું વધુ ઉમેરો (ઓછામાં ઓછું ₹{min}).', pay: 'ચુકવણી', cash: 'રોકડા', cashD: 'ડિલિવરી વખતે રોકડા', cashP: 'લેતી વખતે ચૂકવો',
-    upi: 'UPI', upiPay: 'UPI થી ₹{n} ચૂકવો', scan: 'અથવા કોઈ પણ UPI એપથી આ QR સ્કેન કરો', copy: 'કૉપિ', copied: 'UPI ID કૉપિ થયું', paid: 'મેં ₹{n} ચૂકવી દીધા', subtotal: 'વસ્તુઓ', gst: 'GST', total: 'કુલ ચૂકવવાના',
-    place: 'ઓર્ડર આપો', placing: 'મોકલીએ છીએ…', fill: 'નામ, મોબાઇલ નંબર અને સરનામું ભરો', fillP: 'નામ અને મોબાઇલ નંબર ભરો', tickPaid: 'UPI થી ચૂકવ્યા પછી "મેં ચૂકવી દીધા" પર ટિક કરો',
-    done: 'ઓર્ડર #{no} મળી ગયો!', doneSub: 'રેસ્ટોરન્ટ પાસે તમારો ઓર્ડર પહોંચી ગયો છે. જરૂર પડશે તો ફોન આવશે.', ss: 'એક છેલ્લું પગલું: ચુકવણીનો સ્ક્રીનશૉટ મોકલો', ss1: 'UPI સફળ થયાની સ્ક્રીનનો સ્ક્રીનશૉટ લો', ss2: 'નીચેનું બટન દબાવો અને WhatsApp માં જોડો',
-    ssBtn: 'WhatsApp પર સ્ક્રીનશૉટ મોકલો', waBtn: 'ઓર્ડર WhatsApp પર પણ મોકલો', more: 'બીજું કંઈ મંગાવો', call: 'ફોન કરો', status: { new: 'રેસ્ટોરન્ટ સ્વીકારે તેની રાહ', preparing: 'બની રહ્યું છે', ready: { delivery: 'ડિલિવરી માટે નીકળ્યું', pickup: 'તૈયાર છે, લઈ જાઓ' }, served: { delivery: 'પહોંચી ગયું', pickup: 'લઈ લીધું' }, cancelled: 'સ્વીકાર્યો નથી. કૃપા કરી રેસ્ટોરન્ટને ફોન કરો.' },
-    closed: 'હાલ ઓનલાઇન ઓર્ડર બંધ છે', closedSub: 'થોડી વાર પછી પ્રયત્ન કરો અથવા રેસ્ટોરન્ટને ફોન કરો.', made: 'પ્રેમથી બનાવ્યું', partyBtn: 'WhatsApp પર પૂછો', empty: 'કોઈ વાનગી મળી નહીં.', soldCart: '{n} હમણાં જ ખતમ થઈ ગયું. ઓર્ડર આપવા તેને કાઢી નાખો.' },
+/* ---------- Online ordering (Pro and Order Link): delivery and pickup from the restaurant's own link (#o=rid) ---------- */
+// Languages a restaurant can add to its ordering page. dg = the language's own digits, where people use them for prices.
+const OL_LANGS = {
+  en: { name: 'English', nat: 'English' },
+  hi: { name: 'Hindi', nat: 'हिन्दी', ex: 'पनीर टिक्का' },
+  mr: { name: 'Marathi', nat: 'मराठी', dg: '०१२३४५६७८९', ex: 'पनीर टिक्का' },
+  gu: { name: 'Gujarati', nat: 'ગુજરાતી', dg: '૦૧૨૩૪૫૬૭૮૯', ex: 'પનીર ટિક્કા' },
+  pa: { name: 'Punjabi', nat: 'ਪੰਜਾਬੀ', ex: 'ਪਨੀਰ ਟਿੱਕਾ' },
+  bn: { name: 'Bengali', nat: 'বাংলা', dg: '০১২৩৪৫৬৭৮৯', ex: 'পনির টিক্কা' },
+  ta: { name: 'Tamil', nat: 'தமிழ்', ex: 'பனீர் டிக்கா' },
+  te: { name: 'Telugu', nat: 'తెలుగు', ex: 'పనీర్ టిక్కా' },
+  kn: { name: 'Kannada', nat: 'ಕನ್ನಡ', ex: 'ಪನೀರ್ ಟಿಕ್ಕಾ' },
+  ml: { name: 'Malayalam', nat: 'മലയാളം', ex: 'പനീർ ടിക്ക' },
 };
-const GU_DIGITS = '૦૧૨૩૪૫૬૭૮૯';
+const OL_TAGS = ['Bestseller', "Chef's special", 'Spicy', 'Jain on request', 'New'];
+const OL_STR = {
+  en: {
+    search: 'Search {x}…', searchAll: 'Search the menu…', add: 'ADD +', sold: 'Sold out', noMatch: 'No items match “{q}”', added: 'Added {n}',
+    item1: '{n} item', items: '{n} items', itemsN: 'Items ({n})', each: '{p} each', viewCart: 'View cart →', cart: 'Your order', type: 'Order type',
+    delivery: 'Home delivery', deliverySub: 'Within {km} km', deliveryMin: 'Min. {min}', pickup: 'Pickup', pickupDine: 'Pickup / Dine-in', pickupSub: 'Collect at the counter',
+    pillDel: 'Free delivery within {km} km', pillMin: 'above {min}', pillParty: 'Party orders',
+    minNote: 'Home delivery needs a minimum order of {min}. Add {s} more, or choose Pickup.', qualifies: 'Your order gets FREE home delivery!', tapLoc: 'Tap “Use my current location” below to check the distance.',
+    name: 'Your name *', namePh: 'Full name', phone: 'Mobile number *', phonePh: '10-digit mobile number', addr: 'Delivery address *', addrPh: 'House no., society, area, landmark',
+    useLoc: '📍 Use my current location', useLocAgain: '📍 Use my location again', finding: '📍 Finding you…',
+    near: '✅ You are about {k} km away. Home delivery available!', far: 'Sorry, this spot is about {k} km away. We deliver within {m} km only. Move the pin or choose Pickup.',
+    noGps: 'Could not get your location. Tap the map or drag the pin to your home.', gpsAgain: '📍 Try location again',
+    failed: 'Could not get your location. Please confirm below; the shop will check your address.', tick: 'My address is within {km} km of {area}',
+    mapHint: 'Drag the pin to your exact door · Circle = {km} km delivery area', addrFilled: 'Address filled. Add your house / flat no.',
+    notes: 'Cooking instructions (optional)', notesPh: 'e.g. extra spicy, no mayo', deliveryFee: 'Delivery', free: 'FREE', total: 'Total',
+    pay: 'Payment *', cash: 'Cash', cashSub: 'On delivery / at the counter', cashOnly: 'Pay cash on delivery or at the counter.',
+    upiAmt: 'Pay {a} to {n}', upiBtn: 'Pay {a} with a UPI app', upiScan: 'Or scan this QR with any UPI app', copy: 'Copy', copied: 'UPI ID copied',
+    noUpiApp: 'No UPI app opened? Scan the QR or pay to the UPI ID.', paid: 'I have paid {a}',
+    place: 'Place order · {a}', placing: 'Placing your order…', checkArea: 'Check the delivery area first', payFirst: 'Pay first, then tick “I have paid”',
+    hint: 'Your order reaches the restaurant’s screen at once.',
+    tMin: 'Minimum {m} for home delivery', tFar: 'Outside the {km} km delivery area', tName: 'Please enter your name', tPhone: 'Enter a valid 10-digit mobile number',
+    tAddr: 'Please enter your full address', tLoc: 'Tap “Use my current location” to check the distance', tPaid: 'Please pay by UPI and tick “I have paid”',
+    tMenu: 'The menu has changed. Please refresh the page.', tSold: '{n} is sold out right now',
+    done: 'Order #{no} placed!', doneSub: 'The restaurant has your order on their screen.',
+    ssTitle: 'Last step: send your payment screenshot', ss1: 'Tap the green button below', ss2: 'Pick your UPI payment screenshot', ss3: 'Send it to {n} on WhatsApp',
+    ssBtn: '📎 Choose screenshot & send', chatBtn: 'Open WhatsApp chat', ssManual: 'Opening WhatsApp. Tap 📎 → Gallery and send your payment screenshot.',
+    waTitle: 'Also send it on WhatsApp', waText: 'One tap sends the same order to the restaurant’s WhatsApp.', waBtn: 'Send order on WhatsApp', more: 'Order something else',
+    trD: ['Order placed', 'Being prepared', 'Out for delivery', 'Delivered'], trP: ['Order placed', 'Being prepared', 'Ready to collect', 'Collected'],
+    cancelled: 'Not accepted. Please call the restaurant.', myOrder: 'Your order #{no}',
+    closed: 'Not taking online orders right now', closedSub: 'You can still see the menu. Please try again later, or call the restaurant.', off: 'Online ordering is not available here yet.', call: 'Call',
+    partyH: 'Party & function orders taken', partyMore: 'Tell us the date and the number of people.', partyBtn: '💬 Enquire on WhatsApp',
+    directions: '📍 Directions', photoNote: 'Photos are for illustration; actual serving may vary.', ordersLbl: 'Orders', made: 'Made with ❤️ by {z}', backExit: 'Press back again to exit',
+    tags: ['BESTSELLER', 'SPECIAL', '🌶️ SPICY', 'JAIN', 'NEW'],
+  },
+  hi: {
+    search: '{x} खोजें…', searchAll: 'मेन्यू में खोजें…', add: 'जोड़ें +', sold: 'ख़त्म', noMatch: '“{q}” से कुछ नहीं मिला', added: '{n} जोड़ा गया',
+    item1: '{n} आइटम', items: '{n} आइटम', itemsN: 'आइटम ({n})', each: '{p} प्रति नग', viewCart: 'कार्ट देखें →', cart: 'आपका ऑर्डर', type: 'ऑर्डर का प्रकार',
+    delivery: 'होम डिलीवरी', deliverySub: '{km} किमी तक', deliveryMin: 'कम से कम {min}', pickup: 'पिकअप', pickupDine: 'पिकअप / यहीं खाएँ', pickupSub: 'काउंटर से ले जाएँ',
+    pillDel: '{km} किमी तक फ़्री डिलीवरी', pillMin: '{min} से ऊपर', pillParty: 'पार्टी ऑर्डर',
+    minNote: 'होम डिलीवरी के लिए कम से कम {min} का ऑर्डर चाहिए। {s} का और जोड़ें, या पिकअप चुनें।', qualifies: 'आपके ऑर्डर पर होम डिलीवरी फ़्री है!', tapLoc: 'दूरी जाँचने के लिए नीचे “मेरी लोकेशन लें” दबाएँ।',
+    name: 'आपका नाम *', namePh: 'पूरा नाम', phone: 'मोबाइल नंबर *', phonePh: '10 अंकों का मोबाइल नंबर', addr: 'डिलीवरी का पता *', addrPh: 'मकान नं., सोसाइटी, इलाक़ा, नज़दीकी जगह',
+    useLoc: '📍 मेरी लोकेशन लें', useLocAgain: '📍 लोकेशन फिर से लें', finding: '📍 लोकेशन ढूँढ रहे हैं…',
+    near: '✅ आप लगभग {k} किमी दूर हैं। होम डिलीवरी मिलेगी!', far: 'माफ़ कीजिए, यह जगह लगभग {k} किमी दूर है। हम सिर्फ़ {m} किमी तक डिलीवरी करते हैं। पिन खिसकाएँ या पिकअप चुनें।',
+    noGps: 'लोकेशन नहीं मिली। नक्शे पर टैप करें या पिन को अपने घर तक खिसकाएँ।', gpsAgain: '📍 फिर से कोशिश करें',
+    failed: 'लोकेशन नहीं मिली। नीचे पुष्टि करें; दुकान आपका पता जाँच लेगी।', tick: 'मेरा पता {area} से {km} किमी के अंदर है',
+    mapHint: 'पिन को अपने दरवाज़े तक खिसकाएँ · घेरा = {km} किमी डिलीवरी क्षेत्र', addrFilled: 'पता भर दिया गया। अपना मकान / फ़्लैट नंबर जोड़ें।',
+    notes: 'खाना बनाने के निर्देश (ज़रूरी नहीं)', notesPh: 'जैसे ज़्यादा तीखा, बिना मेयो', deliveryFee: 'डिलीवरी', free: 'फ़्री', total: 'कुल',
+    pay: 'भुगतान *', cash: 'नकद', cashSub: 'डिलीवरी पर / काउंटर पर', cashOnly: 'डिलीवरी पर या काउंटर पर नकद दें।',
+    upiAmt: '{n} को {a} भेजें', upiBtn: 'UPI ऐप से {a} भेजें', upiScan: 'या किसी भी UPI ऐप से यह QR स्कैन करें', copy: 'कॉपी', copied: 'UPI ID कॉपी हो गई',
+    noUpiApp: 'UPI ऐप नहीं खुला? QR स्कैन करें या UPI ID पर भेजें।', paid: 'मैंने {a} भेज दिए हैं',
+    place: 'ऑर्डर करें · {a}', placing: 'ऑर्डर भेज रहे हैं…', checkArea: 'पहले डिलीवरी क्षेत्र जाँचें', payFirst: 'पहले भुगतान करें, फिर “मैंने भेज दिए हैं” पर टिक करें',
+    hint: 'आपका ऑर्डर तुरंत रेस्टोरेंट की स्क्रीन पर पहुँच जाता है।',
+    tMin: 'होम डिलीवरी के लिए कम से कम {m}', tFar: '{km} किमी डिलीवरी क्षेत्र से बाहर', tName: 'कृपया अपना नाम लिखें', tPhone: 'सही 10 अंकों का मोबाइल नंबर लिखें',
+    tAddr: 'कृपया पूरा पता लिखें', tLoc: 'दूरी जाँचने के लिए “मेरी लोकेशन लें” दबाएँ', tPaid: 'कृपया UPI से भुगतान करें और “मैंने भेज दिए हैं” पर टिक करें',
+    tMenu: 'मेन्यू बदल गया है। कृपया पेज फिर से खोलें।', tSold: '{n} अभी ख़त्म हो गया है',
+    done: 'ऑर्डर #{no} मिल गया!', doneSub: 'रेस्टोरेंट की स्क्रीन पर आपका ऑर्डर पहुँच गया है।',
+    ssTitle: 'आख़िरी क़दम: भुगतान का स्क्रीनशॉट भेजें', ss1: 'नीचे हरा बटन दबाएँ', ss2: 'UPI भुगतान का स्क्रीनशॉट चुनें', ss3: 'WhatsApp पर {n} को भेजें',
+    ssBtn: '📎 स्क्रीनशॉट चुनें और भेजें', chatBtn: 'WhatsApp चैट खोलें', ssManual: 'WhatsApp खुल रहा है। 📎 → Gallery दबाकर भुगतान का स्क्रीनशॉट भेजें।',
+    waTitle: 'WhatsApp पर भी भेजें', waText: 'एक टैप में यही ऑर्डर रेस्टोरेंट के WhatsApp पर चला जाएगा।', waBtn: 'WhatsApp पर ऑर्डर भेजें', more: 'कुछ और मँगाएँ',
+    trD: ['ऑर्डर मिला', 'बन रहा है', 'डिलीवरी के लिए निकला', 'पहुँच गया'], trP: ['ऑर्डर मिला', 'बन रहा है', 'तैयार है, ले जाएँ', 'ले लिया'],
+    cancelled: 'ऑर्डर स्वीकार नहीं हुआ। कृपया रेस्टोरेंट को फ़ोन करें।', myOrder: 'आपका ऑर्डर #{no}',
+    closed: 'अभी ऑनलाइन ऑर्डर बंद हैं', closedSub: 'मेन्यू देख सकते हैं। थोड़ी देर बाद कोशिश करें या रेस्टोरेंट को फ़ोन करें।', off: 'यहाँ अभी ऑनलाइन ऑर्डर उपलब्ध नहीं हैं।', call: 'फ़ोन करें',
+    partyH: 'पार्टी और फ़ंक्शन के ऑर्डर लिए जाते हैं', partyMore: 'तारीख़ और लोगों की संख्या बताएँ।', partyBtn: '💬 WhatsApp पर पूछें',
+    directions: '📍 रास्ता देखें', photoNote: 'फ़ोटो सिर्फ़ दिखाने के लिए हैं; असली डिश थोड़ी अलग हो सकती है।', ordersLbl: 'ऑर्डर', made: '{z} द्वारा ❤️ से बनाया गया', backExit: 'बाहर जाने के लिए फिर से बैक दबाएँ',
+    tags: ['बेस्टसेलर', 'स्पेशल', '🌶️ तीखा', 'जैन', 'नया'],
+  },
+  mr: {
+    search: '{x} शोधा…', searchAll: 'मेन्यूमध्ये शोधा…', add: 'जोडा +', sold: 'संपले', noMatch: '“{q}” साठी काही सापडले नाही', added: '{n} जोडले',
+    item1: '{n} पदार्थ', items: '{n} पदार्थ', itemsN: 'पदार्थ ({n})', each: '{p} प्रति नग', viewCart: 'कार्ट पहा →', cart: 'तुमची ऑर्डर', type: 'ऑर्डरचा प्रकार',
+    delivery: 'होम डिलिव्हरी', deliverySub: '{km} किमी पर्यंत', deliveryMin: 'किमान {min}', pickup: 'पिकअप', pickupDine: 'पिकअप / इथेच जेवा', pickupSub: 'काउंटरवरून घेऊन जा',
+    pillDel: '{km} किमी पर्यंत मोफत डिलिव्हरी', pillMin: '{min} च्या वर', pillParty: 'पार्टी ऑर्डर',
+    minNote: 'होम डिलिव्हरीसाठी किमान {min} ची ऑर्डर हवी. आणखी {s} चे पदार्थ जोडा, किंवा पिकअप निवडा.', qualifies: 'तुमच्या ऑर्डरवर होम डिलिव्हरी मोफत आहे!', tapLoc: 'अंतर तपासण्यासाठी खाली “माझे लोकेशन घ्या” दाबा.',
+    name: 'तुमचे नाव *', namePh: 'पूर्ण नाव', phone: 'मोबाइल नंबर *', phonePh: '१० अंकी मोबाइल नंबर', addr: 'डिलिव्हरीचा पत्ता *', addrPh: 'घर क्र., सोसायटी, परिसर, जवळची खूण',
+    useLoc: '📍 माझे लोकेशन घ्या', useLocAgain: '📍 लोकेशन पुन्हा घ्या', finding: '📍 लोकेशन शोधत आहोत…',
+    near: '✅ तुम्ही सुमारे {k} किमी दूर आहात. होम डिलिव्हरी मिळेल!', far: 'माफ करा, हे ठिकाण सुमारे {k} किमी दूर आहे. आम्ही फक्त {m} किमी पर्यंत डिलिव्हरी करतो. पिन हलवा किंवा पिकअप निवडा.',
+    noGps: 'लोकेशन मिळाले नाही. नकाशावर टॅप करा किंवा पिन तुमच्या घरापर्यंत हलवा.', gpsAgain: '📍 पुन्हा प्रयत्न करा',
+    failed: 'लोकेशन मिळाले नाही. खाली खात्री करा; दुकान तुमचा पत्ता तपासेल.', tick: 'माझा पत्ता {area} पासून {km} किमीच्या आत आहे',
+    mapHint: 'पिन तुमच्या दारापर्यंत हलवा · वर्तुळ = {km} किमी डिलिव्हरी क्षेत्र', addrFilled: 'पत्ता भरला. तुमचा घर / फ्लॅट नंबर जोडा.',
+    notes: 'स्वयंपाकासाठी सूचना (ऐच्छिक)', notesPh: 'उदा. जास्त तिखट, मेयो नको', deliveryFee: 'डिलिव्हरी', free: 'मोफत', total: 'एकूण',
+    pay: 'पेमेंट *', cash: 'रोख', cashSub: 'डिलिव्हरीवेळी / काउंटरवर', cashOnly: 'डिलिव्हरीवेळी किंवा काउंटरवर रोख द्या.',
+    upiAmt: '{n} ला {a} पाठवा', upiBtn: 'UPI ॲपने {a} पाठवा', upiScan: 'किंवा कोणत्याही UPI ॲपने हा QR स्कॅन करा', copy: 'कॉपी', copied: 'UPI ID कॉपी झाला',
+    noUpiApp: 'UPI ॲप उघडले नाही? QR स्कॅन करा किंवा UPI ID वर पाठवा.', paid: 'मी {a} पाठवले आहेत',
+    place: 'ऑर्डर द्या · {a}', placing: 'ऑर्डर पाठवत आहोत…', checkArea: 'आधी डिलिव्हरी क्षेत्र तपासा', payFirst: 'आधी पेमेंट करा, मग “मी पाठवले आहेत” वर टिक करा',
+    hint: 'तुमची ऑर्डर लगेच रेस्टॉरंटच्या स्क्रीनवर पोहोचते.',
+    tMin: 'होम डिलिव्हरीसाठी किमान {m}', tFar: '{km} किमी डिलिव्हरी क्षेत्राच्या बाहेर', tName: 'कृपया तुमचे नाव लिहा', tPhone: 'योग्य १० अंकी मोबाइल नंबर लिहा',
+    tAddr: 'कृपया पूर्ण पत्ता लिहा', tLoc: 'अंतर तपासण्यासाठी “माझे लोकेशन घ्या” दाबा', tPaid: 'कृपया UPI ने पेमेंट करा आणि “मी पाठवले आहेत” वर टिक करा',
+    tMenu: 'मेन्यू बदलला आहे. कृपया पेज पुन्हा उघडा.', tSold: '{n} सध्या संपले आहे',
+    done: 'ऑर्डर #{no} मिळाली!', doneSub: 'रेस्टॉरंटच्या स्क्रीनवर तुमची ऑर्डर पोहोचली आहे.',
+    ssTitle: 'शेवटची पायरी: पेमेंटचा स्क्रीनशॉट पाठवा', ss1: 'खालचे हिरवे बटण दाबा', ss2: 'UPI पेमेंटचा स्क्रीनशॉट निवडा', ss3: 'WhatsApp वर {n} ला पाठवा',
+    ssBtn: '📎 स्क्रीनशॉट निवडा आणि पाठवा', chatBtn: 'WhatsApp चॅट उघडा', ssManual: 'WhatsApp उघडत आहे. 📎 → Gallery दाबून पेमेंटचा स्क्रीनशॉट पाठवा.',
+    waTitle: 'WhatsApp वरही पाठवा', waText: 'एका टॅपमध्ये हीच ऑर्डर रेस्टॉरंटच्या WhatsApp वर जाईल.', waBtn: 'WhatsApp वर ऑर्डर पाठवा', more: 'आणखी काही मागवा',
+    trD: ['ऑर्डर मिळाली', 'तयार होत आहे', 'डिलिव्हरीसाठी निघाली', 'पोहोचली'], trP: ['ऑर्डर मिळाली', 'तयार होत आहे', 'तयार आहे, घेऊन जा', 'घेतली'],
+    cancelled: 'ऑर्डर स्वीकारली नाही. कृपया रेस्टॉरंटला फोन करा.', myOrder: 'तुमची ऑर्डर #{no}',
+    closed: 'सध्या ऑनलाइन ऑर्डर बंद आहेत', closedSub: 'मेन्यू पाहू शकता. थोड्या वेळाने प्रयत्न करा किंवा रेस्टॉरंटला फोन करा.', off: 'इथे अजून ऑनलाइन ऑर्डर उपलब्ध नाहीत.', call: 'फोन करा',
+    partyH: 'पार्टी आणि समारंभाच्या ऑर्डर घेतल्या जातात', partyMore: 'तारीख आणि लोकांची संख्या सांगा.', partyBtn: '💬 WhatsApp वर विचारा',
+    directions: '📍 रस्ता पहा', photoNote: 'फोटो फक्त दाखवण्यासाठी आहेत; प्रत्यक्ष पदार्थ थोडा वेगळा असू शकतो.', ordersLbl: 'ऑर्डर', made: '{z} द्वारे ❤️ ने बनवलेले', backExit: 'बाहेर पडण्यासाठी पुन्हा बॅक दाबा',
+    tags: ['बेस्टसेलर', 'स्पेशल', '🌶️ तिखट', 'जैन', 'नवीन'],
+  },
+  gu: {
+    search: '{x} શોધો…', searchAll: 'મેનુમાં શોધો…', add: 'ઉમેરો +', sold: 'ખતમ', noMatch: '“{q}” માટે કંઈ મળ્યું નહીં', added: 'ઉમેર્યું: {n}',
+    item1: '{n} આઇટમ', items: '{n} આઇટમ', itemsN: 'આઇટમ ({n})', each: '{p} એક નંગ', viewCart: 'કાર્ટ જુઓ →', cart: 'તમારો ઓર્ડર', type: 'ઓર્ડરનો પ્રકાર',
+    delivery: 'હોમ ડિલિવરી', deliverySub: '{km} કિમી સુધી', deliveryMin: 'ઓછામાં ઓછા {min}', pickup: 'પિકઅપ', pickupDine: 'પિકઅપ / અહીં જમો', pickupSub: 'કાઉન્ટર પરથી લઈ જાઓ',
+    pillDel: '{km} કિમી સુધી ફ્રી ડિલિવરી', pillMin: '{min} થી વધુ', pillParty: 'પાર્ટી ઓર્ડર',
+    minNote: 'હોમ ડિલિવરી માટે ઓછામાં ઓછો {min} નો ઓર્ડર જોઈએ. હજી {s} નું ઉમેરો, અથવા પિકઅપ પસંદ કરો.', qualifies: 'તમારા ઓર્ડર પર ફ્રી હોમ ડિલિવરી મળશે!', tapLoc: 'અંતર ચકાસવા નીચે “મારું હાલનું લોકેશન વાપરો” દબાવો.',
+    name: 'તમારું નામ *', namePh: 'પૂરું નામ', phone: 'મોબાઇલ નંબર *', phonePh: '૧૦ અંકનો મોબાઇલ નંબર', addr: 'ડિલિવરીનું સરનામું *', addrPh: 'ઘર નં., સોસાયટી, વિસ્તાર, નજીકની જગ્યા',
+    useLoc: '📍 મારું હાલનું લોકેશન વાપરો', useLocAgain: '📍 લોકેશન ફરીથી લો', finding: '📍 લોકેશન શોધી રહ્યા છીએ…',
+    near: '✅ તમે લગભગ {k} કિમી દૂર છો — હોમ ડિલિવરી મળશે!', far: 'માફ કરશો, આ જગ્યા લગભગ {k} કિમી દૂર છે. અમે ફક્ત {m} કિમી સુધી ડિલિવરી કરીએ છીએ. પિન ખસેડો અથવા પિકઅપ પસંદ કરો.',
+    noGps: 'લોકેશન મળ્યું નહીં. નકશા પર ટેપ કરો અથવા પિનને તમારા ઘર સુધી ખસેડો.', gpsAgain: '📍 ફરી પ્રયત્ન કરો',
+    failed: 'તમારું લોકેશન મળ્યું નહીં. નીચે ખાતરી કરો — દુકાન તમારું સરનામું ચકાસશે.', tick: 'મારું સરનામું {area} થી {km} કિમીની અંદર છે',
+    mapHint: 'પિનને તમારા ઘરના દરવાજા સુધી ખસેડો · વર્તુળ = {km} કિમી ડિલિવરી વિસ્તાર', addrFilled: 'સરનામું ભરાઈ ગયું — તમારો ઘર / ફ્લેટ નંબર ઉમેરો',
+    notes: 'રસોઈ માટે સૂચના (જરૂરી નથી)', notesPh: 'દા.ત. વધારે તીખું, મેયોનીઝ વગર', deliveryFee: 'ડિલિવરી', free: 'ફ્રી', total: 'કુલ',
+    pay: 'ચુકવણી *', cash: 'રોકડ', cashSub: 'ડિલિવરી વખતે / કાઉન્ટર પર', cashOnly: 'ડિલિવરી વખતે અથવા કાઉન્ટર પર રોકડા ચૂકવો.',
+    upiAmt: '{n} ને {a} ચૂકવો', upiBtn: 'UPI એપથી {a} ચૂકવો', upiScan: 'અથવા કોઈપણ UPI એપથી આ QR સ્કેન કરો', copy: 'કૉપિ', copied: 'UPI ID કૉપિ થયું',
+    noUpiApp: 'UPI એપ ન ખુલી? QR સ્કેન કરો અથવા UPI ID પર ચૂકવો.', paid: 'મેં {a} ચૂકવી દીધા છે',
+    place: 'ઓર્ડર આપો · {a}', placing: 'ઓર્ડર મોકલી રહ્યા છીએ…', checkArea: 'પહેલા ડિલિવરી વિસ્તાર ચેક કરો', payFirst: 'પહેલા ચુકવણી કરો, પછી “મેં ચૂકવી દીધા છે” પર ટિક કરો',
+    hint: 'તમારો ઓર્ડર તરત જ રેસ્ટોરન્ટની સ્ક્રીન પર પહોંચી જાય છે.',
+    tMin: 'હોમ ડિલિવરી માટે ઓછામાં ઓછા {m}', tFar: '{km} કિમી ડિલિવરી વિસ્તારની બહાર', tName: 'કૃપા કરીને તમારું નામ લખો', tPhone: 'સાચો ૧૦ અંકનો મોબાઇલ નંબર લખો',
+    tAddr: 'કૃપા કરીને પૂરું સરનામું લખો', tLoc: 'અંતર ચકાસવા “મારું હાલનું લોકેશન વાપરો” દબાવો', tPaid: 'કૃપા કરીને UPI થી ચૂકવો અને “મેં ચૂકવી દીધા છે” પર ટિક કરો',
+    tMenu: 'મેનુ બદલાયું છે. કૃપા કરી પેજ ફરી ખોલો.', tSold: '{n} હમણાં ખતમ થઈ ગયું છે',
+    done: 'ઓર્ડર #{no} મળી ગયો!', doneSub: 'રેસ્ટોરન્ટની સ્ક્રીન પર તમારો ઓર્ડર પહોંચી ગયો છે.',
+    ssTitle: 'છેલ્લું પગલું: ચુકવણીનો સ્ક્રીનશોટ મોકલો', ss1: 'નીચેનું લીલું બટન દબાવો', ss2: 'UPI ચુકવણીનો સ્ક્રીનશોટ પસંદ કરો', ss3: 'WhatsApp પર {n} ને મોકલો',
+    ssBtn: '📎 સ્ક્રીનશોટ પસંદ કરો અને મોકલો', chatBtn: 'WhatsApp ચેટ ખોલો', ssManual: 'ચેટ ખુલી રહી છે. 📎 → Gallery દબાવીને ચુકવણીનો સ્ક્રીનશોટ મોકલો.',
+    waTitle: 'WhatsApp પર પણ મોકલો', waText: 'એક ટેપમાં આ જ ઓર્ડર રેસ્ટોરન્ટના WhatsApp પર જશે.', waBtn: 'WhatsApp પર ઓર્ડર મોકલો', more: 'બીજું કંઈ મંગાવો',
+    trD: ['ઓર્ડર મળ્યો', 'બની રહ્યું છે', 'ડિલિવરી માટે નીકળ્યું', 'પહોંચી ગયું'], trP: ['ઓર્ડર મળ્યો', 'બની રહ્યું છે', 'તૈયાર છે, લઈ જાઓ', 'લઈ લીધું'],
+    cancelled: 'ઓર્ડર સ્વીકાર્યો નથી. કૃપા કરી રેસ્ટોરન્ટને ફોન કરો.', myOrder: 'તમારો ઓર્ડર #{no}',
+    closed: 'હાલ ઓનલાઇન ઓર્ડર બંધ છે', closedSub: 'મેનુ જોઈ શકો છો. થોડી વાર પછી પ્રયત્ન કરો અથવા રેસ્ટોરન્ટને ફોન કરો.', off: 'અહીં હજી ઓનલાઇન ઓર્ડર ઉપલબ્ધ નથી.', call: 'ફોન કરો',
+    partyH: 'શુભ પ્રસંગના ઓર્ડર લેવામાં આવે છે', partyMore: 'તારીખ અને માણસોની સંખ્યા જણાવો.', partyBtn: '💬 WhatsApp પર પૂછો',
+    directions: '📍 રસ્તો જુઓ', photoNote: 'ફોટા ફક્ત દર્શાવવા માટે છે; વાનગી થોડી અલગ હોઈ શકે.', ordersLbl: 'ઓર્ડર', made: '{z} દ્વારા ❤️ થી બનાવેલ', backExit: 'બહાર નીકળવા ફરી બેક દબાવો',
+    tags: ['બેસ્ટસેલર', 'સ્પેશિયલ', '🌶️ તીખું', 'જૈન', 'નવું'],
+  },
+  pa: {
+    search: '{x} ਲੱਭੋ…', searchAll: 'ਮੀਨੂ ਵਿੱਚ ਲੱਭੋ…', add: 'ਜੋੜੋ +', sold: 'ਖ਼ਤਮ', noMatch: '“{q}” ਲਈ ਕੁਝ ਨਹੀਂ ਮਿਲਿਆ', added: '{n} ਜੋੜਿਆ ਗਿਆ',
+    item1: '{n} ਆਈਟਮ', items: '{n} ਆਈਟਮ', itemsN: 'ਆਈਟਮ ({n})', each: '{p} ਪ੍ਰਤੀ ਨਗ', viewCart: 'ਕਾਰਟ ਵੇਖੋ →', cart: 'ਤੁਹਾਡਾ ਆਰਡਰ', type: 'ਆਰਡਰ ਦੀ ਕਿਸਮ',
+    delivery: 'ਹੋਮ ਡਿਲੀਵਰੀ', deliverySub: '{km} ਕਿਮੀ ਤੱਕ', deliveryMin: 'ਘੱਟੋ-ਘੱਟ {min}', pickup: 'ਪਿਕਅੱਪ', pickupDine: 'ਪਿਕਅੱਪ / ਇੱਥੇ ਖਾਓ', pickupSub: 'ਕਾਊਂਟਰ ਤੋਂ ਲੈ ਜਾਓ',
+    pillDel: '{km} ਕਿਮੀ ਤੱਕ ਮੁਫ਼ਤ ਡਿਲੀਵਰੀ', pillMin: '{min} ਤੋਂ ਉੱਪਰ', pillParty: 'ਪਾਰਟੀ ਆਰਡਰ',
+    minNote: 'ਹੋਮ ਡਿਲੀਵਰੀ ਲਈ ਘੱਟੋ-ਘੱਟ {min} ਦਾ ਆਰਡਰ ਚਾਹੀਦਾ ਹੈ। {s} ਦਾ ਹੋਰ ਜੋੜੋ, ਜਾਂ ਪਿਕਅੱਪ ਚੁਣੋ।', qualifies: 'ਤੁਹਾਡੇ ਆਰਡਰ ‘ਤੇ ਹੋਮ ਡਿਲੀਵਰੀ ਮੁਫ਼ਤ ਹੈ!', tapLoc: 'ਦੂਰੀ ਜਾਂਚਣ ਲਈ ਹੇਠਾਂ “ਮੇਰੀ ਲੋਕੇਸ਼ਨ ਲਓ” ਦਬਾਓ।',
+    name: 'ਤੁਹਾਡਾ ਨਾਮ *', namePh: 'ਪੂਰਾ ਨਾਮ', phone: 'ਮੋਬਾਈਲ ਨੰਬਰ *', phonePh: '10 ਅੰਕਾਂ ਦਾ ਮੋਬਾਈਲ ਨੰਬਰ', addr: 'ਡਿਲੀਵਰੀ ਦਾ ਪਤਾ *', addrPh: 'ਮਕਾਨ ਨੰ., ਸੁਸਾਇਟੀ, ਇਲਾਕਾ, ਨੇੜੇ ਦੀ ਥਾਂ',
+    useLoc: '📍 ਮੇਰੀ ਲੋਕੇਸ਼ਨ ਲਓ', useLocAgain: '📍 ਲੋਕੇਸ਼ਨ ਦੁਬਾਰਾ ਲਓ', finding: '📍 ਲੋਕੇਸ਼ਨ ਲੱਭ ਰਹੇ ਹਾਂ…',
+    near: '✅ ਤੁਸੀਂ ਲਗਭਗ {k} ਕਿਮੀ ਦੂਰ ਹੋ। ਹੋਮ ਡਿਲੀਵਰੀ ਮਿਲੇਗੀ!', far: 'ਮਾਫ਼ ਕਰਨਾ, ਇਹ ਥਾਂ ਲਗਭਗ {k} ਕਿਮੀ ਦੂਰ ਹੈ। ਅਸੀਂ ਸਿਰਫ਼ {m} ਕਿਮੀ ਤੱਕ ਡਿਲੀਵਰੀ ਕਰਦੇ ਹਾਂ। ਪਿੰਨ ਹਿਲਾਓ ਜਾਂ ਪਿਕਅੱਪ ਚੁਣੋ।',
+    noGps: 'ਲੋਕੇਸ਼ਨ ਨਹੀਂ ਮਿਲੀ। ਨਕਸ਼ੇ ‘ਤੇ ਟੈਪ ਕਰੋ ਜਾਂ ਪਿੰਨ ਨੂੰ ਆਪਣੇ ਘਰ ਤੱਕ ਹਿਲਾਓ।', gpsAgain: '📍 ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ',
+    failed: 'ਲੋਕੇਸ਼ਨ ਨਹੀਂ ਮਿਲੀ। ਹੇਠਾਂ ਪੁਸ਼ਟੀ ਕਰੋ; ਦੁਕਾਨ ਤੁਹਾਡਾ ਪਤਾ ਜਾਂਚੇਗੀ।', tick: 'ਮੇਰਾ ਪਤਾ {area} ਤੋਂ {km} ਕਿਮੀ ਦੇ ਅੰਦਰ ਹੈ',
+    mapHint: 'ਪਿੰਨ ਨੂੰ ਆਪਣੇ ਦਰਵਾਜ਼ੇ ਤੱਕ ਹਿਲਾਓ · ਘੇਰਾ = {km} ਕਿਮੀ ਡਿਲੀਵਰੀ ਖੇਤਰ', addrFilled: 'ਪਤਾ ਭਰ ਦਿੱਤਾ। ਆਪਣਾ ਮਕਾਨ / ਫਲੈਟ ਨੰਬਰ ਜੋੜੋ।',
+    notes: 'ਖਾਣਾ ਬਣਾਉਣ ਲਈ ਹਦਾਇਤਾਂ (ਲਾਜ਼ਮੀ ਨਹੀਂ)', notesPh: 'ਜਿਵੇਂ ਵੱਧ ਤਿੱਖਾ, ਮੇਓ ਤੋਂ ਬਿਨਾਂ', deliveryFee: 'ਡਿਲੀਵਰੀ', free: 'ਮੁਫ਼ਤ', total: 'ਕੁੱਲ',
+    pay: 'ਭੁਗਤਾਨ *', cash: 'ਨਕਦ', cashSub: 'ਡਿਲੀਵਰੀ ਵੇਲੇ / ਕਾਊਂਟਰ ‘ਤੇ', cashOnly: 'ਡਿਲੀਵਰੀ ਵੇਲੇ ਜਾਂ ਕਾਊਂਟਰ ‘ਤੇ ਨਕਦ ਦਿਓ।',
+    upiAmt: '{n} ਨੂੰ {a} ਭੇਜੋ', upiBtn: 'UPI ਐਪ ਨਾਲ {a} ਭੇਜੋ', upiScan: 'ਜਾਂ ਕਿਸੇ ਵੀ UPI ਐਪ ਨਾਲ ਇਹ QR ਸਕੈਨ ਕਰੋ', copy: 'ਕਾਪੀ', copied: 'UPI ID ਕਾਪੀ ਹੋ ਗਈ',
+    noUpiApp: 'UPI ਐਪ ਨਹੀਂ ਖੁੱਲ੍ਹੀ? QR ਸਕੈਨ ਕਰੋ ਜਾਂ UPI ID ‘ਤੇ ਭੇਜੋ।', paid: 'ਮੈਂ {a} ਭੇਜ ਦਿੱਤੇ ਹਨ',
+    place: 'ਆਰਡਰ ਕਰੋ · {a}', placing: 'ਆਰਡਰ ਭੇਜ ਰਹੇ ਹਾਂ…', checkArea: 'ਪਹਿਲਾਂ ਡਿਲੀਵਰੀ ਖੇਤਰ ਜਾਂਚੋ', payFirst: 'ਪਹਿਲਾਂ ਭੁਗਤਾਨ ਕਰੋ, ਫਿਰ “ਮੈਂ ਭੇਜ ਦਿੱਤੇ ਹਨ” ‘ਤੇ ਟਿੱਕ ਕਰੋ',
+    hint: 'ਤੁਹਾਡਾ ਆਰਡਰ ਤੁਰੰਤ ਰੈਸਟੋਰੈਂਟ ਦੀ ਸਕ੍ਰੀਨ ‘ਤੇ ਪਹੁੰਚ ਜਾਂਦਾ ਹੈ।',
+    tMin: 'ਹੋਮ ਡਿਲੀਵਰੀ ਲਈ ਘੱਟੋ-ਘੱਟ {m}', tFar: '{km} ਕਿਮੀ ਡਿਲੀਵਰੀ ਖੇਤਰ ਤੋਂ ਬਾਹਰ', tName: 'ਕਿਰਪਾ ਕਰਕੇ ਆਪਣਾ ਨਾਮ ਲਿਖੋ', tPhone: 'ਸਹੀ 10 ਅੰਕਾਂ ਦਾ ਮੋਬਾਈਲ ਨੰਬਰ ਲਿਖੋ',
+    tAddr: 'ਕਿਰਪਾ ਕਰਕੇ ਪੂਰਾ ਪਤਾ ਲਿਖੋ', tLoc: 'ਦੂਰੀ ਜਾਂਚਣ ਲਈ “ਮੇਰੀ ਲੋਕੇਸ਼ਨ ਲਓ” ਦਬਾਓ', tPaid: 'ਕਿਰਪਾ ਕਰਕੇ UPI ਨਾਲ ਭੁਗਤਾਨ ਕਰੋ ਅਤੇ “ਮੈਂ ਭੇਜ ਦਿੱਤੇ ਹਨ” ‘ਤੇ ਟਿੱਕ ਕਰੋ',
+    tMenu: 'ਮੀਨੂ ਬਦਲ ਗਿਆ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਪੇਜ ਦੁਬਾਰਾ ਖੋਲ੍ਹੋ।', tSold: '{n} ਹੁਣ ਖ਼ਤਮ ਹੋ ਗਿਆ ਹੈ',
+    done: 'ਆਰਡਰ #{no} ਮਿਲ ਗਿਆ!', doneSub: 'ਰੈਸਟੋਰੈਂਟ ਦੀ ਸਕ੍ਰੀਨ ‘ਤੇ ਤੁਹਾਡਾ ਆਰਡਰ ਪਹੁੰਚ ਗਿਆ ਹੈ।',
+    ssTitle: 'ਆਖਰੀ ਕਦਮ: ਭੁਗਤਾਨ ਦਾ ਸਕ੍ਰੀਨਸ਼ਾਟ ਭੇਜੋ', ss1: 'ਹੇਠਾਂ ਹਰਾ ਬਟਨ ਦਬਾਓ', ss2: 'UPI ਭੁਗਤਾਨ ਦਾ ਸਕ੍ਰੀਨਸ਼ਾਟ ਚੁਣੋ', ss3: 'WhatsApp ‘ਤੇ {n} ਨੂੰ ਭੇਜੋ',
+    ssBtn: '📎 ਸਕ੍ਰੀਨਸ਼ਾਟ ਚੁਣੋ ਅਤੇ ਭੇਜੋ', chatBtn: 'WhatsApp ਚੈਟ ਖੋਲ੍ਹੋ', ssManual: 'WhatsApp ਖੁੱਲ੍ਹ ਰਿਹਾ ਹੈ। 📎 → Gallery ਦਬਾ ਕੇ ਭੁਗਤਾਨ ਦਾ ਸਕ੍ਰੀਨਸ਼ਾਟ ਭੇਜੋ।',
+    waTitle: 'WhatsApp ‘ਤੇ ਵੀ ਭੇਜੋ', waText: 'ਇੱਕ ਟੈਪ ਨਾਲ ਇਹੀ ਆਰਡਰ ਰੈਸਟੋਰੈਂਟ ਦੇ WhatsApp ‘ਤੇ ਚਲਾ ਜਾਵੇਗਾ।', waBtn: 'WhatsApp ‘ਤੇ ਆਰਡਰ ਭੇਜੋ', more: 'ਕੁਝ ਹੋਰ ਮੰਗਵਾਓ',
+    trD: ['ਆਰਡਰ ਮਿਲਿਆ', 'ਤਿਆਰ ਹੋ ਰਿਹਾ ਹੈ', 'ਡਿਲੀਵਰੀ ਲਈ ਨਿਕਲਿਆ', 'ਪਹੁੰਚ ਗਿਆ'], trP: ['ਆਰਡਰ ਮਿਲਿਆ', 'ਤਿਆਰ ਹੋ ਰਿਹਾ ਹੈ', 'ਤਿਆਰ ਹੈ, ਲੈ ਜਾਓ', 'ਲੈ ਲਿਆ'],
+    cancelled: 'ਆਰਡਰ ਸਵੀਕਾਰ ਨਹੀਂ ਹੋਇਆ। ਕਿਰਪਾ ਕਰਕੇ ਰੈਸਟੋਰੈਂਟ ਨੂੰ ਫ਼ੋਨ ਕਰੋ।', myOrder: 'ਤੁਹਾਡਾ ਆਰਡਰ #{no}',
+    closed: 'ਹੁਣ ਆਨਲਾਈਨ ਆਰਡਰ ਬੰਦ ਹਨ', closedSub: 'ਮੀਨੂ ਵੇਖ ਸਕਦੇ ਹੋ। ਥੋੜ੍ਹੀ ਦੇਰ ਬਾਅਦ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜਾਂ ਰੈਸਟੋਰੈਂਟ ਨੂੰ ਫ਼ੋਨ ਕਰੋ।', off: 'ਇੱਥੇ ਅਜੇ ਆਨਲਾਈਨ ਆਰਡਰ ਉਪਲਬਧ ਨਹੀਂ ਹਨ।', call: 'ਫ਼ੋਨ ਕਰੋ',
+    partyH: 'ਪਾਰਟੀ ਅਤੇ ਸਮਾਗਮ ਦੇ ਆਰਡਰ ਲਏ ਜਾਂਦੇ ਹਨ', partyMore: 'ਤਾਰੀਖ਼ ਅਤੇ ਲੋਕਾਂ ਦੀ ਗਿਣਤੀ ਦੱਸੋ।', partyBtn: '💬 WhatsApp ‘ਤੇ ਪੁੱਛੋ',
+    directions: '📍 ਰਸਤਾ ਵੇਖੋ', photoNote: 'ਫ਼ੋਟੋਆਂ ਸਿਰਫ਼ ਦਿਖਾਉਣ ਲਈ ਹਨ; ਅਸਲ ਪਕਵਾਨ ਥੋੜ੍ਹਾ ਵੱਖਰਾ ਹੋ ਸਕਦਾ ਹੈ।', ordersLbl: 'ਆਰਡਰ', made: '{z} ਵੱਲੋਂ ❤️ ਨਾਲ ਬਣਾਇਆ ਗਿਆ', backExit: 'ਬਾਹਰ ਜਾਣ ਲਈ ਦੁਬਾਰਾ ਬੈਕ ਦਬਾਓ',
+    tags: ['ਬੈਸਟਸੈਲਰ', 'ਸਪੈਸ਼ਲ', '🌶️ ਤਿੱਖਾ', 'ਜੈਨ', 'ਨਵਾਂ'],
+  },
+  bn: {
+    search: '{x} খুঁজুন…', searchAll: 'মেনুতে খুঁজুন…', add: 'যোগ করুন +', sold: 'শেষ', noMatch: '“{q}” এর জন্য কিছু পাওয়া যায়নি', added: '{n} যোগ হয়েছে',
+    item1: '{n}টি আইটেম', items: '{n}টি আইটেম', itemsN: 'আইটেম ({n})', each: 'প্রতিটি {p}', viewCart: 'কার্ট দেখুন →', cart: 'আপনার অর্ডার', type: 'অর্ডারের ধরন',
+    delivery: 'হোম ডেলিভারি', deliverySub: '{km} কিমি পর্যন্ত', deliveryMin: 'ন্যূনতম {min}', pickup: 'পিকআপ', pickupDine: 'পিকআপ / এখানে খান', pickupSub: 'কাউন্টার থেকে নিয়ে যান',
+    pillDel: '{km} কিমি পর্যন্ত ফ্রি ডেলিভারি', pillMin: '{min} এর বেশি', pillParty: 'পার্টি অর্ডার',
+    minNote: 'হোম ডেলিভারির জন্য ন্যূনতম {min} এর অর্ডার লাগবে। আরও {s} যোগ করুন, বা পিকআপ বেছে নিন।', qualifies: 'আপনার অর্ডারে হোম ডেলিভারি ফ্রি!', tapLoc: 'দূরত্ব দেখতে নিচে “আমার লোকেশন নিন” চাপুন।',
+    name: 'আপনার নাম *', namePh: 'পুরো নাম', phone: 'মোবাইল নম্বর *', phonePh: '১০ সংখ্যার মোবাইল নম্বর', addr: 'ডেলিভারির ঠিকানা *', addrPh: 'বাড়ি নং, আবাসন, এলাকা, কাছের চিহ্ন',
+    useLoc: '📍 আমার লোকেশন নিন', useLocAgain: '📍 আবার লোকেশন নিন', finding: '📍 লোকেশন খোঁজা হচ্ছে…',
+    near: '✅ আপনি প্রায় {k} কিমি দূরে আছেন। হোম ডেলিভারি পাবেন!', far: 'দুঃখিত, এই জায়গাটি প্রায় {k} কিমি দূরে। আমরা শুধু {m} কিমি পর্যন্ত ডেলিভারি করি। পিন সরান বা পিকআপ বেছে নিন।',
+    noGps: 'লোকেশন পাওয়া যায়নি। মানচিত্রে ট্যাপ করুন বা পিন আপনার বাড়ি পর্যন্ত সরান।', gpsAgain: '📍 আবার চেষ্টা করুন',
+    failed: 'লোকেশন পাওয়া যায়নি। নিচে নিশ্চিত করুন; দোকান আপনার ঠিকানা যাচাই করবে।', tick: 'আমার ঠিকানা {area} থেকে {km} কিমির মধ্যে',
+    mapHint: 'পিন আপনার দরজা পর্যন্ত সরান · বৃত্ত = {km} কিমি ডেলিভারি এলাকা', addrFilled: 'ঠিকানা ভরা হয়েছে। আপনার বাড়ি / ফ্ল্যাট নম্বর যোগ করুন।',
+    notes: 'রান্নার নির্দেশ (ঐচ্ছিক)', notesPh: 'যেমন বেশি ঝাল, মেয়ো ছাড়া', deliveryFee: 'ডেলিভারি', free: 'ফ্রি', total: 'মোট',
+    pay: 'পেমেন্ট *', cash: 'নগদ', cashSub: 'ডেলিভারির সময় / কাউন্টারে', cashOnly: 'ডেলিভারির সময় বা কাউন্টারে নগদ দিন।',
+    upiAmt: '{n} কে {a} পাঠান', upiBtn: 'UPI অ্যাপ দিয়ে {a} পাঠান', upiScan: 'অথবা যেকোনো UPI অ্যাপ দিয়ে এই QR স্ক্যান করুন', copy: 'কপি', copied: 'UPI ID কপি হয়েছে',
+    noUpiApp: 'UPI অ্যাপ খোলেনি? QR স্ক্যান করুন বা UPI ID তে পাঠান।', paid: 'আমি {a} পাঠিয়েছি',
+    place: 'অর্ডার দিন · {a}', placing: 'অর্ডার পাঠানো হচ্ছে…', checkArea: 'আগে ডেলিভারি এলাকা দেখুন', payFirst: 'আগে পেমেন্ট করুন, তারপর “আমি পাঠিয়েছি” তে টিক দিন',
+    hint: 'আপনার অর্ডার সঙ্গে সঙ্গে রেস্টুরেন্টের স্ক্রিনে পৌঁছে যায়।',
+    tMin: 'হোম ডেলিভারির জন্য ন্যূনতম {m}', tFar: '{km} কিমি ডেলিভারি এলাকার বাইরে', tName: 'অনুগ্রহ করে আপনার নাম লিখুন', tPhone: 'সঠিক ১০ সংখ্যার মোবাইল নম্বর লিখুন',
+    tAddr: 'অনুগ্রহ করে পুরো ঠিকানা লিখুন', tLoc: 'দূরত্ব দেখতে “আমার লোকেশন নিন” চাপুন', tPaid: 'অনুগ্রহ করে UPI তে পেমেন্ট করে “আমি পাঠিয়েছি” তে টিক দিন',
+    tMenu: 'মেনু বদলে গেছে। অনুগ্রহ করে পেজটি আবার খুলুন।', tSold: '{n} এখন শেষ',
+    done: 'অর্ডার #{no} পাওয়া গেছে!', doneSub: 'রেস্টুরেন্টের স্ক্রিনে আপনার অর্ডার পৌঁছে গেছে।',
+    ssTitle: 'শেষ ধাপ: পেমেন্টের স্ক্রিনশট পাঠান', ss1: 'নিচের সবুজ বোতাম চাপুন', ss2: 'UPI পেমেন্টের স্ক্রিনশট বেছে নিন', ss3: 'WhatsApp এ {n} কে পাঠান',
+    ssBtn: '📎 স্ক্রিনশট বেছে পাঠান', chatBtn: 'WhatsApp চ্যাট খুলুন', ssManual: 'WhatsApp খুলছে। 📎 → Gallery চেপে পেমেন্টের স্ক্রিনশট পাঠান।',
+    waTitle: 'WhatsApp এও পাঠান', waText: 'এক ট্যাপে একই অর্ডার রেস্টুরেন্টের WhatsApp এ চলে যাবে।', waBtn: 'WhatsApp এ অর্ডার পাঠান', more: 'আর কিছু অর্ডার করুন',
+    trD: ['অর্ডার পাওয়া গেছে', 'তৈরি হচ্ছে', 'ডেলিভারির জন্য বেরিয়েছে', 'পৌঁছে গেছে'], trP: ['অর্ডার পাওয়া গেছে', 'তৈরি হচ্ছে', 'তৈরি, নিয়ে যান', 'নেওয়া হয়েছে'],
+    cancelled: 'অর্ডার গ্রহণ করা হয়নি। অনুগ্রহ করে রেস্টুরেন্টে ফোন করুন।', myOrder: 'আপনার অর্ডার #{no}',
+    closed: 'এখন অনলাইন অর্ডার বন্ধ', closedSub: 'মেনু দেখতে পারেন। একটু পরে আবার চেষ্টা করুন বা রেস্টুরেন্টে ফোন করুন।', off: 'এখানে এখনও অনলাইন অর্ডার চালু হয়নি।', call: 'ফোন করুন',
+    partyH: 'পার্টি ও অনুষ্ঠানের অর্ডার নেওয়া হয়', partyMore: 'তারিখ ও লোকসংখ্যা জানান।', partyBtn: '💬 WhatsApp এ জিজ্ঞেস করুন',
+    directions: '📍 রাস্তা দেখুন', photoNote: 'ছবি শুধু দেখানোর জন্য; আসল খাবার একটু আলাদা হতে পারে।', ordersLbl: 'অর্ডার', made: '{z} দ্বারা ❤️ দিয়ে তৈরি', backExit: 'বেরোতে আবার ব্যাক চাপুন',
+    tags: ['বেস্টসেলার', 'স্পেশাল', '🌶️ ঝাল', 'জৈন', 'নতুন'],
+  },
+  ta: {
+    search: '{x} தேடுங்கள்…', searchAll: 'மெனுவில் தேடுங்கள்…', add: 'சேர் +', sold: 'தீர்ந்தது', noMatch: '“{q}” க்கு எதுவும் கிடைக்கவில்லை', added: '{n} சேர்க்கப்பட்டது',
+    item1: '{n} உணவு', items: '{n} உணவுகள்', itemsN: 'உணவுகள் ({n})', each: 'ஒன்று {p}', viewCart: 'கார்ட் பார்க்க →', cart: 'உங்கள் ஆர்டர்', type: 'ஆர்டர் வகை',
+    delivery: 'வீட்டு டெலிவரி', deliverySub: '{km} கி.மீ வரை', deliveryMin: 'குறைந்தது {min}', pickup: 'பிக்அப்', pickupDine: 'பிக்அப் / இங்கே சாப்பிட', pickupSub: 'கவுண்டரில் பெற்றுக்கொள்ளுங்கள்',
+    pillDel: '{km} கி.மீ வரை இலவச டெலிவரி', pillMin: '{min} க்கு மேல்', pillParty: 'பார்ட்டி ஆர்டர்',
+    minNote: 'வீட்டு டெலிவரிக்கு குறைந்தது {min} ஆர்டர் வேண்டும். இன்னும் {s} சேர்க்கவும், அல்லது பிக்அப் தேர்ந்தெடுக்கவும்.', qualifies: 'உங்கள் ஆர்டருக்கு வீட்டு டெலிவரி இலவசம்!', tapLoc: 'தூரத்தைச் சரிபார்க்க கீழே “என் இருப்பிடம்” அழுத்துங்கள்.',
+    name: 'உங்கள் பெயர் *', namePh: 'முழுப் பெயர்', phone: 'மொபைல் எண் *', phonePh: '10 இலக்க மொபைல் எண்', addr: 'டெலிவரி முகவரி *', addrPh: 'வீட்டு எண், குடியிருப்பு, பகுதி, அடையாளம்',
+    useLoc: '📍 என் இருப்பிடத்தைப் பயன்படுத்து', useLocAgain: '📍 இருப்பிடத்தை மீண்டும் எடு', finding: '📍 இருப்பிடம் தேடப்படுகிறது…',
+    near: '✅ நீங்கள் சுமார் {k} கி.மீ தொலைவில் உள்ளீர்கள். வீட்டு டெலிவரி கிடைக்கும்!', far: 'மன்னிக்கவும், இந்த இடம் சுமார் {k} கி.மீ தொலைவில் உள்ளது. நாங்கள் {m} கி.மீ வரை மட்டுமே டெலிவரி செய்கிறோம். பின்னை நகர்த்துங்கள் அல்லது பிக்அப் தேர்ந்தெடுங்கள்.',
+    noGps: 'இருப்பிடம் கிடைக்கவில்லை. வரைபடத்தில் தட்டுங்கள் அல்லது பின்னை உங்கள் வீட்டுக்கு நகர்த்துங்கள்.', gpsAgain: '📍 மீண்டும் முயலுங்கள்',
+    failed: 'இருப்பிடம் கிடைக்கவில்லை. கீழே உறுதிப்படுத்துங்கள்; கடை உங்கள் முகவரியைச் சரிபார்க்கும்.', tick: 'என் முகவரி {area} இலிருந்து {km} கி.மீக்குள் உள்ளது',
+    mapHint: 'பின்னை உங்கள் வாசலுக்கு நகர்த்துங்கள் · வட்டம் = {km} கி.மீ டெலிவரி பகுதி', addrFilled: 'முகவரி நிரப்பப்பட்டது. வீடு / பிளாட் எண்ணைச் சேர்க்கவும்.',
+    notes: 'சமையல் குறிப்புகள் (விருப்பம்)', notesPh: 'எ.கா. அதிக காரம், மயோ வேண்டாம்', deliveryFee: 'டெலிவரி', free: 'இலவசம்', total: 'மொத்தம்',
+    pay: 'பணம் செலுத்துதல் *', cash: 'ரொக்கம்', cashSub: 'டெலிவரியில் / கவுண்டரில்', cashOnly: 'டெலிவரியின் போது அல்லது கவுண்டரில் ரொக்கமாகச் செலுத்துங்கள்.',
+    upiAmt: '{n} க்கு {a} செலுத்துங்கள்', upiBtn: 'UPI ஆப் மூலம் {a} செலுத்து', upiScan: 'அல்லது எந்த UPI ஆப்பிலும் இந்த QR ஐ ஸ்கேன் செய்யுங்கள்', copy: 'நகல்', copied: 'UPI ID நகலெடுக்கப்பட்டது',
+    noUpiApp: 'UPI ஆப் திறக்கவில்லையா? QR ஸ்கேன் செய்யுங்கள் அல்லது UPI ID க்கு அனுப்புங்கள்.', paid: 'நான் {a} செலுத்திவிட்டேன்',
+    place: 'ஆர்டர் செய் · {a}', placing: 'ஆர்டர் அனுப்பப்படுகிறது…', checkArea: 'முதலில் டெலிவரி பகுதியைச் சரிபாருங்கள்', payFirst: 'முதலில் பணம் செலுத்தி, “செலுத்திவிட்டேன்” என்பதை டிக் செய்யுங்கள்',
+    hint: 'உங்கள் ஆர்டர் உடனே உணவகத்தின் திரைக்குச் செல்லும்.',
+    tMin: 'வீட்டு டெலிவரிக்கு குறைந்தது {m}', tFar: '{km} கி.மீ டெலிவரி பகுதிக்கு வெளியே', tName: 'உங்கள் பெயரை உள்ளிடுங்கள்', tPhone: 'சரியான 10 இலக்க மொபைல் எண்ணை உள்ளிடுங்கள்',
+    tAddr: 'முழு முகவரியை உள்ளிடுங்கள்', tLoc: 'தூரத்தைச் சரிபார்க்க “என் இருப்பிடம்” அழுத்துங்கள்', tPaid: 'UPI மூலம் செலுத்தி, “செலுத்திவிட்டேன்” என்பதை டிக் செய்யுங்கள்',
+    tMenu: 'மெனு மாறியுள்ளது. பக்கத்தை மீண்டும் திறக்கவும்.', tSold: '{n} இப்போது தீர்ந்துவிட்டது',
+    done: 'ஆர்டர் #{no} பெறப்பட்டது!', doneSub: 'உணவகத்தின் திரையில் உங்கள் ஆர்டர் வந்துவிட்டது.',
+    ssTitle: 'கடைசி படி: பணம் செலுத்திய ஸ்கிரீன்ஷாட்டை அனுப்புங்கள்', ss1: 'கீழே உள்ள பச்சை பொத்தானை அழுத்துங்கள்', ss2: 'UPI பணம் செலுத்திய ஸ்கிரீன்ஷாட்டைத் தேர்ந்தெடுங்கள்', ss3: 'WhatsApp இல் {n} க்கு அனுப்புங்கள்',
+    ssBtn: '📎 ஸ்கிரீன்ஷாட்டைத் தேர்ந்தெடுத்து அனுப்பு', chatBtn: 'WhatsApp உரையாடலைத் திற', ssManual: 'WhatsApp திறக்கிறது. 📎 → Gallery அழுத்தி ஸ்கிரீன்ஷாட்டை அனுப்புங்கள்.',
+    waTitle: 'WhatsApp இலும் அனுப்புங்கள்', waText: 'ஒரே தட்டலில் இதே ஆர்டர் உணவகத்தின் WhatsApp க்குச் செல்லும்.', waBtn: 'WhatsApp இல் ஆர்டர் அனுப்பு', more: 'வேறு ஏதாவது ஆர்டர் செய்',
+    trD: ['ஆர்டர் பெறப்பட்டது', 'தயாராகிறது', 'டெலிவரிக்குப் புறப்பட்டது', 'வந்து சேர்ந்தது'], trP: ['ஆர்டர் பெறப்பட்டது', 'தயாராகிறது', 'தயார், பெற்றுக்கொள்ளுங்கள்', 'பெற்றுக்கொண்டீர்கள்'],
+    cancelled: 'ஆர்டர் ஏற்கப்படவில்லை. உணவகத்தை அழையுங்கள்.', myOrder: 'உங்கள் ஆர்டர் #{no}',
+    closed: 'இப்போது ஆன்லைன் ஆர்டர்கள் இல்லை', closedSub: 'மெனுவைப் பார்க்கலாம். சிறிது நேரம் கழித்து முயலுங்கள் அல்லது உணவகத்தை அழையுங்கள்.', off: 'இங்கே இன்னும் ஆன்லைன் ஆர்டர் இல்லை.', call: 'அழை',
+    partyH: 'பார்ட்டி மற்றும் விழா ஆர்டர்கள் எடுக்கப்படும்', partyMore: 'தேதி மற்றும் நபர்களின் எண்ணிக்கையைச் சொல்லுங்கள்.', partyBtn: '💬 WhatsApp இல் கேளுங்கள்',
+    directions: '📍 வழி', photoNote: 'படங்கள் விளக்கத்திற்கு மட்டுமே; உண்மையான உணவு சற்று வேறுபடலாம்.', ordersLbl: 'ஆர்டர்', made: '{z} ஆல் ❤️ உடன் உருவாக்கப்பட்டது', backExit: 'வெளியேற மீண்டும் பின் பொத்தானை அழுத்துங்கள்',
+    tags: ['அதிகம் விற்பனை', 'ஸ்பெஷல்', '🌶️ காரம்', 'ஜைன்', 'புதியது'],
+  },
+  te: {
+    search: '{x} వెతకండి…', searchAll: 'మెనూలో వెతకండి…', add: 'చేర్చు +', sold: 'అయిపోయింది', noMatch: '“{q}” కి ఏమీ దొరకలేదు', added: '{n} చేర్చబడింది',
+    item1: '{n} ఐటమ్', items: '{n} ఐటమ్స్', itemsN: 'ఐటమ్స్ ({n})', each: 'ఒక్కోటి {p}', viewCart: 'కార్ట్ చూడండి →', cart: 'మీ ఆర్డర్', type: 'ఆర్డర్ రకం',
+    delivery: 'హోమ్ డెలివరీ', deliverySub: '{km} కి.మీ వరకు', deliveryMin: 'కనీసం {min}', pickup: 'పికప్', pickupDine: 'పికప్ / ఇక్కడే తినండి', pickupSub: 'కౌంటర్ దగ్గర తీసుకోండి',
+    pillDel: '{km} కి.మీ వరకు ఉచిత డెలివరీ', pillMin: '{min} పైన', pillParty: 'పార్టీ ఆర్డర్లు',
+    minNote: 'హోమ్ డెలివరీకి కనీసం {min} ఆర్డర్ కావాలి. ఇంకా {s} చేర్చండి, లేదా పికప్ ఎంచుకోండి.', qualifies: 'మీ ఆర్డర్‌కు హోమ్ డెలివరీ ఉచితం!', tapLoc: 'దూరం చూడటానికి కింద “నా లొకేషన్ తీసుకో” నొక్కండి.',
+    name: 'మీ పేరు *', namePh: 'పూర్తి పేరు', phone: 'మొబైల్ నంబర్ *', phonePh: '10 అంకెల మొబైల్ నంబర్', addr: 'డెలివరీ చిరునామా *', addrPh: 'ఇంటి నం., అపార్ట్‌మెంట్, ప్రాంతం, గుర్తు',
+    useLoc: '📍 నా లొకేషన్ తీసుకో', useLocAgain: '📍 లొకేషన్ మళ్లీ తీసుకో', finding: '📍 లొకేషన్ వెతుకుతున్నాం…',
+    near: '✅ మీరు సుమారు {k} కి.మీ దూరంలో ఉన్నారు. హోమ్ డెలివరీ ఉంది!', far: 'క్షమించండి, ఈ చోటు సుమారు {k} కి.మీ దూరంలో ఉంది. మేము {m} కి.మీ వరకు మాత్రమే డెలివరీ చేస్తాం. పిన్ జరపండి లేదా పికప్ ఎంచుకోండి.',
+    noGps: 'లొకేషన్ దొరకలేదు. మ్యాప్‌పై నొక్కండి లేదా పిన్‌ను మీ ఇంటి వరకు జరపండి.', gpsAgain: '📍 మళ్లీ ప్రయత్నించండి',
+    failed: 'లొకేషన్ దొరకలేదు. కింద నిర్ధారించండి; షాప్ మీ చిరునామాను చెక్ చేస్తుంది.', tick: 'నా చిరునామా {area} నుండి {km} కి.మీ లోపల ఉంది',
+    mapHint: 'పిన్‌ను మీ ఇంటి గుమ్మం వరకు జరపండి · వృత్తం = {km} కి.మీ డెలివరీ ప్రాంతం', addrFilled: 'చిరునామా నింపబడింది. మీ ఇంటి / ఫ్లాట్ నంబర్ చేర్చండి.',
+    notes: 'వంట సూచనలు (ఐచ్ఛికం)', notesPh: 'ఉదా. ఎక్కువ కారం, మయో వద్దు', deliveryFee: 'డెలివరీ', free: 'ఉచితం', total: 'మొత్తం',
+    pay: 'చెల్లింపు *', cash: 'నగదు', cashSub: 'డెలివరీ సమయంలో / కౌంటర్ వద్ద', cashOnly: 'డెలివరీ సమయంలో లేదా కౌంటర్ వద్ద నగదు ఇవ్వండి.',
+    upiAmt: '{n} కి {a} చెల్లించండి', upiBtn: 'UPI యాప్‌తో {a} చెల్లించండి', upiScan: 'లేదా ఏదైనా UPI యాప్‌తో ఈ QR స్కాన్ చేయండి', copy: 'కాపీ', copied: 'UPI ID కాపీ అయింది',
+    noUpiApp: 'UPI యాప్ తెరుచుకోలేదా? QR స్కాన్ చేయండి లేదా UPI ID కి పంపండి.', paid: 'నేను {a} చెల్లించాను',
+    place: 'ఆర్డర్ చేయండి · {a}', placing: 'ఆర్డర్ పంపుతున్నాం…', checkArea: 'ముందు డెలివరీ ప్రాంతం చెక్ చేయండి', payFirst: 'ముందు చెల్లించి, “నేను చెల్లించాను” టిక్ చేయండి',
+    hint: 'మీ ఆర్డర్ వెంటనే రెస్టారెంట్ స్క్రీన్‌కు చేరుతుంది.',
+    tMin: 'హోమ్ డెలివరీకి కనీసం {m}', tFar: '{km} కి.మీ డెలివరీ ప్రాంతం బయట', tName: 'దయచేసి మీ పేరు రాయండి', tPhone: 'సరైన 10 అంకెల మొబైల్ నంబర్ రాయండి',
+    tAddr: 'దయచేసి పూర్తి చిరునామా రాయండి', tLoc: 'దూరం చూడటానికి “నా లొకేషన్ తీసుకో” నొక్కండి', tPaid: 'దయచేసి UPI తో చెల్లించి “నేను చెల్లించాను” టిక్ చేయండి',
+    tMenu: 'మెనూ మారింది. దయచేసి పేజీని మళ్లీ తెరవండి.', tSold: '{n} ఇప్పుడు అయిపోయింది',
+    done: 'ఆర్డర్ #{no} అందింది!', doneSub: 'రెస్టారెంట్ స్క్రీన్‌పై మీ ఆర్డర్ చేరింది.',
+    ssTitle: 'చివరి దశ: చెల్లింపు స్క్రీన్‌షాట్ పంపండి', ss1: 'కింద ఉన్న ఆకుపచ్చ బటన్ నొక్కండి', ss2: 'UPI చెల్లింపు స్క్రీన్‌షాట్ ఎంచుకోండి', ss3: 'WhatsApp లో {n} కి పంపండి',
+    ssBtn: '📎 స్క్రీన్‌షాట్ ఎంచుకుని పంపండి', chatBtn: 'WhatsApp చాట్ తెరవండి', ssManual: 'WhatsApp తెరుచుకుంటోంది. 📎 → Gallery నొక్కి స్క్రీన్‌షాట్ పంపండి.',
+    waTitle: 'WhatsApp లో కూడా పంపండి', waText: 'ఒక్క నొక్కుతో ఇదే ఆర్డర్ రెస్టారెంట్ WhatsApp కి వెళ్తుంది.', waBtn: 'WhatsApp లో ఆర్డర్ పంపండి', more: 'ఇంకేదైనా ఆర్డర్ చేయండి',
+    trD: ['ఆర్డర్ అందింది', 'తయారవుతోంది', 'డెలివరీకి బయలుదేరింది', 'చేరింది'], trP: ['ఆర్డర్ అందింది', 'తయారవుతోంది', 'సిద్ధం, తీసుకెళ్లండి', 'తీసుకున్నారు'],
+    cancelled: 'ఆర్డర్ అంగీకరించబడలేదు. దయచేసి రెస్టారెంట్‌కు కాల్ చేయండి.', myOrder: 'మీ ఆర్డర్ #{no}',
+    closed: 'ఇప్పుడు ఆన్‌లైన్ ఆర్డర్లు తీసుకోవడం లేదు', closedSub: 'మెనూ చూడవచ్చు. కొంతసేపటి తర్వాత ప్రయత్నించండి లేదా రెస్టారెంట్‌కు కాల్ చేయండి.', off: 'ఇక్కడ ఇంకా ఆన్‌లైన్ ఆర్డర్లు లేవు.', call: 'కాల్ చేయండి',
+    partyH: 'పార్టీ మరియు ఫంక్షన్ ఆర్డర్లు తీసుకుంటాం', partyMore: 'తేదీ మరియు మనుషుల సంఖ్య చెప్పండి.', partyBtn: '💬 WhatsApp లో అడగండి',
+    directions: '📍 దారి', photoNote: 'ఫోటోలు చూపించడానికి మాత్రమే; అసలు వంటకం కొంచెం వేరుగా ఉండవచ్చు.', ordersLbl: 'ఆర్డర్లు', made: '{z} ద్వారా ❤️ తో తయారైంది', backExit: 'బయటకు వెళ్లడానికి మళ్లీ బ్యాక్ నొక్కండి',
+    tags: ['బెస్ట్‌సెల్లర్', 'స్పెషల్', '🌶️ కారం', 'జైన్', 'కొత్తది'],
+  },
+  kn: {
+    search: '{x} ಹುಡುಕಿ…', searchAll: 'ಮೆನುವಿನಲ್ಲಿ ಹುಡುಕಿ…', add: 'ಸೇರಿಸಿ +', sold: 'ಮುಗಿದಿದೆ', noMatch: '“{q}” ಗೆ ಏನೂ ಸಿಗಲಿಲ್ಲ', added: '{n} ಸೇರಿಸಲಾಗಿದೆ',
+    item1: '{n} ಐಟಂ', items: '{n} ಐಟಂಗಳು', itemsN: 'ಐಟಂಗಳು ({n})', each: 'ಪ್ರತಿಯೊಂದು {p}', viewCart: 'ಕಾರ್ಟ್ ನೋಡಿ →', cart: 'ನಿಮ್ಮ ಆರ್ಡರ್', type: 'ಆರ್ಡರ್ ವಿಧ',
+    delivery: 'ಹೋಮ್ ಡೆಲಿವರಿ', deliverySub: '{km} ಕಿ.ಮೀ ವರೆಗೆ', deliveryMin: 'ಕನಿಷ್ಠ {min}', pickup: 'ಪಿಕಪ್', pickupDine: 'ಪಿಕಪ್ / ಇಲ್ಲೇ ಊಟ', pickupSub: 'ಕೌಂಟರ್‌ನಲ್ಲಿ ಪಡೆಯಿರಿ',
+    pillDel: '{km} ಕಿ.ಮೀ ವರೆಗೆ ಉಚಿತ ಡೆಲಿವರಿ', pillMin: '{min} ಮೇಲೆ', pillParty: 'ಪಾರ್ಟಿ ಆರ್ಡರ್',
+    minNote: 'ಹೋಮ್ ಡೆಲಿವರಿಗೆ ಕನಿಷ್ಠ {min} ಆರ್ಡರ್ ಬೇಕು. ಇನ್ನೂ {s} ಸೇರಿಸಿ, ಅಥವಾ ಪಿಕಪ್ ಆಯ್ಕೆಮಾಡಿ.', qualifies: 'ನಿಮ್ಮ ಆರ್ಡರ್‌ಗೆ ಹೋಮ್ ಡೆಲಿವರಿ ಉಚಿತ!', tapLoc: 'ದೂರ ಪರಿಶೀಲಿಸಲು ಕೆಳಗೆ “ನನ್ನ ಲೊಕೇಶನ್ ಬಳಸಿ” ಒತ್ತಿ.',
+    name: 'ನಿಮ್ಮ ಹೆಸರು *', namePh: 'ಪೂರ್ಣ ಹೆಸರು', phone: 'ಮೊಬೈಲ್ ಸಂಖ್ಯೆ *', phonePh: '10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ', addr: 'ಡೆಲಿವರಿ ವಿಳಾಸ *', addrPh: 'ಮನೆ ನಂ., ಅಪಾರ್ಟ್‌ಮೆಂಟ್, ಪ್ರದೇಶ, ಗುರುತು',
+    useLoc: '📍 ನನ್ನ ಲೊಕೇಶನ್ ಬಳಸಿ', useLocAgain: '📍 ಲೊಕೇಶನ್ ಮತ್ತೆ ಪಡೆಯಿರಿ', finding: '📍 ಲೊಕೇಶನ್ ಹುಡುಕುತ್ತಿದ್ದೇವೆ…',
+    near: '✅ ನೀವು ಸುಮಾರು {k} ಕಿ.ಮೀ ದೂರದಲ್ಲಿದ್ದೀರಿ. ಹೋಮ್ ಡೆಲಿವರಿ ಸಿಗುತ್ತದೆ!', far: 'ಕ್ಷಮಿಸಿ, ಈ ಸ್ಥಳ ಸುಮಾರು {k} ಕಿ.ಮೀ ದೂರದಲ್ಲಿದೆ. ನಾವು {m} ಕಿ.ಮೀ ವರೆಗೆ ಮಾತ್ರ ಡೆಲಿವರಿ ಮಾಡುತ್ತೇವೆ. ಪಿನ್ ಸರಿಸಿ ಅಥವಾ ಪಿಕಪ್ ಆಯ್ಕೆಮಾಡಿ.',
+    noGps: 'ಲೊಕೇಶನ್ ಸಿಗಲಿಲ್ಲ. ನಕ್ಷೆಯ ಮೇಲೆ ಒತ್ತಿ ಅಥವಾ ಪಿನ್ ಅನ್ನು ನಿಮ್ಮ ಮನೆಯವರೆಗೆ ಸರಿಸಿ.', gpsAgain: '📍 ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ',
+    failed: 'ಲೊಕೇಶನ್ ಸಿಗಲಿಲ್ಲ. ಕೆಳಗೆ ದೃಢೀಕರಿಸಿ; ಅಂಗಡಿ ನಿಮ್ಮ ವಿಳಾಸ ಪರಿಶೀಲಿಸುತ್ತದೆ.', tick: 'ನನ್ನ ವಿಳಾಸ {area} ನಿಂದ {km} ಕಿ.ಮೀ ಒಳಗಿದೆ',
+    mapHint: 'ಪಿನ್ ಅನ್ನು ನಿಮ್ಮ ಬಾಗಿಲವರೆಗೆ ಸರಿಸಿ · ವೃತ್ತ = {km} ಕಿ.ಮೀ ಡೆಲಿವರಿ ಪ್ರದೇಶ', addrFilled: 'ವಿಳಾಸ ತುಂಬಲಾಗಿದೆ. ನಿಮ್ಮ ಮನೆ / ಫ್ಲಾಟ್ ಸಂಖ್ಯೆ ಸೇರಿಸಿ.',
+    notes: 'ಅಡುಗೆ ಸೂಚನೆಗಳು (ಐಚ್ಛಿಕ)', notesPh: 'ಉದಾ. ಹೆಚ್ಚು ಖಾರ, ಮೇಯೊ ಬೇಡ', deliveryFee: 'ಡೆಲಿವರಿ', free: 'ಉಚಿತ', total: 'ಒಟ್ಟು',
+    pay: 'ಪಾವತಿ *', cash: 'ನಗದು', cashSub: 'ಡೆಲಿವರಿ ವೇಳೆ / ಕೌಂಟರ್‌ನಲ್ಲಿ', cashOnly: 'ಡೆಲಿವರಿ ವೇಳೆ ಅಥವಾ ಕೌಂಟರ್‌ನಲ್ಲಿ ನಗದು ನೀಡಿ.',
+    upiAmt: '{n} ಗೆ {a} ಪಾವತಿಸಿ', upiBtn: 'UPI ಆ್ಯಪ್‌ನಿಂದ {a} ಪಾವತಿಸಿ', upiScan: 'ಅಥವಾ ಯಾವುದೇ UPI ಆ್ಯಪ್‌ನಿಂದ ಈ QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ', copy: 'ಕಾಪಿ', copied: 'UPI ID ಕಾಪಿ ಆಯಿತು',
+    noUpiApp: 'UPI ಆ್ಯಪ್ ತೆರೆಯಲಿಲ್ಲವೇ? QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಅಥವಾ UPI ID ಗೆ ಕಳುಹಿಸಿ.', paid: 'ನಾನು {a} ಪಾವತಿಸಿದ್ದೇನೆ',
+    place: 'ಆರ್ಡರ್ ಮಾಡಿ · {a}', placing: 'ಆರ್ಡರ್ ಕಳುಹಿಸುತ್ತಿದ್ದೇವೆ…', checkArea: 'ಮೊದಲು ಡೆಲಿವರಿ ಪ್ರದೇಶ ಪರಿಶೀಲಿಸಿ', payFirst: 'ಮೊದಲು ಪಾವತಿಸಿ, ನಂತರ “ನಾನು ಪಾವತಿಸಿದ್ದೇನೆ” ಟಿಕ್ ಮಾಡಿ',
+    hint: 'ನಿಮ್ಮ ಆರ್ಡರ್ ತಕ್ಷಣ ರೆಸ್ಟೋರೆಂಟ್ ಪರದೆಗೆ ತಲುಪುತ್ತದೆ.',
+    tMin: 'ಹೋಮ್ ಡೆಲಿವರಿಗೆ ಕನಿಷ್ಠ {m}', tFar: '{km} ಕಿ.ಮೀ ಡೆಲಿವರಿ ಪ್ರದೇಶದ ಹೊರಗೆ', tName: 'ದಯವಿಟ್ಟು ನಿಮ್ಮ ಹೆಸರು ಬರೆಯಿರಿ', tPhone: 'ಸರಿಯಾದ 10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಬರೆಯಿರಿ',
+    tAddr: 'ದಯವಿಟ್ಟು ಪೂರ್ಣ ವಿಳಾಸ ಬರೆಯಿರಿ', tLoc: 'ದೂರ ಪರಿಶೀಲಿಸಲು “ನನ್ನ ಲೊಕೇಶನ್ ಬಳಸಿ” ಒತ್ತಿ', tPaid: 'ದಯವಿಟ್ಟು UPI ಮೂಲಕ ಪಾವತಿಸಿ “ನಾನು ಪಾವತಿಸಿದ್ದೇನೆ” ಟಿಕ್ ಮಾಡಿ',
+    tMenu: 'ಮೆನು ಬದಲಾಗಿದೆ. ದಯವಿಟ್ಟು ಪುಟವನ್ನು ಮತ್ತೆ ತೆರೆಯಿರಿ.', tSold: '{n} ಈಗ ಮುಗಿದಿದೆ',
+    done: 'ಆರ್ಡರ್ #{no} ಸಿಕ್ಕಿದೆ!', doneSub: 'ರೆಸ್ಟೋರೆಂಟ್ ಪರದೆಯಲ್ಲಿ ನಿಮ್ಮ ಆರ್ಡರ್ ತಲುಪಿದೆ.',
+    ssTitle: 'ಕೊನೆಯ ಹಂತ: ಪಾವತಿ ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಕಳುಹಿಸಿ', ss1: 'ಕೆಳಗಿನ ಹಸಿರು ಬಟನ್ ಒತ್ತಿ', ss2: 'UPI ಪಾವತಿ ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಆಯ್ಕೆಮಾಡಿ', ss3: 'WhatsApp ನಲ್ಲಿ {n} ಗೆ ಕಳುಹಿಸಿ',
+    ssBtn: '📎 ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಆಯ್ಕೆಮಾಡಿ ಕಳುಹಿಸಿ', chatBtn: 'WhatsApp ಚಾಟ್ ತೆರೆಯಿರಿ', ssManual: 'WhatsApp ತೆರೆಯುತ್ತಿದೆ. 📎 → Gallery ಒತ್ತಿ ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಕಳುಹಿಸಿ.',
+    waTitle: 'WhatsApp ನಲ್ಲೂ ಕಳುಹಿಸಿ', waText: 'ಒಂದೇ ಟ್ಯಾಪ್‌ನಲ್ಲಿ ಇದೇ ಆರ್ಡರ್ ರೆಸ್ಟೋರೆಂಟ್ WhatsApp ಗೆ ಹೋಗುತ್ತದೆ.', waBtn: 'WhatsApp ನಲ್ಲಿ ಆರ್ಡರ್ ಕಳುಹಿಸಿ', more: 'ಇನ್ನೇನಾದರೂ ಆರ್ಡರ್ ಮಾಡಿ',
+    trD: ['ಆರ್ಡರ್ ಸಿಕ್ಕಿದೆ', 'ತಯಾರಾಗುತ್ತಿದೆ', 'ಡೆಲಿವರಿಗೆ ಹೊರಟಿದೆ', 'ತಲುಪಿದೆ'], trP: ['ಆರ್ಡರ್ ಸಿಕ್ಕಿದೆ', 'ತಯಾರಾಗುತ್ತಿದೆ', 'ಸಿದ್ಧ, ತೆಗೆದುಕೊಂಡು ಹೋಗಿ', 'ತೆಗೆದುಕೊಂಡಿದ್ದೀರಿ'],
+    cancelled: 'ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಿಲ್ಲ. ದಯವಿಟ್ಟು ರೆಸ್ಟೋರೆಂಟ್‌ಗೆ ಕರೆ ಮಾಡಿ.', myOrder: 'ನಿಮ್ಮ ಆರ್ಡರ್ #{no}',
+    closed: 'ಈಗ ಆನ್‌ಲೈನ್ ಆರ್ಡರ್ ಇಲ್ಲ', closedSub: 'ಮೆನು ನೋಡಬಹುದು. ಸ್ವಲ್ಪ ಸಮಯದ ನಂತರ ಪ್ರಯತ್ನಿಸಿ ಅಥವಾ ರೆಸ್ಟೋರೆಂಟ್‌ಗೆ ಕರೆ ಮಾಡಿ.', off: 'ಇಲ್ಲಿ ಇನ್ನೂ ಆನ್‌ಲೈನ್ ಆರ್ಡರ್ ಲಭ್ಯವಿಲ್ಲ.', call: 'ಕರೆ ಮಾಡಿ',
+    partyH: 'ಪಾರ್ಟಿ ಮತ್ತು ಸಮಾರಂಭದ ಆರ್ಡರ್ ತೆಗೆದುಕೊಳ್ಳಲಾಗುತ್ತದೆ', partyMore: 'ದಿನಾಂಕ ಮತ್ತು ಜನರ ಸಂಖ್ಯೆ ತಿಳಿಸಿ.', partyBtn: '💬 WhatsApp ನಲ್ಲಿ ಕೇಳಿ',
+    directions: '📍 ದಾರಿ', photoNote: 'ಫೋಟೋಗಳು ತೋರಿಸಲು ಮಾತ್ರ; ನಿಜವಾದ ಖಾದ್ಯ ಸ್ವಲ್ಪ ಬೇರೆ ಇರಬಹುದು.', ordersLbl: 'ಆರ್ಡರ್', made: '{z} ❤️ ನಿಂದ ತಯಾರಿಸಿದೆ', backExit: 'ಹೊರಹೋಗಲು ಮತ್ತೆ ಬ್ಯಾಕ್ ಒತ್ತಿ',
+    tags: ['ಬೆಸ್ಟ್‌ಸೆಲ್ಲರ್', 'ಸ್ಪೆಷಲ್', '🌶️ ಖಾರ', 'ಜೈನ್', 'ಹೊಸದು'],
+  },
+  ml: {
+    search: '{x} തിരയുക…', searchAll: 'മെനുവിൽ തിരയുക…', add: 'ചേർക്കുക +', sold: 'തീർന്നു', noMatch: '“{q}” എന്നതിന് ഒന്നും കിട്ടിയില്ല', added: '{n} ചേർത്തു',
+    item1: '{n} ഐറ്റം', items: '{n} ഐറ്റങ്ങൾ', itemsN: 'ഐറ്റങ്ങൾ ({n})', each: 'ഓരോന്നിനും {p}', viewCart: 'കാർട്ട് കാണുക →', cart: 'നിങ്ങളുടെ ഓർഡർ', type: 'ഓർഡർ തരം',
+    delivery: 'ഹോം ഡെലിവറി', deliverySub: '{km} കി.മീ വരെ', deliveryMin: 'കുറഞ്ഞത് {min}', pickup: 'പിക്കപ്പ്', pickupDine: 'പിക്കപ്പ് / ഇവിടെ കഴിക്കാം', pickupSub: 'കൗണ്ടറിൽ നിന്ന് വാങ്ങുക',
+    pillDel: '{km} കി.മീ വരെ സൗജന്യ ഡെലിവറി', pillMin: '{min} ന് മുകളിൽ', pillParty: 'പാർട്ടി ഓർഡർ',
+    minNote: 'ഹോം ഡെലിവറിക്ക് കുറഞ്ഞത് {min} ഓർഡർ വേണം. ഇനിയും {s} ചേർക്കുക, അല്ലെങ്കിൽ പിക്കപ്പ് തിരഞ്ഞെടുക്കുക.', qualifies: 'നിങ്ങളുടെ ഓർഡറിന് ഹോം ഡെലിവറി സൗജന്യം!', tapLoc: 'ദൂരം പരിശോധിക്കാൻ താഴെ “എന്റെ ലൊക്കേഷൻ എടുക്കുക” അമർത്തുക.',
+    name: 'നിങ്ങളുടെ പേര് *', namePh: 'മുഴുവൻ പേര്', phone: 'മൊബൈൽ നമ്പർ *', phonePh: '10 അക്ക മൊബൈൽ നമ്പർ', addr: 'ഡെലിവറി വിലാസം *', addrPh: 'വീട്ടു നമ്പർ, ഫ്ലാറ്റ്, സ്ഥലം, അടയാളം',
+    useLoc: '📍 എന്റെ ലൊക്കേഷൻ എടുക്കുക', useLocAgain: '📍 ലൊക്കേഷൻ വീണ്ടും എടുക്കുക', finding: '📍 ലൊക്കേഷൻ തിരയുന്നു…',
+    near: '✅ നിങ്ങൾ ഏകദേശം {k} കി.മീ അകലെയാണ്. ഹോം ഡെലിവറി ലഭ്യമാണ്!', far: 'ക്ഷമിക്കണം, ഈ സ്ഥലം ഏകദേശം {k} കി.മീ അകലെയാണ്. ഞങ്ങൾ {m} കി.മീ വരെ മാത്രമേ ഡെലിവറി ചെയ്യൂ. പിൻ നീക്കുക അല്ലെങ്കിൽ പിക്കപ്പ് തിരഞ്ഞെടുക്കുക.',
+    noGps: 'ലൊക്കേഷൻ കിട്ടിയില്ല. മാപ്പിൽ തൊടുക അല്ലെങ്കിൽ പിൻ നിങ്ങളുടെ വീട്ടിലേക്ക് നീക്കുക.', gpsAgain: '📍 വീണ്ടും ശ്രമിക്കുക',
+    failed: 'ലൊക്കേഷൻ കിട്ടിയില്ല. താഴെ സ്ഥിരീകരിക്കുക; കട നിങ്ങളുടെ വിലാസം പരിശോധിക്കും.', tick: 'എന്റെ വിലാസം {area} ൽ നിന്ന് {km} കി.മീ ഉള്ളിലാണ്',
+    mapHint: 'പിൻ നിങ്ങളുടെ വാതിൽക്കലേക്ക് നീക്കുക · വൃത്തം = {km} കി.മീ ഡെലിവറി പ്രദേശം', addrFilled: 'വിലാസം പൂരിപ്പിച്ചു. വീട് / ഫ്ലാറ്റ് നമ്പർ ചേർക്കുക.',
+    notes: 'പാചക നിർദ്ദേശങ്ങൾ (ഐച്ഛികം)', notesPh: 'ഉദാ. കൂടുതൽ എരിവ്, മയോ വേണ്ട', deliveryFee: 'ഡെലിവറി', free: 'സൗജന്യം', total: 'ആകെ',
+    pay: 'പേയ്‌മെന്റ് *', cash: 'പണം', cashSub: 'ഡെലിവറി സമയത്ത് / കൗണ്ടറിൽ', cashOnly: 'ഡെലിവറി സമയത്തോ കൗണ്ടറിലോ പണം നൽകുക.',
+    upiAmt: '{n} ന് {a} അടയ്ക്കുക', upiBtn: 'UPI ആപ്പിൽ {a} അടയ്ക്കുക', upiScan: 'അല്ലെങ്കിൽ ഏതെങ്കിലും UPI ആപ്പിൽ ഈ QR സ്കാൻ ചെയ്യുക', copy: 'കോപ്പി', copied: 'UPI ID കോപ്പി ചെയ്തു',
+    noUpiApp: 'UPI ആപ്പ് തുറന്നില്ലേ? QR സ്കാൻ ചെയ്യുക അല്ലെങ്കിൽ UPI ID ലേക്ക് അയയ്ക്കുക.', paid: 'ഞാൻ {a} അടച്ചു',
+    place: 'ഓർഡർ ചെയ്യുക · {a}', placing: 'ഓർഡർ അയയ്ക്കുന്നു…', checkArea: 'ആദ്യം ഡെലിവറി പ്രദേശം പരിശോധിക്കുക', payFirst: 'ആദ്യം പണമടച്ച്, “ഞാൻ അടച്ചു” ടിക്ക് ചെയ്യുക',
+    hint: 'നിങ്ങളുടെ ഓർഡർ ഉടൻ റെസ്റ്റോറന്റിന്റെ സ്ക്രീനിൽ എത്തും.',
+    tMin: 'ഹോം ഡെലിവറിക്ക് കുറഞ്ഞത് {m}', tFar: '{km} കി.മീ ഡെലിവറി പ്രദേശത്തിന് പുറത്ത്', tName: 'ദയവായി നിങ്ങളുടെ പേര് എഴുതുക', tPhone: 'ശരിയായ 10 അക്ക മൊബൈൽ നമ്പർ എഴുതുക',
+    tAddr: 'ദയവായി മുഴുവൻ വിലാസം എഴുതുക', tLoc: 'ദൂരം പരിശോധിക്കാൻ “എന്റെ ലൊക്കേഷൻ എടുക്കുക” അമർത്തുക', tPaid: 'ദയവായി UPI വഴി പണമടച്ച് “ഞാൻ അടച്ചു” ടിക്ക് ചെയ്യുക',
+    tMenu: 'മെനു മാറി. ദയവായി പേജ് വീണ്ടും തുറക്കുക.', tSold: '{n} ഇപ്പോൾ തീർന്നു',
+    done: 'ഓർഡർ #{no} ലഭിച്ചു!', doneSub: 'റെസ്റ്റോറന്റിന്റെ സ്ക്രീനിൽ നിങ്ങളുടെ ഓർഡർ എത്തി.',
+    ssTitle: 'അവസാന ഘട്ടം: പേയ്‌മെന്റ് സ്ക്രീൻഷോട്ട് അയയ്ക്കുക', ss1: 'താഴെയുള്ള പച്ച ബട്ടൺ അമർത്തുക', ss2: 'UPI പേയ്‌മെന്റ് സ്ക്രീൻഷോട്ട് തിരഞ്ഞെടുക്കുക', ss3: 'WhatsApp ൽ {n} ന് അയയ്ക്കുക',
+    ssBtn: '📎 സ്ക്രീൻഷോട്ട് തിരഞ്ഞെടുത്ത് അയയ്ക്കുക', chatBtn: 'WhatsApp ചാറ്റ് തുറക്കുക', ssManual: 'WhatsApp തുറക്കുന്നു. 📎 → Gallery അമർത്തി സ്ക്രീൻഷോട്ട് അയയ്ക്കുക.',
+    waTitle: 'WhatsApp ലും അയയ്ക്കുക', waText: 'ഒരു ടാപ്പിൽ ഇതേ ഓർഡർ റെസ്റ്റോറന്റിന്റെ WhatsApp ലേക്ക് പോകും.', waBtn: 'WhatsApp ൽ ഓർഡർ അയയ്ക്കുക', more: 'മറ്റെന്തെങ്കിലും ഓർഡർ ചെയ്യുക',
+    trD: ['ഓർഡർ ലഭിച്ചു', 'തയ്യാറാക്കുന്നു', 'ഡെലിവറിക്ക് പുറപ്പെട്ടു', 'എത്തി'], trP: ['ഓർഡർ ലഭിച്ചു', 'തയ്യാറാക്കുന്നു', 'റെഡി, വന്ന് വാങ്ങൂ', 'വാങ്ങി'],
+    cancelled: 'ഓർഡർ സ്വീകരിച്ചില്ല. ദയവായി റെസ്റ്റോറന്റിലേക്ക് വിളിക്കുക.', myOrder: 'നിങ്ങളുടെ ഓർഡർ #{no}',
+    closed: 'ഇപ്പോൾ ഓൺലൈൻ ഓർഡർ ഇല്ല', closedSub: 'മെനു കാണാം. കുറച്ച് കഴിഞ്ഞ് ശ്രമിക്കുക അല്ലെങ്കിൽ റെസ്റ്റോറന്റിലേക്ക് വിളിക്കുക.', off: 'ഇവിടെ ഇതുവരെ ഓൺലൈൻ ഓർഡർ ലഭ്യമല്ല.', call: 'വിളിക്കുക',
+    partyH: 'പാർട്ടി, ചടങ്ങ് ഓർഡറുകൾ സ്വീകരിക്കുന്നു', partyMore: 'തീയതിയും ആളുകളുടെ എണ്ണവും പറയുക.', partyBtn: '💬 WhatsApp ൽ ചോദിക്കുക',
+    directions: '📍 വഴി', photoNote: 'ഫോട്ടോകൾ കാണിക്കാൻ മാത്രം; യഥാർത്ഥ വിഭവം അൽപ്പം വ്യത്യസ്തമായിരിക്കാം.', ordersLbl: 'ഓർഡർ', made: '{z} ❤️ ഓടെ നിർമ്മിച്ചത്', backExit: 'പുറത്തുകടക്കാൻ വീണ്ടും ബാക്ക് അമർത്തുക',
+    tags: ['ബെസ്റ്റ്സെല്ലർ', 'സ്പെഷ്യൽ', '🌶️ എരിവ്', 'ജൈൻ', 'പുതിയത്'],
+  },
+};
+const olFmt = (s, v) => String(s == null ? '' : s).replace(/\{(\w+)\}/g, (_, k) => (v && v[k] != null ? v[k] : ''));
+const OL_ZERO = [0x966, 0x9e6, 0xa66, 0xae6, 0xbe6, 0xc66, 0xce6, 0xd66, 0x660, 0x6f0];
+// Digits typed in any Indian script count as normal digits (૯૮૭… → 987…)
+const olAscii = (s) => String(s || '').replace(/[^\x00-\x7f]/g, (c) => { const n = c.charCodeAt(0), z = OL_ZERO.find((x) => n >= x && n <= x + 9); return z != null ? String(n - z) : c; });
 const olKm = (a, b) => { const R0 = 6371, r = (x) => (x * Math.PI) / 180, dLa = r(b.lat - a.lat), dLo = r(b.lng - a.lng); const h = Math.sin(dLa / 2) ** 2 + Math.cos(r(a.lat)) * Math.cos(r(b.lat)) * Math.sin(dLo / 2) ** 2; return 2 * R0 * Math.asin(Math.sqrt(h)); };
-const waDigits = (n) => { const x = String(n || '').replace(/\D/g, ''); return x.length === 10 ? '91' + x : x; };
-const upiLinkOf = (upi, name, amt, note) => 'upi://pay?pa=' + upi + '&pn=' + encodeURIComponent(name) + '&am=' + amt + '&cu=INR&tn=' + encodeURIComponent(note);
+const waDigits = (n) => { const x = olAscii(n).replace(/\D/g, ''); return x.length === 10 ? '91' + x : x; };
+const tel10 = (n) => olAscii(n).replace(/\D/g, '').slice(-10);
+const fmtPh = (n) => { const x = tel10(n); return x.length === 10 ? x.slice(0, 5) + ' ' + x.slice(5) : x; };
+const upiLinkOf = (upi, name, amt, note) => 'upi://pay?pa=' + upi + '&pn=' + encodeURIComponent(name) + '&am=' + Number(amt || 0).toFixed(2) + '&cu=INR&tn=' + encodeURIComponent(note);
+const siteBase = () => appBase().replace(/app\/$/, '');
 function loadLeaflet() {
   if (window.L) return Promise.resolve(window.L);
   if (loadLeaflet.p) return loadLeaflet.p;
   return (loadLeaflet.p = new Promise((ok, bad) => {
     const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'; document.head.appendChild(css);
-    const js = document.createElement('script'); js.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'; js.onload = () => ok(window.L); js.onerror = () => { loadLeaflet.p = null; bad(new Error('map')); }; document.head.appendChild(js);
+    const js = document.createElement('script'); js.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'; js.onload = () => (window.L ? ok(window.L) : bad(new Error('map'))); js.onerror = () => { loadLeaflet.p = null; bad(new Error('map')); }; document.head.appendChild(js);
   }));
 }
-const webOf = (r) => { const w = r.web || {}; return { on: !!w.on, delivery: { on: !!(w.delivery && w.delivery.on), km: Number(w.delivery && w.delivery.km) || 3, min: Number(w.delivery && w.delivery.min) || 0 }, pickup: { on: !w.pickup || w.pickup.on !== false }, lat: w.lat, lng: w.lng, wa: w.wa || '', cash: w.cash !== false, party: { on: !!(w.party && w.party.on), text: (w.party && w.party.text) || '', gu: (w.party && w.party.gu) || '' }, catGu: w.catGu || {}, taglineGu: w.taglineGu || '', gu: w.gu !== false, address: w.address || '' }; };
+// A picture for each menu section, so the page still looks right before photos load (or without any)
+const OL_EM = [[/special|chef|signature|house|combo|meal|thali|platter/i, '⭐'], [/pizza/i, '🍕'], [/burger/i, '🍔'], [/popcorn|nugget|wing|fried chicken|crispy chicken|broast/i, '🍗'], [/toast/i, '🥪'], [/sandwich|\bsub\b|club/i, '🥙'],
+  [/taco|mexican|nacho/i, '🌮'], [/fries|chips|wedges/i, '🍟'], [/roll|wrap|frank|shawarma|kathi/i, '🌯'], [/momo|dim ?sum|dumpling/i, '🥟'], [/biryani|rice|pulao|khichdi/i, '🍛'], [/noodle|chinese|hakka|chowmein|manchurian/i, '🍜'],
+  [/soup/i, '🥣'], [/salad/i, '🥗'], [/pasta/i, '🍝'], [/dosa|idli|uttapam|south indian/i, '🥞'], [/bread|naan|roti|paratha|kulcha/i, '🫓'], [/starter|tikka|kebab|kabab|tandoor|grill|bbq/i, '🍢'],
+  [/curry|main|sabzi|gravy|dal|paneer/i, '🍲'], [/ice ?cream|kulfi|falooda|sundae/i, '🍨'], [/dessert|sweet|mithai/i, '🍮'], [/cake|pastr|bakery|brownie|cookie/i, '🍰'], [/shake|smoothie|juice|cooler|mocktail|beverage|drink|soda|lassi|chaas/i, '🥤'],
+  [/coffee|tea|chai/i, '☕'], [/snack|chaat|pav|vada|samosa|bhel|puri/i, '🥟'], [/egg|omelette|breakfast/i, '🍳'], [/fish|prawn|sea ?food/i, '🐟'], [/chicken|mutton|non.?veg/i, '🍗']];
+const olEmoji = (c, W) => (W.catEm && W.catEm[c]) || (OL_EM.find(([re]) => re.test(c)) || [0, '🍽️'])[1];
+const webOf = (r) => {
+  const w = r.web || {}, d = w.delivery || {}, pk = w.pickup || {}, pt = w.party || {}, ow = w.owner || {};
+  const t = {};
+  Object.entries(w.t || {}).forEach(([k, v]) => { if (OL_LANGS[k] && k !== 'en' && v) t[k] = { ...v, cats: { ...(v.cats || {}) } }; });
+  if (w.catGu || w.taglineGu || pt.gu) { const g = t.gu || {}; t.gu = { ...g, cats: { ...(w.catGu || {}), ...(g.cats || {}) }, tagline: g.tagline || w.taglineGu || '', party: g.party || pt.gu || '' }; }
+  const langs = Array.isArray(w.langs) ? w.langs.filter((k, i, a) => OL_LANGS[k] && k !== 'en' && a.indexOf(k) === i) : w.gu !== false && (w.catGu || w.taglineGu) ? ['gu'] : [];
+  return { on: !!w.on, delivery: { on: !!d.on, km: Number(d.km) || 3, min: Number(d.min) || 0 }, pickup: { on: pk.on !== false, dine: !!pk.dine }, lat: w.lat, lng: w.lng, wa: w.wa || '', cash: w.cash !== false,
+    party: { on: !!pt.on, text: pt.text || '', sub: pt.sub || '' }, sub: w.sub || '', badge: w.badge || '', address: w.address || '', owner: { name: ow.name || '', phone: ow.phone || '' },
+    photoNote: !!w.photoNote, catEm: w.catEm || {}, langs, t };
+};
+
+function OlThumb({ img, em, alt }) {
+  const [bad, setBad] = useState(false);
+  useEffect(() => setBad(false), [img]);
+  return img && !bad ? html`<img className="ol-thumb" src=${img} alt=${alt || ''} loading="lazy" decoding="async" onError=${() => setBad(true)} />` : html`<div className="ol-thumb em" aria-hidden="true">${em}</div>`;
+}
+function OlTrack({ o, S }) {
+  if (o.status === 'cancelled') return html`<div className="ol-note err">${S.cancelled}</div>`;
+  const steps = o.mode === 'delivery' ? S.trD : S.trP, at = { new: 0, preparing: 1, ready: 2, served: 3 }[o.status] || 0;
+  return html`<ol className="ol-track">${steps.map((x, i) => html`<li key=${i} className=${i < at || at === 3 ? 'done' : i === at ? 'now' : ''}><i></i><span>${x}</span></li>`)}</ol>`;
+}
 
 function OnlineShop({ pub: pub0 }) {
   const [pub, setPub] = useState(pub0);
-  // Follow the owner's Open/Paused switch and sold-out dishes while the page stays open
+  // Follow the owner's Open/Paused switch, sold-out dishes and menu changes while the page stays open
+  const pull = useRef(null);
   useEffect(() => {
     let stop = false, last = Date.now();
-    const pull = () => { last = Date.now(); api('z_public', { p_rid: pub0.id }).then((x) => { if (!stop && x && x.id) setPub(x); }, () => {}); };
-    const id = setInterval(() => { if (!document.hidden) pull(); }, 20000);
-    const onVis = () => { if (!document.hidden && Date.now() - last > 5000) pull(); };
+    pull.current = () => { last = Date.now(); api('z_public', { p_rid: pub0.id }).then((x) => { if (!stop && x && x.id) setPub(x); }, () => {}); };
+    const id = setInterval(() => { if (!document.hidden) pull.current(); }, 20000);
+    const onVis = () => { if (!document.hidden && Date.now() - last > 5000) pull.current(); };
     document.addEventListener('visibilitychange', onVis); window.addEventListener('focus', onVis);
     return () => { stop = true; clearInterval(id); document.removeEventListener('visibilitychange', onVis); window.removeEventListener('focus', onVis); };
   }, []);
-  const rest = pub.rest || {}, r = { ...rest, name: rest.name || pub.name, area: pub.area || rest.area || '', city: pub.city || rest.city || '' }, W = webOf(rest);
-  const live = webAllowed(pub.plan) && W.on && (pub.state === 'trial' || pub.state === 'active') && rest.open !== false;
-  const shop = W.lat != null && W.lng != null ? { lat: Number(W.lat), lng: Number(W.lng) } : null;
-  const KEY = 'zo-' + pub.id;
-  const saved = (() => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } })();
-  const [lang, setLang] = useState(W.gu && saved.lang === 'gu' ? 'gu' : 'en');
-  const T = OL_T[lang], t = (k, v) => { let x = T[k]; Object.entries(v || {}).forEach(([a, b]) => { x = x.split('{' + a + '}').join(num(b)); }); return x; };
-  const num = (n) => (lang === 'gu' ? String(n).replace(/\d/g, (c) => GU_DIGITS[c]) : String(n));
-  const money = (n) => '₹' + num(Math.round(Number(n) || 0).toLocaleString('en-IN'));
-  const [cart, setCart] = useState(saved.cart || {});
+  const rest = pub.rest || {}, W = webOf(rest), theme = rest.theme || {};
+  const r = { name: rest.name || pub.name, area: pub.area || rest.area || '', city: pub.city || rest.city || '', upi: String(rest.upi || '').trim(), gst: Number(rest.gst) || 0, logo: rest.logo, cover: rest.cover };
+  const enabled = webAllowed(pub.plan) && W.on && (pub.state === 'trial' || pub.state === 'active');
+  const open = enabled && rest.open !== false;
+  const shop = W.lat != null && W.lat !== '' && W.lng != null && W.lng !== '' && !isNaN(Number(W.lat)) ? { lat: Number(W.lat), lng: Number(W.lng) } : null;
+  const KEY = 'zo-' + pub0.id;
+  const saved = useMemo(() => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } }, []);
+  const langs = ['en', ...W.langs];
+  const [lang, setLang] = useState(saved.lang || 'en');
+  const L = langs.includes(lang) ? lang : 'en';
+  const S = OL_STR[L] || OL_STR.en, dgs = (OL_LANGS[L] || {}).dg;
+  const t = (k, v) => olFmt(S[k] != null ? S[k] : OL_STR.en[k], v);
+  const gd = (x) => (dgs ? String(x).replace(/\d/g, (c) => dgs[c]) : String(x));
+  const money = (n) => '₹' + gd(Math.round(Number(n) || 0).toLocaleString('en-IN'));
+  const tr = W.t[L] || {};
+  const say = (key, en) => (L !== 'en' && tr[key]) || en;
+  const catName = (c) => (L !== 'en' && tr.cats && tr.cats[c]) || c;
+  const dishName = (m) => (L !== 'en' && ((m.tr && m.tr[L]) || (L === 'gu' && m.gu))) || m.name;
+  const [cart, setCart] = useState(() => (saved.cartT && Date.now() - saved.cartT < 30 * 60000 && saved.cart) || {});
   const [q, setQ] = useState('');
-  const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState(W.delivery.on ? (saved.mode === 'pickup' && W.pickup.on ? 'pickup' : 'delivery') : 'pickup');
-  const [me, setMe] = useState(saved.me || { name: '', phone: '', addr: '' });
+  const [sheet, setSheet] = useState('');
+  const [mode, setMode] = useState(saved.mode === 'pickup' ? 'pickup' : 'delivery');
+  const [me, setMe] = useState({ name: '', phone: '', addr: '', ...(saved.me || {}) });
   const [note, setNote] = useState('');
-  const [loc, setLoc] = useState(null); const [locSt, setLocSt] = useState('');
-  const [payMode, setPayMode] = useState(r.upi ? 'upi' : 'cash'); const [paidTick, setPaidTick] = useState(false);
-  const [busy, setBusy] = useState(false); const [err, setErr] = useState('');
+  const [loc, setLoc] = useState(null), [locSt, setLocSt] = useState(''), [tick, setTick] = useState(false), [mapOk, setMapOk] = useState(false);
+  const [payMode, setPayMode] = useState('upi'), [paidTick, setPaidTick] = useState(false);
+  const [busy, setBusy] = useState(false), [err, setErr] = useState('');
   const [done, setDone] = useState(null);
   const [mine, setMine] = useState((saved.mine || []).filter((o) => Date.now() - o.t < 12 * 3600000));
   const [active, setActive] = useState('');
-  const mapEl = useRef(null), mapObj = useRef(null);
-  useEffect(() => { applyBrand(rest.theme && rest.theme.brand ? rest.theme : null); document.title = r.name + ' · Order online'; }, []);
-  useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify({ lang, cart, mode, me, mine })); } catch (e) {} }, [lang, cart, mode, me, mine]);
-  useEffect(() => { document.documentElement.lang = lang === 'gu' ? 'gu' : 'en'; }, [lang]);
+  const [langMenu, setLangMenu] = useState(false);
+  const mapEl = useRef(null), mapObj = useRef(null), tabsRef = useRef(null), fileRef = useRef(null), stickRef = useRef(null);
+  const sheetRef = useRef(''); sheetRef.current = sheet;
+  const langRef = useRef(L); langRef.current = L;
+  const meRef = useRef(me); meRef.current = me;
+  const addrAuto = useRef(false), geoT = useRef(0), lastBack = useRef(0);
+  const md = W.delivery.on && (mode === 'delivery' || !W.pickup.on) ? 'delivery' : 'pickup';
+  const pm = !r.upi ? 'cash' : !W.cash ? 'upi' : payMode;
+
+  useEffect(() => { applyBrand(theme.brand ? theme : null); document.body.classList.add('ol-body'); return () => document.body.classList.remove('ol-body'); }, [theme.brand, theme.accent]);
+  useEffect(() => { document.title = r.name; document.documentElement.lang = L; }, [L, r.name]);
+  useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify({ lang: L, cart, cartT: Object.keys(cart).length ? Date.now() : 0, mode, me, mine })); } catch (e) {} }, [L, cart, mode, me, mine]);
+  // Always open at the top; the phone's back button closes the cart first, then asks before leaving
+  useEffect(() => {
+    try { history.scrollRestoration = 'manual'; } catch (e) {}
+    window.scrollTo(0, 0);
+    // Chrome skips history steps added before the visitor touches the page, so the guard step is added on the first tap
+    try { history.replaceState({ olbase: 1 }, ''); } catch (e) {}
+    let guarded = false;
+    const guard = () => { if (guarded) return; guarded = true; try { if (!history.state || !history.state.olsheet) history.pushState({ olguard: 1 }, ''); } catch (e) {} };
+    document.addEventListener('pointerdown', guard, { once: true, passive: true });
+    const onPop = (e) => {
+      if (sheetRef.current) { setSheet(''); return; }
+      if (e.state && e.state.olbase) {
+        if (Date.now() - lastBack.current < 2000) { history.back(); return; }
+        lastBack.current = Date.now(); toast(olFmt((OL_STR[langRef.current] || OL_STR.en).backExit));
+        try { history.pushState({ olguard: 1 }, ''); } catch (er) {}
+      }
+    };
+    window.addEventListener('popstate', onPop);
+    return () => { window.removeEventListener('popstate', onPop); document.removeEventListener('pointerdown', guard); };
+  }, []);
+  const openSheet = (k) => { if (!sheetRef.current) { try { history.pushState({ olsheet: 1 }, ''); } catch (e) {} } setLangMenu(false); setSheet(k); };
+  const closeSheet = () => { if (history.state && history.state.olsheet) history.back(); else setSheet(''); };
+  useEffect(() => { document.body.style.overflow = sheet ? 'hidden' : ''; return () => { document.body.style.overflow = ''; }; }, [sheet]);
+  // The section you are looking at lights up in the strip at the top
+  useEffect(() => {
+    let raf = 0;
+    const spy = () => { raf = 0; const top = (stickRef.current ? stickRef.current.getBoundingClientRect().bottom : 120) + 16; let cur = ''; document.querySelectorAll('.ol-cat').forEach((el) => { if (el.getBoundingClientRect().top <= top) cur = el.dataset.c; }); setActive(cur); };
+    const on = () => { if (!raf) raf = requestAnimationFrame(spy); };
+    window.addEventListener('scroll', on, { passive: true }); spy();
+    return () => { window.removeEventListener('scroll', on); if (raf) cancelAnimationFrame(raf); };
+  }, []);
+  useEffect(() => { const box = tabsRef.current, b = box && box.querySelector('[aria-pressed="true"]'); if (b && box.scrollTo) box.scrollTo({ left: Math.max(0, b.offsetLeft - box.clientWidth / 2 + b.offsetWidth / 2), behavior: 'smooth' }); }, [active, L]);
   // Live status of this phone's recent orders
   useEffect(() => {
     if (!mine.length) return undefined;
     let stop = false;
-    const tick = () => api('z_my_orders', { p_rid: pub.id, p_ids: mine.map((o) => o.id) }).then((list) => { if (!stop && Array.isArray(list)) setMine((m) => m.map((o) => { const x = list.find((y) => y.id === o.id); return x ? { ...o, status: x.status, pay: x.pay } : o; })); }, () => {});
-    tick(); const id = setInterval(() => { if (!document.hidden) tick(); }, 15000);
+    const tick2 = () => api('z_my_orders', { p_rid: pub0.id, p_ids: mine.map((o) => o.id) }).then((list) => { if (!stop && Array.isArray(list)) setMine((m) => m.map((o) => { const x = list.find((y) => y.id === o.id); return x ? { ...o, status: x.status, pay: x.pay } : o; })); }, () => {});
+    tick2(); const id = setInterval(() => { if (!document.hidden) tick2(); }, 15000);
     return () => { stop = true; clearInterval(id); };
   }, [mine.map((o) => o.id).join()]);
-  // Android back button closes the cart instead of leaving the page
-  useEffect(() => {
-    if (!open) return undefined;
-    history.pushState({ olcart: 1 }, '');
-    const onPop = () => setOpen(false);
-    window.addEventListener('popstate', onPop);
-    return () => { window.removeEventListener('popstate', onPop); if (history.state && history.state.olcart) history.back(); };
-  }, [open]);
 
   const menu = (pub.menu || []).filter((m) => m && m.name);
-  const nameOf = (m) => (lang === 'gu' && m.gu ? m.gu : m.name);
-  const catOf = (c) => (lang === 'gu' && W.catGu[c] ? W.catGu[c] : c);
-  const ql = q.trim().toLowerCase();
-  const shown = menu.filter((m) => !ql || m.name.toLowerCase().includes(ql) || (m.gu || '').includes(q.trim()));
-  const order = [...(pub.cats || []), ...CATS_OF(menu)].filter((c, i, a) => a.indexOf(c) === i);
-  const cats = order.filter((c) => shown.some((m) => m.cat === c));
+  const mixed = menu.some((m) => m.veg) && menu.some((m) => !m.veg);
+  const qq = q.trim().toLowerCase();
+  const hit = (m) => !qq || [m.name, dishName(m), m.cat, catName(m.cat), ...Object.values(m.tr || {}), m.gu].some((x) => x && String(x).toLowerCase().includes(qq));
+  const shown = menu.filter(hit);
+  const allCats = [...(pub.cats || []), ...CATS_OF(menu)].filter((c, i, a) => a.indexOf(c) === i && menu.some((m) => m.cat === c));
+  const cats = allCats.filter((c) => shown.some((m) => m.cat === c));
+  const em = (c) => olEmoji(c, W);
+  const ph = (() => { const x = allCats.filter((c) => !/special|chef|signature/i.test(c)).slice(0, 3).map((c) => (L === 'en' ? c.toLowerCase() : catName(c))); return x.length ? t('search', { x: x.join(', ') }) : t('searchAll'); })();
   const keyOf = (m, v) => m.id + '|' + (v || '');
   const priceOf = (m, v) => (v ? ((m.variants || []).find((x) => x[0] === v) || [0, m.price])[1] : m.price);
-  const lines = Object.entries(cart).map(([k, n]) => { const [id, v] = k.split('|'); const m = menu.find((x) => x.id === id); return m && n > 0 ? { k, m, v, q: n, p: priceOf(m, v) } : null; }).filter(Boolean);
-  const count = lines.reduce((a, l) => a + l.q, 0), sub = lines.reduce((a, l) => a + l.q * l.p, 0);
-  const B = billOf(lines.map((l) => ({ q: l.q, p: l.p })), { gst: Number(rest.gst) || 0 }, 0, false);
-  const bump = (k, d) => setCart((c) => { const n = Math.max(0, (c[k] || 0) + d), x = { ...c }; if (n) x[k] = n; else delete x[k]; return x; });
-  const short = mode === 'delivery' ? Math.max(0, W.delivery.min - sub) : 0;
-  const km = loc && shop ? olKm(shop, loc) : null, far = km != null && km > W.delivery.km + 0.05;
-  const phone10 = me.phone.replace(/\D/g, '').slice(-10);
-  const formOk = me.name.trim() && phone10.length === 10 && (mode === 'pickup' || me.addr.trim().length >= 8);
+  const lines = Object.entries(cart).map(([k, n]) => { const i = k.indexOf('|'), m = menu.find((x) => x.id === k.slice(0, i)), v = k.slice(i + 1); return m && n > 0 ? { k, m, v, q: n, p: priceOf(m, v) } : null; }).filter(Boolean);
+  const count = lines.reduce((a, l) => a + l.q, 0);
+  const B = billOf(lines.map((l) => ({ q: l.q, p: l.p })), { gst: r.gst }, 0, false);
+  const short = md === 'delivery' ? Math.max(0, W.delivery.min - B.sub) : 0;
+  const needLoc = md === 'delivery' && !!shop, far = locSt === 'far';
+  const verified = !needLoc || (!!loc && !far) || (locSt === 'failed' && tick);
+  const phone10 = tel10(me.phone);
   const soldOut = lines.filter((l) => l.m.stock === false);
-  const canSend = count && !soldOut.length && formOk && !short && !(mode === 'delivery' && far) && (payMode !== 'upi' || paidTick) && !busy;
-  const upiNote = 'Order ' + r.name;
-  const telOf = (W.wa || '').replace(/\D/g, '').slice(-10);
+  const tagOf = (m) => { for (const x of m.tags || []) { const i = OL_TAGS.indexOf(x); if (i >= 0) return (S.tags || OL_STR.en.tags)[i]; } return ''; };
+  const tel = tel10(W.wa), ownerPh = tel10(W.owner.phone);
+  useEffect(() => { if (sheet === 'cart' && !count) closeSheet(); }, [count]);
 
-  const setPin = (p, src) => { setLoc({ ...p, src }); if (shop) { const k = olKm(shop, p); setLocSt(k > W.delivery.km + 0.05 ? 'far' : 'ok'); } else setLocSt('ok'); };
-  const showMap = (p) => loadLeaflet().then((L) => {
-    if (!mapEl.current) return;
+  const bump = (m, v, d) => {
+    const k = keyOf(m, v);
+    if (d > 0 && !cart[k]) toast(t('added', { n: dishName(m) + (v ? ' (' + v + ')' : '') }));
+    setCart((c) => { const n = Math.max(0, (c[k] || 0) + d), x = { ...c }; if (n) x[k] = n; else delete x[k]; return x; });
+  };
+  const addBtn = (m, v) => { const n = cart[keyOf(m, v)] || 0; return n ? html`<div className="ol-q"><button onClick=${() => bump(m, v, -1)} aria-label=${'− ' + dishName(m)}>−</button><span>${gd(n)}</span><button onClick=${() => bump(m, v, 1)} aria-label=${'+ ' + dishName(m)}>+</button></div>` : html`<button className="ol-add" onClick=${() => bump(m, v, 1)}>${t('add')}</button>`; };
+  const jump = (c) => { const el = document.getElementById('olc-' + allCats.indexOf(c)); if (!el) return; const off = (stickRef.current ? stickRef.current.offsetHeight : 110) + 8; window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - off, behavior: 'smooth' }); setActive(c); };
+  const toParty = () => { const el = document.getElementById('ol-party'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' }); };
+  const partyAsk = () => window.open('https://wa.me/' + waDigits(W.wa) + '?text=' + encodeURIComponent('🎉 *Party / function order enquiry · ' + r.name + '*\n\nOccasion: \nDate: \nTime: \nNumber of people: \nItems wanted: \nDelivery address (if any): '), '_blank');
+
+  // ----- location -----
+  const fillAddress = (p) => {
+    clearTimeout(geoT.current);
+    geoT.current = setTimeout(async () => {
+      if (meRef.current.addr.trim() && !addrAuto.current) return;   // never overwrite what the customer typed
+      try {
+        const res = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + p.lat + '&lon=' + p.lng + '&zoom=18&accept-language=en');
+        const j = await res.json();
+        if (j && j.display_name) { addrAuto.current = true; setMe((x) => ({ ...x, addr: j.display_name.replace(/, \d{6}/, '').replace(/, India$/, '').split(', ').slice(0, 5).join(', ') })); toast(olFmt((OL_STR[langRef.current] || OL_STR.en).addrFilled)); }
+      } catch (e) { /* no address lookup: the customer types it */ }
+    }, 700);
+  };
+  const setPoint = (p, src) => { const km = shop ? olKm(shop, p) : null; setLoc({ lat: p.lat, lng: p.lng, km, src }); setLocSt(km != null && km > W.delivery.km + 0.05 ? 'far' : 'ok'); setErr(''); fillAddress(p); };
+  const showMap = (p) => loadLeaflet().then((Lf) => {
+    if (!mapEl.current) return false;
     if (!mapObj.current) {
-      const m = L.map(mapEl.current, { zoomControl: true }).setView([p.lat, p.lng], 16);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(m);
-      if (shop) L.circle([shop.lat, shop.lng], { radius: W.delivery.km * 1000, color: '#16a34a', weight: 1, fillOpacity: 0.05 }).addTo(m);
-      const mk = L.marker([p.lat, p.lng], { draggable: true }).addTo(m);
-      mk.on('dragend', () => { const ll = mk.getLatLng(); setPin({ lat: ll.lat, lng: ll.lng }, 'pin'); });
-      m.on('click', (e) => { mk.setLatLng(e.latlng); setPin({ lat: e.latlng.lat, lng: e.latlng.lng }, 'pin'); });
+      const m = Lf.map(mapEl.current, { zoomControl: true }).setView([p.lat, p.lng], 16);
+      Lf.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(m);
+      if (shop) {
+        Lf.circle([shop.lat, shop.lng], { radius: W.delivery.km * 1000, color: theme.brand || '#0f766e', weight: 1.5, fillOpacity: 0.05 }).addTo(m);
+        Lf.circleMarker([shop.lat, shop.lng], { radius: 7, color: '#fff', weight: 2, fillColor: '#f4b400', fillOpacity: 1 }).addTo(m).bindTooltip(r.name);
+      }
+      const mk = Lf.marker([p.lat, p.lng], { draggable: true }).addTo(m);
+      mk.on('dragend', () => { const ll = mk.getLatLng(); setPoint({ lat: ll.lat, lng: ll.lng }, 'pin'); });
+      m.on('click', (e) => { mk.setLatLng(e.latlng); setPoint({ lat: e.latlng.lat, lng: e.latlng.lng }, 'pin'); });
       mapObj.current = { m, mk };
     } else { mapObj.current.mk.setLatLng([p.lat, p.lng]); mapObj.current.m.setView([p.lat, p.lng], 16); }
+    setMapOk(true);
     setTimeout(() => mapObj.current && mapObj.current.m.invalidateSize(), 200);
-  }, () => {});
+    return true;
+  }, () => false);
+  const gpsFail = () => { setLoc(null); if (!shop) { setLocSt('failed'); return; } setLocSt('nogps'); showMap(shop).then((ok) => { if (!ok) setLocSt('failed'); }); };
   const findMe = () => {
-    if (!navigator.geolocation) { setLocSt('err'); return; }
+    if (!navigator.geolocation) { gpsFail(); return; }
     setLocSt('wait');
-    navigator.geolocation.getCurrentPosition((pos) => { const p = { lat: pos.coords.latitude, lng: pos.coords.longitude }; setPin(p, 'gps'); showMap(p); },
-      () => { setLocSt('err'); if (shop) showMap(shop); }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 });
+    navigator.geolocation.getCurrentPosition((pos) => { const p = { lat: pos.coords.latitude, lng: pos.coords.longitude }; setPoint(p, 'gps'); showMap(p); }, gpsFail, { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 });
   };
-  useEffect(() => { if (!open || mode !== 'delivery') { if (mapObj.current) { try { mapObj.current.m.remove(); } catch (e) {} } mapObj.current = null; } else if (loc && !mapObj.current) showMap(loc); }, [open, mode]);
+  useEffect(() => {
+    if (sheet !== 'cart' || md !== 'delivery') { if (mapObj.current) { try { mapObj.current.m.remove(); } catch (e) {} } mapObj.current = null; setMapOk(false); }
+    else if (loc && !mapObj.current) showMap(loc);
+  }, [sheet, md]);
 
-  const waText = (o) => {
-    const L1 = ['*New order #' + o.no + '* · ' + r.name, (o.mode === 'delivery' ? '🛵 Home delivery' : '🏃 Pickup'), ''];
-    o.items.forEach((i) => L1.push(i.q + ' × ' + i.n + (i.opt ? ' (' + i.opt + ')' : '') + ' = ₹' + i.q * i.p));
-    L1.push('', '*Total: ₹' + B.total + '*' + (B.cgst ? ' (incl. GST)' : ''), '', '👤 ' + o.name + ' · ' + o.phone);
-    if (o.mode === 'delivery') { L1.push('📍 ' + o.addr); if (o.loc) L1.push('Map: https://maps.google.com/?q=' + o.loc.lat + ',' + o.loc.lng + ' (' + o.loc.km + ' km)'); }
-    if (o.note) L1.push('📝 ' + o.note);
-    L1.push('', o.payMode === 'upi' ? '💳 Paid by UPI to ' + r.upi + '. Screenshot attached.' : '💵 Cash on ' + (o.mode === 'delivery' ? 'delivery' : 'pickup'));
-    return L1.join('\n');
+  // ----- placing the order -----
+  const srvMsg = (m) => {
+    m = String(m || ''); let x;
+    if ((x = m.match(/minimum order of ₹\s?([\d,]+)/i))) return t('tMin', { m: money(x[1].replace(/,/g, '')) });
+    if ((x = m.match(/within ([\d.]+) km/i))) return t('tFar', { km: gd(x[1]) });
+    if ((x = m.match(/^(.+) is sold out/i))) return t('tSold', { n: x[1] });
+    if (/menu has changed/i.test(m)) return t('tMenu');
+    if (/not taking orders|not available for this restaurant|paused/i.test(m)) return t('closed');
+    if (/10-digit/i.test(m)) return t('tPhone');
+    if (/delivery address/i.test(m)) return t('tAddr');
+    if (/enter your name/i.test(m)) return t('tName');
+    return m;
   };
-  const waUrl = (o) => 'https://wa.me/' + waDigits(W.wa) + '?text=' + encodeURIComponent(waText(o));
+  const problem = () => {
+    if (soldOut.length) return [t('tSold', { n: soldOut.map((l) => dishName(l.m)).join(', ') }), 'ol-lines'];
+    if (md === 'delivery' && short > 0) return [t('tMin', { m: money(W.delivery.min) }), 'ol-min'];
+    if (md === 'delivery' && far) return [t('tFar', { km: gd(W.delivery.km) }), 'ol-loc'];
+    if (!me.name.trim()) return [t('tName'), 'ol-name'];
+    if (phone10.length !== 10) return [t('tPhone'), 'ol-phone'];
+    if (md === 'delivery' && me.addr.trim().length < 8) return [t('tAddr'), 'ol-addr'];
+    if (!verified) return [t('tLoc'), 'ol-loc'];
+    if (pm === 'upi' && !paidTick) return [t('tPaid'), 'ol-paid'];
+    return null;
+  };
   const send = async () => {
-    if (!canSend) { setErr(soldOut.length ? t('soldCart', { n: soldOut.map((l) => nameOf(l.m)).join(', ') }) : !formOk ? t(mode === 'delivery' ? 'fill' : 'fillP') : payMode === 'upi' && !paidTick ? t('tickPaid') : ''); return; }
+    const bad = problem();
+    if (bad) {
+      setErr(bad[0]); toast(bad[0]);
+      const el = document.getElementById(bad[1]);
+      if (el) { el.scrollIntoView({ block: 'center', behavior: 'smooth' }); if (/INPUT|TEXTAREA/.test(el.tagName) && el.type !== 'checkbox') setTimeout(() => { try { el.focus({ preventScroll: true }); } catch (e) {} }, 350); }
+      return;
+    }
     setBusy(true); setErr('');
-    // Open the WhatsApp window now (a tap is needed for pop-ups), fill it in once the order is saved
-    const win = W.wa && payMode !== 'upi' ? window.open('', '_blank') : null;
     try {
-      const o = await api('z_place_web_order', { p_rid: pub.id, p_order: { mode, name: me.name.trim(), phone: phone10, addr: mode === 'delivery' ? me.addr.trim() : '', loc: mode === 'delivery' && loc ? loc : null, note: note.trim(), payMode, items: lines.map((l) => ({ id: l.m.id, v: l.v || '', q: l.q })) } });
-      if (win) { try { win.location.href = waUrl(o); } catch (e) {} }
-      setDone(o); setMine((m) => [{ id: o.id, no: o.no, t: o.t, mode: o.mode, status: o.status, pay: o.pay }, ...m].slice(0, 10)); setCart({}); setNote(''); setPaidTick(false); chime();
-    } catch (e) { if (win) win.close(); setErr(e.message); }
+      const o = await api('z_place_web_order', { p_rid: pub0.id, p_order: { mode: md, name: me.name.trim(), phone: phone10, addr: md === 'delivery' ? me.addr.trim() : '', loc: md === 'delivery' && loc ? { lat: loc.lat, lng: loc.lng, src: loc.src } : null, note: note.trim(), payMode: pm, lang: L, items: lines.map((l) => ({ id: l.m.id, v: l.v || '', q: l.q })) } });
+      setDone(o); setMine((m) => [{ id: o.id, no: o.no, t: o.t || Date.now(), mode: o.mode, status: o.status, pay: o.pay }, ...m.filter((x) => x.id !== o.id)].slice(0, 10));
+      setCart({}); setNote(''); setPaidTick(false); setSheet('done');
+      try { navigator.vibrate && navigator.vibrate(60); } catch (e) {}
+    } catch (e) {
+      const msg = srvMsg(e.message); setErr(msg); toast(msg);
+      if (/sold out|menu has changed|not taking/i.test(e.message) && pull.current) pull.current();
+    }
     setBusy(false);
   };
+  const label = busy ? t('placing') : md === 'delivery' && needLoc && !verified && short <= 0 && !far ? t('checkArea') : pm === 'upi' && !paidTick ? t('payFirst') : t('place', { a: money(B.total) });
+  const upiHref = upiLinkOf(r.upi, r.name, B.total, 'Order ' + r.name);
+  const copyUpi = () => { const ok = () => toast(t('copied')); try { navigator.clipboard.writeText(r.upi).then(ok, ok); } catch (e) { ok(); } };
 
-  const jump = (c) => { setActive(c); const el = document.getElementById('olc-' + c.replace(/\W+/g, '-')); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 112, behavior: 'smooth' }); };
-  const stTxt = (o) => { const x = T.status[o.status] || ''; return typeof x === 'string' ? x : x[o.mode] || ''; };
-  const addBtn = (m, v) => { const k = keyOf(m, v), n = cart[k] || 0; return n ? html`<div className="ol-q"><button onClick=${() => bump(k, -1)} aria-label="−">−</button><span>${num(n)}</span><button onClick=${() => bump(k, 1)} aria-label="+">+</button></div>` : html`<button className="ol-add" onClick=${() => bump(k, 1)}>${t('add')}</button>`; };
-  const tagline = lang === 'gu' && W.taglineGu ? W.taglineGu : rest.theme && rest.theme.tagline ? rest.theme.tagline : '';
+  // ----- WhatsApp copy for the restaurant (always English, the way the shop reads its orders) -----
+  const waText = (o) => {
+    const x = ['🧾 *New order #' + o.no + '* · ' + r.name, o.mode === 'delivery' ? '🛵 Home delivery' : W.pickup.dine ? '🍽️ Pickup / Dine-in' : '🏃 Pickup', ''];
+    (o.items || []).forEach((i, k) => x.push(k + 1 + '. ' + i.n + (i.opt ? ' (' + i.opt + ')' : '') + ' × ' + i.q + ' = ₹' + i.q * i.p));
+    x.push('', '*Total: ₹' + billOf(o.items || [], { gst: r.gst }, 0, false).total + '*' + (o.mode === 'delivery' ? ' (free delivery)' : ''));
+    x.push(o.payMode === 'upi' ? '💳 Paid by UPI to ' + r.upi + ' · screenshot attached' : '💵 Cash on ' + (o.mode === 'delivery' ? 'delivery' : 'pickup'));
+    x.push('', '👤 ' + o.name + ' · 📞 ' + o.phone);
+    if (o.mode === 'delivery') { x.push('📍 ' + o.addr); if (o.loc) x.push('🗺️ https://maps.google.com/?q=' + o.loc.lat + ',' + o.loc.lng + ' (' + o.loc.km + ' km)'); }
+    if (o.note) x.push('📝 ' + o.note);
+    return x.join('\n');
+  };
+  const waUrl = (o) => 'https://wa.me/' + waDigits(W.wa) + '?text=' + encodeURIComponent(waText(o));
+  const canFiles = useMemo(() => { try { const f = new File([''], 'x.png', { type: 'image/png' }); return !!(navigator.canShare && navigator.canShare({ files: [f] })); } catch (e) { return false; } }, []);
+  const openChat = () => { toast(t('ssManual')); window.open(waUrl(done), '_blank'); };
+  const pickShot = () => { if (canFiles && fileRef.current) fileRef.current.click(); else openChat(); };
+  const shareShot = async (file) => { if (!file) return; try { await navigator.share({ files: [file], text: waText(done) }); } catch (e) { if (e && e.name !== 'AbortError') openChat(); } };
 
-  if (!live) return html`<div className="ol"><div className="ol-hero"><div className="ol-id">${rest.logo ? html`<img className="rlogo img" src=${rest.logo} alt="" />` : null}<h1>${r.name}</h1></div></div>
-    <div className="ol-off"><div style=${{ fontSize: 44 }}>🕒</div><h2>${t('closed')}</h2><p className="muted">${t('closedSub')}</p>${telOf ? html`<p><a className="btn" href=${'tel:+91' + telOf}>📞 ${t('call')}</a></p>` : null}</div>
-    <div className="ol-foot">${t('made')} <b>Zestro</b></div></div>`;
+  // ----- language switch: one tap with one extra language, a short list with more -----
+  const other = L === 'en' ? langs[1] : 'en';
+  const langBtn = langs.length < 2 ? null : langs.length === 2
+    ? html`<button className="ol-lang" id="ol-lang" onClick=${() => setLang(other)}>🌐 ${OL_LANGS[other].nat}</button>`
+    : html`<div className="ol-langw"><button className="ol-lang" id="ol-lang" aria-haspopup="true" aria-expanded=${langMenu} onClick=${() => setLangMenu(!langMenu)}>🌐 ${OL_LANGS[L].nat} ▾</button>
+      ${langMenu ? html`<div className="ol-langmenu" role="menu">${langs.map((k) => html`<button key=${k} role="menuitemradio" aria-checked=${k === L} onClick=${() => { setLang(k); setLangMenu(false); }}>${OL_LANGS[k].nat}${k !== 'en' ? html`<small>${OL_LANGS[k].name}</small>` : null}</button>`)}</div>` : null}</div>`;
+  const brk = (s) => String(s || '').split('\n').map((x, i) => html`<span key=${i}>${i ? html`<br />` : null}${x}</span>`);
+  const tagline = say('tagline', theme.tagline || ''), sub = say('sub', W.sub), badge = say('badge', W.badge);
+  const made = t('made', { z: '\u0000' }).split('\u0000');
+  const recent = mine.filter((o) => (o.status !== 'served' && o.status !== 'cancelled' && Date.now() - o.t < 4 * 3600000) || Date.now() - o.t < 30 * 60000).slice(0, 2);
 
-  const sheet = !open ? null : done ? html`<div className="ol-done" id="ol-done">
-      <div className="big">✅</div><h2 style=${{ justifyContent: 'center' }}>${t('done', { no: done.no })}</h2><p className="muted">${t('doneSub')}</p>
-      ${done.payMode === 'upi' && W.wa ? html`<div className="ol-steps"><b>${t('ss')}</b><br />1. ${t('ss1')}<br />2. ${t('ss2')}</div>
-        <a className="ol-send" style=${{ display: 'block', textDecoration: 'none' }} id="ol-ss" href=${waUrl(done)} target="_blank" rel="noopener">${t('ssBtn')}</a>` : W.wa ? html`<a className="ol-sec" style=${{ display: 'block', textDecoration: 'none' }} href=${waUrl(done)} target="_blank" rel="noopener">${t('waBtn')}</a>` : null}
-      <button className="ol-sec" onClick=${() => { setDone(null); setOpen(false); }}>${t('more')}</button></div>`
-    : html`<div>
-      <h2>${t('cart')}<button className="btn sm icon" onClick=${() => setOpen(false)} aria-label="Close">${I('x')}</button></h2>
-      ${lines.map((l) => html`<div className="ol-line" key=${l.k}><${VegMark} veg=${l.m.veg} /><span className="n">${nameOf(l.m)}${l.v ? ' (' + l.v + ')' : ''}<br /><small className=${l.m.stock === false ? 'bad-t' : 'muted'}>${l.m.stock === false ? t('sold') : money(l.p)}</small></span>${l.m.stock === false ? html`<button className="btn sm" onClick=${() => bump(l.k, -l.q)}>✕</button>` : addBtn(l.m, l.v)}</div>`)}
-      <label className="lab">${t('mode')}</label>
-      <div className="ol-seg">
-        ${W.delivery.on ? html`<button aria-pressed=${mode === 'delivery'} id="ol-delivery" onClick=${() => setMode('delivery')}>🛵 ${t('delivery')}<small>${t('within', { km: W.delivery.km })}${W.delivery.min ? ' · ' + t('minOrd', { min: W.delivery.min }) : ''}</small></button>` : null}
-        ${W.pickup.on ? html`<button aria-pressed=${mode === 'pickup'} id="ol-pickup" onClick=${() => setMode('pickup')}>🏃 ${t('pickup')}<small>${t('fromShop')}</small></button>` : null}
-      </div>
-      ${short ? html`<div className="ol-note" id="ol-min">${t('minNote', { n: short, min: W.delivery.min })}</div>` : null}
-      <label className="lab" htmlFor="ol-name">${t('name')}</label><input className="inp" id="ol-name" value=${me.name} autoComplete="name" onChange=${(e) => setMe({ ...me, name: e.target.value })} />
-      <label className="lab" htmlFor="ol-phone">${t('phone')}</label><input className="inp" id="ol-phone" type="tel" inputMode="numeric" maxLength="14" value=${me.phone} autoComplete="tel" onChange=${(e) => setMe({ ...me, phone: e.target.value })} />
-      ${mode === 'delivery' ? html`<label className="lab" htmlFor="ol-addr">${t('addr')}</label><textarea className="inp" id="ol-addr" rows="2" placeholder=${t('addrPh')} value=${me.addr} onChange=${(e) => setMe({ ...me, addr: e.target.value })}></textarea>
-        <button className="ol-locbtn" id="ol-loc" onClick=${findMe}>${locSt === 'wait' ? t('locWait') : t('myLoc')}</button>
-        ${locSt === 'ok' && km != null ? html`<div className="ol-note ok">${t('locOk', { km: km.toFixed(1) })}</div>` : locSt === 'far' ? html`<div className="ol-note err" id="ol-far">${t('locFar', { km: km.toFixed(1), max: W.delivery.km })}</div>` : locSt === 'err' ? html`<div className="ol-note">${t('locErr')}</div>` : null}
-        <div id="ol-map" ref=${mapEl} style=${{ display: loc || locSt === 'err' ? 'block' : 'none' }}></div>${loc ? html`<small className="muted">${t('dragPin')}</small>` : null}` : null}
-      <label className="lab" htmlFor="ol-note">${t('note')}</label><input className="inp" id="ol-note" placeholder=${t('notePh')} value=${note} onChange=${(e) => setNote(e.target.value)} />
-      <div className="bill" style=${{ marginTop: 14 }}><div><span>${t('subtotal')}</span><span>${money(B.sub)}</span></div>${B.cgst ? html`<div><span>${t('gst')} ${num(rest.gst)}%</span><span>${money(B.cgst + B.sgst)}</span></div>` : null}<div className="tot"><span>${t('total')}</span><span id="ol-total">${money(B.total)}</span></div></div>
-      ${r.upi ? html`<label className="lab">${t('pay')}</label>
-        <div className="ol-seg">${W.cash ? html`<button aria-pressed=${payMode === 'cash'} id="ol-cash" onClick=${() => setPayMode('cash')}>💵 ${t('cash')}<small>${mode === 'delivery' ? t('cashD') : t('cashP')}</small></button>` : null}<button aria-pressed=${payMode === 'upi'} id="ol-upi" onClick=${() => setPayMode('upi')}>📱 ${t('upi')}<small>GPay · PhonePe · Paytm</small></button></div>
-        ${payMode === 'upi' ? html`<div className="ol-upi" id="ol-upibox">
-          <a className="paybtn" style=${{ display: 'block', textDecoration: 'none' }} href=${upiLinkOf(r.upi, r.name, B.total, upiNote)}>${t('upiPay', { n: B.total.toLocaleString('en-IN') })}</a>
-          <p className="small muted" style=${{ marginTop: 10 }}>${t('scan')}</p>
-          <div className="ol-qr"><img src=${qrUrl(upiLinkOf(r.upi, r.name, B.total, upiNote), 340)} width="154" height="154" alt="UPI QR" /></div>
-          <p className="small"><code>${r.upi}</code> <button className="btn sm" onClick=${() => { try { navigator.clipboard.writeText(r.upi); } catch (e) {} toast(t('copied')); }}>${t('copy')}</button></p>
-          <label className="ol-tick"><input type="checkbox" id="ol-paid" checked=${paidTick} onChange=${(e) => { setPaidTick(e.target.checked); setErr(''); }} />${t('paid', { n: B.total.toLocaleString('en-IN') })}</label></div>` : null}` : null}
-      ${err ? html`<div className="ol-note err" id="ol-err">${err}</div>` : null}
-      <button className="ol-send" id="ol-place" disabled=${busy} onClick=${send}>${busy ? t('placing') : t('place') + ' · ' + money(B.total)}</button>
+  const hero = html`<header className=${'ol-hero' + (r.cover ? ' has-cover' : '')} style=${r.cover ? { '--ol-cover': 'url("' + r.cover + '")' } : null}>
+    <div className="ol-top">${badge ? html`<span className="ol-badge-h">${badge}</span>` : html`<span></span>`}${langBtn}</div>
+    <div className="ol-id">${r.logo ? html`<img className="ol-logo" src=${r.logo} alt="" />` : null}<h1 className="ol-brand">${r.name}</h1></div>
+    ${tagline ? html`<p className="ol-pitch">${brk(tagline)}</p>` : null}
+    ${sub ? html`<p className="ol-tagl">${sub}</p>` : !tagline ? html`<p className="ol-tagl">${[r.area, r.city].filter(Boolean).join(', ')}</p>` : null}
+    ${enabled ? html`<div className="ol-pills">
+      ${W.delivery.on ? html`<span className="ol-pill">🛵 ${t('pillDel', { km: gd(W.delivery.km) })}${W.delivery.min ? ' · ' + t('pillMin', { min: money(W.delivery.min) }) : ''}</span>` : null}
+      ${W.pickup.on ? html`<span className="ol-pill ghost">${W.pickup.dine ? '🍽️ ' + t('pickupDine') : '🏃 ' + t('pickup')}</span>` : null}
+      ${W.party.on && W.wa ? html`<button className="ol-pill ghost" onClick=${toParty}>🎉 ${t('pillParty')}</button>` : null}
+      ${tel ? html`<a className="ol-pill ghost" href=${'tel:+91' + tel}>📞 ${gd(fmtPh(tel))}</a>` : null}
+    </div>` : null}
+  </header>`;
+  const foot = html`<footer className="ol-foot"><b>${r.name}</b>
+    <div>${say('address', W.address) || [r.area, r.city].filter(Boolean).join(', ')}${shop ? html` · <a href=${'https://maps.google.com/?q=' + shop.lat + ',' + shop.lng} target="_blank" rel="noopener">${t('directions')}</a>` : null}</div>
+    ${W.photoNote ? html`<div className="ol-pnote">${t('photoNote')}</div>` : null}
+    ${(W.owner.name && ownerPh) || tel ? html`<div>${W.owner.name && ownerPh ? html`<span>${say('owner', W.owner.name)}: <a href=${'tel:+91' + ownerPh}>${gd(fmtPh(ownerPh))}</a></span>` : null}${W.owner.name && ownerPh && tel ? ' · ' : ''}${tel ? html`<span>${t('ordersLbl')}: <a href=${'tel:+91' + tel}>${gd(fmtPh(tel))}</a></span>` : null}</div>` : null}
+    <div className="ol-made">${made[0]}<a href=${siteBase()} target="_blank" rel="noopener">Zestro</a>${made[1] || ''}</div></footer>`;
+
+  if (!enabled) return html`<div className="ol" id="ol-page">${hero}<div className="ol-off"><div className="big">🕒</div><h2>${t('off')}</h2>${tel ? html`<a className="ol-callbtn" href=${'tel:+91' + tel}>📞 ${t('call')} ${gd(fmtPh(tel))}</a>` : null}</div>${foot}</div>`;
+
+  const item = (m) => {
+    const out = m.stock === false, vars = (m.variants || []).length ? m.variants : null, tg = tagOf(m), ds = L === 'en' ? m.desc : (m.dtr && m.dtr[L]) || '';
+    return html`<div className=${'ol-item' + (out ? ' out' : '')} key=${m.id}>
+      <${OlThumb} img=${m.img} em=${em(m.cat)} alt=${m.name} />
+      <div className="ol-info"><div className="ol-name">${mixed ? html`<${VegMark} veg=${m.veg} /> ` : null}${dishName(m)}${tg ? html`<span className="ol-badge">${tg}</span>` : null}</div>
+        ${ds ? html`<div className="ol-desc">${ds}</div>` : null}
+        ${vars ? html`<div className="ol-vars">${vars.map((v) => html`<div className="ol-var" key=${v[0]}><span>${v[0]} · <b>${money(v[1])}</b></span>${out || !open ? null : addBtn(m, v[0])}</div>`)}</div>` : html`<div className="ol-price">${money(m.price)}</div>`}</div>
+      ${out ? html`<span className="ol-sold">${t('sold')}</span>` : vars || !open ? null : addBtn(m, '')}
     </div>`;
+  };
+  const cartSheet = html`<div>
+    <div className="ol-grab"></div>
+    <h2>${t('cart')}<button className="ol-x" onClick=${closeSheet} aria-label="Close">${I('x', 18)}</button></h2>
+    <div id="ol-lines">${lines.map((l) => html`<div className="ol-line" key=${l.k}><div className="n">${dishName(l.m)}${l.v ? ' (' + l.v + ')' : ''}<small className=${l.m.stock === false ? 'bad-t' : ''}>${l.m.stock === false ? t('sold') : t('each', { p: money(l.p) })}</small></div>
+      ${l.m.stock === false ? html`<button className="ol-rm" onClick=${() => bump(l.m, l.v, -l.q)} aria-label="Remove">${I('x', 15)}</button>` : addBtn(l.m, l.v)}<div className="p">${money(l.q * l.p)}</div></div>`)}</div>
+    <div className="ol-tot"><div><span>${t('itemsN', { n: gd(count) })}</span><span>${money(B.sub)}</span></div>
+      ${W.delivery.on ? html`<div><span>${t('deliveryFee')}</span><span>${md === 'delivery' ? html`<b className="ok-t">${t('free')}</b>` : '—'}</span></div>` : null}
+      ${B.cgst ? html`<div><span>GST ${gd(r.gst)}%</span><span>${money(B.cgst + B.sgst)}</span></div>` : null}
+      <div className="grand"><span>${t('total')}</span><span id="ol-total">${money(B.total)}</span></div></div>
+    ${W.delivery.on && W.pickup.on ? html`<div className="ol-lab">${t('type')}</div><div className="ol-seg" id="ol-type">
+      <button aria-pressed=${md === 'delivery'} id="ol-delivery" onClick=${() => { setMode('delivery'); setErr(''); }}>🛵 ${t('delivery')}<small>${t('deliverySub', { km: gd(W.delivery.km) })}${W.delivery.min ? ' · ' + t('deliveryMin', { min: money(W.delivery.min) }) : ''}</small></button>
+      <button aria-pressed=${md === 'pickup'} id="ol-pickup" onClick=${() => { setMode('pickup'); setErr(''); }}>${W.pickup.dine ? '🍽️ ' + t('pickupDine') : '🏃 ' + t('pickup')}<small>${t('pickupSub')}</small></button></div>` : null}
+    ${md === 'delivery' ? (short > 0 ? html`<div className="ol-note err" id="ol-min">${t('minNote', { min: money(W.delivery.min), s: money(short) })}</div>` : !far ? html`<div className="ol-note" id="ol-min">🎉 ${t('qualifies')}${needLoc && !verified ? ' ' + t('tapLoc') : ''}</div>` : null) : null}
+    <label className="ol-lab" htmlFor="ol-name">${t('name')}</label><input className="ol-inp" id="ol-name" value=${me.name} placeholder=${t('namePh')} autoComplete="name" onChange=${(e) => setMe({ ...me, name: e.target.value })} />
+    <label className="ol-lab" htmlFor="ol-phone">${t('phone')}</label><input className="ol-inp" id="ol-phone" type="tel" inputMode="numeric" maxLength="14" placeholder=${t('phonePh')} value=${me.phone} autoComplete="tel" onChange=${(e) => setMe({ ...me, phone: e.target.value })} />
+    ${md === 'delivery' ? html`<label className="ol-lab" htmlFor="ol-addr">${t('addr')}</label><textarea className="ol-inp" id="ol-addr" rows="2" placeholder=${t('addrPh')} value=${me.addr} onChange=${(e) => { addrAuto.current = false; setMe({ ...me, addr: e.target.value }); }}></textarea>
+      ${shop ? html`<button className="ol-locbtn" id="ol-loc" onClick=${findMe}>${locSt === 'wait' ? t('finding') : locSt === 'nogps' || locSt === 'failed' ? t('gpsAgain') : loc ? t('useLocAgain') : t('useLoc')}</button>
+        ${locSt === 'ok' && loc ? html`<div className="ol-note ok" id="ol-near">${t('near', { k: gd(loc.km.toFixed(1)) })}</div>`
+          : far && loc ? html`<div className="ol-note err" id="ol-far">${t('far', { k: gd(loc.km.toFixed(1)), m: gd(W.delivery.km) })}</div>`
+          : locSt === 'nogps' ? html`<div className="ol-note">${t('noGps')}</div>`
+          : locSt === 'failed' ? html`<div className="ol-note">${t('failed')}</div><label className="ol-tick"><input type="checkbox" id="ol-tickarea" checked=${tick} onChange=${(e) => { setTick(e.target.checked); setErr(''); }} /><span>${t('tick', { km: gd(W.delivery.km), area: r.area || r.name })}</span></label>` : null}
+        <div id="ol-map" ref=${mapEl} style=${{ display: mapOk && ['ok', 'far', 'nogps'].includes(locSt) ? 'block' : 'none' }}></div>
+        ${mapOk && ['ok', 'far', 'nogps'].includes(locSt) ? html`<div className="ol-maphint">${t('mapHint', { km: gd(W.delivery.km) })}</div>` : null}` : null}` : null}
+    <label className="ol-lab" htmlFor="ol-note">${t('notes')}</label><input className="ol-inp" id="ol-note" placeholder=${t('notesPh')} value=${note} onChange=${(e) => setNote(e.target.value)} />
+    ${r.upi ? html`<div className="ol-lab">${t('pay')}</div>
+      ${W.cash ? html`<div className="ol-seg" id="ol-paymode"><button aria-pressed=${pm === 'upi'} id="ol-upi" onClick=${() => { setPayMode('upi'); setErr(''); }}>📱 UPI<small>GPay · PhonePe · Paytm</small></button><button aria-pressed=${pm === 'cash'} id="ol-cash" onClick=${() => { setPayMode('cash'); setErr(''); }}>💵 ${t('cash')}<small>${t('cashSub')}</small></button></div>` : null}
+      ${pm === 'upi' ? html`<div className="ol-upi" id="ol-upibox"><div className="ol-upi-amt">${t('upiAmt', { a: money(B.total), n: r.name })}</div>
+        <a className="ol-paybtn" id="ol-paybtn" href=${upiHref} onClick=${() => setTimeout(() => toast(t('noUpiApp')), 2500)}>${t('upiBtn', { a: money(B.total) })}</a>
+        <div className="ol-small">${t('upiScan')}</div><div className="ol-qr"><img src=${qrUrl(upiHref, 360)} width="156" height="156" alt="UPI QR" /></div>
+        <div className="ol-upi-id">UPI ID: <code>${r.upi}</code><button onClick=${copyUpi}>${t('copy')}</button></div>
+        <label className="ol-tick c"><input type="checkbox" id="ol-paid" checked=${paidTick} onChange=${(e) => { setPaidTick(e.target.checked); setErr(''); }} /><span>${t('paid', { a: money(B.total) })}</span></label></div>` : null}`
+      : html`<div className="ol-note" id="ol-cashonly">💵 ${t('cashOnly')}</div>`}
+    ${err ? html`<div className="ol-note err" id="ol-err">${err}</div>` : null}
+    <button className="ol-send" id="ol-place" disabled=${busy} onClick=${send}>${label}</button>
+    <p className="ol-hint">${t('hint')}</p>
+  </div>`;
+  const live = done ? mine.find((x) => x.id === done.id) || done : null;
+  const doneSheet = done ? html`<div className="ol-done" id="ol-done">
+    <div className="ol-grab"></div>
+    <div className="big">✅</div><h2>${t('done', { no: gd(done.no) })}</h2><p className="ol-muted">${t('doneSub')}</p>
+    <${OlTrack} o=${{ ...live, mode: done.mode }} S=${S} />
+    ${W.wa ? (done.payMode === 'upi' ? html`<div className="ol-steps" id="ol-ssbox"><b>${t('ssTitle')}</b><ol><li>${t('ss1')}</li><li>${t('ss2')}</li><li>${t('ss3', { n: r.name })}</li></ol></div>
+        <input type="file" accept="image/*" ref=${fileRef} style=${{ display: 'none' }} onChange=${(e) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; shareShot(f); }} />
+        <button className="ol-send" id="ol-ss" onClick=${pickShot}>${t('ssBtn')}</button>
+        <a className="ol-sec" id="ol-chat" href=${waUrl(done)} target="_blank" rel="noopener" onClick=${() => toast(t('ssManual'))}>${t('chatBtn')}</a>`
+      : html`<div className="ol-steps"><b>${t('waTitle')}</b><div>${t('waText')}</div></div><a className="ol-send" id="ol-wa" href=${waUrl(done)} target="_blank" rel="noopener">${t('waBtn')}</a>`) : null}
+    <button className="ol-sec" id="ol-more" onClick=${closeSheet}>${t('more')}</button></div>` : null;
 
-  return html`<div className="ol" id="ol-page">
-    <header className=${'ol-hero' + (rest.cover ? ' has-cover' : '')} style=${rest.cover ? { '--ol-cover': 'url("' + rest.cover + '")' } : null}>
-      <div className="ol-top"><span></span>${W.gu ? html`<button className="ol-lang" id="ol-lang" onClick=${() => setLang(lang === 'en' ? 'gu' : 'en')}>${t('lang')}</button>` : null}</div>
-      <div className="ol-id">${rest.logo ? html`<img className="rlogo img" src=${rest.logo} alt="" />` : null}<div><h1>${r.name}</h1><div className="ol-sub">${[r.area, r.city].filter(Boolean).join(', ')}</div></div></div>
-      ${tagline ? html`<div className="ol-tag">${tagline}</div>` : null}
-      <div className="ol-pills">${W.delivery.on ? html`<span className="ol-pill">🛵 ${t('delivery')} · ${t('within', { km: W.delivery.km })}</span>` : null}${W.delivery.on && W.delivery.min ? html`<span className="ol-pill">${t('minOrd', { min: W.delivery.min })}</span>` : null}${W.pickup.on ? html`<span className="ol-pill ghost">🏃 ${t('pickup')}</span>` : null}${telOf ? html`<a className="ol-pill ghost" href=${'tel:+91' + telOf}>📞 ${t('call')}</a>` : null}</div>
-    </header>
-    ${mine.filter((o) => o.status !== 'served' && o.status !== 'cancelled' || Date.now() - o.t < 30 * 60000).slice(0, 2).map((o) => html`<div className="ol-status" key=${o.id} id="ol-status"><span style=${{ fontSize: 26 }}>${o.status === 'cancelled' ? '⚠️' : o.status === 'served' ? '✅' : o.status === 'ready' ? (o.mode === 'delivery' ? '🛵' : '🛍️') : '👨‍🍳'}</span><span><b>#${num(o.no)} · ${stTxt(o)}</b><small>${o.mode === 'delivery' ? t('delivery') : t('pickup')}</small></span></div>`)}
-    <div className="ol-stick">
-      <label className="ol-search">${I('search', 17)}<input id="ol-q" type="search" placeholder=${t('search')} value=${q} onChange=${(e) => setQ(e.target.value)} /></label>
-      <nav className="ol-tabs">${cats.map((c) => html`<button key=${c} aria-pressed=${active === c} onClick=${() => jump(c)}>${catOf(c)}</button>`)}</nav>
+  return html`<div className="ol" id="ol-page" lang=${L}>
+    ${hero}
+    ${!open ? html`<div className="ol-closed" id="ol-closed"><b>🕒 ${t('closed')}</b><span>${t('closedSub')}</span>${tel ? html`<a className="ol-callbtn" href=${'tel:+91' + tel}>📞 ${t('call')}</a>` : null}</div>` : null}
+    ${recent.map((o) => html`<div className="ol-status" key=${o.id} id="ol-status"><div className="ol-status-h"><b>${t('myOrder', { no: gd(o.no) })}</b><small>${o.mode === 'delivery' ? t('delivery') : W.pickup.dine ? t('pickupDine') : t('pickup')}</small></div><${OlTrack} o=${o} S=${S} /></div>`)}
+    <div className="ol-stick" ref=${stickRef}>
+      <label className="ol-search">${I('search', 17)}<input id="ol-q" type="search" enterKeyHint="search" placeholder=${ph} value=${q} onChange=${(e) => setQ(e.target.value)} />${q ? html`<button className="ol-clear" aria-label="Clear search" onClick=${() => setQ('')}>${I('x', 15)}</button>` : null}</label>
+      <nav className="ol-tabs" ref=${tabsRef}>${cats.map((c) => html`<button key=${c} aria-pressed=${(active || cats[0]) === c} onClick=${() => jump(c)}>${em(c)} ${catName(c)}</button>`)}</nav>
     </div>
-    <main className="ol-main">
-      ${cats.map((c) => html`<section className="ol-cat" key=${c} id=${'olc-' + c.replace(/\W+/g, '-')}><h2>${catOf(c)}</h2>
-        ${shown.filter((m) => m.cat === c).map((m) => html`<div className=${'ol-item' + (m.stock === false ? ' out' : '')} key=${m.id}>
-          ${m.img ? html`<${Plate} c=${m.c || ['#ddd', '#eee']} img=${m.img} alt=${m.name} />` : null}
-          <div className="ol-info"><b><${VegMark} veg=${m.veg} /> ${nameOf(m)}</b>${lang === 'gu' && m.gu ? html`<small>${m.name}</small>` : m.desc ? html`<small>${m.desc}</small>` : null}
-            ${(m.variants || []).length ? null : html`<div className="ol-price">${money(m.price)}</div>`}</div>
-          ${m.stock === false ? html`<span className="muted small">${t('sold')}</span>` : (m.variants || []).length ? html`<div className="ol-vars">${m.variants.map((v) => html`<div key=${v[0]}><div className="ol-vlab">${v[0]} · ${money(v[1])}</div>${addBtn(m, v[0])}</div>`)}</div>` : addBtn(m, '')}
-        </div>`)}</section>`)}
-      ${!cats.length ? html`<p className="muted" style=${{ textAlign: 'center', padding: 30 }}>${t('empty')}</p>` : null}
-      ${W.party.on && W.wa ? html`<section className="ol-party" id="ol-party"><h3>${lang === 'gu' && W.party.gu ? W.party.gu : W.party.text || 'Party or function? We take big orders too!'}</h3>
-        <button onClick=${() => window.open('https://wa.me/' + waDigits(W.wa) + '?text=' + encodeURIComponent('Hi ' + r.name + ', I want to place a party / function order.\nDate:\nNumber of people:\nItems:'), '_blank')}>${t('partyBtn')}</button></section>` : null}
-      <div className="ol-foot">${r.name}${r.area ? ' · ' + r.area : ''}<br />${t('made')} <b>Zestro</b></div>
+    <main className="ol-main" id="ol-menu">
+      ${cats.map((c) => { const list = shown.filter((m) => m.cat === c); return html`<section className="ol-cat" key=${c} id=${'olc-' + allCats.indexOf(c)} data-c=${c}><h2><span className="em">${em(c)}</span>${catName(c)}<span className="n">· ${gd(list.length)}</span></h2>${list.map(item)}</section>`; })}
+      ${!cats.length ? html`<p className="ol-empty">${t('noMatch', { q: q.trim() })}</p>` : null}
+      ${W.party.on && W.wa ? html`<section className="ol-party" id="ol-party"><div className="ol-party-em">🎉</div><h3>${L === 'en' ? W.party.text || t('partyH') : tr.party || t('partyH')}</h3>
+        ${(L === 'en' ? W.party.sub : tr.partySub) ? html`<p className="ol-party-en">${L === 'en' ? W.party.sub : tr.partySub}</p>` : null}<p className="ol-party-sub">${t('partyMore')}</p>
+        <button onClick=${partyAsk}>${t('partyBtn')}</button></section>` : null}
     </main>
-    ${count && !open ? html`<button className="ol-cartbar" id="ol-cartbar" onClick=${() => { setDone(null); setOpen(true); }}><span><small>${num(count)} ${count === 1 ? t('item') : t('items')}</small><br /><b>${money(B.total)}</b></span><span className="go">${t('viewCart')} →</span></button>` : null}
-    ${open ? html`<div className="ol-ov" onClick=${() => setOpen(false)}></div><div className="ol-sheet" role="dialog" aria-modal="true" id="ol-sheet">${sheet}</div>` : null}
+    ${foot}
+    ${count && open && !sheet ? html`<button className="ol-cartbar" id="ol-cartbar" onClick=${() => { setDone(null); setErr(''); openSheet('cart'); }}><span><small>${count === 1 ? t('item1', { n: gd(1) }) : t('items', { n: gd(count) })}</small><b>${money(B.total)}</b></span><span className="go">${t('viewCart')}</span></button>` : null}
+    ${sheet ? html`<div className="ol-ov" onClick=${closeSheet}></div><div className="ol-sheet" role="dialog" aria-modal="true" id="ol-sheet">${sheet === 'done' ? doneSheet : cartSheet}</div>` : null}
   </div>`;
 }
 
@@ -3932,36 +4536,58 @@ function WebOrderSettings({ s, d }) {
   const r = R(s, OWNER_RID), W = webOf(r), pro = webAllowed(r.plan);
   const raw = r.web || {};
   const set = (patch) => d({ type: 'rest', rid: OWNER_RID, patch: { web: { ...raw, ...patch } } });
+  const setT = (code, patch) => set({ t: { ...(raw.t || {}), ...W.t, [code]: { ...(W.t[code] || {}), ...patch } }, catGu: undefined, taglineGu: undefined });
   const link = appBase() + '#o=' + OWNER_RID;
   const [gps, setGps] = useState('');
   const here = () => { if (!navigator.geolocation) { setGps('This phone cannot share its location.'); return; } setGps('Finding the shop…');
     navigator.geolocation.getCurrentPosition((p) => { set({ lat: +p.coords.latitude.toFixed(6), lng: +p.coords.longitude.toFixed(6) }); setGps('Saved. Customers are measured from this spot.'); }, () => setGps('Location was blocked. Allow location for this site and try again.'), { enableHighAccuracy: true, timeout: 15000 }); };
-  const sw = (id, on, fn, label) => html`<label className="row" style=${{ gap: 10, fontWeight: 650, flexWrap: 'nowrap', margin: '6px 0' }}><button className="switch" role="switch" id=${id} aria-checked=${on} onClick=${fn}></button>${label}</label>`;
+  const sw = (id, on, fn, label, sub) => html`<label className="row web-sw"><button className="switch" role="switch" id=${id} aria-checked=${on} onClick=${fn}><i></i></button><span>${label}${sub ? html`<small>${sub}</small>` : null}</span></label>`;
   const cats = catsOf(s, OWNER_RID);
+  const field = (label, val, fn, ph, id) => html`<label className="field">${label}<input id=${id} value=${val || ''} placeholder=${ph || ''} onChange=${(e) => fn(e.target.value)} /></label>`;
   if (!pro) return html`<section className="card" id="web-orders"><div className="card-h"><h3>${I('share', 18)} Online ordering</h3><span className="pill sun">Pro</span></div>
-    <p className="small muted">Your own ordering link for home delivery and pickup. Orders land on the kitchen screen and on your WhatsApp. UPI payment, delivery radius on a map, Gujarati menu. No commission. Available on the Pro plan.</p></section>`;
+    <p className="small muted">Your own ordering link for home delivery and pickup. Orders land on the kitchen screen and on your WhatsApp. UPI payment, delivery radius on a map, menu in Indian languages. No commission. Available on the Pro plan.</p></section>`;
+  const toggleLang = (k) => set({ langs: W.langs.includes(k) ? W.langs.filter((x) => x !== k) : [...W.langs, k] });
   return html`<section className="card" id="web-orders"><div className="card-h"><h3>${I('share', 18)} Online ordering</h3><span className="small muted">Delivery and pickup from your own link. No commission.</span></div>
     ${sw('web-on', W.on, () => set({ on: !W.on }), 'Take online orders')}
     ${W.on ? html`<div className="web-link"><code id="web-link">${link}</code><button className="btn sm" onClick=${() => { try { navigator.clipboard.writeText(link); } catch (e) {} toast('Link copied. Share it on WhatsApp, Instagram and Google.'); }}>Copy link</button>
-      <a className="btn sm" href=${'https://wa.me/?text=' + encodeURIComponent('Order online from ' + r.name + ': ' + link)} target="_blank" rel="noopener">Share on WhatsApp</a><div className="web-qr"><${QR} text=${link} size=${108} /></div></div>` : null}
+      <a className="btn sm" href=${'https://wa.me/?text=' + encodeURIComponent('Order online from ' + r.name + ': ' + link)} target="_blank" rel="noopener">Share on WhatsApp</a><a className="btn sm" href=${link} target="_blank" rel="noopener">${I('compass', 15)}Open it</a><div className="web-qr"><${QR} text=${link} size=${108} /></div></div>` : null}
     <div className="fields2">
       <label className="field">WhatsApp number for orders<input id="web-wa" type="tel" value=${raw.wa || ''} placeholder="98xxxxxxxx" onChange=${(e) => set({ wa: e.target.value.replace(/[^\d+ ]/g, '') })} /><small>A copy of each order and the UPI screenshot come here.</small></label>
       <label className="field">UPI ID<input value=${r.upi || ''} placeholder="name@bank" onChange=${(e) => d({ type: 'rest', rid: OWNER_RID, patch: { upi: e.target.value.trim() } })} /><small>Same UPI ID as your table bills. Leave empty for cash only.</small></label>
     </div>
-    ${sw('web-del', W.delivery.on, () => set({ delivery: { ...(raw.delivery || {}), on: !W.delivery.on } }), 'Home delivery')}
-    ${W.delivery.on ? html`<div className="fields2"><label className="field">Deliver within (km)<input id="web-km" type="number" min="0.5" max="25" step="0.5" value=${W.delivery.km} onChange=${(e) => set({ delivery: { ...(raw.delivery || {}), on: true, km: Math.max(0.5, Math.min(25, Number(e.target.value) || 3)) } })} /></label>
-      <label className="field">Minimum order for delivery (₹)<input id="web-min" type="number" min="0" step="10" value=${W.delivery.min} onChange=${(e) => set({ delivery: { ...(raw.delivery || {}), on: true, min: Math.max(0, Number(e.target.value) || 0) } })} /></label></div>
-      <div className="row" style=${{ gap: 8 }}><button className="btn sm" id="web-here" onClick=${here}>${I('pin', 15)}I am at the shop: use this phone's location</button><span className="small muted">${gps || (W.lat != null ? 'Shop location saved (' + Number(W.lat).toFixed(4) + ', ' + Number(W.lng).toFixed(4) + ').' : 'Not set yet: the km limit is checked only once you set it.')}</span></div>` : null}
-    ${sw('web-pick', W.pickup.on, () => set({ pickup: { on: !W.pickup.on } }), 'Pickup from the shop')}
-    ${r.upi ? sw('web-cash', W.cash, () => set({ cash: !W.cash }), 'Allow cash (on delivery or at pickup)') : null}
-    ${sw('web-gu', W.gu, () => set({ gu: !W.gu }), 'Gujarati / English button on the menu')}
-    ${W.gu ? html`<details className="small" style=${{ margin: '4px 0 8px' }}><summary>Gujarati names for your sections</summary><p className="muted">Dish names in Gujarati are set in Menu, on each dish.</p>
-      <label className="field">Tagline in Gujarati<input value=${W.taglineGu} placeholder="એવો ક્રંચ જે સંભળાય…" onChange=${(e) => set({ taglineGu: e.target.value })} /></label>
-      ${cats.map((c) => html`<label className="field" key=${c}>${c}<input value=${W.catGu[c] || ''} placeholder="ગુજરાતી નામ" onChange=${(e) => set({ catGu: { ...W.catGu, [c]: e.target.value } })} /></label>`)}</details>` : null}
-    ${sw('web-party', W.party.on, () => set({ party: { ...W.party, on: !W.party.on } }), 'Party and function orders box')}
-    ${W.party.on ? html`<div className="fields2"><label className="field">Text<input value=${W.party.text} placeholder="Party or function? We take big orders too!" onChange=${(e) => set({ party: { ...W.party, text: e.target.value } })} /></label>
-      <label className="field">In Gujarati<input value=${W.party.gu} placeholder="પાર્ટી કે પ્રસંગ? મોટા ઓર્ડર પણ લઈએ છીએ!" onChange=${(e) => set({ party: { ...W.party, gu: e.target.value } })} /></label></div>` : null}
-    <p className="small muted">Orders come to Orders with a chime, marked <b>Delivery</b> or <b>Pickup</b>, with the address, a map link and how they paid. Pausing orders (the Open switch) pauses online orders too.</p>
+    <details className="web-grp" open><summary>Delivery and pickup</summary>
+      ${sw('web-del', W.delivery.on, () => set({ delivery: { ...(raw.delivery || {}), on: !W.delivery.on } }), 'Home delivery', 'Free delivery inside your area')}
+      ${W.delivery.on ? html`<div className="fields2"><label className="field">Deliver within (km)<input id="web-km" type="number" min="0.5" max="25" step="0.5" value=${W.delivery.km} onChange=${(e) => set({ delivery: { ...(raw.delivery || {}), on: true, km: Math.max(0.5, Math.min(25, Number(e.target.value) || 3)) } })} /></label>
+        <label className="field">Minimum order for delivery (₹)<input id="web-min" type="number" min="0" step="10" value=${W.delivery.min} onChange=${(e) => set({ delivery: { ...(raw.delivery || {}), on: true, min: Math.max(0, Number(e.target.value) || 0) } })} /></label></div>
+        <div className="row" style=${{ gap: 8 }}><button className="btn sm" id="web-here" onClick=${here}>${I('pin', 15)}I am at the shop: use this phone's location</button><span className="small muted">${gps || (W.lat != null ? 'Shop location saved (' + Number(W.lat).toFixed(4) + ', ' + Number(W.lng).toFixed(4) + ').' : 'Not set yet: the km limit is checked only once you set it.')}</span></div>` : null}
+      ${sw('web-pick', W.pickup.on, () => set({ pickup: { ...(raw.pickup || {}), on: !W.pickup.on } }), 'Pickup from the shop')}
+      ${W.pickup.on ? sw('web-dine', W.pickup.dine, () => set({ pickup: { ...(raw.pickup || {}), on: true, dine: !W.pickup.dine } }), 'Customers can also eat at the shop', 'Shows as “Pickup / Dine-in”') : null}
+      ${r.upi ? sw('web-cash', W.cash, () => set({ cash: !W.cash }), 'Allow cash', 'On delivery or at the counter. Off: UPI only.') : null}
+    </details>
+    <details className="web-grp"><summary>Languages on your page ${W.langs.length ? html`<span className="pill">${['English', ...W.langs.map((k) => OL_LANGS[k].nat)].join(' · ')}</span>` : null}</summary>
+      <p className="small muted">English is always on. Pick the languages your customers read; a button on your page switches between them. Write your dish names in each language in Menu, on each dish.</p>
+      <div className="chips" role="group" aria-label="Languages">${Object.keys(OL_LANGS).filter((k) => k !== 'en').map((k) => html`<button key=${k} className="chip" id=${'web-lang-' + k} aria-pressed=${W.langs.includes(k)} onClick=${() => toggleLang(k)}>${OL_LANGS[k].nat} <small className="muted">${OL_LANGS[k].name}</small></button>`)}</div>
+      ${W.langs.map((k) => { const x = W.t[k] || {}, nm = OL_LANGS[k].name; return html`<details key=${k} className="web-sub"><summary>Your words in ${nm} (${OL_LANGS[k].nat})</summary>
+        <div className="fields2">${field('Tagline in ' + nm, x.tagline, (v) => setT(k, { tagline: v }), (r.theme && r.theme.tagline) || '')}${field('Line under it in ' + nm, x.sub, (v) => setT(k, { sub: v }), W.sub)}</div>
+        <div className="fields2">${field('Badge in ' + nm, x.badge, (v) => setT(k, { badge: v }), W.badge)}${field('Shop address in ' + nm, x.address, (v) => setT(k, { address: v }), W.address)}</div>
+        <div className="fields2">${field('Party box heading in ' + nm, x.party, (v) => setT(k, { party: v }), W.party.text)}${field('Party box line in ' + nm, x.partySub, (v) => setT(k, { partySub: v }), W.party.sub)}</div>
+        ${field('Owner name in ' + nm, x.owner, (v) => setT(k, { owner: v }), W.owner.name)}
+        <b className="small">Menu sections in ${nm}</b>
+        <div className="fields2">${cats.map((c) => field(c, (x.cats || {})[c], (v) => setT(k, { cats: { ...(x.cats || {}), [c]: v } }), OL_LANGS[k].nat))}</div>
+      </details>`; })}
+    </details>
+    <details className="web-grp"><summary>Page details</summary>
+      <p className="small muted">The tagline and colours come from Menu look. These lines are optional.</p>
+      <div className="fields2">${field('Badge at the top', W.badge, (v) => set({ badge: v }), 'e.g. ✔ 100% HALAL', 'web-badge')}${field('Line under the tagline', W.sub, (v) => set({ sub: v }), 'e.g. Hot & crispy at your door 🔥', 'web-sub')}</div>
+      ${field('Shop address', W.address, (v) => set({ address: v }), 'Shown at the bottom with a Directions link', 'web-address')}
+      <div className="fields2">${field('Owner name (optional)', W.owner.name, (v) => set({ owner: { ...W.owner, name: v } }), 'e.g. Raja Khan', 'web-owner')}${field('Owner phone (optional)', W.owner.phone, (v) => set({ owner: { ...W.owner, phone: v.replace(/[^\d+ ]/g, '') } }), '98xxxxxxxx', 'web-ownerph')}</div>
+      ${sw('web-pnote', W.photoNote, () => set({ photoNote: !W.photoNote }), 'Show “Photos are for illustration”', 'Use it when the photos are not of your own food')}
+    </details>
+    <details className="web-grp"><summary>Party and function orders</summary>
+      ${sw('web-party', W.party.on, () => set({ party: { ...W.party, on: !W.party.on } }), 'Show the party orders box', 'Customers ask on WhatsApp with date and number of people')}
+      ${W.party.on ? html`<div className="fields2">${field('Heading', W.party.text, (v) => set({ party: { ...W.party, text: v } }), 'Party & function orders taken', 'web-party-h')}${field('Line under it', W.party.sub, (v) => set({ party: { ...W.party, sub: v } }), 'For weddings, birthdays & all occasions', 'web-party-s')}</div>` : null}
+    </details>
+    <p className="small muted">Orders come to Orders with a chime, marked <b>Delivery</b> or <b>Pickup</b>, with the address, a map link and how they paid. The Open switch at the top pauses online orders too.</p>
   </section>`;
 }
 
@@ -3979,7 +4605,7 @@ function BillView({ code }) {
   return html`<div className="billv"><div className="billv-card" id="bill-view">
     <div className="billv-top"><h1>${r.name}</h1><p>${[r.area, r.city].filter(Boolean).join(', ')}${r.gstin ? ' · GSTIN ' + r.gstin : ''}</p></div>
     <div className="billv-body">
-      <div className="billv-meta"><span>Bill #${b.no} · ${b.type === 'takeaway' ? 'Parcel' : b.table ? 'Table ' + b.table : 'Counter'}</span><span>${new Date(b.t).toLocaleDateString('en-IN')} ${clock(b.t)}</span></div>
+      <div className="billv-meta"><span>Bill #${b.no} · ${b.mode === 'delivery' ? 'Home delivery' : b.mode === 'pickup' ? 'Pickup' : b.type === 'takeaway' ? 'Parcel' : b.table ? 'Table ' + b.table : 'Counter'}</span><span>${new Date(b.t).toLocaleDateString('en-IN')} ${clock(b.t)}</span></div>
       ${b.items.map((i, k) => html`<div className="billv-row" key=${k}><span>${i.q} × ${i.n}${i.opt ? html`<small>${i.opt}</small>` : null}</span><span>${inr(i.q * i.p)}</span></div>`)}
       <div className="billv-sum">
         <div className="billv-row"><span>Subtotal</span><span>₹${B.sub.toFixed(2)}</span></div>
@@ -4007,7 +4633,7 @@ function BillSheet({ s, d }) {
     <div className="modal-h"><h2>${paid ? 'Bill' : 'Bill to settle'}</h2><button className="btn sm icon" onClick=${() => d({ type: 'sheet', sheet: null })} aria-label="Close">${I('x')}</button></div>
     <div className=${'kot kot-print' + ((p.width || 80) === 58 ? ' w58' : '')} id="bill-print"><div className="c big">${r.name.toUpperCase()}</div><div className="c">${r.area.toUpperCase()}, ${r.city.toUpperCase()}</div>${r.gstin ? html`<div className="c">GSTIN ${r.gstin}</div>` : null}<hr />
       <div className="r"><span>BILL #${o0.no}</span><span>${new Date(o0.t).toLocaleDateString('en-IN')} ${clock(o0.t)}</span></div>
-      <div className="r"><span>${o0.type === 'takeaway' ? 'PARCEL' : 'TABLE ' + o0.table}</span><span>${(o0.name || 'GUEST').toUpperCase().slice(0, 18)}</span></div><hr />
+      <div className="r"><span>${o0.web ? (o0.mode === 'delivery' ? 'DELIVERY' : 'PICKUP') : o0.type === 'takeaway' ? 'PARCEL' : 'TABLE ' + o0.table}</span><span>${(o0.name || 'GUEST').toUpperCase().slice(0, 18)}</span></div><hr />
       ${items.map((i, k) => html`<div key=${k} className="r"><span>${i.q} x ${i.n.toUpperCase()}${i.opt ? ' (' + i.opt.toUpperCase() + ')' : ''}</span><span>${(i.q * i.p).toFixed(2)}</span></div>`)}<hr />
       <div className="r"><span>SUBTOTAL</span><span>${B.sub.toFixed(2)}</span></div>
       ${B.disc ? html`<div className="r"><span>DISCOUNT</span><span>-${B.disc.toFixed(2)}</span></div>` : null}
@@ -5362,6 +5988,7 @@ function App({ init }) {
   const [s, raw] = useReducer(reducer, null, () => init);
   const sRef = useRef(s); sRef.current = s;
   const prevRef = useRef(s);
+  VEG.off = !mixedMenu(s.role === 'diner' ? s.menus[s.rid] : s.menus[OWNER_RID]);
   LIVE.orders = s.orders; LIVE.menu = s.menus[OWNER_RID] || []; LIVE.r = LIVE.mode === 'owner' ? R(s, OWNER_RID) : null;
   const d = (a) => {
     const cur = sRef.current;
@@ -5399,11 +6026,20 @@ function App({ init }) {
   useEffect(() => { if (LIVE.mode === 'diner') lsSet(mineKey(s.rid), { table: s.table, cart: s.cart, me: s.me, ver: s.ver, orders: s.orders.filter((o) => o.mine) }); }, [s.cart, s.orders, s.me, s.ver]);
   useEffect(() => { const f = () => location.reload(); window.addEventListener('hashchange', f); return () => window.removeEventListener('hashchange', f); }, []);
   useEffect(() => { window.scrollTo(0, 0); }, [s.role, s.screen, s.ownerTab]);
+  const [, setAud] = useState(0);
+  useEffect(() => { const f = () => { if (!audioReady()) { unlockAudio(); setTimeout(() => setAud((n) => n + 1), 300); } }; document.addEventListener('pointerdown', f, { passive: true }); return () => document.removeEventListener('pointerdown', f); }, []);
   const prevNew = useRef(null);
   useEffect(() => {
     const ids = s.orders.filter((o) => o.rid === OWNER_RID && o.status === 'new').map((o) => o.id);
-    if (prevNew.current && s.role === 'owner' && s.sound && ids.some((x) => !prevNew.current.includes(x))) chime();
+    const fresh = prevNew.current && s.role === 'owner' ? s.orders.filter((o) => ids.includes(o.id) && !prevNew.current.includes(o.id)) : [];
+    if (fresh.length) {
+      if (s.sound) { chime(); setTimeout(chime, 700); setTimeout(chime, 1400); }
+      try { navigator.vibrate && navigator.vibrate([250, 120, 250]); } catch (e) {}
+      const o = fresh[fresh.length - 1];
+      toast('New order #' + o.no + ' · ' + tlabel(o) + ' · ' + inr(billOf(o.items, R(s, OWNER_RID), o.disc, false).total), 'ok');
+    }
     prevNew.current = ids;
+    document.title = s.role === 'owner' && ids.length ? '(' + ids.length + ') New order · ' + R(s, OWNER_RID).name : s.role === 'owner' ? R(s, OWNER_RID).name + ' · Zestro' : document.title;
   }, [s.orders, s.role]);
   const [, tick] = useState(0);
   useEffect(() => { const t = setInterval(() => tick((n) => n + 1), 30000); return () => clearInterval(t); }, []);
